@@ -1,0 +1,45 @@
+<nav class="navbar is-primary" role="navigation" aria-label="dropdown navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" routerLink="/">
+      <h1 class="title has-text-white">MCHAD</h1>
+    </a>
+    <div (click)="toggleNavbar()" class="navbar-burger" data-target="navToggle" #navBurger>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+  </div>
+
+  <div class="navbar-menu" id="navToggle" #navMenu>
+    <div class="navbar-start">
+      <p class="navbar-item is-unselectable">One-direction Live translation Client/App</p>
+    </div>
+
+    <div class="navbar-end">
+      <a class="navbar-item text" routerLink="/">Home</a>
+      <a class="navbar-item text" href="/docs">How to Use Docs</a>
+      <a class="navbar-item text" routerLink="/schedule">Schedule</a>
+      <a class="navbar-item text" routerLink="/about">About</a>
+      <div class="navbar-item is-tablet">
+        <div class="field is-grouped">
+          <p class="control">
+            <a class="button" href="https://discord.gg/g9t52ms" target="_blank" >
+              <!-- discord invite link goes here -->
+              <span class="icon">
+                <fa-icon [icon]="faDiscord"></fa-icon>
+              </span>
+            </a>
+          </p>
+
+          <p class="control">
+            <a class="button" href="/RoomApply">
+              New Room
+            </a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

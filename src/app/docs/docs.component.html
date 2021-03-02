@@ -1,0 +1,1218 @@
+<div class="columns is-gapless">
+  <div class="section has-background-primary"></div>
+  <div class="column content has-background-success">
+    <section class="ml-6 mb-6 mt-6">
+      <div class="divider is-left is-white">
+        <p class="title is-2 has-text-white">MChad Documentation</p>
+      </div>
+      <p class="subtitle has-text-white">MChad is an application/web client platform for translators to provide
+        listeners
+        with efficient and accurate on the go Live Translations.</p>
+      <p class="subtitle has-text-white">These MChad docs help you learn and use the application/web client as a
+        Translator and as a
+        Listener. Navigation help throughout the application is shown through visual image guides in their
+        respective
+        section. </p>
+    </section>
+    <div class="columns is-gapless">
+      <!-- start sidebar column -->
+      <div class="column is-one-fifth is-hidden-touch">
+        <!-- start sidebar nav-->
+        <nav class="docs-sidebar" data-spy="affix" data-offset-top="300" data-offset-bottom="200" role="navigation">
+          <ul class="nav">
+            <li><a pageScroll href="#line1">Getting Started</a></li>
+            <li><a pageScroll href="#line2">How to Use the Web Client</a></li>
+            <li><a pageScroll href="#line3">Installation</a>
+              <ul class="nav">
+                <li><a pageScroll href="#line3_1">Install on Windows<span class="icon">
+                      <fa-icon [icon]="faWindows"></fa-icon>
+                    </span></a></li>
+                <li><a pageScroll href="#line3_2">Install on Android<span class="icon">
+                      <fa-icon [icon]="faAndroid"></fa-icon>
+                    </span></a></li>
+                <li><a pageScroll href="#line3_3">Install on Linux<span class="icon">
+                      <fa-icon [icon]="faLinux"></fa-icon>
+                    </span></a></li>
+                <li><a pageScroll href="#line3_4">Install on MacOS<span class="icon">
+                      <fa-icon [icon]="faApple"></fa-icon>
+                    </span></a></li>
+              </ul>
+            </li>
+            <li><a pageScroll href="#line4">Translator Client <span class="icon">
+                  <fa-icon [icon]="faLanguage"></fa-icon>
+                </span></a>
+              <ul class="nav">
+                <li><a pageScroll href="#line4_1">How to Login</a></li>
+                <li><a pageScroll href="#line4_2">MChad Extension Sync</a></li>
+                <li><a pageScroll href="#line4_3">Translator Panel</a></li>
+                <li><a pageScroll href="#line4_4">Profile and Preset</a></li>
+                <li><a pageScroll href="#line4_5">Set Password Protection</a></li>
+                <li><a pageScroll href="#line4_6">Reserving Room</a></li>
+                <li><a pageScroll href="#line4_7">Export Script</a></li>
+              </ul>
+            </li>
+            <li><a pageScroll href="#line5">Listener Client <span class="icon">
+                  <fa-icon [icon]="faAssistiveListeningSystems"></fa-icon>
+                </span></a>
+              <ul class="nav">
+                <li><a pageScroll href="#line5_1">How to Login</a></li>
+                <li><a pageScroll href="#line5_2">Filter and styling</a></li>
+                <li><a pageScroll href="#line5_3">Live Chat Sync</a></li>
+                <li><a pageScroll href="#line5_4">Archive Viewer</a></li>
+                <li><a pageScroll href="#line5_5">Archive Viewer Sync</a></li>
+              </ul>
+            </li>
+            <li><a pageScroll href="#line6">Extra Panel and Features</a>
+              <ul class="nav">
+                <li><a pageScroll href="#line6_1">Extra Panel for Tranlators</a></li>
+                <li><a pageScroll href="#line6_2">Extra Panel for Listeners</a></li>
+              </ul>
+            </li>
+            <li><a pageScroll href="#line7">Version History (Changelog)</a>
+              <ul class="nav">
+                <li><a pageScroll href="#line7_1">Placeholder Sub Title</a></li>
+                <li><a pageScroll href="#line7_2">Placeholder Sub Title</a></li>
+              </ul>
+            </li>
+            <li><a pageScroll href="#line8">Copyright and license</a></li>
+            <li><a pageScroll href="#line9">Rest API</a>
+              <ul class="nav">
+                <li><a pageScroll href="#line9_1">Get Room List</a></li>
+                <li><a pageScroll href="#line9_2">Get Archive List</a></li>
+                <li><a pageScroll href="#line9_3">Get a Script from the Archive</a></li>
+                <li><a pageScroll href="#line9_4">Stream Live Translation</a></li>
+                <li><a pageScroll href="#line9_5">Types of Incoming data</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <!-- end sidebar nav -->
+      </div>
+      <!-- end sidebar column  -->
+      <!-- start main body -->
+      <div class="column content main-body">
+        <!--start section 1 getting started-->
+        <section id="line1" class="section pt-6">
+          <p class="title has-text-weight-bold is-uppercase">Getting Started</p>
+          <div class="divider is-left is-black"></div>
+          <div class="ml-6">
+            <div class="block">
+              <p>The usage of Web Client is straightforward whereas the application requires you to
+                download their packages on your desired choice of operating system with no additional dependencies and
+                softwares.
+              </p>
+            </div>
+          </div>
+        </section>
+        <!-- end section 1 getting started-->
+
+        <!-- start section 2 web client-->
+        <section id="line2" class="section pt-6">
+          <p class="title has-text-weight-bold is-uppercase">How to Use the Web Client</p>
+          <div class="divider is-left is-black"></div>
+          <div class="ml-6">
+            <!--start New Room -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p class="subtitle is-4 has-text-weight-bold is-uppercase">New Room</p>
+              </div>
+
+              <p>Web Client gives you access to <a href="/RoomApply" class="links">New Room<span class="icon">
+                    <fa-icon [icon]="faExternalLinkAlt"></fa-icon>
+                  </span></a>. <br> Fill in the form to get your own transation
+                Room. After Submitted the form you have to wait till your form gets reviewed and cleared by our
+                developer <a href="/about" class="links">MonMon<span class="icon">
+                    <fa-icon [icon]="faExternalLinkAlt"></fa-icon>
+                  </span></a>. After reviewing, if
+                you meet the criteria you will be granted a token and a
+                translation room. <br> This can then be accessed by listeners for viewing your live translations.
+              </p>
+            </div><!-- end new room -->
+
+            <!--start listener -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p class="subtitle is-4 has-text-weight-bold is-uppercase">Listener Client</p>
+              </div>
+
+              <p><a href="#" class="links">Listener Client<span class="icon">
+                    <fa-icon [icon]="faExternalLinkAlt"></fa-icon>
+                  </span></a> is what you are supposed to use if you want to view the live
+                Translations. It is accesible from the home page of the website, all you have to do is click on the
+                button
+                with Listener Client written on it. <br>
+                After clicking you will enter <strong>The Room</strong>. <br> After entering follow below Steps.
+              </p>
+              <ol>
+                <li>Select the name of the Room you want to enter.</li>
+                <li>You can also use the search bar.</li>
+                <li>Press Enter.</li>
+              </ol>
+            </div><!-- end listener -->
+
+            <!-- start archive client -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p class="subtitle is-4 has-text-weight-bold is-uppercase">Archive Client</p>
+              </div>
+
+              <p><a href="#" class="links">Archive Client<span class="icon">
+                    <fa-icon [icon]="faExternalLinkAlt"></fa-icon>
+                  </span></a> offers you the ability to view live translations of past streams done by
+                translators in their room. All you have to do is enter into their respective rooms.
+              </p>
+            </div><!-- end archive client -->
+          </div>
+        </section>
+        <!--end section 2 -->
+
+        <!-- start section 3 installation-->
+        <section id="line3" class="section pt-6">
+          <p class="title has-text-weight-bold is-uppercase">Installation</p>
+          <div class="divider is-left is-black"></div>
+          <div class="ml-6">
+            <!--start intall on windows start -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line3_1" class="subtitle is-4 has-text-weight-bold is-uppercase">Install on Windows<span
+                    class="icon">
+                    <fa-icon [icon]="faWindows"></fa-icon>
+                  </span></p>
+              </div>
+
+              <p>You can download the latest version of MChad<span class="icon">
+                  <fa-icon [icon]="faWindows"></fa-icon>
+                </span> by going to our <span class="icon">
+                  <fa-icon [icon]="faDownload"></fa-icon>
+                </span>downloads tab. Choose from x32 or x64 based on your version of windows.</p>
+              <article class="message is-black">
+                <div class="message-body">
+                  To find if your version of Windows is 32-bit or 64-bit. Read this article <a
+                    href="https://support.microsoft.com/en-us/windows/32-bit-and-64-bit-windows-frequently-asked-questions-c6ca9541-8dce-4d48-0415-94a3faa2e13d"
+                    target="_blank" rel="noopener noreferrer" class="links">here</a>.
+                </div>
+              </article>
+              <p>When you've completed the download, extract the contents of the zipfile at your desired location. After
+                extracting all you have to do is run the windows client with .exe file
+              </p>
+              <figure class="image is-128x128">
+                <img src="https://bulma.io/images/placeholders/256x256.png">
+              </figure>
+            </div><!-- end install on windows end -->
+            <!-- start install on android start -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line3_2" class="subtitle is-4 has-text-weight-bold is-uppercase">Install on Android</p>
+              </div>
+
+              <p>You can download the latest version of MChad <span class="icon">
+                  <fa-icon [icon]="faAndroid"></fa-icon>
+                </span> by going to our <span class="icon">
+                  <fa-icon [icon]="faDownload"></fa-icon>
+                </span> downloads tab. Download and install
+                the <span class="icon">
+                  <fa-icon [icon]="faFile"></fa-icon>
+                </span>.apk file.
+              </p>
+              <article class="message is-black">
+                <div class="message-body">
+                  Before Installation remember to enable <strong>"Install from Unknown Sources"</strong> in your android
+                  settings. You can
+                  read on how its done <a href="https://www.androidauthority.com/how-to-install-apks-31494/"
+                    target="_blank" rel="noopener noreferrer">here</a>.
+                </div>
+              </article>
+              <figure class="image is-128x128">
+                <img src="https://bulma.io/images/placeholders/256x256.png">
+              </figure>
+            </div>
+            <!--end install on android end -->
+            <!-- start install on linux start -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line3_3" class="subtitle is-4 has-text-weight-bold is-uppercase">Install on Linux</p>
+              </div>
+
+              <p>You can download the latest version of MChad <span class="icon">
+                  <fa-icon [icon]="faAndroid"></fa-icon>
+                </span> by going to our <span class="icon">
+                  <fa-icon [icon]="faDownload"></fa-icon>
+                </span> downloads tab. Download the <span class="icon"><i class="fa fa-file-zip-o"></i></span>.zip file
+                and extract it at your desired location. After extracting run the <span class="icon">
+                  <fa-icon [icon]="faFile"></fa-icon>
+                </span>.x86_64 file.
+              </p>
+              <article class="message is-black">
+                <div class="message-body">
+                  Before Installation remember to set your file to be an executable. You can read more on how to do this
+                  <a href="https://medium.com/@peey/how-to-make-a-file-executable-in-linux-99f2070306b5" target="_blank"
+                    rel="noopener noreferrer">here</a>.
+                </div>
+              </article>
+              <figure class="image is-128x128">
+                <img src="https://bulma.io/images/placeholders/256x256.png">
+              </figure>
+            </div>
+            <!--end install on linux end -->
+
+            <!-- start install on MacOS -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line3_4" class="subtitle is-4 has-text-weight-bold is-uppercase">Install on MacOS</p>
+              </div>
+
+              <p>You can download the latest version of MChad <span class="icon">
+                  <fa-icon [icon]="faAndroid"></fa-icon>
+                </span> by going to our <span class="icon">
+                  <fa-icon [icon]="faDownload"></fa-icon>
+                </span> downloads tab. Download the zipfile and extract it at your desired location. After extracting
+                run
+                the <span class="icon">
+                  <fa-icon [icon]="faFile"></fa-icon>
+                </span>.app file.
+              </p>
+              <article class="message is-black">
+                <div class="message-body">
+                  macOS version of MCHAD is an experimental build.
+                </div>
+              </article>
+              <figure class="image is-128x128">
+                <img src="https://bulma.io/images/placeholders/256x256.png">
+              </figure>
+            </div><!-- end Install on MacOS -->
+          </div>
+        </section><!-- end section 3 -->
+
+        <!--start section 4 translator client-->
+        <section id="line4" class="section pt-6">
+          <p class="title has-text-weight-bold is-uppercase">Translator Client</p>
+          <div class="divider is-left is-black"></div>
+          <p>The translator client is a little complicated and takes a bit of getting used to. <br> This is only
+            available on the web app and desktop client.</p>
+          <div class="ml-6">
+            <!--start  How to login -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line4_1" class="subtitle is-4 has-text-weight-bold is-uppercase">How to Login</p>
+              </div>
+
+              <div class="columns is-centered">
+                <div class="column is-half">
+                  <ul>
+                    <li> <strong>Step 1:</strong> Select <strong style="text-decoration: underline;">Login
+                        Translator</strong> from Main Menu</li>
+                    <li><strong>Step 2:</strong> Use the Search bar to search for a room.</li>
+                    <li><strong>Step 3:</strong> Select the Room</li>
+                    <li><strong>Step 4:</strong> Enter the Password and press Enter.</li>
+                  </ul>
+                </div>
+                <div class="column">
+                  <button class="button" (click)="toggleModal1()" id='btn'>Visual Image Guide</button>
+                  <div class=" modal" [ngClass]="{ 'is-active' : isModal1Active }">
+                    <div class="modal-background" (click)="toggleModal1()"></div>
+                    <div class="modal-content">
+                      <section class="box">
+                        <p> <strong>Step 1 & 2</strong> </p>
+                        <img src="assets\img\HTUTranslator\Login1.jpg" alt="">
+                        <img src="assets\img\HTUTranslator\Login2.jpg" alt="">
+
+
+                        <p> <strong>Step 1 & 2</strong></p>
+                        <img src="assets\img\HTUTranslator\Login3.jpg" alt="">
+                        <img src="assets\img\HTUTranslator\Login4.jpg" alt="">
+                      </section>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" (click)="toggleModal1()"></button>
+                  </div>
+                </div>
+              </div>
+              <article class="message is-black">
+                <div class="message-body">
+                  You can use "Testing" or "Testing two" room for playing around, the pasword is "Test"(case sensitive)
+                  Or if you're ready, you can go here to submit a form for a new room <a href="#">here</a> to submit a
+                  form for a new room.
+                </div>
+              </article>
+            </div>
+            <!--end how to login  -->
+
+            <!--start Mchad extension sync -->
+            <div class="block pt-4">
+
+              <div class="divider is-left is-black">
+                <p id="line4_2" class="subtitle is-4 has-text-weight-bold is-uppercase">Mchad extension sync</p>
+              </div>
+              <div class="columns is-centered">
+                <div class="column is-half">
+                  <ul>
+                    <li> <strong>Step 1:</strong> Select Local Room from the Room selection, No password is required.
+                    </li>
+                    <li><strong>Step 2:</strong> If you're already logged inside another room, Click sync button from
+                      the
+                      the extra panel and choose <strong style="background-color: black; color: white;">Sync
+                        MChat</strong> from the
+                      browser extension.</li>
+                    <li><strong>Step 3:</strong>After the Extension shows Synced-Idle choose the stream in your local
+                      client and Press Enter.</li>
+                    <li><strong>Step 4:</strong> The extension is properly synced if you get <strong
+                        style="background-color: black; color: white;">Synced-LiveChat(Click to
+                        Unsync)</strong> notification in the
+                      extension and your input will be automatically bounced to the live TL.</li>
+                  </ul>
+                </div>
+                <div class="column">
+                  <button class="button" (click)="toggleModal2()" id='btn'>Visual Image Guide</button>
+                  <div class="modal" [ngClass]="{ 'is-active' : isModal2Active }">
+                    <div class="modal-background" (click)="toggleModal2()"></div>
+                    <div class="modal-content">
+                      <section class="box">
+                        <p> <strong>Step 1</strong> Local Room </p>
+                        <img src="assets\img\HTUTranslator\TLSync1.png" alt="">
+                        <p> <strong>Step 2</strong> Sync button</p>
+                        <img src="assets\img\HTUTranslator\TLSync2.png" alt="">
+                        <p> <strong>Step 3</strong> Synced-idle means clinet connected </p>
+                        <img src="assets\img\HTUTranslator\TLSync3.png" alt="">
+                        <p> <strong>Step 4</strong> Synced-LiveChat(Click to Unsync) means you are ready to LiveTL. </p>
+                        <img src="assets\img\HTUTranslator\TLSync4.png" alt="">
+                      </section>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" (click)="toggleModal2()"></button>
+                  </div>
+
+                </div>
+              </div>
+            </div><!--  end Mchad Extension -->
+
+            <!-- start  translator panel -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line4_3" class="subtitle is-4 has-text-weight-bold is-uppercase">translator panel</p>
+              </div>
+              <p class="block">Translator Panel is located in the bottom part of the window in translator mode
+                The main idea of the UI is to minimalize the need to use mouse so the translator's hands can stay on the
+                keyboard.</p>
+              <figure class="image">
+                <img src="assets\img\HTUTranslator\TranslatorPnl1.jpg" alt="">
+              </figure>
+
+              <p class="block"><strong>First Row</strong> contains the text field where you will input text.</p>
+              <p class="block"><strong>Second Row</strong> contains the following elements :</p>
+              <ul>
+                <li><strong>Prefix : </strong> Automatically add fixed prefix.</li>
+                <li><strong>Suffix : </strong> Automatically add fixed suffix.</li>
+                <li><strong>Colour Code : </strong> colour for the colour of the text.</li>
+                <li><strong>Colour Toggle : </strong> Toggle to put in colour code.</li>
+                <li><strong>Outline : </strong> Pick colour for the custom outline colour.</li>
+                <li><strong>Outline Toggle : </strong> Toggle to put in custom outline colour.</li>
+              </ul>
+              <p class="block"><strong>Third row</strong> contains <a pagescroll href="docs#line4_4"
+                  class="links">Profile and
+                  Preset<span class="icon">
+                    <fa-icon [icon]="faExternalLinkAlt"></fa-icon>
+                  </span></a>that will be discussed in the next part</p>
+              <div class="columns is-centered">
+                <div class="column is-half">
+                  <ul>
+                    <li> <strong>Step 1:</strong> Select <strong style="text-decoration: underline;">Second row</strong>
+                      elements. Set their values and press enter.</li>
+                    <li><strong>Step 2:</strong> Once your message is sent, the message input will be emptied and you
+                      can immediately write your next message.</li>
+                    <li><strong>Step 3:</strong> You can click an entry to call extra panel to quickly delete or edit an
+                      entry.</li>
+                    <li><strong>Step 4:</strong> The edit panel will automatically load the setting of the entry, you
+                      can quickly change the text colour and outline from saved preset using the dropdown menu.</li>
+                  </ul>
+                </div>
+                <div class="column">
+                  <button class="button" (click)="toggleModal3()" id='btn'>Visual Image Guide</button>
+                  <div class="modal" [ngClass]="{ 'is-active' : isModal3Active }">
+                    <div class="modal-background" (click)="toggleModal3()"></div>
+                    <div class="modal-content">
+                      <section class="box">
+                        <p> <strong>Step 1</strong> Set Your Elements </p>
+                        <img src="assets\img\HTUTranslator\TranslatorPnl2.jpg" alt="">
+                        <p> <strong>Step 2</strong> Message is sent and cleared </p>
+                        <img src="assets\img\HTUTranslator\TranslatorPnl3.jpg" alt="">
+                        <p> <strong>Step 3</strong> Entry can be edited/deleted directly </p>
+                        <img src="assets\img\HTUTranslator\TranslatorPnl4.jpg" alt="">
+                        <p> <strong>Step 4</strong> Edit submission </p>
+                        <img src="assets\img\HTUTranslator\TranslatorPnl5.jpg" alt="">
+                      </section>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" (click)="toggleModal3()"></button>
+                  </div>
+                </div>
+              </div>
+            </div><!-- end Translator panel -->
+
+            <!-- start Profile and Preset  -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line4_4" class="subtitle is-4 has-text-weight-bold is-uppercase">profile and preset</p>
+              </div>
+              <p class="block">The profile and preset control is located in the third row of the translator panel.</p>
+              <figure class="image">
+                <img src="assets\img\HTUTranslator\Profile1.jpg" alt="">
+              </figure>
+              <article class="message ml-4 is-black">
+                <div class="message-body">
+                  A profile is basically a set of fixed prefix, suffix, and colour code. <br>
+                  You can see which profile you're in and the other loaded profile in the profile list panel.
+                </div>
+              </article>
+              <ul>
+                <li><strong>Add Profile :</strong> Adds a new profile.</li>
+                <li><strong>Shift up :</strong> Shift the selected profile up in the list.</li>
+                <li><strong>Shift Down :</strong> Shift the selected profile down in the list.</li>
+                <li><strong>Remove Profile :</strong> Delete the selected profile from the profile list.</li>
+                <li><strong>Manage Preset :</strong> Open the preset panel.</li>
+                <li> You can switch between profile using <strong>tab key or up and down arrow keys.</strong></li>
+                <li>You can also jump to default profile using <strong>shift + tab.</strong></li>
+              </ul>
+              <div class="ml-4 columns is-centered">
+                <div class="column is-half">
+                  <p class="subtitle is-5">Manage Preset</p>
+                  <p>You can open preset panel by clicking the "Manage Preset" button.
+                    Preset is basically profile list saved locally in your machine that you can load anytime.
+                    The save preset button will save the currently selected profile in the preset list.
+                    The Public button is to swap between locally saved preset and the public preset saved in the
+                    database.
+                  </p>
+                  <p>To add/delete prefix, just pick the prefix then click "add to list" to add to the profile list or
+                    "delete" button to delete the selected prefix</p>
+                </div>
+                <div class="column">
+                  <button class="button" (click)="toggleModal4()" id='btn'>Visual Image Guide</button>
+                  <div class="modal" [ngClass]="{ 'is-active' : isModal4Active }">
+                    <div class="modal-background" (click)="toggleModal4()"></div>
+                    <div class="modal-content">
+                      <section class="box">
+                        <p> <strong>Manage Preset</strong></p>
+                        <img src="assets\img\HTUTranslator\Profile2.jpg" alt="">
+                        <p> <strong>Add/Delete Preset</strong></p>
+                        <img src="assets\img\HTUTranslator\Profile3.jpg" alt="">
+                      </section>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" (click)="toggleModal4()"></button>
+                  </div>
+                </div>
+              </div>
+
+            </div><!--  end profile and preset -->
+
+            <!-- start password protection -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line4_5" class="subtitle is-4 has-text-weight-bold is-uppercase">Set Room password protection</p>
+              </div>
+              <p>Additionally you can wish to protect your room making it password Protected. And only the Listeners
+                with the Password can Login to the Room.</p>
+              <div class="columns is-centered">
+                <div class="column is-half">
+                  <ul>
+                    <li> <strong>Step 1:</strong> Click <strong style="text-decoration: underline;">"Password"</strong>
+                      button in the extra panel.</li>
+                    <li><strong>Step 2:</strong> Enter you password in the Pop-Up Panel.</li>
+                    <li><strong>Step 3:</strong> Check Password Protected box and click save.</li>
+                    <li><strong>Step 4:</strong> To Remove Password Just Uncheck the box</li>
+                  </ul>
+                  <article class="message is-uppercase is-black">
+                    <div class="message-body" style="background-color: rgb(190, 0, 0);">
+                      THIS PASSWORD IS FOR LISTENER TO LOGIN, NOT TRANSLATOR.
+                    </div>
+                  </article>
+                </div>
+                <div class="column">
+                  <button class="button" (click)="toggleModal5()" id='btn'>Visual Image Guide</button>
+                  <div class="modal" [ngClass]="{ 'is-active' : isModal5Active }">
+                    <div class="modal-background" (click)="toggleModal5()"></div>
+                    <div class="modal-content">
+                      <section class="box">
+                        <p> <strong>Step 1 & 2 </strong> Enter Your Password </p>
+                        <img src="assets\img\HTUTranslator\Pass1.png" alt="">
+                        <p> <strong>Step 3 & 4 </strong> Save/remove password </p>
+                        <img src="assets\img\HTUTranslator\Pass2.png" alt="">
+                      </section>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" (click)="toggleModal5()"></button>
+                  </div>
+                </div>
+              </div>
+            </div><!-- end Password Protection -->
+
+            <!-- Start Reserving room  -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line4_6" class="subtitle is-4 has-text-weight-bold is-uppercase">Reserving Room</p>
+              </div>
+              <ul>
+                <li>You can reserve a scheduled live translation room by clicking "Schedule" in the navigation bar.
+                </li>
+                <li>Handling the room reservation can be done by clicking the buttons in the top right panel in red
+                  circle.</li>
+                <ul>
+                  <li> <span class="icon">
+                      <fa-icon [icon]="faCalenderPlus"></fa-icon>
+                    </span>To add new schedule. </li>
+                  <li> <span class="icon">
+                      <fa-icon [icon]="faEdit"></fa-icon>
+                    </span>To edit old schedule. </li>
+                  <li> <span class="icon">
+                      <fa-icon [icon]="faCalenderMinus"></fa-icon>
+                    </span>To delete schedule. </li>
+                </ul>
+              </ul>
+
+              <figure class="image">
+                <img src="assets\img\HTUTranslator\" alt="placeholder">
+              </figure>
+            </div><!-- end reserving room  -->
+
+            <!--  start export script -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line4_7" class="subtitle is-4 has-text-weight-bold is-uppercase">Export Script</p>
+              </div>
+              <div class="columns is-centered">
+                <div class="column is-half">
+                  <ul>
+                    <li><strong>Step 1:</strong> Click <strong>Archive(translator)</strong> from main menu.</li>
+                    <li><strong>Step 2:</strong> Login with your Room and Password.</li>
+                    <li><strong>Step 3:</strong> Pick session that you want to export.</li>
+                    <li><strong>Step 4:</strong> Click on the entry to set a Start and End point.</li>
+                    <li><strong>Step 5:</strong> Either export as .ass file compatible with Aegisub or to simple .srt
+                      file.</li>
+                  </ul>
+                  <article class="message is-black">
+                    <div class="message-body">
+                      <ul>
+                        <li>The hidden check box will set whether listeners can open the archive or not.</li>
+                        <li>File will be saved in the "Saved_Archive" folder of the original folder.</li>
+                      </ul>
+                    </div>
+                  </article>
+                </div>
+                <div class="column">
+                  <button class="button" (click)="toggleModal6()" id='btn'>Visual Image Guide</button>
+                  <div class="modal" [ngClass]="{ 'is-active' : isModal6Active }">
+                    <div class="modal-background" (click)="toggleModal6()"></div>
+                    <div class="modal-content">
+                      <section class="box">
+                        <p> <strong>Step 1</strong> Click Archive(Translator) </p>
+                        <img src="assets\img\HTUTranslator\Export1.jpg" alt="">
+                        <p> <strong>Step 2</strong> Login Room </p>
+                        <img src="assets\img\HTUTranslator\Export2.jpg" alt="">
+                        <p> <strong>Step 3</strong> Pick Session </p>
+                        <img src="assets\img\HTUTranslator\Export3.jpg" alt="">
+                        <p> <strong>Step 4</strong> Set Start and End point. Hit Export. </p>
+                        <img src="assets\img\HTUTranslator\Export4.jpg" alt="">
+                      </section>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" (click)="toggleModal6()"></button>
+                  </div>
+                </div>
+              </div>
+            </div><!-- end Export Script -->
+
+          </div>
+        </section> <!-- end section 4 -->
+
+        <!-- start section 5 listener client-->
+        <section id="line5" class="section pt-6">
+          <p class="title has-text-weight-bold is-uppercase">Listener Client</p>
+          <div class="divider is-left is-black"></div>
+          <article class="message is-black">
+            <div class="message-body" style="background-color: rgb(190, 0, 0);">
+              <div class="has-text-white">First of all, remember that live translating takes a lot of brain power and
+                has no means to recheck. So
+                expect mistakes and don't take everything at face value.</div>
+            </div>
+          </article>
+          <p>The Listener's side is straight-forward and easy.</p>
+          <div class="ml-6">
+            <!-- start listener how to login -->
+            <div class="block pt-4">
+              <div class="divider is-left">
+                <p id="line5_1" class="subtitle is-4 has-text-weight-bold is-uppercase">How to Login</p>
+              </div>
+
+              <div class="columns is-centered">
+                <div class="column is-half">
+                  <ul>
+                    <li> <strong>Step 1:</strong> Select <strong style="text-decoration: underline;">Login
+                        Listener</strong> from main menu on desktop.
+                    </li>
+                    <li><strong>Step 2:</strong> On Android select the room from <strong
+                        style="text-decoration: underline;">Available Room</strong> and press enter. (check/uncheck on
+                      Include empty if rooms dont show up)</li>
+                    <li><strong>Step 3:</strong> Search for the room that you want in the search bar.</li>
+                    <li><strong>Step 4:</strong> Pick a room, then click Enter button.</li>
+                    <li><strong>Step 5:</strong> If you're using android, you'll have to use SPLIT SCREEN for maximum
+                      enjoyment.</li>
+                  </ul>
+                </div>
+                <div class="column">
+                  <button class="button" (click)="toggleModal7()" id='btn'>Visual Image Guide</button>
+                  <div class=" modal" [ngClass]="{ 'is-active' : isModal7Active }">
+                    <div class="modal-background" (click)="toggleModal7()"></div>
+                    <div class="modal-content">
+                      <section class="box">
+                        <p><strong>Step 1</strong> Login On desktop</p>
+                        <img src="assets\img\HTUlistener\Login1.jpg" alt="">
+                        <p><strong>Step 2</strong> Select room On Android</p>
+                        <img src="assets\img\HTUlistener\Login2.jpg" alt="">
+                        <p> <strong>Step 3</strong> Search the room</p>
+                        <img src="assets\img\HTUlistener\Login3.jpg" alt="">
+                        <p><strong>Step 4</strong> Pick a room, Hit Enter</p>
+                        <img src="assets\img\HTUlistener\Login4.jpg" alt="">
+                        <p><strong>Step 5</strong> Split Screen on Android</p>
+                        <img src="assets\img\HTUlistener\Android.png" alt="">
+                      </section>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" (click)="toggleModal7()"></button>
+                  </div>
+                </div>
+              </div>
+            </div><!-- end Listener How to login -->
+
+            <!-- start filter and styling -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line5_2" class="subtitle is-4 has-text-weight-bold is-uppercase">Filter and Styling</p>
+              </div>
+              <div class="columns is-centered">
+                <div class="column is-half">
+                  <ul>
+                    <li><strong>Step 1:</strong> Click <strong style="text-decoration: underline;">Filtering and
+                        Styling</strong> button in the extra panel.</li>
+                    <li><strong>Step 2:</strong> It'll open filtering and custom styling panel.</li>
+                    <li><strong>Step 3:</strong> Enter Your Own Colours and keywords for the filters. </li>
+                  </ul>
+                </div>
+                <div class="column">
+                  <button class="button" (click)="toggleModal9()" id='btn'>Visual Image Guide</button>
+                  <div class=" modal" [ngClass]="{ 'is-active' : isModal9Active }">
+                    <div class="modal-background" (click)="toggleModal9()"></div>
+                    <div class="modal-content">
+                      <section class="box">
+                        <p><strong>Step 1</strong> Click on Filtering & Styling</p>
+                        <img src="assets\img\HTUlistener\Filter1.png" alt="">
+                        <p><strong>Step 2</strong> Adding your own Styles</p>
+                        <img src="assets\img\HTUlistener\Filter2.png" alt="">
+                      </section>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" (click)="toggleModal9()"></button>
+                  </div>
+                </div>
+              </div>
+            </div><!-- end filter and styling -->
+
+            <!-- start live Chat Sync -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line5_3" class="subtitle is-4 has-text-weight-bold is-uppercase">Live Chat Sync</p>
+              </div>
+              <div class="columns is-centered">
+                <div class="column is-half">
+                  <ul>
+                    <li> <strong>Step 1:</strong> Choose <strong style="text-decoration: underline;">"Local
+                        Room"</strong> and then click enter.
+                    </li>
+                    <li><strong>Step 2:</strong> Click on create to create a local room.</li>
+                    <li><strong>Step 3:</strong> Click <strong style="background-color: black; color: white;">Sync
+                        MChat</strong> in
+                      the browser extension.</li>
+                    <li><strong>Step 4:</strong> Wait until you get a <strong
+                        style="background-color: black; color: white;">Synced -
+                        Listener(Click to Unsync)</strong> notification in the browser.</li>
+                  </ul>
+                  <article class="message is-black">
+                    <div class="message-body">
+                      The extension is properly synced if you get <strong
+                        style="background-color: black; color: white;">Synced -
+                        Listener(Click to Unsync)</strong> notification in the
+                      extension
+                    </div>
+                  </article>
+                </div>
+                <div class="column">
+                  <button class="button" (click)="toggleModal8()" id='btn'>Visual Image Guide</button>
+                  <div class=" modal" [ngClass]="{ 'is-active' : isModal8Active }">
+                    <div class="modal-background" (click)="toggleModal8()"></div>
+                    <div class="modal-content">
+                      <section class="box">
+                        <p><strong>Step 1</strong> Choose Local Room</p>
+                        <img src="assets\img\HTUlistener\SyncList1.png" alt="">
+                        <p><strong>Step 2</strong> Create Local Room</p>
+                        <img src="assets\img\HTUlistener\SyncList2.png" alt="">
+                        <p> <strong>Step 3</strong> Sync with browser</p>
+                        <img src="assets\img\HTUlistener\SyncList3.png" alt="">
+                      </section>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" (click)="toggleModal8()"></button>
+                  </div>
+                </div>
+              </div>
+            </div><!-- end Live Chat sync -->
+
+            <!-- start archive viewer -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line5_4" class="subtitle is-4 has-text-weight-bold is-uppercase">Archive Viewer</p>
+              </div>
+              <div class="columns is-centered">
+                <div class="column is-half">
+                  <ul>
+                    <li><strong>Step 1:</strong> Open the desktop app and click on <strong
+                        style="text-decoration: underline;">Archive(Listener).</strong></li>
+                    <li><strong>Step 2:</strong> Pick a room and then click enter.</li>
+                    <li><strong>Step 3:</strong> Pick a session and click enter.</li>
+                    <li><strong>Step 4:</strong> You will be brought into the <strong
+                        style="text-decoration: underline;">Page Viewer.</strong> It consists of</li>
+                    <ul>
+                      <li>Info Panel</li>
+                      <li>Previous Page</li>
+                      <li>Next Page</li>
+                      <li>Auto-Scroll Mode</li>
+                    </ul>
+                    <li><strong>Step 5:</strong> Auto Scroll Mode Can be used to Simulate Live TL. Check in Image Guide
+                      How to do it.</li>
+                    <li><Strong>Step 6:</Strong> The auto-scroll view, it has pause and play button.</li>
+                    <article class="message is-black">
+                      <div class="message-body">
+                        By nature, live TL is a little bit delayed compared to the stream, so you might want to run the
+                        stream a bit ahead.
+                      </div>
+                    </article>
+                    <li><strong>Step 7:</strong> Auto-scroll view has the same <a pagescroll href="docs#line6"
+                        class="links">Extra
+                        Panel<span class="icon">
+                          <fa-icon [icon]="faExternalLinkAlt"></fa-icon>
+                        </span></a> features as usual listeners.</li>
+                  </ul>
+                </div>
+                <div class="column">
+                  <button class="button" (click)="toggleModal10()" id='btn'>Visual Image Guide</button>
+                  <div class=" modal" [ngClass]="{ 'is-active' : isModal10Active }">
+                    <div class="modal-background" (click)="toggleModal10()"></div>
+                    <div class="modal-content">
+                      <section class="box">
+                        <p><strong>Step 1</strong> Archive(Listener)</p>
+                        <img src="assets\img\HTUlistener\ArchiveViewer1.png" alt="">
+                        <p><strong>Step 2</strong> Pick a Room</p>
+                        <img src="assets\img\HTUlistener\ArchiveViewer2.png" alt="">
+                        <p> <strong>Step 3</strong> Pick a session</p>
+                        <img src="assets\img\HTUlistener\ArchiveViewer3.png" alt="">
+                        <p> <strong>Step 4</strong> Page Viewer</p>
+                        <img src="assets\img\HTUlistener\ArchiveViewer4.png" alt="">
+                        <p> <strong>Step 5</strong> Auto Scroll Mode</p>
+                        <img src="assets\img\HTUlistener\ArchiveViewer5.png" alt="">
+                        <p> <strong>Step 6</strong> Auto Scroll View</p>
+                        <img src="assets\img\HTUlistener\ArchiveViewer6.png" alt="">
+                        <p> <strong>Step 7</strong> Auto Scroll Features</p>
+                        <img src="assets\img\HTUlistener\ArchiveViewer7.png" alt="">
+                      </section>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" (click)="toggleModal10()"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end archive viewer -->
+
+            <!-- start archive viewer sync -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line5_5" class="subtitle is-4 has-text-weight-bold is-uppercase">Archive Viewer Sync</p>
+              </div>
+              <div class="columns is-centered">
+                <div class="column is-half">
+                  <ul>
+                    <li><strong>Step 1:</strong> Turn on <strong style="text-decoration: underline;">Auto
+                        Scroller</strong> mode from the page Viewer </li>
+                    <li><strong>Step 2:</strong> Click Sync button in the extra panel.</li>
+                    <li><strong>Step 3:</strong> Click <strong style="background-color: black; color: white;">Sync
+                        MChad</strong> in
+                      the browser extension.</li>
+                    <li><strong>Step 4:</strong> Pick the local client from MChad that you want to synchronize and press
+                      Enter. <strong style="text-decoration: underline;">Page Viewer.</strong> It consists of</li>
+                    <li><strong>Step 5:</strong> After Proper Synchronization you will get <strong
+                        style="background-color: black; color: white;">Synced -
+                        Archive(Click to Unsync)</strong> notification.</li>
+                  </ul>
+                </div>
+                <div class="column">
+                  <button class="button" (click)="toggleModal11()" id='btn'>Visual Image Guide</button>
+                  <div class=" modal" [ngClass]="{ 'is-active' : isModal11Active }">
+                    <div class="modal-background" (click)="toggleModal11()"></div>
+                    <div class="modal-content">
+                      <section class="box">
+                        <p><strong>Step 1</strong> Auto Scroller mode</p>
+                        <img src="assets\img\HTUlistener\ArcSync1.png" alt="">
+                        <p><strong>Step 2</strong> Sync from Extra Panel</p>
+                        <img src="assets\img\HTUlistener\ArcSync2.png" alt="">
+                        <p> <strong>Step 3</strong> Sync MChad from browser</p>
+                        <img src="assets\img\HTUlistener\ArcSync3.png" alt="">
+                        <p> <strong>Step 4</strong> Room Synchronization</p>
+                        <img src="assets\img\HTUlistener\ArcSync4.png" alt="">
+                        <p> <strong>Step 5</strong> Sync Success Click to Unsync</p>
+                        <img src="assets\img\HTUlistener\ArcSync5.png" alt="">
+                      </section>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" (click)="toggleModal11()"></button>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- end archive viewer sync -->
+          </div>
+        </section>
+        <!-- end section 5 -->
+
+        <!-- start section 6 extra panel & features-->
+        <section id="line6" class="section pt-6">
+          <p class="title has-text-weight-bold is-uppercase">Extra Panel & Features</p>
+          <div class="divider is-left is-black"></div>
+          <p>For Translators You can call <strong style="text-decoration: underline;">Extra
+              setting panel</strong> if you hover your cursor to the upper area of the app window.</p><br>
+          <p>For Listeners On Windows <span class="icon">
+              <fa-icon [icon]="faWindows"></fa-icon>
+            </span>You can call an extra setting panel if you hover your cursor to the upper area of the app window.
+            <br>
+
+            And tapping the upper part of screen if you're using Android<span class="icon">
+              <fa-icon [icon]="faAndroid"></fa-icon>
+            </span> client.
+          </p>
+          <div class="ml-6">
+            <!-- start Extra panel for translators -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line6_1" class="subtitle is-4 has-text-weight-bold is-uppercase">Extra Panel for Translators</p>
+              </div>
+              <div class="columns is-centered">
+                <div class="column is-half">
+                  <strong style="text-decoration: underline;">Extra panel</strong>
+                  contains the Following Features
+                  <ul>
+                    <li><strong>Back</strong> Return back to room picker.</li>
+                    <li><strong>Font</strong> Change the colour or the size of the font of the view window.</li>
+                    <li><strong>Back Colour</strong> Change the backgroud colour of the view windows.</li>
+                    <li><strong>Hide/Show Border</strong> Remove/show the border of the window.</li>
+                    <article class="message is-black">
+                      <div class="message-body">
+                        This features is only availabe in Windows<span class="icon">
+                          <fa-icon [icon]="faWindows"></fa-icon>
+                        </span> client
+                      </div>
+                    </article>
+                    <li><strong>Always on Top</strong> Set the window to always on top.</li>
+                    <article class="message is-black">
+                      <div class="message-body">
+                        <p>This features is only availabe in Windows<span class="icon">
+                            <fa-icon [icon]="faWindows"></fa-icon>
+                          </span> client. <br><br>
+                          On Linux<span class="icon">
+                            <fa-icon [icon]="faLinux"></fa-icon>
+                          </span> with GNOME graphic, you can do the same by right clicking the window and click
+                          always
+                          on top.</p>
+                      </div>
+                    </article>
+                    <li><strong>Info Board</strong> Open extra panel that contains extra information that the
+                      translator might post.</li>
+                    <li><strong>Password</strong> Set password protection for the room so only certain listeners can
+                      login.</li>
+                    <li><strong>Message panel</strong> Hide/Show the message panel.</li>
+                    <li><strong><span class="icon">
+                          <fa-icon [icon]="faTimes"></fa-icon>
+                        </span></strong> Close the application</li>
+                  </ul>
+                </div>
+                <div class="column">
+                  <button class="button" (click)="toggleModal12()" id='btn'>Visual Image Guide</button>
+                  <div class=" modal" [ngClass]="{ 'is-active' : isModal12Active }">
+                    <div class="modal-background" (click)="toggleModal12()"></div>
+                    <div class="modal-content">
+                      <section class="box">
+                        <p><strong>Step 1</strong> Hover to show the panel</p>
+                        <img src="assets\img\HTUTranslator\ExtraPnl1.jpg" alt="">
+                        <p><strong>Step 2</strong> Extra panel features</p>
+                        <img src="assets\img\HTUTranslator\ExtraPnl2.jpg" alt="">
+                      </section>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" (click)="toggleModal12()"></button>
+                  </div>
+                </div>
+              </div>
+            </div><!-- end Extra Panel for Translators -->
+
+            <!-- start extra panel for listeners -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line6_2" class="subtitle is-4 has-text-weight-bold is-uppercase">Extra Panel for Listeners</p>
+              </div>
+              <div class="columns is-centered">
+                <div class="column is-half">
+                  <strong style="text-decoration: underline;">Extra panel</strong>
+                  contains the Following Features
+                  <ul>
+                    <li><strong>Back</strong> Return back to room picker.</li>
+                    <li><strong>Font</strong> Change the colour or the size of the font of the view window.</li>
+                    <li><strong>Back Colour</strong> Change the backgroud colour of the view windows.</li>
+                    <li><strong>Hide/Show Border</strong> Remove/show the border of the window.</li>
+                    <article class="message is-black">
+                      <div class="message-body">
+                        This features is only availabe in Windows<span class="icon">
+                          <fa-icon [icon]="faWindows"></fa-icon>
+                        </span> client
+                      </div>
+                    </article>
+                    <li><strong>Always on Top</strong> Set the window to always on top.</li>
+                    <article class="message is-black">
+                      <div class="message-body">
+                        <p>This features is only availabe in Windows<span class="icon">
+                            <fa-icon [icon]="faWindows"></fa-icon>
+                          </span> client. <br><br>
+                          On Linux<span class="icon">
+                            <fa-icon [icon]="faLinux"></fa-icon>
+                          </span> with GNOME graphic, you can do the same by right clicking the window and click
+                          always
+                          on top.</p>
+                      </div>
+                    </article>
+
+                    <li><strong>BG Sheet</strong> Put on semi-transparent backgroud sheet behind the text.</li>
+                    <li><strong>Hide Timestamp</strong> Simply hides the timestamp from the entries.</li>
+                    <li><strong>Send Message To Translator</strong> Open small panel to send a message to the
+                      translator(s) of the picked room.</li>
+                    <li><strong>Add Room</strong> Manage the rooms that you actively listening (can be multiple rooms at
+                      once).</li>
+                    <li><strong>Extra Info</strong> Open extra panel that contains extra information that the
+                      translator might post.</li>
+                    <li><strong><span class="icon">
+                          <fa-icon [icon]="faTimes"></fa-icon>
+                        </span></strong> Close the application</li>
+                  </ul>
+                </div>
+                <div class="column">
+                  <button class="button" (click)="toggleModal13()" id='btn'>Visual Image Guide</button>
+                  <div class=" modal" [ngClass]="{ 'is-active' : isModal13Active }">
+                    <div class="modal-background" (click)="toggleModal13()"></div>
+                    <div class="modal-content">
+                      <section class="box">
+                        <p><strong>Step 1</strong> Hover to show the panel</p>
+                        <img src="assets\img\HTUlistener\ExtraPnl1.jpg" alt="">
+                        <p><strong>Step 2</strong> Extra panel features</p>
+                        <img src="assets\img\HTUlistener\ExtraPnl2.jpg" alt="">
+                        <p><strong>Step 2</strong> BG Sheet</p>
+                        <img src="assets\img\HTUlistener\ExtraFeatures.jpg" alt="">
+                      </section>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" (click)="toggleModal13()"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- end section 6 -->
+
+        <!-- start section 7 version history-->
+        <section id="line7" class="section">
+          <p class="title has-text-weight-bold is-uppercase">Version History</p>
+          <div class="divider is-left is-black"></div>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem cupiditate consequatur, alias nihil qui
+            odit perferendis dolor debitis nobis officia in doloremque esse voluptates architecto libero consectetur
+            quas asperiores maxime.</p>
+          <div class="ml-6">
+            <!-- copy this div block if you want to duplicate more Sub titles -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line7_1" class="subtitle is-4 has-text-weight-bold is-uppercase">Placeholder Subtitle</p>
+              </div>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus cumque quasi, natus repellat vel
+                esse nam maxime tempora, doloribus unde officia nostrum libero dolorem necessitatibus eligendi
+                placeat, rerum ut hic?</p>
+            </div><!-- end of placeholder sub title block -->
+
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line7_2" class="subtitle is-4 has-text-weight-bold is-uppercase">Placeholder Subtitle</p>
+              </div>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus cumque quasi, natus repellat vel
+                esse nam maxime tempora, doloribus unde officia nostrum libero dolorem necessitatibus eligendi
+                placeat, rerum ut hic?</p>
+            </div>
+          </div>
+        </section>
+        <!-- end section 7-->
+
+        <!-- start section 8 Copyright & license-->
+        <section id="line8" class="section">
+          <p class="title has-text-weight-bold is-uppercase">Copyright and License</p>
+          <div class="divider is-left is-black"></div>
+          <div class="ml-6">
+            <p id="line8_1" class="subtitle has-text-weight-bold is-uppercase">How to Login</p>
+            <p id="line8_2" class="subtitle has-text-weight-bold is-uppercase">Live Chat Sync</p>
+            <p id="line8_3" class="subtitle has-text-weight-bold is-uppercase">Filter and Styling</p>
+            <p id="line8_4" class="subtitle has-text-weight-bold is-uppercase">Archive Viewer</p>
+            <p id="line8_5" class="subtitle has-text-weight-bold is-uppercase">Archive Viewer Sync</p>
+          </div>
+        </section>
+        <!-- end section 8 -->
+
+        <!-- start section 9 Rest Api-->
+        <section id="line9" class="section pt-6">
+          <p class="title has-text-weight-bold is-uppercase">Rest Api</p>
+          <div class="divider is-left is-black">
+          </div>
+          <div class="ml-6">
+            <!-- Start Get Room List -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line9_1" class="subtitle is-4 has-text-weight-bold is-uppercase">Get Room List</p>
+              </div>
+              <p><strong>HTTP Request GET to</strong></p>
+              <pre><code style="color: rgb(50, 132, 255);">http://[mimimimiooon]/Room/?room=[room]&link=[link]</code></pre>
+              <ul>
+                <li><strong>[room] =></strong> to search particular room name</li>
+                <li><strong>[link] =></strong> to search particular stream link [VideoID]</li>
+              </ul>
+              <article class="message is-black">
+                <div class="message-body">
+                  Just use YT[video ID] the YT will be
+                  automatically parsed to
+                  <code style="color: rgb(50, 132, 255);">"https://www.youtube.com/watch?v=[videoID]"</code>
+                </div>
+              </article>
+              <p><strong>Test command :</strong></p>
+              <pre><code style="color: rgb(50, 132, 255);">curl -X GET http://[mimimimiooon]/Room/</code></pre>
+
+              <p><strong>Only returns the top 20 query result JSON with format as follows :</strong></p>
+              <ul>
+                <li><strong>Nick :</strong> Name of the room (string)</li>
+                <li><strong>EntryPass :</strong> If the room is password protected (bool)</li>
+                <li><strong>Empty :</strong> If the room is empty or not (bool)</li>
+                <li><strong>StreamLink :</strong> Link to the stream of the current active session (string)</li>
+              </ul>
+              <p>Example Json</p>
+              <pre><code [highlight]="code1"></code></pre>
+            </div> <!-- End Get Room List -->
+
+            <!-- start Get Archive List -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line9_2" class="subtitle is-4 has-text-weight-bold is-uppercase">Get Archive List</p>
+              </div>
+              <p><strong>HTTP Request GET to</strong></p>
+              <pre><code style="color: rgb(50, 132, 255);">http://[mimimimiooon]/Archive/?room=[room]&link=[link]</code></pre>
+              <ul>
+                <li><strong>[room] =></strong> to search particular room name</li>
+                <li><strong>[link] =></strong> to search particular stream link [VideoID]</li>
+              </ul>
+              <article class="message is-black">
+                <div class="message-body">
+                  Just use YT[video ID] the YT will be
+                  automatically parsed to
+                  <code style="color: rgb(50, 132, 255);">"https://www.youtube.com/watch?v=[videoID]"</code>
+                </div>
+              </article>
+              <p><strong>Test command :</strong></p>
+              <pre><code style="color: rgb(50, 132, 255);">curl -X GET http://[mimimimiooon]/Archive/?room=MonMon%20TL</code></pre>
+
+              <p><strong>Only returns the top 20 query result JSON with format as follows :</strong></p>
+              <ul>
+                <li><strong>Nick :</strong> Name of the room (string)</li>
+                <li><strong>EntryPass :</strong> If the room is password protected (bool)</li>
+                <li><strong>Empty :</strong> If the room is empty or not (bool)</li>
+              </ul>
+              <p>Example Json</p>
+              <pre><code [highlight]="code2"></code></pre>
+            </div>
+            <!-- end Get Archive List -->
+
+            <!-- start Get a Script from Archive -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line9_3" class="subtitle is-4 has-text-weight-bold is-uppercase">Get a Script from the Archive
+                </p>
+              </div>
+              <p><strong>HTTP Request GET to</strong></p>
+              <pre><code style="color: rgb(50, 132, 255);">http://[mimimimiooon]/Archive/</code></pre>
+              <ul>
+                <li><strong>content-type :</strong> application/JSON or text/plain</li>
+                <li><strong>payload/body :</strong></li>
+                <ul>
+                  <li><strong>[link] =></strong> archive link, you can get it from the archive list.</li>
+                  <li><strong>[pass] =></strong> needed in case if the script is password protected, it is in SHA256
+                    hash.</li>
+                </ul>
+              </ul>
+              <p><strong>Test Command :</strong></p>
+              <pre><code style="color: rgb(50, 132, 255);">curl -X POST -H "Content-Type: application/json" --data <code class="is-inline" [highlight]="code3"></code>  http://[mimimimiooon]/Archive/</code></pre>
+
+              <p><strong>Only returns the top 20 query result JSON with format as follows :</strong></p>
+              <ul>
+                <li><strong>Stime :</strong> Timestamp in milisecond (number).</li>
+                <li><strong>Stext :</strong> Main TL message (string)</li>
+                <li><strong>CC :</strong> Character colour in hex "rrggbb" format (string), only missing # for parsing.
+                </li>
+                <li><strong>OC :</strong> Outline colour in hex "rrggbb" format (string), only missing # for parsing.
+                </li>
+              </ul>
+              <p>Example Json</p>
+              <pre><code [highlight]="code4"></code></pre>
+            </div>
+            <!-- end get script from archive -->
+
+            <!-- start stream live translation -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line9_4" class="subtitle is-4 has-text-weight-bold is-uppercase">Stream Live Translation</p>
+              </div>
+              <p><strong>HTTP Request GET to</strong></p>
+              <pre><code style="color: rgb(50, 132, 255);">http://[mimimimiooon]/Listener/?room=[room]&pass=[password]</code></pre>
+              <ul>
+                <li><strong>[room] =></strong> name of the room can be obtained from the room list.</li>
+                <li><strong>[pass] =></strong> needed in case if the room is password protected, it is in SHA256 hash.
+                </li>
+              </ul>
+              <p><strong>Test Command :</strong></p>
+              <pre><code style="color: rgb(50, 132, 255);">curl  -X GET http://[mimimimiooon]/Listener/?room=Testing</code></pre>
+
+              <p>Use event Source listener in JS :</p>
+              <pre><code [highlight]="code5"></code></pre>
+              <p>Then es.addeventlistener to parse the incoming data.</p>
+            </div><!-- end stream live translation -->
+
+            <!-- start of incoming data -->
+            <div class="block pt-4">
+              <div class="divider is-left is-black">
+                <p id="line9_5" class="subtitle is-4 has-text-weight-bold is-uppercase">Types of incoming data</p>
+              </div>
+              <ul style="list-style-type: none;">
+                <li>-> &#123;&#125; empty json for ping.</li>
+                <li>-> flag = Connect, content just a welcome to server stuff to confirm the connection.</li>
+                <li>-> flag = Timeout, if no activitiy in the Mchad server for 30 minutes.</li>
+                <li>-> flag = insert, if there's a new entry.</li>
+                <ul>list contains
+                  <li>_id: id of the entry.</li>
+                  <li>Stime: unix epoch milisecond when the entry is uploaded to the server.</li>
+                  <li>Stext: string text for the translation.</li>
+                  <li>CC: Font colour, string in hex "rrggbb" format.</li>
+                  <li>OC: Outline colour , string in hex "rrggbb" format.</li>
+                </ul>
+                <li>-> flag = update, if there's a change on an entry.</li>
+              </ul>
+              <p>content is the same as [insert], just use _id to find the locally saved entry and overwrite.</p>
+            </div><!-- end of incoming data -->
+
+          </div>
+        </section>
+        <!-- end section 9 -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- // end container -->
+<app-scroll-to-top></app-scroll-to-top>

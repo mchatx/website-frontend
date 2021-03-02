@@ -1,0 +1,17 @@
+<div class="Head">
+    <span>Scheduled Live Translation</span>
+    <a class="MenuButton" routerLink="/SchedEdit/Add" routerLinkActive="active">&#8853;</a>
+    <a class="MenuButton" routerLink="/SchedEdit/Edit" routerLinkActive="active">&#8943;</a>
+    <a class="MenuButton" routerLink="/SchedEdit/Remove" routerLinkActive="active">&#8854;</a>
+</div>
+<hr>
+<div *ngFor="let SchedPage of SchedulePage">
+    <p style="font-size: 1.5em; padding: 0.5em; border: white solid 3px; text-align: center; border-radius: 20px;">
+        {{ SchedPage.Timestamp }}
+    </p>
+    <div class="ScheduleCard" *ngFor="let Schedule of SchedPage.DataList">
+        <p>Room : <button> {{ Schedule.Room }} </button> <span style="float: right;">Time : {{ Schedule.Time }}</span></p>
+        <p>Link to stream : <a href="{{ Schedule.Link }}" target="_blank">{{ Schedule.Link }}</a></p>
+        <p>Note : {{ Schedule.Note }}</p>
+    </div>
+</div>

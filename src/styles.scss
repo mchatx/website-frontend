@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'node_modules/bulma-dashboard/src/bulma-dashboard.sass';
+//main stylesheet
+@import './main-styles.scss';
+
+/* @import "~bootstrap/scss/bootstrap"; */
+
+//Bulma sass import
+@import '../node_modules/bulma/bulma.sass';
+
+//animate.css
+@import '~animate.css/animate.min';
+
+//divider
+@import "~@creativebulma/bulma-divider";
+/* Importing Bootstrap SCSS file. */
+
+@import '~highlight.js/styles/github.css';
