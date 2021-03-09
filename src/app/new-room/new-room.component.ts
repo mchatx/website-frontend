@@ -40,15 +40,19 @@ export class NewRoomComponent implements OnInit {
       this.Passconfirm = "";
       this.Data.Pass = "";
     } else if ((this.Data.Pass != undefined) && (this.Data.Contact != undefined) && (this.Data.Nick != undefined) && (this.Data.Link != undefined)){
-      this.AService.PushRoomApplication(this.Data.Nick, this.Data.Pass, this.Data.Link, this.Data.Contact).subscribe({
-        error: error => {
-          this.status = "ERROR SENDING DATA TO SERVER";
-        },
-        next: data => {
-          this.status = "Application has been sent and will be reviewed ASAP. Thank you.";
-          this.submitted = true;
-        }
-      });
+      if (this.submitted = false){
+        this.AService.PushRoomApplication(this.Data.Nick, this.Data.Pass, this.Data.Link, this.Data.Contact).subscribe({
+          error: error => {
+            this.status = "ERROR SENDING DATA TO SERVER";
+          },
+          next: data => {
+            this.status = "Application has been sent and will be reviewed ASAP. Thank you.";
+            this.submitted = true;
+          }
+        });
+      } else {
+        this.status = "Application has been sent and will be reviewed ASAP. Thank you.";
+      }
     }
   }
 

@@ -19,6 +19,9 @@ type Pager = {
 export class ScheduleComponent implements OnInit {
 
   SchedulePage: Pager[] = [];   //  DIVIDE SCHEDULE INTO PAGES BASED ON LOCAL TIME DAY
+  SearchRoom: string = "";
+  SearchLink: string = "";
+  SearchTags: string = "";
 
   constructor(private SService: ScheduleService) { }
 
@@ -31,6 +34,10 @@ export class ScheduleComponent implements OnInit {
   }
 
   PopulatePager(Data: ScheduleData[]): void {
+    while(this.SchedulePage.length > 0) {
+      this.SchedulePage.pop();
+    }
+
     let Startnum: number = Date.now() - ((new Date()).getHours() + 24) * 3600 * 1000 - (new Date()).getMinutes() * 60 * 1000;
 
     let index: number = -1;
@@ -63,6 +70,37 @@ export class ScheduleComponent implements OnInit {
         });
       }
     });
+  }
+
+  JumpToClient(Nick: string | undefined){
+    if (Nick != undefined){
+      window.location.href = "m-chad://Room/" + Nick.replace(" ", "%20");
+    }
+  }
+
+  SearchByRoom(): void {
+    this.SService.getScheduleRoom(this.SearchRoom).subscribe(
+      (response) => {
+        this.PopulatePager(response);
+      }
+    )
+  }
+
+  SearchByLink(): void {
+    this.SService.getScheduleLink(this.SearchLink).subscribe(
+      (response) => {
+        this.PopulatePager(response);
+        this.SearchLink = "";
+      }
+    )
+  }
+
+  SearchByTags(): void {
+    this.SService.getScheduleTags(this.SearchTags.replace(", ", "_").replace(" ", "_")).subscribe(
+      (response) => {
+        this.PopulatePager(response);
+      }
+    )
   }
 
   faCalenderPlus = faCalendarPlus;

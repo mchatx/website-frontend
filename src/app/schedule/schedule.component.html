@@ -26,23 +26,23 @@
     <div class="column has-background-success has-text-white">
         <div class="section">
             <h1 class="is-size-4 has-text-centered m-4">Upcoming Live Translations</h1>
-            <!-- <div class="divider is-left"></div> -->
-
-            <!-- INPUT COMPONENT IF YOU WANT TO ADD SEARCH FUNCTION FOR THE CARDS -->
-            <!-- <div class="field"> 
+            
+            <!--                    CAN YOU PLEASE BEAUTIFY THE SEARCH BAR COMPONENT            -->
+            <div class="field"> 
                 <p class="control">
-                    <input class="input" type="text" placeholder="search">
+                    <input class="input" type="text" [(ngModel)]="SearchLink" placeholder="SearchLink">
+                    <button (click)="SearchByLink()"> Search By Link </button>
                 </p>
-            </div> -->
+            </div>
 
             <div class="box animate__animated animate__flipInX p-4" *ngFor="let SchedPage of SchedulePage">
                 <p class="has-text-centered is-size-5">{{ SchedPage.Timestamp }}</p>
                 <div class="divider is-left is-black"></div>
                 <div class="entry" *ngFor="let Schedule of SchedPage.DataList">
                     <div class="divider is-black is-left is-vertical"></div>
-                    <p>Room : <button> {{ Schedule.Room }} </button> <br> Time : {{ Schedule.Time }} <br> Link to stream
+                    <p>Room : <button (click)="JumpToClient(Schedule.Room)"> {{ Schedule.Room }} </button> <br> Time : {{ Schedule.Time }} <br> Link to stream
                         : <a href="{{ Schedule.Link }}" target="_blank">{{ Schedule.Link }}</a> <br> Note :
-                        {{ Schedule.Note }} </p>
+                        {{ Schedule.Note }} <br> Tags : {{ Schedule.Tag }} </p>
                     <!-- <p></p>
 
                     <p></p>

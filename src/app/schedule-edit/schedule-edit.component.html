@@ -1,0 +1,120 @@
+<body>
+
+    <!----------------------------------------------    LOGIN PAGE  ------------------------------------------------------->
+    <div class="center" *ngIf="!LoginMode">
+        <div class="LoginDiv">
+            <p style="margin: 10px; font-size: 2em; font-weight: bold;">Login</p>
+            <hr>
+            <p>Room
+                <input style="margin-left: 1em ;" type="text" [(ngModel)]="SearchNick" placeholder="Room Name">
+            </p>
+            <p>Password
+                <input style="margin-left: 1em ;" type="password" [(ngModel)]="SearchPass" placeholder="Password">
+            </p>
+            <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
+            <button style="margin-top: 2em; cursor: pointer;" (click)="LoginRoom()">Enter</button>
+        </div>
+    </div>
+    <!--============================================    LOGIN PAGE  =====================================================-->
+
+    <div class="center" *ngIf="LoginMode">
+        <!----------------------------------------------    ADD SCHEDULE PAGE  ------------------------------------------------------->
+        <div *ngIf="mode === 'Add'">
+            <div class="center">
+                <div class="LoginDiv">
+                    <p style="margin: 10px; font-size: 2em; font-weight: bold;">{{ mode }} Schedule</p>
+                    <hr>
+                    <p>Room : {{ SearchNick }} </p>
+                    <p>Link
+                        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SelectedSched.Link" placeholder="Stream Link">
+                    </p>
+                    <p>Date (In local time)
+                        <input type="date" [(ngModel)]="DateParser">
+                    </p>
+                    <p>Time
+                        <input type="time" [(ngModel)]="TimeParser">
+                    </p>
+                    <p>Note<br>
+                        <input style="margin-left: 1em; width: 75%;" type="text" [(ngModel)]="SelectedSched.Note" placeholder="Note">
+                    </p>
+                    <p>Tag<br>
+                        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SelectedSched.Tag" placeholder="Tags">
+                    </p>
+                    <hr>
+                    <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
+                    <button style="margin-top: 2em;cursor: pointer;" (click)="AddSchedule()">Enter</button>
+                    <p> Reservations will be deleted automatically after 3 days past the date-stamp</p>
+                </div>
+            </div>
+        </div>
+        <!--============================================    ADD SCHEDULE PAGE  =====================================================-->
+
+        <!----------------------------------------------    EDIT SCHEDULE PAGE  ------------------------------------------------------->
+        <div *ngIf="mode === 'Edit'">
+            <div class="center">
+    
+                <div class="LoginDiv">
+                    <p style="margin: 10px; font-size: 2em; font-weight: bold;">{{ mode }} Schedule</p>
+                    <hr>
+
+                    <ul>
+                        <div class="ScheduleUIList" *ngFor="let Schedule of ScheduleList; let i = index"
+                            [class.marked]="i === SelectedIndex"
+                            (click)="SetSelected(i)">
+                            {{ Schedule.LocalTimeStr }}
+                        </div>
+                    </ul>
+                    <hr>
+                    <p>Reservation Ticket: <span *ngIf="SelectedIndex !== -1"> {{ ScheduleList[SelectedIndex].key }} </span></p>
+                    <p>Room : {{ SearchNick }} </p>
+                    <p>Link
+                        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SelectedSched.Link" placeholder="Stream Link">
+                    </p>
+                    <p>Date (In local time)
+                        <input type="date" [(ngModel)]="DateParser">
+                    </p>
+                    <p>Time
+                        <input type="time" [(ngModel)]="TimeParser">
+                    </p>
+                    <p>Note<br>
+                        <input style="margin-left: 1em; width: 75%;" type="text" [(ngModel)]="SelectedSched.Note" placeholder="Note">
+                    </p>
+                    <p>Tag<br>
+                        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SelectedSched.Tag" placeholder="Tags">
+                    </p>
+                    <hr>
+                    <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
+                    <button style="margin-top: 2em;cursor: pointer;" (click)="SendUpdate()">Enter Update</button>
+                    <p> Reservations will be deleted automatically after 3 days past the date-stamp</p>
+                </div>
+            </div>
+        </div>
+        <!--============================================    EDIT SCHEDULE PAGE  =====================================================-->
+
+        <!----------------------------------------------    DELETE SCHEDULE PAGE  ------------------------------------------------------->
+        <div *ngIf="mode === 'Remove'">
+            <div class="center">
+    
+                <div class="LoginDiv">
+                    <p style="margin: 10px; font-size: 2em; font-weight: bold;">{{ mode }} Schedule</p>
+                    <hr>
+
+                    <ul>
+                        <div class="ScheduleUIList" *ngFor="let Schedule of ScheduleList; let i = index"
+                            [class.marked]="i === SelectedIndex"
+                            (click)="SetSelected(i)">
+                            {{ Schedule.LocalTimeStr }}
+                        </div>
+                    </ul>
+                    <hr>
+
+                    <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
+                    <button style="margin-top: 2em;cursor: pointer;" (click)="RemoveSchedule()">Delete</button>
+                    <p> Reservations will be deleted automatically after 3 days past the date-stamp</p>
+                </div>
+            </div>
+        </div>
+        <!--============================================    DELETE SCHEDULE PAGE  =====================================================-->
+
+    </div>
+</body>

@@ -1,0 +1,71 @@
+body {
+    color: black;
+}
+
+/*   LOGIN LAYOUT   */
+.LoginDiv {
+    text-align: center;
+    position: relative;
+    top: 20px;
+    font-family: Arial;
+    margin: 0;
+    color:black;
+    border: 5px black solid;
+    border-radius: 15px;
+}
+
+/*   BUTTONS   */
+.LoginDiv button{
+    background-color: #1a6e00;
+    color:black;
+    display: inline-block;
+    border: none;
+    text-align: center;
+    font-size: 20px;
+    padding: 5px;
+    margin: 15px;
+    border-radius: 15px;
+    width: min(90%, 300px);
+}
+
+.h1{
+    font-weight: bold;
+    font-size: 2em;
+}
+
+/*   CENTERING   */
+.center { 
+    margin: auto;
+    width: 90%;
+    max-width: 40em;
+    padding: 10px;
+  }
+
+/*   INPUT FIELD   */
+input {
+    padding: 5px;
+    padding-left: 1em;
+    border-radius: 15px;
+}
+
+/*   SCHEDULE LIST   */
+ul{
+    margin: auto;
+    text-align: left;
+    height:20vh;
+    width:80%;
+    overflow:hidden; 
+    overflow-y:scroll;
+}
+
+
+ul .ScheduleUIList{
+    width: fit-content;
+    cursor: pointer;
+}
+
+/*   WHEN SCHEDULE IS CLICKED   */
+.ScheduleUIList.marked {
+    color: rgb(19, 163, 0);
+    font-weight: bold;
+  }

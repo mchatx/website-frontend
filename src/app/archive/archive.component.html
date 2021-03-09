@@ -1,0 +1,28 @@
+<!--                MAYBE SOME KIND OF SWITCHABLE TABS FOR THIS (?)          -->
+<p>
+    Room
+    <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SearchRoom" placeholder="Room">
+    <button (click)="SearchByRoom()"> Search Room </button>
+</p>
+<p>
+    Link
+    <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SearchLink" placeholder="Link">
+    <button (click)="SearchByLink()"> Search Link </button>
+</p>
+<p>
+    Tag
+    <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SearchTags" placeholder="Tags">
+    <button (click)="SearchByTags()"> Search Tags </button>
+</p>
+
+<!--                NEED TO WORK ON THIS ARCHIVE CARD TOO           -->
+<div *ngFor="let Archive of ArchiveList">
+    <p>Room : {{ Archive.Room }}</p>
+    <p>Title : {{ Archive.Nick }}</p>
+    <p>Link to stream : <a href="{{ Archive.StreamLink }}" target="_blank">{{ Archive.StreamLink }}</a></p>
+    <p>Tags : {{ Archive.Tags }}</p>
+    <p><button (click)="JumpToClient(Archive.Link)"> Open In Client </button></p>
+    <div *ngIf="Archive.Pass">
+        <p>Password Protected</p>
+    </div>
+</div>

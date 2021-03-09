@@ -18,6 +18,8 @@ import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { NewRoomComponent } from './new-room/new-room.component';
 import { FormsModule } from '@angular/forms';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { ArchiveComponent } from './archive/archive.component';
+import { ScheduleEditComponent } from './schedule-edit/schedule-edit.component'
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { ScheduleComponent } from './schedule/schedule.component';
     AboutComponent,
     ScrollToTopComponent,
     NewRoomComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    ScheduleEditComponent,
+    ArchiveComponent
   ],
   imports: [
     BrowserModule,

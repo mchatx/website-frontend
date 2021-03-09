@@ -7,6 +7,8 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { NewRoomComponent } from './new-room/new-room.component'
 import { ScheduleComponent } from './schedule/schedule.component';
+import { ScheduleEditComponent } from './schedule-edit/schedule-edit.component'
+import { ArchiveComponent } from './archive/archive.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -15,7 +17,9 @@ const routes: Routes = [
   { path: 'header', component: HeaderComponent },
   { path: '', component: HomeComponent },
   { path: 'RoomApply', component: NewRoomComponent },
-  { path: 'schedule', component: ScheduleComponent }
+  { path: 'schedule', component: ScheduleComponent },
+  { path: 'Archive', component : ArchiveComponent},
+  { path: 'SchedEdit/:mode', component : ScheduleEditComponent}
 ];
 
 @NgModule({
