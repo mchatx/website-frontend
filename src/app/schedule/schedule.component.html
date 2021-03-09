@@ -1,17 +1,56 @@
-<div class="Head">
-    <span>Scheduled Live Translation</span>
-    <a class="MenuButton" routerLink="/SchedEdit/Add" routerLinkActive="active">&#8853;</a>
-    <a class="MenuButton" routerLink="/SchedEdit/Edit" routerLinkActive="active">&#8943;</a>
-    <a class="MenuButton" routerLink="/SchedEdit/Remove" routerLinkActive="active">&#8854;</a>
-</div>
-<hr>
-<div *ngFor="let SchedPage of SchedulePage">
-    <p style="font-size: 1.5em; padding: 0.5em; border: white solid 3px; text-align: center; border-radius: 20px;">
-        {{ SchedPage.Timestamp }}
-    </p>
-    <div class="ScheduleCard" *ngFor="let Schedule of SchedPage.DataList">
-        <p>Room : <button> {{ Schedule.Room }} </button> <span style="float: right;">Time : {{ Schedule.Time }}</span></p>
-        <p>Link to stream : <a href="{{ Schedule.Link }}" target="_blank">{{ Schedule.Link }}</a></p>
-        <p>Note : {{ Schedule.Note }}</p>
+<div class="columns is-multiline">
+    <div class="column is-full">
+        <div class="section">
+            <h1 class="is-size-4 has-text-centered">Schedule Live Translation</h1>
+            <div class="divider is-left is-black"></div>
+
+            <div class="buttons is-centered">
+                <a class="button" routerLink="/SchedEdit/Add" routerLinkActive="active"><span class="icon">
+                        <fa-icon [icon]="faCalenderPlus"></fa-icon>
+                    </span>
+                    <p> Add</p>
+                </a>
+                <a class="button" routerLink="/SchedEdit/Edit" routerLinkActive="active"><span class="icon">
+                        <fa-icon [icon]="faEdit"></fa-icon>
+                    </span>
+                    <p>Edit</p>
+                </a>
+                <a class="button" routerLink="/SchedEdit/Remove" routerLinkActive="active"><span class="icon">
+                        <fa-icon [icon]="faCalenderMinus"></fa-icon>
+                    </span>
+                    <p>Remove</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="column has-background-success has-text-white">
+        <div class="section">
+            <h1 class="is-size-4 has-text-centered m-4">Upcoming Live Translations</h1>
+            <!-- <div class="divider is-left"></div> -->
+
+            <!-- INPUT COMPONENT IF YOU WANT TO ADD SEARCH FUNCTION FOR THE CARDS -->
+            <!-- <div class="field"> 
+                <p class="control">
+                    <input class="input" type="text" placeholder="search">
+                </p>
+            </div> -->
+
+            <div class="box animate__animated animate__flipInX p-4" *ngFor="let SchedPage of SchedulePage">
+                <p class="has-text-centered is-size-5">{{ SchedPage.Timestamp }}</p>
+                <div class="divider is-left is-black"></div>
+                <div class="entry" *ngFor="let Schedule of SchedPage.DataList">
+                    <div class="divider is-black is-left is-vertical"></div>
+                    <p>Room : <button> {{ Schedule.Room }} </button> <br> Time : {{ Schedule.Time }} <br> Link to stream
+                        : <a href="{{ Schedule.Link }}" target="_blank">{{ Schedule.Link }}</a> <br> Note :
+                        {{ Schedule.Note }} </p>
+                    <!-- <p></p>
+
+                    <p></p>
+                    <p></p> -->
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<app-scroll-to-top></app-scroll-to-top>
