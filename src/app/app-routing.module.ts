@@ -16,10 +16,10 @@ const routes: Routes = [
   { path: 'footer', component: FooterComponent },
   { path: 'header', component: HeaderComponent },
   { path: '', component: HomeComponent },
-  { path: 'RoomApply', component: NewRoomComponent },
+  { path: 'roomapply', component: NewRoomComponent },
   { path: 'schedule', component: ScheduleComponent },
-  { path: 'Archive', component : ArchiveComponent},
-  { path: 'SchedEdit/:mode', component : ScheduleEditComponent}
+  { path: 'archive', component: ArchiveComponent },
+  { path: 'schededit/:mode', component: ScheduleEditComponent }
 ];
 
 @NgModule({

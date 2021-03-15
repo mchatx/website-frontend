@@ -1,28 +1,100 @@
 <!--                MAYBE SOME KIND OF SWITCHABLE TABS FOR THIS (?)          -->
-<p>
-    Room
-    <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SearchRoom" placeholder="Room">
-    <button (click)="SearchByRoom()"> Search Room </button>
-</p>
-<p>
-    Link
-    <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SearchLink" placeholder="Link">
-    <button (click)="SearchByLink()"> Search Link </button>
-</p>
-<p>
-    Tag
-    <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SearchTags" placeholder="Tags">
-    <button (click)="SearchByTags()"> Search Tags </button>
-</p>
+<!-- <div class="tabs is-fullwidth">
+  <ul>
+    <li class="is-active">
+      <a>
+        <span class="icon is-small"><i class="fas fa-image"></i></span>
+        <span>Room</span>
+      </a>
+      <p>
+        Room
+        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SearchRoom" placeholder="Room">
+        <button (click)="SearchByRoom()"> Search Room </button>
+      </p>
+    </li>
+    <li>
+      <a>
+        <span class="icon is-small"><i class="fas fa-music"></i></span>
+        <span>Link</span>
+      </a>
+      <p>
+        Link
+        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SearchLink" placeholder="Link">
+        <button (click)="SearchByLink()"> Search Link </button>
+      </p>
+    </li>
+    <li>
+      <a>
+        <span class="icon is-small"><i class="fas fa-film"></i></span>
+        <span>Tag</span>
+      </a>
+      <p>
+        Tag
+        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SearchTags" placeholder="Tags">
+        <button (click)="SearchByTags()"> Search Tags </button>
+      </p>
+    </li>
+  </ul>
+</div> -->
+<div class="field has-addons p-4">
+  <div class="control">
+    <div class="dropdown is-hoverable is-boxed">
+      <div class="dropdown-trigger">
+        <p class="control">
+          <a class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+            <span>Search Filter</span>
+            <span class="icon">
+              <fa-icon [icon]="faChevronDown"></fa-icon>
+            </span>
+          </a>
+        </p>
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content" *ngFor="let SearchText of Search">
+          <a class="dropdown-item" (click)="ShowSearch()">
+            {{ SearchText.SearchName }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="field has-addons" [ngClass]="{ 'is-hidden' : isSearchActive }">
+    <input class="input" type="text" [(ngModel)]="SearchRoom" placeholder="Search By Room">
+    <div class="control">
+      <a class="button is-dark" (click)="SearchByRoom()">Search</a>
+    </div>
+  </div>
+  <div class="field has-addons" [ngClass]="{ 'is-hidden' : isSearchActive }">
+    <input class="input" type="text" [(ngModel)]="SearchLink" placeholder="Search By Link">
+    <p class="control">
+      <button class="button is-dark" (click)="SearchByLink()">Search</button>
+    </p>
+  </div>
+  <div class="field has-addons" [ngClass]="{ 'is-hidden' : isSearchActive }">
+    <input class="input" type="text" [(ngModel)]="SearchTags" placeholder="Search By Tags">
+    <p class="control">
+      <button class="button is-dark" (click)="SearchByTags()">Search</button>
+    </p>
+  </div>
+
+</div>
+
+
 
 <!--                NEED TO WORK ON THIS ARCHIVE CARD TOO           -->
-<div *ngFor="let Archive of ArchiveList">
-    <p>Room : {{ Archive.Room }}</p>
-    <p>Title : {{ Archive.Nick }}</p>
-    <p>Link to stream : <a href="{{ Archive.StreamLink }}" target="_blank">{{ Archive.StreamLink }}</a></p>
-    <p>Tags : {{ Archive.Tags }}</p>
-    <p><button (click)="JumpToClient(Archive.Link)"> Open In Client </button></p>
-    <div *ngIf="Archive.Pass">
+<div class="section" style="width: 600px; margin: auto;" *ngFor="let Archive of ArchiveList">
+  <div class="container has-text-centered">
+    <div class="card">
+      <p>Room : {{ Archive.Room }} <br>
+        Title : {{ Archive.Nick }} <br>
+        Link to stream : <a href="{{ Archive.StreamLink }}" target="_blank">{{ Archive.StreamLink }}</a> <br>
+        Tags : {{ Archive.Tags }} <br>
+        <button class="tag" (click)="JumpToClient(Archive.Link)"> Open In Client </button>
+      </p>
+      <div *ngIf="Archive.Pass">
         <p>Password Protected</p>
+      </div>
     </div>
+  </div>
+
 </div>

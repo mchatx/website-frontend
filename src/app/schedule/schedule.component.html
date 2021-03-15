@@ -1,56 +1,58 @@
 <div class="columns is-multiline">
-    <div class="column is-full">
-        <div class="section">
-            <h1 class="is-size-4 has-text-centered">Schedule Live Translation</h1>
-            <div class="divider is-left is-black"></div>
+  <div class="column is-full">
+    <div class="section">
+      <h1 class="is-size-4 has-text-centered">Schedule Live Translation</h1>
+      <div class="divider is-left is-black"></div>
 
-            <div class="buttons is-centered">
-                <a class="button" routerLink="/SchedEdit/Add" routerLinkActive="active"><span class="icon">
-                        <fa-icon [icon]="faCalenderPlus"></fa-icon>
-                    </span>
-                    <p> Add</p>
-                </a>
-                <a class="button" routerLink="/SchedEdit/Edit" routerLinkActive="active"><span class="icon">
-                        <fa-icon [icon]="faEdit"></fa-icon>
-                    </span>
-                    <p>Edit</p>
-                </a>
-                <a class="button" routerLink="/SchedEdit/Remove" routerLinkActive="active"><span class="icon">
-                        <fa-icon [icon]="faCalenderMinus"></fa-icon>
-                    </span>
-                    <p>Remove</p>
-                </a>
-            </div>
-        </div>
+      <div class="buttons is-centered">
+        <button class="button is-outlined is-dark" routerLink="/schededit/Add" routerLinkActive="active"><span
+            class="icon">
+            <fa-icon [icon]="faCalenderPlus"></fa-icon>
+          </span>
+          <p>Add</p>
+        </button>
+        <button class="button is-outlined is-dark" routerLink="/schededit/Edit" routerLinkActive="active"><span
+            class="icon">
+            <fa-icon [icon]="faEdit"></fa-icon>
+          </span>
+          <p>Edit</p>
+        </button>
+        <button class="button is-outlined is-dark" routerLink="/schededit/Remove" routerLinkActive="active"><span
+            class="icon">
+            <fa-icon [icon]="faCalenderMinus"></fa-icon>
+          </span>
+          <p>Remove</p>
+        </button>
+      </div>
     </div>
-    <div class="column has-background-success has-text-white">
-        <div class="section">
-            <h1 class="is-size-4 has-text-centered m-4">Upcoming Live Translations</h1>
-            
-            <!--                    CAN YOU PLEASE BEAUTIFY THE SEARCH BAR COMPONENT            -->
-            <div class="field"> 
-                <p class="control">
-                    <input class="input" type="text" [(ngModel)]="SearchLink" placeholder="SearchLink">
-                    <button (click)="SearchByLink()"> Search By Link </button>
-                </p>
-            </div>
+  </div>
+  <div class="column has-background-success has-text-white">
+    <div class="section">
+      <h1 class="is-size-4 has-text-centered">Upcoming Live Translations</h1>
 
-            <div class="box animate__animated animate__flipInX p-4" *ngFor="let SchedPage of SchedulePage">
-                <p class="has-text-centered is-size-5">{{ SchedPage.Timestamp }}</p>
-                <div class="divider is-left is-black"></div>
-                <div class="entry" *ngFor="let Schedule of SchedPage.DataList">
-                    <div class="divider is-black is-left is-vertical"></div>
-                    <p>Room : <button (click)="JumpToClient(Schedule.Room)"> {{ Schedule.Room }} </button> <br> Time : {{ Schedule.Time }} <br> Link to stream
-                        : <a href="{{ Schedule.Link }}" target="_blank">{{ Schedule.Link }}</a> <br> Note :
-                        {{ Schedule.Note }} <br> Tags : {{ Schedule.Tag }} </p>
-                    <!-- <p></p>
+      <div class="field has-addons p-4">
+        <input class="input" type="text" [(ngModel)]="SearchLink" placeholder="Search By Link">
+        <p class="control">
+          <button class="button is-dark" (click)="SearchByLink()">Search</button>
+        </p>
+      </div>
 
-                    <p></p>
-                    <p></p> -->
-
-                </div>
-            </div>
+      <div class="box animate__animated animate__fadeInUpBig p-4" *ngFor="let SchedPage of SchedulePage">
+        <p class="has-text-centered has-text-weight-bold is-size-5"> Date : {{ SchedPage.Timestamp }}</p>
+        <div class="divider is-left is-black"></div>
+        <div class="entry" *ngFor="let Schedule of SchedPage.DataList">
+          <div class="divider is-black is-left is-vertical"></div>
+          <p>Room : <span class="button is-small is-outlined is-rounded is-light is-inverted"
+              (click)="JumpToClient(Schedule.Room)">
+              {{ Schedule.Room }}
+            </span><br>
+            Time : {{ Schedule.Time }} <br>
+            Link to stream : <a href="{{ Schedule.Link }}" target="_blank">{{ Schedule.Link }}</a> <br>
+            Note : {{ Schedule.Note }} <br>
+            Tags : {{ Schedule.Tag }} </p>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 <app-scroll-to-top></app-scroll-to-top>

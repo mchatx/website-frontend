@@ -8,7 +8,6 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit(): void {
@@ -21,6 +20,7 @@ export class HeaderComponent implements OnInit {
     this.navBurger.nativeElement.classList.toggle('is-active');
     this.navMenu.nativeElement.classList.toggle('is-active');
   }
+
   faDiscord = faDiscord;
   faDownload = faDownload;
 

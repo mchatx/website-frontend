@@ -12,11 +12,17 @@
 .main-body{
 	background-color: #D0D1CD;
 }
+pre {
+	white-space: pre-wrap;       /* css-3 */
+	white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+	white-space: -pre-wrap;      /* Opera 4-6 */
+	white-space: -o-pre-wrap;    /* Opera 7 */
+	word-wrap: break-word;       /* Internet Explorer 5.5+ */
+   }
 .section{
 	>p{
 	color: rgb(0, 0, 0);
 	}
-	.ml-6{
 		.block{
 			.subtitle{
 				color: rgb(0, 0, 0);
@@ -49,7 +55,7 @@
 			}
 			
 		}		
-	}
+	
 	.message
 		.message-body{
 			background-color:#ffffff;

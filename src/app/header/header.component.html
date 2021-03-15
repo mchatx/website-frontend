@@ -17,15 +17,17 @@
     </div>
 
     <div class="navbar-end">
-      <a class="navbar-item text" routerLink="/">Home</a>
-      <a class="navbar-item text" href="/docs">How to Use Docs</a>
-      <a class="navbar-item text" routerLink="/schedule">Schedule</a>
-      <a class="navbar-item text" routerLink="/Archive">Archive</a>
-      <a class="navbar-item text" routerLink="/about">About</a>
+      <a class="navbar-item" routerLink="/" [routerLinkActive]="['is-active']" [routerLinkActiveOptions]="{exact:
+        true}">Home</a>
+      <a class="navbar-item" href="/docs">How to
+        Use</a>
+      <a class="navbar-item" routerLink="/schedule" [routerLinkActive]="['is-active']">Schedule</a>
+      <a class="navbar-item" routerLink="/archive" [routerLinkActive]="['is-active']">Archive</a>
+      <a class="navbar-item" routerLink="/about" [routerLinkActive]="['is-active']">About</a>
       <div class="navbar-item is-tablet">
         <div class="field is-grouped">
           <p class="control">
-            <a class="button" href="https://discord.gg/g9t52ms" target="_blank" >
+            <a class="button is-rounded" href="https://discord.gg/g9t52ms" target="_blank">
               <!-- discord invite link goes here -->
               <span class="icon">
                 <fa-icon [icon]="faDiscord"></fa-icon>
@@ -34,7 +36,7 @@
           </p>
 
           <p class="control">
-            <a class="button" href="/RoomApply">
+            <a class="button" href="/roomapply">
               New Room
             </a>
           </p>

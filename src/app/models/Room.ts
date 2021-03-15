@@ -3,5 +3,5 @@ export default class Room {
     Pass: string | undefined;
     Link: string | undefined;
     Contact: string | undefined;
-    Agree: boolean | undefined; //added guideline boolen 
+    Agree: boolean | undefined; //added agree guideline : boolen 
 }

@@ -1,6 +1,9 @@
 .section{
-    max-width: 600px;
-    margin: auto;
+    .field{
+        max-width: 600px;
+        margin: auto;
+    }
+    
     .box{
         border-radius: 15px;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,1);       
@@ -11,10 +14,9 @@
         }  
         .entry{
             display: inline-flex;
-            margin: auto; 
+            margin: auto;            
         }
     }
+        
 }
-.input{
-    width: 600px;
-}
+

@@ -1,0 +1,47 @@
+.section{
+    .container{
+        max-width: 700px;
+        margin: auto;        
+    }
+    .box{
+        border-radius: 15px;
+        box-shadow: 0 1px 4px 0 rgba(0,0,0,1);       
+        transition: box-shadow 0.2s ease-out;
+        &:hover{
+        cursor: pointer;
+        box-shadow: 0 1px 5px 1px rgba(0,0,0,1);
+               }
+        .field{
+            max-width: 360px;
+            margin:auto;                
+            }                          
+    }     
+}
+
+/*   SCHEDULE LIST   */
+ul{
+    margin: auto;
+    text-align: left;
+    height:20vh;
+    width:90%;
+    overflow:hidden; 
+    overflow-y:scroll;
+    .ScheduleUIList{
+        width: fit-content;
+        cursor: pointer;
+        a{  
+            color: lightblue;
+            &:hover{
+                color: blue;
+                text-decoration: underline;
+            }
+        }
+        
+    }
+    .marked {
+        color: rgb(19, 163, 0);
+        font-weight: bold;
+        
+      }/*   WHEN SCHEDULE IS CLICKED   */
+    
+}

@@ -1,120 +1,238 @@
-<body>
-
-    <!----------------------------------------------    LOGIN PAGE  ------------------------------------------------------->
-    <div class="center" *ngIf="!LoginMode">
-        <div class="LoginDiv">
-            <p style="margin: 10px; font-size: 2em; font-weight: bold;">Login</p>
-            <hr>
-            <p>Room
-                <input style="margin-left: 1em ;" type="text" [(ngModel)]="SearchNick" placeholder="Room Name">
-            </p>
-            <p>Password
-                <input style="margin-left: 1em ;" type="password" [(ngModel)]="SearchPass" placeholder="Password">
-            </p>
-            <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
-            <button style="margin-top: 2em; cursor: pointer;" (click)="LoginRoom()">Enter</button>
+<section class="hero is-success">
+  <div class="hero-body">
+    <div class="container has-text-centered has-text-black">
+      <!--============================================    LOGIN PAGE Start  =====================================================-->
+      <div class="section animate__animated animate__fadeInDownBig" *ngIf="!LoginMode">
+        <div class="container has-text-centered">
+          <div class="box m-4 p-6">
+            <p class="title has-text-black m-4">Login</p>
+            <div class="divider is-left is-black"></div>
+            <div class="field has-text-left">
+              <label class="label">Room Name</label>
+              <div class="control has-icons-left">
+                <input class="input is-rounded" type="text" placeholder="Room Name" [(ngModel)]="SearchNick">
+                <span class="icon is-left is-small">
+                  <fa-icon [icon]="faUser"></fa-icon>
+                </span>
+              </div>
+            </div>
+            <div class="field has-text-left">
+              <label class="label">Password</label>
+              <div class="control has-icons-left">
+                <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="SearchPass">
+                <span class="icon is-left is-small">
+                  <fa-icon [icon]="faLock"></fa-icon>
+                </span>
+              </div>
+            </div>
+            <div class="field has-text-left is-grouped pt-4">
+              <div class="control">
+                <button class="button is-dark" (click)="LoginRoom()">Enter</button>
+              </div>
+              <div class="is-block">
+                <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-    <!--============================================    LOGIN PAGE  =====================================================-->
+      </div>
+      <!--============================================    LOGIN PAGE End =====================================================-->
 
-    <div class="center" *ngIf="LoginMode">
-        <!----------------------------------------------    ADD SCHEDULE PAGE  ------------------------------------------------------->
+      <div class="section" *ngIf="LoginMode">
+        <!--============================================    ADD SCHEDULE PAGE Start =====================================================-->
         <div *ngIf="mode === 'Add'">
-            <div class="center">
-                <div class="LoginDiv">
-                    <p style="margin: 10px; font-size: 2em; font-weight: bold;">{{ mode }} Schedule</p>
-                    <hr>
-                    <p>Room : {{ SearchNick }} </p>
-                    <p>Link
-                        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SelectedSched.Link" placeholder="Stream Link">
-                    </p>
-                    <p>Date (In local time)
-                        <input type="date" [(ngModel)]="DateParser">
-                    </p>
-                    <p>Time
-                        <input type="time" [(ngModel)]="TimeParser">
-                    </p>
-                    <p>Note<br>
-                        <input style="margin-left: 1em; width: 75%;" type="text" [(ngModel)]="SelectedSched.Note" placeholder="Note">
-                    </p>
-                    <p>Tag<br>
-                        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SelectedSched.Tag" placeholder="Tags">
-                    </p>
-                    <hr>
-                    <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
-                    <button style="margin-top: 2em;cursor: pointer;" (click)="AddSchedule()">Enter</button>
-                    <p> Reservations will be deleted automatically after 3 days past the date-stamp</p>
+          <div class="section animate__animated animate__fadeInUp">
+            <div class="container box has-text-centered">
+              <p class="title has-text-black m-4">{{ mode }} Schedule</p>
+              <div class="divider is-left is-black"></div>
+              <p class="notification m-3">Reservations will be automatically deleted 3 days after the Scheduled date.
+              </p>
+              <p class="tag is-dark">Room : {{ SearchNick }}</p>
+              <div class="field has-text-left">
+                <label class="label">Link</label>
+                <div class="control has-icons-left">
+                  <input class="input is-rounded" type="text" placeholder="Stream Link"
+                    [(ngModel)]="SelectedSched.Link">
+                  <span class="icon is-left is-small">
+                    <fa-icon [icon]="faYoutube"></fa-icon>
+                  </span>
                 </div>
-            </div>
-        </div>
-        <!--============================================    ADD SCHEDULE PAGE  =====================================================-->
+              </div>
+              <div class="field has-text-left">
+                <label class="label">Date (In Your Timezone)</label>
+                <div class="control">
+                  <input class="input is-rounded" type="date" placeholder="Stream Link" [(ngModel)]="DateParser">
+                </div>
+              </div>
+              <div class="field has-text-left">
+                <label class="label">Time</label>
+                <div class="control">
+                  <input class="input is-rounded" type="time" placeholder="Stream Link" [(ngModel)]="TimeParser">
+                </div>
+              </div>
+              <div class="field has-text-left">
+                <label class="label">Note</label>
+                <div class="control">
+                  <textarea class="textarea" placeholder="Note" [(ngModel)]="SelectedSched.Note"></textarea>
+                </div>
+              </div>
+              <div class="field has-text-left">
+                <label class="label">Tags</label>
+                <div class="control has-icons-left">
+                  <input class="input is-rounded" type="text" placeholder="Tags" [(ngModel)]="SelectedSched.Tag">
+                  <span class="icon is-left is-small">
+                    <fa-icon [icon]="faTags"></fa-icon>
+                  </span>
+                </div>
+              </div>
+              <div class="field has-text-left is-grouped p-4">
+                <div class="control">
+                  <button class="button is-dark" (click)="AddSchedule()">Enter</button>
+                  <div class="modal animate__animated animate__slideInLeft" [ngClass]="{ 'is-active' : isModalActive }">
+                    <div class="modal-background has-background-success"></div>
+                    <div class="modal-card">
+                      <section class="modal-card-body">
+                        <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
+                      </section>
+                    </div>
+                  </div>
+                </div>
+                <div class="is-block">
+                  <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
+                </div>
+              </div>
 
-        <!----------------------------------------------    EDIT SCHEDULE PAGE  ------------------------------------------------------->
+            </div>
+          </div>
+        </div>
+        <!--============================================    ADD SCHEDULE PAGE End =====================================================-->
+
+        <!-- While Updating to a date whose schedule entry is not their the entry will not be updated -->
+        <!--============================================    EDIT SCHEDULE PAGE Start =====================================================-->
         <div *ngIf="mode === 'Edit'">
-            <div class="center">
-    
-                <div class="LoginDiv">
-                    <p style="margin: 10px; font-size: 2em; font-weight: bold;">{{ mode }} Schedule</p>
-                    <hr>
-
-                    <ul>
-                        <div class="ScheduleUIList" *ngFor="let Schedule of ScheduleList; let i = index"
-                            [class.marked]="i === SelectedIndex"
-                            (click)="SetSelected(i)">
-                            {{ Schedule.LocalTimeStr }}
-                        </div>
-                    </ul>
-                    <hr>
-                    <p>Reservation Ticket: <span *ngIf="SelectedIndex !== -1"> {{ ScheduleList[SelectedIndex].key }} </span></p>
-                    <p>Room : {{ SearchNick }} </p>
-                    <p>Link
-                        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SelectedSched.Link" placeholder="Stream Link">
-                    </p>
-                    <p>Date (In local time)
-                        <input type="date" [(ngModel)]="DateParser">
-                    </p>
-                    <p>Time
-                        <input type="time" [(ngModel)]="TimeParser">
-                    </p>
-                    <p>Note<br>
-                        <input style="margin-left: 1em; width: 75%;" type="text" [(ngModel)]="SelectedSched.Note" placeholder="Note">
-                    </p>
-                    <p>Tag<br>
-                        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SelectedSched.Tag" placeholder="Tags">
-                    </p>
-                    <hr>
-                    <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
-                    <button style="margin-top: 2em;cursor: pointer;" (click)="SendUpdate()">Enter Update</button>
-                    <p> Reservations will be deleted automatically after 3 days past the date-stamp</p>
+          <div class="section animate__animated animate__fadeInUp">
+            <div class="container box has-text-centered">
+              <p class="title has-text-black m-4">{{ mode }} Schedule</p>
+              <div class="divider is-left is-black"></div>
+              <div class="columns">
+                <div class="column is-5">
+                  <ul class="content">
+                    <li class="ScheduleUIList" *ngFor="let Schedule of ScheduleList; let i = index"
+                      [class.marked]="i === SelectedIndex" (click)="SetSelected(i)">
+                      <p>{{ Schedule.LocalTimeStr }}</p>
+                    </li>
+                  </ul>
+                  <div class="divider is-left is-black"></div>
+                  <p class="notification m-3">Reservations will be automatically deleted 3 days after the
+                    Scheduled date.
+                  </p>
                 </div>
+                <div class="column">
+                  <p class="subtitle has-text-black">Reservation Ticket: <span *ngIf="SelectedIndex !== -1">
+                      {{ ScheduleList[SelectedIndex]._id }} </span>
+                  </p>
+                  <p class="tag is-dark">Room : {{ SearchNick }}</p>
+                  <div class="field has-text-left">
+                    <label class="label">Link</label>
+                    <div class="control has-icons-left">
+                      <input class="input is-rounded" type="text" placeholder="Stream Link"
+                        [(ngModel)]="SelectedSched.Link">
+                      <span class="icon is-left is-small">
+                        <fa-icon [icon]="faYoutube"></fa-icon>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="field has-text-left">
+                    <label class="label">Date (In Your Timezone)</label>
+                    <div class="control">
+                      <input class="input is-rounded" type="date" placeholder="Stream Link" [(ngModel)]="DateParser">
+                    </div>
+                  </div>
+                  <div class="field has-text-left">
+                    <label class="label">Time</label>
+                    <div class="control">
+                      <input class="input is-rounded" type="time" placeholder="Stream Link" [(ngModel)]="TimeParser">
+                    </div>
+                  </div>
+                  <div class="field has-text-left">
+                    <label class="label">Note</label>
+                    <div class="control ">
+                      <textarea class="textarea" placeholder="Note" [(ngModel)]="SelectedSched.Note"></textarea>
+                    </div>
+                  </div>
+                  <div class="field has-text-left">
+                    <label class="label">Tags</label>
+                    <div class="control has-icons-left">
+                      <input class="input is-rounded" placeholder="Tags" [(ngModel)]="SelectedSched.Tag">
+                      <span class="icon is-left is-small">
+                        <fa-icon [icon]="faTags"></fa-icon>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="field has-text-left is-grouped p-4">
+                    <div class="control">
+                      <button class="button is-dark" (click)="SendUpdate()">Update</button>
+                      <div class="modal animate__animated animate__slideInLeft"
+                        [ngClass]="{ 'is-active' : isModalActive }">
+                        <div class="modal-background has-background-success"></div>
+                        <div class="modal-card">
+                          <section class="modal-card-body">
+                            <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
+                          </section>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="is-block">
+                      <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-        <!--============================================    EDIT SCHEDULE PAGE  =====================================================-->
+        <!--============================================    EDIT SCHEDULE PAGE End =====================================================-->
 
-        <!----------------------------------------------    DELETE SCHEDULE PAGE  ------------------------------------------------------->
+        <!--============================================    DELETE SCHEDULE PAGE Start =====================================================-->
         <div *ngIf="mode === 'Remove'">
-            <div class="center">
-    
-                <div class="LoginDiv">
-                    <p style="margin: 10px; font-size: 2em; font-weight: bold;">{{ mode }} Schedule</p>
-                    <hr>
-
-                    <ul>
-                        <div class="ScheduleUIList" *ngFor="let Schedule of ScheduleList; let i = index"
-                            [class.marked]="i === SelectedIndex"
-                            (click)="SetSelected(i)">
-                            {{ Schedule.LocalTimeStr }}
-                        </div>
-                    </ul>
-                    <hr>
-
-                    <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
-                    <button style="margin-top: 2em;cursor: pointer;" (click)="RemoveSchedule()">Delete</button>
-                    <p> Reservations will be deleted automatically after 3 days past the date-stamp</p>
+          <div class="section animate__animated animate__fadeInUp">
+            <div class="container box has-text-centered">
+              <p class="title has-text-black mt-4">{{ mode }} Schedule</p>
+              <div class="divider is-left is-black"></div>
+              <p class="notification m-3">Reservations will be automatically deleted 3 days after the
+                Scheduled date.
+              </p>
+              <ul>
+                <li class="ScheduleUIList" *ngFor="let Schedule of ScheduleList; let i = index"
+                  [class.marked]="i === SelectedIndex" (click)="SetSelected(i)">
+                  <p>{{ Schedule.LocalTimeStr }} <span class="has-text-info"> <a href="{{ Schedule.Link }}"
+                        target="_blank">
+                        Stream Link:{{ Schedule.Link }}</a></span> </p>
+                  <!-- To Show Stream Link Here -->
+                </li>
+              </ul>
+              <div class="divider is-left is-black"></div>
+              <div class="field has-text-left is-grouped">
+                <div class="control">
+                  <button class="button is-dark" (click)="RemoveSchedule()">Remove</button>
+                  <div class="modal animate__animated animate__slideInLeft" [ngClass]="{ 'is-active' : isModalActive }">
+                    <div class="modal-background has-background-success"></div>
+                    <div class="modal-card">
+                      <section class="modal-card-body">
+                        <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
+                      </section>
+                    </div>
+                  </div>
                 </div>
+                <div class="is-block">
+                  <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-        <!--============================================    DELETE SCHEDULE PAGE  =====================================================-->
-
+        <!--============================================    DELETE SCHEDULE PAGE End   =====================================================-->
+      </div>
     </div>
-</body>
+  </div>
+</section>
