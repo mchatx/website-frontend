@@ -18,19 +18,8 @@ export class ArchiveComponent implements OnInit {
   SearchLink: string = "";
   SearchTags: string = "";
 
-  Search: ShowSearch[] = [
-    {
-      SearchName: 'Room',
-      showSwitch: true
-    },
-    {
-      SearchName: 'Link',
-      showSwitch: false
-    },
-    {
-      SearchName: 'Tags',
-      showSwitch: false
-    }];
+  Search: string[] = ['Room', 'Link', 'Tags'];
+  SelectedIndex: number = 0;
 
   constructor(private AService: ArchiveService) { }
 
@@ -57,6 +46,9 @@ export class ArchiveComponent implements OnInit {
     this.AService.getArchiveLink(this.SearchLink).subscribe(
       (response: Archive[]) => {
         this.ArchiveList = response;
+        this.SearchRoom = "";
+        this.SearchLink = "";
+        this.SearchTags = "";
       }
     )
   }
@@ -65,6 +57,9 @@ export class ArchiveComponent implements OnInit {
     this.AService.getArchiveTags(this.SearchTags.replace(", ", "_").replace(" ", "_")).subscribe(
       (response: Archive[]) => {
         this.ArchiveList = response;
+        this.SearchRoom = "";
+        this.SearchLink = "";
+        this.SearchTags = "";
       }
     )
   }
@@ -79,7 +74,8 @@ export class ArchiveComponent implements OnInit {
     this.isdropActive = !this.isdropActive;
   }
 
-  ShowSearch() {
+  ShowSearch(indexitem:number) {
+    this.SelectedIndex = indexitem;
     this.isSearchActive = !this.isSearchActive;
   }
 

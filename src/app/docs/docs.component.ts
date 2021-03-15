@@ -101,4 +101,12 @@ export class DocsComponent implements OnInit {
   }
   `;
   code5 = ` var es = new EventSource('http://[mimimimiooon]/Listener/?room=Testing', { withCredentials: true});`;
+  code6 = `{
+    "Room" : "Testing",
+    "Link" : "Just a Test",
+    "Note" : "Testing Note",
+    "Time" : 1616047080000,  
+    "Tage" : "Seiso"
+  }
+  `;
 }

@@ -47,7 +47,7 @@
             <li><a pageScroll href="#line4_4">Profile and Preset</a></li>
             <li><a pageScroll href="#line4_5">Set Password Protection</a></li>
             <li><a pageScroll href="#line4_6">Reserving Room</a></li>
-            <li><a pageScroll href="#line4_7">Export Script</a></li>
+            <li><a pageScroll href="#line4_7">Script Manager</a></li>
           </ul>
         </li>
         <li><a pageScroll href="#line5">Listener Client <span class="icon">
@@ -69,11 +69,14 @@
         </li>
         <li><a pageScroll href="#line7">Version History (Changelog)</a>
           <ul class="nav">
+            <!--
             <li><a pageScroll href="#line7_1">Placeholder Sub Title</a></li>
-            <li><a pageScroll href="#line7_2">Placeholder Sub Title</a></li>
+            -->
           </ul>
         </li>
+        <!--
         <li><a pageScroll href="#line8">Copyright and license</a></li>
+        -->
         <li><a pageScroll href="#line9">Rest API</a>
           <ul class="nav">
             <li><a pageScroll href="#line9_1">Get Room List</a></li>
@@ -81,6 +84,7 @@
             <li><a pageScroll href="#line9_3">Get a Script from the Archive</a></li>
             <li><a pageScroll href="#line9_4">Stream Live Translation</a></li>
             <li><a pageScroll href="#line9_5">Types of Incoming data</a></li>
+            <li><a pageScroll href="#line9_6">Get Schedule</a></li>
           </ul>
         </li>
       </ul>
@@ -189,9 +193,11 @@
         <p>When you've completed the download, extract the contents of the zipfile at your desired location. After
           extracting all you have to do is run the windows client with .exe file
         </p>
+        <!--
         <figure class="image is-128x128">
           <img src="https://bulma.io/images/placeholders/256x256.png">
         </figure>
+        -->
       </div>
       <!-- end install on windows end -->
 
@@ -220,9 +226,11 @@
               rel="noopener noreferrer" class="links">here</a>.
           </div>
         </article>
+        <!--
         <figure class="image is-128x128">
           <img src="https://bulma.io/images/placeholders/256x256.png">
         </figure>
+        -->
       </div>
       <!--end install on android end -->
 
@@ -250,9 +258,11 @@
               rel="noopener noreferrer" class="links">here</a>.
           </div>
         </article>
+        <!--
         <figure class="image is-128x128">
           <img src="https://bulma.io/images/placeholders/256x256.png">
         </figure>
+        -->
       </div>
       <!--end install on linux end -->
 
@@ -279,9 +289,11 @@
             macOS version of MCHAD is an experimental build.
           </div>
         </article>
+        <!--
         <figure class="image is-128x128">
           <img src="https://bulma.io/images/placeholders/256x256.png">
         </figure>
+        -->
       </div>
       <!-- end Install on MacOS -->
 
@@ -306,25 +318,21 @@
             <ul>
               <li> <strong>Step 1:</strong> Select <strong style="text-decoration: underline;">Login
                   Translator</strong> from Main Menu</li>
-              <li><strong>Step 2:</strong> Use the Search bar to search for a room.</li>
-              <li><strong>Step 3:</strong> Select the Room</li>
-              <li><strong>Step 4:</strong> Enter the Password and press Enter.</li>
+              <li><strong>Step 2:</strong> Search for the room that you want.</li>
+              <li><strong>Step 3:</strong> Pick a room, enter password, and click Enter Button.</li>
             </ul>
           </div>
+
           <div class="column">
             <button class="button" (click)="toggleModal1()" id='btn'>Visual Image Guide</button>
             <div class=" modal" [ngClass]="{ 'is-active' : isModal1Active }">
               <div class="modal-background" (click)="toggleModal1()"></div>
               <div class="modal-content">
                 <section class="box">
-                  <p> <strong>Step 1 & 2</strong> </p>
-                  <img src="assets\img\HTUTranslator\Login1.jpg" alt="">
-                  <img src="assets\img\HTUTranslator\Login2.jpg" alt="">
-
-
-                  <p> <strong>Step 1 & 2</strong></p>
-                  <img src="assets\img\HTUTranslator\Login3.jpg" alt="">
-                  <img src="assets\img\HTUTranslator\Login4.jpg" alt="">
+                  <p> <strong>Step 1 -> 3</strong> </p>
+                  <img src="assets\img\HTUTranslator\Login1.png" alt="">
+                  <img src="assets\img\HTUTranslator\Login2.png" alt="">
+                  <img src="assets\img\HTUTranslator\Login3.png" alt="">
                 </section>
               </div>
               <button class="modal-close is-large" aria-label="close" (click)="toggleModal1()"></button>
@@ -359,9 +367,11 @@
                 the extra panel and choose <strong style="background-color: black; color: white;">Sync
                   MChat</strong> from the
                 browser extension.</li>
-              <li><strong>Step 3:</strong>After the Extension shows Synced-Idle choose the stream in your local
+              <li> <strong>Step 3:</strong> Click Sycn button in the MSync extension
+              </li>
+              <li><strong>Step 4:</strong>After the Extension shows Synced-Idle choose the stream in your local
                 client and Press Enter.</li>
-              <li><strong>Step 4:</strong> The extension is properly synced if you get <strong
+              <li><strong>Step 5:</strong> The extension is properly synced if you get <strong
                   style="background-color: black; color: white;">Synced-LiveChat(Click to
                   Unsync)</strong> notification in the
                 extension and your input will be automatically bounced to the live TL.</li>
@@ -377,10 +387,12 @@
                   <img src="assets\img\HTUTranslator\TLSync1.png" alt="">
                   <p> <strong>Step 2</strong> Sync button</p>
                   <img src="assets\img\HTUTranslator\TLSync2.png" alt="">
-                  <p> <strong>Step 3</strong> Synced-idle means clinet connected </p>
+                  <p> <strong>Step 3</strong> Sync Button in extension</p>
                   <img src="assets\img\HTUTranslator\TLSync3.png" alt="">
-                  <p> <strong>Step 4</strong> Synced-LiveChat(Click to Unsync) means you are ready to LiveTL. </p>
+                  <p> <strong>Step 4</strong> Synced-idle means client connected </p>
                   <img src="assets\img\HTUTranslator\TLSync4.png" alt="">
+                  <p> <strong>Step 5</strong> Synced-LiveChat(Click to Unsync) means you are ready to LiveTL. </p>
+                  <img src="assets\img\HTUTranslator\TLSync5.png" alt="">
                 </section>
               </div>
               <button class="modal-close is-large" aria-label="close" (click)="toggleModal2()"></button>
@@ -400,7 +412,7 @@
           The main idea of the UI is to minimalize the need to use mouse so the translator's hands can stay on the
           keyboard.</p>
         <figure class="image">
-          <img src="assets\img\HTUTranslator\TranslatorPnl1.jpg" alt="">
+          <img src="assets\img\HTUTranslator\TranslatorPnl1.png" alt="">
         </figure>
 
         <p class="block"><strong>First Row</strong> contains the text field where you will input text.</p>
@@ -412,6 +424,7 @@
           <li><strong>Colour Toggle : </strong> Toggle to put in colour code.</li>
           <li><strong>Outline : </strong> Pick colour for the custom outline colour.</li>
           <li><strong>Outline Toggle : </strong> Toggle to put in custom outline colour.</li>
+          <li><strong>Local Prefix : </strong> Add prefix to the live chat bouncing like [EN], [JP], [ID], etc... Without including it in the database.</li>
         </ul>
         <p class="block"><strong>Third row</strong> contains <a pagescroll href="docs#line4_4" class="links">Profile
             and
@@ -438,13 +451,13 @@
               <div class="modal-content">
                 <section class="box">
                   <p> <strong>Step 1</strong> Set Your Elements </p>
-                  <img src="assets\img\HTUTranslator\TranslatorPnl2.jpg" alt="">
+                  <img src="assets\img\HTUTranslator\TranslatorPnl2.png" alt="">
                   <p> <strong>Step 2</strong> Message is sent and cleared </p>
-                  <img src="assets\img\HTUTranslator\TranslatorPnl3.jpg" alt="">
+                  <img src="assets\img\HTUTranslator\TranslatorPnl3.png" alt="">
                   <p> <strong>Step 3</strong> Entry can be edited/deleted directly </p>
-                  <img src="assets\img\HTUTranslator\TranslatorPnl4.jpg" alt="">
+                  <img src="assets\img\HTUTranslator\TranslatorPnl4.png" alt="">
                   <p> <strong>Step 4</strong> Edit submission </p>
-                  <img src="assets\img\HTUTranslator\TranslatorPnl5.jpg" alt="">
+                  <img src="assets\img\HTUTranslator\TranslatorPnl5.png" alt="">
                 </section>
               </div>
               <button class="modal-close is-large" aria-label="close" (click)="toggleModal3()"></button>
@@ -461,7 +474,7 @@
         </div>
         <p class="block">The profile and preset control is located in the third row of the translator panel.</p>
         <figure class="image">
-          <img src="assets\img\HTUTranslator\Profile1.jpg" alt="">
+          <img src="assets\img\HTUTranslator\Profile1.png" alt="">
         </figure>
         <article class="message ml-4 is-black">
           <div class="message-body">
@@ -497,9 +510,9 @@
               <div class="modal-content">
                 <section class="box">
                   <p> <strong>Manage Preset</strong></p>
-                  <img src="assets\img\HTUTranslator\Profile2.jpg" alt="">
+                  <img src="assets\img\HTUTranslator\Profile2.png" alt="">
                   <p> <strong>Add/Delete Preset</strong></p>
-                  <img src="assets\img\HTUTranslator\Profile3.jpg" alt="">
+                  <img src="assets\img\HTUTranslator\Profile3.png" alt="">
                 </section>
               </div>
               <button class="modal-close is-large" aria-label="close" (click)="toggleModal4()"></button>
@@ -576,7 +589,7 @@
         </ul>
 
         <figure class="image">
-          <img src="assets\img\HTUTranslator\" alt="placeholder">
+          <img src="assets\img\HTUTranslator\ScheduleEditor.jpg" alt="">
         </figure>
       </div>
       <!-- end reserving room  -->
@@ -584,17 +597,17 @@
       <!--  start export script -->
       <div class="block">
         <div class="divider is-left is-black">
-          <p id="line4_7" class="subtitle is-4 has-text-weight-bold is-uppercase">Export Script</p>
+          <p id="line4_7" class="subtitle is-4 has-text-weight-bold is-uppercase">Script Manager</p>
         </div>
         <div class="columns is-centered">
           <div class="column is-half">
             <ul>
               <li><strong>Step 1:</strong> Click <strong>Archive(translator)</strong> from main menu.</li>
               <li><strong>Step 2:</strong> Login with your Room and Password.</li>
-              <li><strong>Step 3:</strong> Pick session that you want to export.</li>
+              <li><strong>Step 3:</strong> Pick session that you want to edit, here you can also import or delete session.</li>
               <li><strong>Step 4:</strong> Click on the entry to set a Start and End point.</li>
-              <li><strong>Step 5:</strong> Either export as .ass file compatible with Aegisub or to simple .srt
-                file.</li>
+              <li><strong>Step 5:</strong> Either export as .ass file compatible with Aegisub or to simple .srt file or 
+                the youtube CC compatible .TTML file.</li>
             </ul>
             <article class="message is-black">
               <div class="message-body">
@@ -604,7 +617,19 @@
                 </ul>
               </div>
             </article>
+
+            <p>This is the main view of the archive manager.</p>
+            <img src="assets\img\HTUTranslator\Export4.png" alt="">
+            <ul>
+              <li><strong>3rd Party Sharing :</strong> Allow 3rd party app to access the script ( ++exposure --script safety ).</li>
+              <li><strong>Password :</strong> Set/unset password for this particular script.</li>
+              <li><strong>Hidden :</strong> Set if the people can see the script.</li>
+              <li><strong>Change Title :</strong> Change the title of the session.</li>
+              <li><strong>Script Description :</strong> Open extra panel for translator to put in extra information about this script (like tags, link, etc...).</li>
+            </ul>
+  
           </div>
+
           <div class="column">
             <button class="button" (click)="toggleModal6()" id='btn'>Visual Image Guide</button>
             <div class="modal" [ngClass]="{ 'is-active' : isModal6Active }">
@@ -612,13 +637,15 @@
               <div class="modal-content">
                 <section class="box">
                   <p> <strong>Step 1</strong> Click Archive(Translator) </p>
-                  <img src="assets\img\HTUTranslator\Export1.jpg" alt="">
+                  <img src="assets\img\HTUTranslator\Export1.png" alt="">
                   <p> <strong>Step 2</strong> Login Room </p>
-                  <img src="assets\img\HTUTranslator\Export2.jpg" alt="">
+                  <img src="assets\img\HTUTranslator\Export2.png" alt="">
                   <p> <strong>Step 3</strong> Pick Session </p>
-                  <img src="assets\img\HTUTranslator\Export3.jpg" alt="">
-                  <p> <strong>Step 4</strong> Set Start and End point. Hit Export. </p>
-                  <img src="assets\img\HTUTranslator\Export4.jpg" alt="">
+                  <img src="assets\img\HTUTranslator\Export3.png" alt="">
+                  <p> <strong>Step 4</strong> Click Entry to call pop up menu</p>
+                  <img src="assets\img\HTUTranslator\Export5.png" alt="">
+                  <p> <strong>Step 5</strong> Set Start and End point. Hit Export. </p>
+                  <img src="assets\img\HTUTranslator\Export6.png" alt="">
                 </section>
               </div>
               <button class="modal-close is-large" aria-label="close" (click)="toggleModal6()"></button>
@@ -660,8 +687,8 @@
               <li><strong>Step 2:</strong> On Android select the room from <strong
                   style="text-decoration: underline;">Available Room</strong> and press enter. (check/uncheck on
                 Include empty if rooms dont show up)</li>
-              <li><strong>Step 3:</strong> Search for the room that you want in the search bar.</li>
-              <li><strong>Step 4:</strong> Pick a room, then click Enter button.</li>
+              <li><strong>Step 3:</strong>  Search for the room that you want by name or by link.</li>
+              <li><strong>Step 4:</strong> Pick a room and you'll see welcome message if you're successfully connected.</li>
               <li><strong>Step 5:</strong> If you're using android, you'll have to use SPLIT SCREEN for maximum
                 enjoyment.</li>
             </ul>
@@ -673,13 +700,13 @@
               <div class="modal-content">
                 <section class="box">
                   <p><strong>Step 1</strong> Login On desktop</p>
-                  <img src="assets\img\HTUlistener\Login1.jpg" alt="">
+                  <img src="assets\img\HTUlistener\Login1.png" alt="">
                   <p><strong>Step 2</strong> Select room On Android</p>
-                  <img src="assets\img\HTUlistener\Login2.jpg" alt="">
+                  <img src="assets\img\HTUlistener\Login2.png" alt="">
                   <p> <strong>Step 3</strong> Search the room</p>
-                  <img src="assets\img\HTUlistener\Login3.jpg" alt="">
-                  <p><strong>Step 4</strong> Pick a room, Hit Enter</p>
-                  <img src="assets\img\HTUlistener\Login4.jpg" alt="">
+                  <img src="assets\img\HTUlistener\Login3.png" alt="">
+                  <p><strong>Step 4</strong> Pick a room</p>
+                  <img src="assets\img\HTUlistener\Login4.png" alt="">
                   <p><strong>Step 5</strong> Split Screen on Android</p>
                   <img src="assets\img\HTUlistener\Android.png" alt="">
                 </section>
@@ -699,19 +726,20 @@
         <div class="columns is-centered">
           <div class="column is-half">
             <ul>
-              <li><strong>Step 1:</strong> Click <strong style="text-decoration: underline;">Filtering and
-                  Styling</strong> button in the extra panel.</li>
+              <li><strong>Step 1:</strong> Click <strong style="text-decoration: underline;">MSync Filter</strong>
+                 button in the extra panel.</li>
               <li><strong>Step 2:</strong> It'll open filtering and custom styling panel.</li>
               <li><strong>Step 3:</strong> Enter Your Own Colours and keywords for the filters. </li>
             </ul>
           </div>
-          <div class="column">
+
+         <div class="column">
             <button class="button" (click)="toggleModal9()" id='btn'>Visual Image Guide</button>
             <div class=" modal" [ngClass]="{ 'is-active' : isModal9Active }">
               <div class="modal-background" (click)="toggleModal9()"></div>
               <div class="modal-content">
                 <section class="box">
-                  <p><strong>Step 1</strong> Click on Filtering & Styling</p>
+                  <p><strong>Step 1</strong> Click on MSync Filter</p>
                   <img src="assets\img\HTUlistener\Filter1.png" alt="">
                   <p><strong>Step 2</strong> Adding your own Styles</p>
                   <img src="assets\img\HTUlistener\Filter2.png" alt="">
@@ -732,10 +760,9 @@
         <div class="columns is-centered">
           <div class="column is-half">
             <ul>
-              <li> <strong>Step 1:</strong> Choose <strong style="text-decoration: underline;">"Local
-                  Room"</strong> and then click enter.
+              <li> <strong>Step 1:</strong> Choose <strong style="text-decoration: underline;">"MSync"</strong>
               </li>
-              <li><strong>Step 2:</strong> Click on create to create a local room.</li>
+              <li><strong>Step 2:</strong> Or if you're already listening to a stream, click Sync button on the top right corner.</li>
               <li><strong>Step 3:</strong> Click <strong style="background-color: black; color: white;">Sync
                   MChat</strong> in
                 the browser extension.</li>
@@ -752,18 +779,20 @@
               </div>
             </article>
           </div>
+
           <div class="column">
             <button class="button" (click)="toggleModal8()" id='btn'>Visual Image Guide</button>
             <div class=" modal" [ngClass]="{ 'is-active' : isModal8Active }">
               <div class="modal-background" (click)="toggleModal8()"></div>
               <div class="modal-content">
                 <section class="box">
-                  <p><strong>Step 1</strong> Choose Local Room</p>
+                  <p><strong>Step 1</strong> Creat MSync Local Room/p>
                   <img src="assets\img\HTUlistener\SyncList1.png" alt="">
-                  <p><strong>Step 2</strong> Create Local Room</p>
+                  <p><strong>Step 2</strong> Click Sync Button</p>
                   <img src="assets\img\HTUlistener\SyncList2.png" alt="">
                   <p> <strong>Step 3</strong> Sync with browser</p>
                   <img src="assets\img\HTUlistener\SyncList3.png" alt="">
+                  <img src="assets\img\HTUlistener\SyncList4.png" alt="">
                 </section>
               </div>
               <button class="modal-close is-large" aria-label="close" (click)="toggleModal8()"></button>
@@ -782,33 +811,31 @@
           <div class="column is-half">
             <ul>
               <li><strong>Step 1:</strong> Open the desktop app and click on <strong
-                  style="text-decoration: underline;">Archive(Listener).</strong></li>
-              <li><strong>Step 2:</strong> Pick a room and then click enter.</li>
-              <li><strong>Step 3:</strong> Pick a session and click enter.</li>
-              <li><strong>Step 4:</strong> You will be brought into the <strong style="text-decoration: underline;">Page
-                  Viewer.</strong> It consists of</li>
+                  style="text-decoration: underline;">Archive.</strong></li>
+              <li><strong>Step 2:</strong> Search archive by room or by link.tags.</li>
+              <li><strong>Step 3:</strong> Pick a session.</li>
+              <li><strong>Step 4:</strong> Pick the starting point of the translation</li>
+              <li><strong>Step 5:</strong> And you're set and ready to go.</li>
+              <li><Strong>Step 6:</Strong> Extra menu on the archive viewer.</li>
+              <img src="assets\img\HTUlistener\ArchiveViewer6.png" alt="">
               <ul>
-                <li>Info Panel</li>
-                <li>Previous Page</li>
-                <li>Next Page</li>
-                <li>Auto-Scroll Mode</li>
+                <li><strong>Back :</strong> Return back to room picker.</li>
+                <li><strong>Font :</strong> Change the style, size, and colour of the font.</li>
+                <li><strong>Forward :</strong> To add negative delay(?) on the translation since live translation tend to be late because the nature of the process.</li>
+                <li><strong>Stop Button :</strong> Stop the translation.</li>
+                <li><strong>Play Button :</strong> Play the translation.</li>
+                <li><strong>Sync :</strong> Sync archive viewer with MChat web extension.</li>
+                <li><strong>Seek Bar :</strong> Just the usual seek bar.</li>
               </ul>
-              <li><strong>Step 5:</strong> Auto Scroll Mode Can be used to Simulate Live TL. Check in Image Guide
-                How to do it.</li>
-              <li><Strong>Step 6:</Strong> The auto-scroll view, it has pause and play button.</li>
               <article class="message is-black">
                 <div class="message-body">
                   By nature, live TL is a little bit delayed compared to the stream, so you might want to run the
-                  stream a bit ahead.
+                  stream a bit ahead or set the negative delay appropiately.
                 </div>
               </article>
-              <li><strong>Step 7:</strong> Auto-scroll view has the same <a pagescroll href="docs#line6"
-                  class="links">Extra
-                  Panel<span class="icon">
-                    <fa-icon [icon]="faExternalLinkAlt"></fa-icon>
-                  </span></a> features as usual listeners.</li>
             </ul>
           </div>
+
           <div class="column">
             <button class="button" (click)="toggleModal10()" id='btn'>Visual Image Guide</button>
             <div class=" modal" [ngClass]="{ 'is-active' : isModal10Active }">
@@ -817,18 +844,16 @@
                 <section class="box">
                   <p><strong>Step 1</strong> Archive(Listener)</p>
                   <img src="assets\img\HTUlistener\ArchiveViewer1.png" alt="">
-                  <p><strong>Step 2</strong> Pick a Room</p>
+                  <p><strong>Step 2</strong> Search Archive by room or by link or tags</p>
                   <img src="assets\img\HTUlistener\ArchiveViewer2.png" alt="">
                   <p> <strong>Step 3</strong> Pick a session</p>
                   <img src="assets\img\HTUlistener\ArchiveViewer3.png" alt="">
-                  <p> <strong>Step 4</strong> Page Viewer</p>
+                  <p> <strong>Step 4</strong> Pick Starting point</p>
                   <img src="assets\img\HTUlistener\ArchiveViewer4.png" alt="">
-                  <p> <strong>Step 5</strong> Auto Scroll Mode</p>
+                  <p> <strong>Step 5</strong> Ready to go (And Sync)</p>
                   <img src="assets\img\HTUlistener\ArchiveViewer5.png" alt="">
-                  <p> <strong>Step 6</strong> Auto Scroll View</p>
+                  <p> <strong>Step 6</strong> Extra Features</p>
                   <img src="assets\img\HTUlistener\ArchiveViewer6.png" alt="">
-                  <p> <strong>Step 7</strong> Auto Scroll Features</p>
-                  <img src="assets\img\HTUlistener\ArchiveViewer7.png" alt="">
                 </section>
               </div>
               <button class="modal-close is-large" aria-label="close" (click)="toggleModal10()"></button>
@@ -846,35 +871,30 @@
         <div class="columns is-centered">
           <div class="column is-half">
             <ul>
-              <li><strong>Step 1:</strong> Turn on <strong style="text-decoration: underline;">Auto
-                  Scroller</strong> mode from the page Viewer </li>
-              <li><strong>Step 2:</strong> Click Sync button in the extra panel.</li>
-              <li><strong>Step 3:</strong> Click <strong style="background-color: black; color: white;">Sync
+              <li><strong>Step 1:</strong> Click Sync button on the top right corner. </li>
+              <li><strong>Step 2:</strong> Click <strong style="background-color: black; color: white;">Sync
                   MChad</strong> in
                 the browser extension.</li>
-              <li><strong>Step 4:</strong> Pick the local client from MChad that you want to synchronize and press
-                Enter. <strong style="text-decoration: underline;">Page Viewer.</strong> It consists of</li>
-              <li><strong>Step 5:</strong> After Proper Synchronization you will get <strong
+              <li><strong>Step 3:</strong> After Proper Synchronization you will get <strong
                   style="background-color: black; color: white;">Synced -
                   Archive(Click to Unsync)</strong> notification.</li>
             </ul>
           </div>
+
           <div class="column">
             <button class="button" (click)="toggleModal11()" id='btn'>Visual Image Guide</button>
             <div class=" modal" [ngClass]="{ 'is-active' : isModal11Active }">
               <div class="modal-background" (click)="toggleModal11()"></div>
               <div class="modal-content">
                 <section class="box">
-                  <p><strong>Step 1</strong> Auto Scroller mode</p>
+                  <p><strong>Step 1</strong> Sync Button</p>
                   <img src="assets\img\HTUlistener\ArcSync1.png" alt="">
-                  <p><strong>Step 2</strong> Sync from Extra Panel</p>
+                  <p><strong>Step 2</strong> Sync MChad from browser</p>
                   <img src="assets\img\HTUlistener\ArcSync2.png" alt="">
-                  <p> <strong>Step 3</strong> Sync MChad from browser</p>
+                  <p> <strong>Step 3</strong> Room Synchronization</p>
                   <img src="assets\img\HTUlistener\ArcSync3.png" alt="">
-                  <p> <strong>Step 4</strong> Room Synchronization</p>
+                  <p> <strong>Step 4</strong> Sync Success Click to Unsync</p>
                   <img src="assets\img\HTUlistener\ArcSync4.png" alt="">
-                  <p> <strong>Step 5</strong> Sync Success Click to Unsync</p>
-                  <img src="assets\img\HTUlistener\ArcSync5.png" alt="">
                 </section>
               </div>
               <button class="modal-close is-large" aria-label="close" (click)="toggleModal11()"></button>
@@ -936,8 +956,15 @@
                     on top.</p>
                 </div>
               </article>
-              <li><strong>Info Board</strong> Open extra panel that contains extra information that the
-                translator might post.</li>
+              <li><strong>Host Open Session :</strong> Allow temporary access with temporary password 
+                and limited privilages (in case if you want to invite other translator or proofreader
+                for your live translation session).</li>
+              <li><strong>3rd Party Sharing :</strong> Allow 3rd party app to 
+                access the script ( ++exposure --script safety ).</li>
+              <li><strong>Sync :</strong> Sync desktop app with MSync extension.</li>
+              <li><strong>Unsyc :</strong> Unsync desktop app with MSync extension.</li>
+              <li><strong>Script Description :</strong> Open extra panel for 
+                translator to put in extra information about this script (like tags, link, etc...).</li>
               <li><strong>Password</strong> Set password protection for the room so only certain listeners can
                 login.</li>
               <li><strong>Message panel</strong> Hide/Show the message panel.</li>
@@ -976,43 +1003,26 @@
             contains the Following Features
             <ul>
               <li><strong>Back</strong> Return back to room picker.</li>
-              <li><strong>Font</strong> Change the colour or the size of the font of the view window.</li>
-              <li><strong>Back Colour</strong> Change the backgroud colour of the view windows.</li>
-              <li><strong>Hide/Show Border</strong> Remove/show the border of the window.</li>
-              <article class="message is-black">
-                <div class="message-body">
-                  This features is only availabe in Windows<span class="icon">
-                    <fa-icon [icon]="faWindows"></fa-icon>
-                  </span> client
-                </div>
-              </article>
-              <li><strong>Always on Top</strong> Set the window to always on top.</li>
-              <article class="message is-black">
-                <div class="message-body">
-                  <p>This features is only availabe in Windows<span class="icon">
-                      <fa-icon [icon]="faWindows"></fa-icon>
-                    </span> client. <br><br>
-                    On Linux<span class="icon">
-                      <fa-icon [icon]="faLinux"></fa-icon>
-                    </span> with GNOME graphic, you can do the same by right clicking the window and click
-                    always
-                    on top.</p>
-                </div>
-              </article>
-
-              <li><strong>BG Sheet</strong> Put on semi-transparent backgroud sheet behind the text.</li>
-              <li><strong>Hide Timestamp</strong> Simply hides the timestamp from the entries.</li>
-              <li><strong>Send Message To Translator</strong> Open small panel to send a message to the
-                translator(s) of the picked room.</li>
-              <li><strong>Add Room</strong> Manage the rooms that you actively listening (can be multiple rooms at
-                once).</li>
-              <li><strong>Extra Info</strong> Open extra panel that contains extra information that the
-                translator might post.</li>
+              <li><strong>Font</strong> Change the size and the font of the view window.</li>
+              <li><strong>BG Sheet</strong> Put on semi-transparent backgroud sheet behind the text and change the colour.</li>
+              <li><strong>Listener Manager :</strong> Manage the rooms that you actively listening (can be multiple rooms at once), listener windows, and special filtering.</li>
+              <li><strong>MSync Filter :</strong> Set filter and styling for chat coming from MSync.</li>
+              <li><strong>Sync :</strong> Synchronize desktop app with MSync web extension.</li>
               <li><strong><span class="icon">
                     <fa-icon [icon]="faTimes"></fa-icon>
                   </span></strong> Close the application</li>
             </ul>
+
+            <p>While <strong style="text-decoration: underline;">Listener Manager</strong>
+               has the Following Features.</p>
+            <ul>
+              <li><strong>Add New Window :</strong> Create new instance of the listener window.</li>
+              <li><strong>Add Listener :</strong> Add listener to the current window.</li>
+              <li><strong>Remove Listener :</strong> Remove listener from the current window.</li>
+              <li><strong>Extra Filter :</strong> Add particular filter for the current window.</li>
+            </ul>
           </div>
+
           <div class="column">
             <button class="button" (click)="toggleModal13()" id='btn'>Visual Image Guide</button>
             <div class=" modal" [ngClass]="{ 'is-active' : isModal13Active }">
@@ -1020,11 +1030,13 @@
               <div class="modal-content">
                 <section class="box">
                   <p><strong>Step 1</strong> Hover to show the panel</p>
-                  <img src="assets\img\HTUlistener\ExtraPnl1.jpg" alt="">
+                  <img src="assets\img\HTUlistener\ExtraPnl1.png" alt="">
                   <p><strong>Step 2</strong> Extra panel features</p>
-                  <img src="assets\img\HTUlistener\ExtraPnl2.jpg" alt="">
-                  <p><strong>Step 2</strong> BG Sheet</p>
-                  <img src="assets\img\HTUlistener\ExtraFeatures.jpg" alt="">
+                  <img src="assets\img\HTUlistener\ExtraPnl2.png" alt="">
+                  <p><strong>Step 3</strong> Listener Manager Menu</p>
+                  <img src="assets\img\HTUlistener\ExtraPnl3.png" alt="">
+                  <p><strong>Step 4</strong> Comparison of different features</p>
+                  <img src="assets\img\HTUlistener\ExtraFeatures.png" alt="">
                 </section>
               </div>
               <button class="modal-close is-large" aria-label="close" (click)="toggleModal13()"></button>
@@ -1041,11 +1053,12 @@
     <section id="line7" class="section p-6">
       <p class="title has-text-weight-bold is-uppercase">Version History</p>
       <div class="divider is-left is-black"></div>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem cupiditate consequatur, alias nihil qui
-        odit perferendis dolor debitis nobis officia in doloremque esse voluptates architecto libero consectetur
-        quas asperiores maxime.</p>
+      <p>The updates are basically weekly, so it's just too many versions to trace back for now. But we will
+        keep track of them soon(TM)
+      </p>
 
       <!-- copy this div block if you want to duplicate more Sub titles -->
+      <!--
       <div class="block">
         <div class="divider is-left is-black">
           <p id="line7_1" class="subtitle is-4 has-text-weight-bold is-uppercase">Placeholder Subtitle</p>
@@ -1053,7 +1066,7 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus cumque quasi, natus repellat vel
           esse nam maxime tempora, doloribus unde officia nostrum libero dolorem necessitatibus eligendi
           placeat, rerum ut hic?</p>
-      </div><!-- end of placeholder sub title block -->
+      </div>
 
       <div class="block">
         <div class="divider is-left is-black">
@@ -1063,11 +1076,13 @@
           esse nam maxime tempora, doloribus unde officia nostrum libero dolorem necessitatibus eligendi
           placeat, rerum ut hic?</p>
       </div>
+      -->
 
     </section>
     <!-- end section 7-->
 
     <!-- start section 8 Copyright & license-->
+    <!--
     <section id="line8" class="section p-6">
       <p class="title has-text-weight-bold is-uppercase">Copyright and License</p>
       <div class="divider is-left is-black"></div>
@@ -1079,6 +1094,7 @@
       <p id="line8_5" class="subtitle has-text-weight-bold is-uppercase">Archive Viewer Sync</p>
 
     </section>
+    -->
     <!-- end section 8 -->
 
     <!-- start section 9 Rest Api-->
@@ -1226,6 +1242,35 @@
         <p>content is the same as [insert], just use _id to find the locally saved entry and overwrite.</p>
       </div>
       <!-- end of incoming data -->
+
+      <!-- start Get Schedule -->
+      <div class="block">
+        <div class="divider is-left is-black">
+          <p id="line9_6" class="subtitle is-4 has-text-weight-bold is-uppercase">Get Schedule
+          </p>
+        </div>
+        <p><strong>HTTP Request GET to</strong></p>
+        <pre><code style="color: rgb(50, 132, 255);">http://[mimimimiooon]/Schedule/?room=[room]&link=[link]&tags=[tags]</code></pre>
+        <ul>
+          <li><strong>[room] =></strong> to search particular room name</li>
+          <li><strong>[link] =></strong> to search particular stream link</li>
+          <li><strong>[tags] =></strong> to search particular tags</li>
+        </ul>
+        <p><strong>Test Command :</strong></p>
+        <pre><code style="color: rgb(50, 132, 255);">curl -X GET http://[mimimimiooon]/Schedule/</code></pre>
+
+        <p><strong>Only returns at as follows :</strong></p>
+        <ul>
+          <li><strong>Room :</strong> Name of the Room (string).</li>
+          <li><strong>Link :</strong> Link to stream (string)</li>
+          <li><strong>Note :</strong> Note for the stream (string)</li>
+          <li><strong>Time :</strong> Time in milisecond since UNIX epoch (number)</li>
+          <li><strong>Tag :</strong> List of tags associated to the schedule (string)</li>
+        </ul>
+        <p>Example Json</p>
+        <pre><code [highlight]="code6"></code></pre>
+      </div>
+      <!-- end get schedule -->
 
     </section>
     <!-- end section 9 -->

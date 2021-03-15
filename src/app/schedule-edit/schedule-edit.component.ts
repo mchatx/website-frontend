@@ -129,7 +129,7 @@ export class ScheduleEditComponent implements OnInit {
     } else if (time == "NaN") {
       this.status = "Invalid Date";
     } else {
-      this.ScheduleService.EditSchedule(this.SelectedSched.Room, this.Token, this.SelectedSched.Link, this.SelectedSched.Note, this.SelectedSched.Tag, this.ScheduleList[this.SelectedIndex]._id).subscribe({
+      this.ScheduleService.EditSchedule(this.SelectedSched.Room, this.Token, this.SelectedSched.Link, this.SelectedSched.Note, this.SelectedSched.Tag, this.ScheduleList[this.SelectedIndex]._id, Number.parseInt(time)).subscribe({
         error: error => {
           this.status = error.message;
           this.LoginMode = false;
