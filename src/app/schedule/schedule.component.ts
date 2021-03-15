@@ -4,6 +4,7 @@ import ScheduleData from '../models/Schedule';
 import ScheduleDisplay from '../models/ScheduleDisplay';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { faCalendarPlus, faCalendarMinus } from '@fortawesome/free-regular-svg-icons';
+import {DomSanitizer} from '@angular/platform-browser';
 
 //  TO DIVIDE THE SCHEDULE DEPENDING ON THE DAYS BASED ON LOCAL TIME
 type Pager = {
@@ -23,7 +24,10 @@ export class ScheduleComponent implements OnInit {
   SearchLink: string = "";
   SearchTags: string = "";
 
-  constructor(private SService: ScheduleService) { }
+  constructor(
+    private SService: ScheduleService,
+    private Sanitizer: DomSanitizer
+  ) { }
 
   ngOnInit(): void {
     this.SService.getSchedule().subscribe(
@@ -66,16 +70,10 @@ export class ScheduleComponent implements OnInit {
           Link: e.Link,
           Note: e.Note,
           Time: Stamp.substr(0, 10) + " " + Stamp.substr(11, 5),
-          Tag: e.Tag
+          Tag: e.Tag,
         });
       }
     });
-  }
-
-  JumpToClient(Nick: string | undefined){
-    if (Nick != undefined){
-      window.location.href = "m-chad://Room/" + Nick.replace(" ", "%20");
-    }
   }
 
   SearchByRoom(): void {
@@ -101,6 +99,14 @@ export class ScheduleComponent implements OnInit {
         this.PopulatePager(response);
       }
     )
+  }
+
+  sanitize(url:string | undefined){
+    if (url != undefined) {
+      return this.Sanitizer.bypassSecurityTrustUrl("m-chad://Room/" + url.replace(" ", "%20"));
+    } else {
+      return ("Error");
+    }
   }
 
   faCalenderPlus = faCalendarPlus;

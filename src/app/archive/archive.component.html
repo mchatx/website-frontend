@@ -54,7 +54,10 @@
         Title : {{ Archive.Nick }} <br>
         Link to stream : <a href="{{ Archive.StreamLink }}" target="_blank">{{ Archive.StreamLink }}</a> <br>
         Tags : {{ Archive.Tags }} <br>
-        <button class="tag" (click)="JumpToClient(Archive.Link)"> Open In Client </button>
+        <a class="button is-small is-outlined is-rounded is-light is-inverted"
+            [href]="sanitize(Archive.Link)">
+              Open in client
+        </a><br>
       </p>
       <div *ngIf="Archive.Pass">
         <p>Password Protected</p>

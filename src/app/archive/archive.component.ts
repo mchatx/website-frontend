@@ -3,6 +3,7 @@ import { ArchiveService } from '../services/archive.service';
 import Archive from '../models/Archive';
 import { ShowSearch } from '../models/ShowSearch';
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-archive',
@@ -21,7 +22,10 @@ export class ArchiveComponent implements OnInit {
   Search: string[] = ['Room', 'Link', 'Tags'];
   SelectedIndex: number = 0;
 
-  constructor(private AService: ArchiveService) { }
+  constructor(
+    private AService: ArchiveService,
+    private Sanitizer: DomSanitizer
+    ) { }
 
   ngOnInit(): void {
     this.AService.getArchive().subscribe(
@@ -64,12 +68,13 @@ export class ArchiveComponent implements OnInit {
     )
   }
 
-  JumpToClient(link: string | undefined) {
-    if (link != undefined) {
-      window.location.href = "m-chad://Archive/" + link.replace(" ", "%20");
+  sanitize(url:string | undefined){
+    if (url != undefined) {
+      return this.Sanitizer.bypassSecurityTrustUrl("m-chad://Archive/" + url.replace(" ", "%20"));
+    } else {
+      return ("Error");
     }
   }
-
   toggleDrop() {
     this.isdropActive = !this.isdropActive;
   }
@@ -78,6 +83,8 @@ export class ArchiveComponent implements OnInit {
     this.SelectedIndex = indexitem;
     this.isSearchActive = !this.isSearchActive;
   }
+
+
 
   faChevronDown = faChevronDown;
 }

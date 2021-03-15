@@ -42,10 +42,10 @@
         <div class="divider is-left is-black"></div>
         <div class="entry" *ngFor="let Schedule of SchedPage.DataList">
           <div class="divider is-black is-left is-vertical"></div>
-          <p>Room : <span class="button is-small is-outlined is-rounded is-light is-inverted"
-              (click)="JumpToClient(Schedule.Room)">
+          <p>Room : <a class="button is-small is-outlined is-rounded is-light is-inverted"
+            [href]="sanitize(Schedule.Room)">
               {{ Schedule.Room }}
-            </span><br>
+            </a><br>
             Time : {{ Schedule.Time }} <br>
             Link to stream : <a href="{{ Schedule.Link }}" target="_blank">{{ Schedule.Link }}</a> <br>
             Note : {{ Schedule.Note }} <br>
