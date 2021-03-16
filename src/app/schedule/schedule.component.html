@@ -5,20 +5,20 @@
       <div class="divider is-left is-black"></div>
 
       <div class="buttons is-centered">
-        <button class="button is-outlined is-dark" routerLink="/schededit/Add" routerLinkActive="active"><span
+        <button class="button is-outlined is-dark" routerLink="/schededit/Add" [routerLinkActive]="['is-active']"><span
             class="icon">
             <fa-icon [icon]="faCalenderPlus"></fa-icon>
           </span>
           <p>Add</p>
         </button>
-        <button class="button is-outlined is-dark" routerLink="/schededit/Edit" routerLinkActive="active"><span
+        <button class="button is-outlined is-dark" routerLink="/schededit/Edit" [routerLinkActive]="['is-active']"><span
             class="icon">
             <fa-icon [icon]="faEdit"></fa-icon>
           </span>
           <p>Edit</p>
         </button>
-        <button class="button is-outlined is-dark" routerLink="/schededit/Remove" routerLinkActive="active"><span
-            class="icon">
+        <button class="button is-outlined is-dark" routerLink="/schededit/Remove"
+          [routerLinkActive]="['is-active']"><span class="icon">
             <fa-icon [icon]="faCalenderMinus"></fa-icon>
           </span>
           <p>Remove</p>
@@ -26,7 +26,7 @@
       </div>
     </div>
   </div>
-  <div class="column has-background-success has-text-white">
+  <div class="column has-background-primary-dark has-text-white">
     <div class="section">
       <h1 class="is-size-4 has-text-centered">Upcoming Live Translations</h1>
 
@@ -43,7 +43,7 @@
         <div class="entry" *ngFor="let Schedule of SchedPage.DataList">
           <div class="divider is-black is-left is-vertical"></div>
           <p>Room : <a class="button is-small is-outlined is-rounded is-light is-inverted"
-            [href]="sanitize(Schedule.Room)">
+              [href]="sanitize(Schedule.Room)">
               {{ Schedule.Room }}
             </a><br>
             Time : {{ Schedule.Time }} <br>

@@ -1,0 +1,15 @@
+.section{    
+    .field{
+        max-width: 600px;
+        margin: auto;
+    }
+    .box{
+        max-width: 600px;
+        margin: auto;
+        .entry{
+            display: inline-flex;
+            margin: auto;            
+        } 
+    }
+}
+

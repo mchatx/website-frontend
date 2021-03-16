@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { faWindows, faAndroid, faLinux, faApple } from '@fortawesome/free-brands-svg-icons';
-import { faDownload, faExternalLinkAlt, faEdit, faTimes, faAssistiveListeningSystems, faLanguage, faFile } from '@fortawesome/free-solid-svg-icons';
+import { faWindows, faAndroid, faLinux, faApple, } from '@fortawesome/free-brands-svg-icons';
+import { faDownload, faExternalLinkAlt, faEdit, faTimes, faAssistiveListeningSystems, faLanguage, faFile, faFileArchive } from '@fortawesome/free-solid-svg-icons';
 import { faCalendarPlus, faCalendarMinus } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
@@ -78,6 +78,7 @@ export class DocsComponent implements OnInit {
   faAssistiveListeningSystems = faAssistiveListeningSystems;
   faLanguage = faLanguage;
   faFile = faFile;
+  faFileArchive = faFileArchive;
 
   code1 = `{
     "Nick" : "Testing",
