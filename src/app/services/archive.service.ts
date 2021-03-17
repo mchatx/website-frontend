@@ -11,19 +11,19 @@ export class ArchiveService {
   constructor(private httpclient: HttpClient) { }
 
   getArchive(): Observable<any>  {
-    return (this.httpclient.get('http://157.230.241.238/Archive/'));
+    return (this.httpclient.get('https://mchatrepo.xyz/Archive/'));
   }
 
   getArchiveRoom(room:string): Observable<any>  {
-    return (this.httpclient.get('http://157.230.241.238/Archive/?room=' + room));
+    return (this.httpclient.get('https://mchatrepo.xyz/Archive/?room=' + room));
   }
 
   getArchiveLink(link:string): Observable<any>  {
-    return (this.httpclient.get('http://157.230.241.238/Archive/?link=' + link));
+    return (this.httpclient.get('https://mchatrepo.xyz/Archive/?link=' + link));
   }
 
   getArchiveTags(tags:string): Observable<any>  {
-    return (this.httpclient.get('http://157.230.241.238/Archive/?tags=' + tags));
+    return (this.httpclient.get('https://mchatrepo.xyz/Archive/?tags=' + tags));
   }
 
   //------------------------------------------- ARCHIVE EDIT HANDLER -------------------------------------------
@@ -31,7 +31,7 @@ export class ArchiveService {
   GetToken(room:string, pass: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('http://localhost:33333/Login/', { 
+    return (this.httpclient.post('https://mchatrepo.xyz/Login/', { 
       Room: room, 
       Pass: pass
     }, { headers, observe: 'response'}));
@@ -52,7 +52,7 @@ export class ArchiveService {
     
     const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('http://localhost:33333/Archive/', { 
+    return (this.httpclient.post('https://mchatrepo.xyz/Archive/', { 
       Act: 'Add',
       Room: room, 
       Token: token,
@@ -75,7 +75,7 @@ export class ArchiveService {
       ): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
   
-    return (this.httpclient.post('http://localhost:33333/Archive/', { 
+    return (this.httpclient.post('https://mchatrepo.xyz/Archive/', { 
       Act: 'Update',
       Room: room, 
       Token: token,
@@ -97,7 +97,7 @@ export class ArchiveService {
     ): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('http://localhost:33333/Archive/', { 
+    return (this.httpclient.post('https://mchatrepo.xyz/Archive/', { 
       Act: 'Edit',
       Room: room, 
       Token: token,
@@ -119,7 +119,7 @@ export class ArchiveService {
     
       const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('http://localhost:33333/Archive/', { 
+    return (this.httpclient.post('https://mchatrepo.xyz/Archive/', { 
       Act: 'Delete',
       Room: room, 
       Token: token,
@@ -134,7 +134,7 @@ export class ArchiveService {
   
     const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('http://localhost:33333/Archive/', { 
+    return (this.httpclient.post('https://mchatrepo.xyz/Archive/', { 
       Act: 'GetArchive',
       Room: room, 
       Token: token
@@ -149,7 +149,7 @@ export class ArchiveService {
     
       const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('http://localhost:33333/Archive/', { 
+    return (this.httpclient.post('https://mchatrepo.xyz/Archive/', { 
       Act: 'GetOne',
       Room: room, 
       Token: token,
