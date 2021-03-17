@@ -107,7 +107,7 @@ export class DocsComponent implements OnInit {
     "Link" : "Just a Test",
     "Note" : "Testing Note",
     "Time" : 1616047080000,  
-    "Tage" : "Seiso"
+    "Tags" : "Seiso"
   }
   `;
 }
