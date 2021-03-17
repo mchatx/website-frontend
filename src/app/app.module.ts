@@ -21,6 +21,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { ArchiveComponent } from './archive/archive.component';
 import { ScheduleEditComponent } from './schedule-edit/schedule-edit.component'
 import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { ArchiveEditComponent } from './archive-edit/archive-edit.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
     NewRoomComponent,
     ScheduleComponent,
     ScheduleEditComponent,
-    ArchiveComponent
+    ArchiveComponent,
+    ArchiveEditComponent
   ],
   imports: [
     BrowserModule,

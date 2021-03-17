@@ -1,0 +1,147 @@
+<body>
+    <!---------------------------------------------- LOGIN MENU ------------------------------------------------------->
+    <div *ngIf="!LoginMode">
+        <div class="LoginDiv">
+            <p style="margin: 10px; font-size: 2em; font-weight: bold;">Login</p>
+            <hr>
+            <p>Room
+                <input style="margin-left: 1em ;" type="text" [(ngModel)]="SearchNick" placeholder="Room Name">
+            </p>
+            <p>Password
+                <input style="margin-left: 1em ;" type="password" [(ngModel)]="SearchPass" placeholder="Password">
+            </p>
+            <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
+            <button style="margin-top: 2em; cursor: pointer;" (click)="LoginRoom()">Enter</button>
+        </div>
+    </div>
+    <!--============================================ LOGIN MENU =====================================================-->
+
+    <div *ngIf="LoginMode">
+        <div [ngSwitch]="mode">
+            <!---------------------------------------------- EXPORT MENU ------------------------------------------------------->
+            <div *ngSwitchCase="'Export'">
+                <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('')">Back</button>
+            </div>
+            <!--============================================ EXPORT MENU =====================================================-->
+
+            <!---------------------------------------------- EDIT MENU ------------------------------------------------------->
+            <div *ngSwitchCase="'Edit'">
+                <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('')">Back</button>
+            </div>
+            <!--============================================ EDIT MENU =====================================================-->            
+
+            <!---------------------------------------------- DELETE MENU ------------------------------------------------------->
+            <div *ngSwitchCase="'Delete'">
+                <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('')">Cancel</button>
+            </div>
+            <!--============================================ DELETE MENU =====================================================-->
+
+            <!---------------------------------------------- MAIN MENU ------------------------------------------------------->
+            <div *ngSwitchDefault>
+                <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('Export')">Export</button>
+                <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('Edit')">Edit</button>
+                <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('Delete')">Delete</button>
+                <a class="button" href="/archive" routerLinkActive="active">Log out</a>
+                <ul>
+                    <div *ngFor="let archive of Archivedt; let i = index"
+                        [class.marked]="i === SelectedIndex"
+                        (click)="SetSelected(i)">
+                        {{ archive.Nick }}
+                    </div>
+                </ul>
+
+            </div>
+            <!--============================================ MAIN MENU =====================================================-->
+        </div>
+
+
+        <!--
+        <div *ngIf="mode === 'Add'">
+            <div class="center">
+                <div class="LoginDiv">
+                    <p style="margin: 10px; font-size: 2em; font-weight: bold;">{{ mode }} Schedule</p>
+                    <hr>
+                    <p>Room : {{ SearchNick }} </p>
+                    <p>Link
+                        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SelectedSched.Link" placeholder="Stream Link">
+                    </p>
+                    <p>Date (In local time)
+                        <input type="date" [(ngModel)]="DateParser">
+                    </p>
+                    <p>Time
+                        <input type="time" [(ngModel)]="TimeParser">
+                    </p>
+                    <p>Note<br>
+                        <input style="margin-left: 1em; width: 75%;" type="text" [(ngModel)]="SelectedSched.Note" placeholder="Note">
+                    </p>
+                    <hr>
+                    <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
+                    <button style="margin-top: 2em;cursor: pointer;" (click)="AddSchedule()">Enter</button>
+                    <p> Reservations will be deleted automatically after 7 days past the date-stamp</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div *ngIf="mode === 'Edit'">
+            <div class="center">
+    
+                <div class="LoginDiv">
+                    <p style="margin: 10px; font-size: 2em; font-weight: bold;">{{ mode }} Schedule</p>
+                    <hr>
+
+                    <ul>
+                        <div class="ScheduleUIList" *ngFor="let Schedule of ScheduleList; let i = index"
+                            [class.marked]="i === SelectedIndex"
+                            (click)="SetSelected(i)">
+                            {{ Schedule.LocalTimeStr }}
+                        </div>
+                    </ul>
+                    <hr>
+                    <p>Reservation Ticket: <span *ngIf="SelectedIndex !== -1"> {{ ScheduleList[SelectedIndex].key }} </span></p>
+                    <p>Room : {{ SearchNick }} </p>
+                    <p>Link
+                        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SelectedSched.Link" placeholder="Stream Link">
+                    </p>
+                    <p>Date (In local time)
+                        <input type="date" [(ngModel)]="DateParser">
+                    </p>
+                    <p>Time
+                        <input type="time" [(ngModel)]="TimeParser">
+                    </p>
+                    <p>Note<br>
+                        <input style="margin-left: 1em; width: 75%;" type="text" [(ngModel)]="SelectedSched.Note" placeholder="Note">
+                    </p>
+                    <hr>
+                    <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
+                    <button style="margin-top: 2em;cursor: pointer;" (click)="SendUpdate()">Enter Update</button>
+                    <p> Reservations will be deleted automatically after 7 days past the date-stamp</p>
+                </div>
+            </div>
+        </div>
+        
+        <div *ngIf="mode === 'Remove'">
+            <div class="center">
+    
+                <div class="LoginDiv">
+                    <p style="margin: 10px; font-size: 2em; font-weight: bold;">{{ mode }} Schedule</p>
+                    <hr>
+
+                    <ul>
+                        <div class="ScheduleUIList" *ngFor="let Schedule of ScheduleList; let i = index"
+                            [class.marked]="i === SelectedIndex"
+                            (click)="SetSelected(i)">
+                            {{ Schedule.LocalTimeStr }}
+                        </div>
+                    </ul>
+                    <hr>
+
+                    <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
+                    <button style="margin-top: 2em;cursor: pointer;" (click)="RemoveSchedule()">Delete</button>
+                    <p> Reservations will be deleted automatically after 7 days past the date-stamp</p>
+                </div>
+            </div>
+        </div>
+        -->
+    </div>
+</body>

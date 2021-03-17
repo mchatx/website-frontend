@@ -9,6 +9,7 @@ import { NewRoomComponent } from './new-room/new-room.component'
 import { ScheduleComponent } from './schedule/schedule.component';
 import { ScheduleEditComponent } from './schedule-edit/schedule-edit.component'
 import { ArchiveComponent } from './archive/archive.component';
+import { ArchiveEditComponent } from './archive-edit/archive-edit.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'roomapply', component: NewRoomComponent },
   { path: 'schedule', component: ScheduleComponent },
   { path: 'archive', component: ArchiveComponent },
-  { path: 'schededit/:mode', component: ScheduleEditComponent }
+  { path: 'schededit/:mode', component: ScheduleEditComponent },
+  //{ path: 'archiveedit', component: ArchiveEditComponent }
 ];
 
 @NgModule({

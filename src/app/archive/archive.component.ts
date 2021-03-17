@@ -3,7 +3,7 @@ import { ArchiveService } from '../services/archive.service';
 import Archive from '../models/Archive';
 import { ShowSearch } from '../models/ShowSearch';
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import {DomSanitizer} from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-archive',
