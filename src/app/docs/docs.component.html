@@ -162,6 +162,11 @@
             </span></a> offers you the ability to view live translations of past streams done by
           translators in their room. All you have to do is enter into their respective rooms.
         </p>
+        <p>You also need to have respective Listener CLient installed on your System to directly open the archive in
+          your
+          desktop app. These can be downloaded from the <a href="/home" class="links">Downloads<span class="icon">
+              <fa-icon [icon]="faExternalLinkAlt"></fa-icon>
+            </span></a> section on our homepage</p>
       </div><!-- end archive client -->
     </section>
     <!--end section 2 -->
@@ -331,10 +336,11 @@
           </div>
         </div>
         <article class="message is-black">
-          <div class="message-body" style="background-color: rgb(190, 0, 0);">
-            <p class="has-text-white">You can use "Testing" or "Testing two" room for playing around, the pasword
-              is "Test"(case sensitive)
-              Or if you're ready, you can go <a href="/roomapply" class="links">here</a> to submit a
+          <div class="message-body has-background-warning" style="background-color: rgb(190, 0, 0);">
+            <p>You can use <strong>"Testing"</strong> or <strong>"Testing two"</strong> room for playing around, the
+              pasword
+              is <strong>"Test". (both case sensitive)</strong>
+            <p>When if you're ready, you can go <a href="/roomapply" class="links">here</a> to submit a
               form for a new room.</p>
           </div>
         </article>
@@ -469,8 +475,8 @@
         </figure>
         <article class="message is-black">
           <div class="message-body">
-            A profile is basically a set of fixed prefix, suffix, and colour code. <br>
-            You can see which profile you're in and the other loaded profile in the profile list panel.
+            <p>A profile is basically a set of fixed prefix, suffix, and colour code.</p>
+            <p>You can see which profile you're in and the other loaded profile in the profile list panel.</p>
           </div>
         </article>
         <ul>
@@ -578,10 +584,12 @@
               </span>To delete schedule. </li>
           </ul>
         </ul>
+        <div class="container has-text-centered">
+          <figure class="image">
+            <img src="assets\img\HTUTranslator\ScheduleEditor.jpg" alt="">
+          </figure>
+        </div>
 
-        <figure class="image">
-          <img src="assets\img\HTUTranslator\ScheduleEditor.jpg" alt="">
-        </figure>
       </div>
       <!-- end reserving room  -->
 
@@ -602,7 +610,7 @@
                 the youtube CC compatible .TTML file.</li>
             </ul>
             <article class="message is-black">
-              <div class="message-body">
+              <div class="message-body has-background-warning">
                 <ul>
                   <li>The hidden check box will set whether listeners can open the archive or not.</li>
                   <li>File will be saved in the "Saved_Archive" folder of the original app directory.</li>
@@ -634,7 +642,10 @@
         </div>
 
         <p class="subtitle is-5">This is the main view of the archive manager.</p>
-        <img src="assets\img\HTUTranslator\Export4.png" alt="">
+        <div class="container has-text-centered">
+          <img src="assets\img\HTUTranslator\Export4.png" alt="">
+        </div>
+
         <ul>
           <li><strong>3rd Party Sharing :</strong> Allow 3rd party app to access the script ( ++exposure --script
             safety ).</li>
@@ -811,23 +822,6 @@
               <li><strong>Step 4:</strong> Pick the starting point of the translation</li>
               <li><strong>Step 5:</strong> And you're set and ready to go.</li>
               <li><Strong>Step 6:</Strong> Extra menu on the archive viewer.</li>
-              <img src="assets\img\HTUlistener\ArchiveViewer6.png" alt="">
-              <ul>
-                <li><strong>Back :</strong> Return back to room picker.</li>
-                <li><strong>Font :</strong> Change the style, size, and colour of the font.</li>
-                <li><strong>Forward :</strong> To add negative delay(?) on the translation since live translation tend
-                  to be late because the nature of the process.</li>
-                <li><strong>Stop Button :</strong> Stop the translation.</li>
-                <li><strong>Play Button :</strong> Play the translation.</li>
-                <li><strong>Sync :</strong> Sync archive viewer with MChat web extension.</li>
-                <li><strong>Seek Bar :</strong> Just the usual seek bar.</li>
-              </ul>
-              <article class="message is-black">
-                <div class="message-body">
-                  By nature, live TL is a little bit delayed compared to the stream, so you might want to run the
-                  stream a bit ahead or set the negative delay appropiately.
-                </div>
-              </article>
             </ul>
           </div>
 
@@ -854,6 +848,7 @@
               <button class="modal-close is-large" aria-label="close" (click)="toggleModal10()"></button>
             </div>
           </div>
+
         </div>
       </div>
       <!-- end archive viewer -->
@@ -896,6 +891,25 @@
             </div>
           </div>
         </div>
+        <div class="container has-text-centered">
+          <img src="assets\img\HTUlistener\ArchiveViewer6.png" alt="">
+        </div>
+        <ul>
+          <li><strong>Back :</strong> Return back to room picker.</li>
+          <li><strong>Font :</strong> Change the style, size, and colour of the font.</li>
+          <li><strong>Forward :</strong> To add negative delay(?) on the translation since live translation tend
+            to be late because the nature of the process.</li>
+          <li><strong>Stop Button :</strong> Stop the translation.</li>
+          <li><strong>Play Button :</strong> Play the translation.</li>
+          <li><strong>Sync :</strong> Sync archive viewer with MChat web extension.</li>
+          <li><strong>Seek Bar :</strong> Just the usual seek bar.</li>
+        </ul>
+        <article class="message is-black">
+          <div class="message-body">
+            By nature, live TL is a little bit delayed compared to the stream, so you might want to run the
+            stream a bit ahead or set the negative delay appropiately.
+          </div>
+        </article>
       </div> <!-- end archive viewer sync -->
 
     </section>
@@ -1050,7 +1064,11 @@
     <section id="line7" class="section p-6">
       <p class="title has-text-weight-bold is-uppercase">Version History</p>
       <div class="divider is-left is-black"></div>
-      <p>The Updates have been BiWeekly So A Clean and Complete Changelog is still Under Progress. This Section Will be
+      <p>The Updates are released BiWeekly.</p>
+      <p>A Clean and Complete Version History and Changelog is still Under
+        Progress.</p>
+      <p>This Section Will
+        be
         Updated Soom(TM).
       </p>
 
@@ -1111,7 +1129,7 @@
           <li><strong>[link] =></strong> to search particular stream link [VideoID]</li>
         </ul>
         <article class="message is-black">
-          <div class="message-body">
+          <div class="message-body has-background-warning">
             Just use YT[video ID] the link will be
             automatically parsed to
             <code style="color: rgb(50, 132, 255);">"https://www.youtube.com/watch?v=[videoID]"</code>
@@ -1143,7 +1161,7 @@
           <li><strong>[link] =></strong> to search particular stream link [VideoID]</li>
         </ul>
         <article class="message is-black">
-          <div class="message-body">
+          <div class="message-body has-background-warning">
             Just use YT[video ID] the YT will be
             automatically parsed to
             <code style="color: rgb(50, 132, 255);">"https://www.youtube.com/watch?v=[videoID]"</code>
