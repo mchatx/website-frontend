@@ -13,7 +13,7 @@ export class AccountService {
   PushRoomApplication(nick:string, pass:string, note:string, contact:string):Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('https://mchatrepo.xyz/Room/', { 
+    return (this.httpclient.post('https://repo.mchatx.org/Room/', { 
       Nick: nick, 
       Pass: pass, 
       Note: note, 
