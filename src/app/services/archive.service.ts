@@ -31,7 +31,8 @@ export class ArchiveService {
   GetToken(room:string, pass: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
+    //return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
+    return (this.httpclient.post('http://127.1.0.1:33333/Login/', { 
       Room: room, 
       Pass: pass
     }, { headers, observe: 'response'}));
@@ -40,23 +41,26 @@ export class ArchiveService {
   AddArchive(
         room:string, 
         token: string, 
-        nick: string,
+        nick: string | undefined,
+        link: string,
         hidden: boolean,
         extshare: boolean,
-        tags: string,
+        tags: string | undefined,
         pass: boolean,
         passstr: string,
-        streamlink: string,
+        streamlink: string | undefined,
         entries: any
       ): Observable<any> {
     
     const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
+    //return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
+      return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { 
       Act: 'Add',
       Room: room, 
       Token: token,
       Nick: nick,
+      Link: link,
       Hidden: hidden,
       ExtShare: extshare,
       Pass: pass,
@@ -70,12 +74,13 @@ export class ArchiveService {
   UpdateArchive(
         room:string,
         token: string,
-        link: string,
+        link: string | undefined,
         entries: any
       ): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
   
-    return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
+    //return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
+      return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { 
       Act: 'Update',
       Room: room, 
       Token: token,
@@ -85,22 +90,25 @@ export class ArchiveService {
   }
 
   EditArchive(
-      room:string, 
-      token: string, 
-      nick: string,
+      room: string, 
+      token: string,
+      link: string | undefined,
+      nick: string | undefined,
       hidden: boolean,
       extshare: boolean,
-      tags: string,
+      tags: string | undefined,
       pass: boolean,
       passstr: string,
-      streamlink: string
+      streamlink: string | undefined
     ): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
+    //return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
+    return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { 
       Act: 'Edit',
       Room: room, 
       Token: token,
+      Link: link,
       Nick: nick,
       Hidden: hidden,
       ExtShare: extshare,
@@ -114,12 +122,13 @@ export class ArchiveService {
   DeleteArchive(
       room: string,
       token: string,
-      link:string
+      link: string | undefined
     ): Observable<any> {
     
       const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
+    //return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
+    return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { 
       Act: 'Delete',
       Room: room, 
       Token: token,
@@ -134,7 +143,8 @@ export class ArchiveService {
   
     const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
+    //return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
+    return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { 
       Act: 'GetArchive',
       Room: room, 
       Token: token
@@ -144,12 +154,13 @@ export class ArchiveService {
   GetOneArchive(
       room: string,
       token: string,
-      link:string
+      link:string | undefined
     ): Observable<any> {
     
       const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
+    //return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
+    return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { 
       Act: 'GetOne',
       Room: room, 
       Token: token,

@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'schedule', component: ScheduleComponent },
   { path: 'archive', component: ArchiveComponent },
   { path: 'schededit/:mode', component: ScheduleEditComponent },
-  //{ path: 'archiveedit', component: ArchiveEditComponent }
+  { path: 'archiveedit', component: ArchiveEditComponent }
 ];
 
 @NgModule({

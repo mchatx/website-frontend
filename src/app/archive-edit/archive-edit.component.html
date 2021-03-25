@@ -18,130 +18,180 @@
 
     <div *ngIf="LoginMode">
         <div [ngSwitch]="mode">
+            <!---------------------------------------------- UPLOAD MENU ------------------------------------------------------->
+            <div *ngSwitchCase="'Upload'">
+                <label for="myfile">Select a file:</label>
+                <input type="file" accept=".ass, .TTML, .srt" (change)="FileChange($event)">
+
+                <p>{{ status }}</p>
+
+                <!------- ONLY SHOW MENU BELOW IF THE FILE IS PARSED WITHOUT ANY TROUBLE ------->
+                <div *ngIf="FileParsed">
+                    <label>New File</label>
+                    <input type="checkbox" [(ngModel)]="FileNew"><br>
+
+                    <!------- IF UPLOADING NEW ARCHIVE ------->
+                    <div *ngIf="FileNew">
+                        <label>Archive Title</label>
+                        <input placeholder="Title" [(ngModel)]="SelectedArchive.Nick">
+                        <br>
+        
+                        <label>Tags</label>
+                        <input placeholder="Tags" [(ngModel)]="SelectedArchive.Tags">
+                        <br>
+        
+                        <label>Stream Link</label>
+                        <input placeholder="Stream Link" [(ngModel)]="SelectedArchive.StreamLink">
+                        <br>
+        
+                        <label>Password Protection</label>
+                        <input type="checkbox" [(ngModel)]="SelectedArchive.Pass"><br>
+                        <div *ngIf="SelectedArchive.Pass">
+                            <input placeholder="Password" [(ngModel)]="PassString">
+                            <br>
+                        </div>
+        
+                        <label>Hidden</label>
+                        <input type="checkbox" [(ngModel)]="SelectedArchive.Hidden">
+                        <br>
+        
+                        <label>Third-Party Shared</label>
+                        <input type="checkbox" [(ngModel)]="SelectedArchive.ExtShare">
+                        <br>
+                        <button style="margin-top: 2em; cursor: pointer;" (click)="PushUpload(true)">Upload</button>
+                    </div>
+                    <!--===== IF UPLOADING NEW ARCHIVE =====-->
+
+                    <!------- IF OVERWRITING ARCHIVE ------->
+                    <div *ngIf="!FileNew">
+                        <label>Choose which to overwrite</label>
+                        <ul>
+                            <li *ngFor="let archive of Archivedt; let i = index"
+                                [class.marked]="i === SelectedIndex"
+                                (click)="SetSelected(i)"
+                                style="cursor:pointer">
+                                <p> {{ archive.Nick }} </p>
+                            </li>
+                        </ul>
+
+                        <div *ngIf="SelectedIndex === -1">
+                            <button style="margin-top: 2em; cursor: pointer;" (click)="PushUpload(false)" disabled>Upload</button>
+                        </div>
+                        <div *ngIf="SelectedIndex !== -1">
+                            <button style="margin-top: 2em; cursor: pointer;" (click)="PushUpload(false)">Upload</button>
+                        </div>
+                    </div>
+                    <!--===== IF OVERWRITING ARCHIVE =====-->
+
+                </div>
+
+                <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('')">Back</button>
+            </div>
+            <!--============================================ UPLOAD MENU =====================================================-->
+
             <!---------------------------------------------- EXPORT MENU ------------------------------------------------------->
             <div *ngSwitchCase="'Export'">
+
+                <ul>
+                    <li *ngFor="let archive of Archivedt; let i = index"
+                        [class.marked]="i === SelectedIndex"
+                        (click)="SetSelected(i)"
+                        style="cursor:pointer">
+                        <p> {{ archive.Nick }} </p>
+                    </li>
+                </ul>
+                
+                <button style="margin-top: 2em; cursor: pointer;" (click)="LoadEntries('srt')">Export srt</button>
+                <button style="margin-top: 2em; cursor: pointer;" (click)="LoadEntries('ass')">Export ass</button>
+                <button style="margin-top: 2em; cursor: pointer;" (click)="LoadEntries('TTML')">Export TTML</button>
                 <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('')">Back</button>
+                <br>
+                {{ status }}
             </div>
             <!--============================================ EXPORT MENU =====================================================-->
 
             <!---------------------------------------------- EDIT MENU ------------------------------------------------------->
             <div *ngSwitchCase="'Edit'">
+
+                <ul>
+                    <li *ngFor="let archive of Archivedt; let i = index"
+                        [class.marked]="i === SelectedIndex"
+                        (click)="SetSelected(i)"
+                        style="cursor:pointer">
+                        <p> {{ archive.Nick }} </p>
+                    </li>
+                </ul>
+
+                <label>Archive Title</label>
+                <input placeholder="Title" [(ngModel)]="SelectedArchive.Nick">
+                <br>
+
+                <label>Tags</label>
+                <input placeholder="Tags" [(ngModel)]="SelectedArchive.Tags">
+                <br>
+
+                <label>Stream Link</label>
+                <input placeholder="Stream Link" [(ngModel)]="SelectedArchive.StreamLink">
+                <br>
+
+                <label>Password Protection</label>
+                <input type="checkbox" [(ngModel)]="SelectedArchive.Pass"><br>
+                <div *ngIf="SelectedArchive.Pass">
+                    <input placeholder="Password" [(ngModel)]="PassString">
+                    <br>
+                </div>
+
+                <label>Hidden</label>
+                <input type="checkbox" [(ngModel)]="SelectedArchive.Hidden">
+                <br>
+
+                <label>Third-Party Shared</label>
+                <input type="checkbox" [(ngModel)]="SelectedArchive.ExtShare">
+                <br>
+
+                <div *ngIf="SelectedIndex === -1">
+                    <button style="margin-top: 2em; cursor: pointer;" (click)="PushUpdate()" disabled>Update</button>
+                </div>
+                <div *ngIf="SelectedIndex !== -1">
+                    <button style="margin-top: 2em; cursor: pointer;" (click)="PushUpdate()" >Update</button>
+                </div>
+
                 <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('')">Back</button>
+                {{ status }}
             </div>
             <!--============================================ EDIT MENU =====================================================-->            
 
             <!---------------------------------------------- DELETE MENU ------------------------------------------------------->
             <div *ngSwitchCase="'Delete'">
+                <ul>
+                    <li *ngFor="let archive of Archivedt; let i = index"
+                        [class.marked]="i === SelectedIndex"
+                        (click)="SetSelected(i)"
+                        style="cursor:pointer">
+                        <p> {{ archive.Nick }} </p>
+                    </li>
+                </ul>
+    
+                <div *ngIf="SelectedIndex === -1">
+                    <button style="margin-top: 2em; cursor: pointer;" (click)="PushDelete()" disabled>Delete</button>
+                </div>
+                <div *ngIf="SelectedIndex !== -1">
+                    <button style="margin-top: 2em; cursor: pointer;" (click)="PushDelete()">Delete</button>
+                </div>
+
                 <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('')">Cancel</button>
+
+                {{ status }}
             </div>
             <!--============================================ DELETE MENU =====================================================-->
 
             <!---------------------------------------------- MAIN MENU ------------------------------------------------------->
             <div *ngSwitchDefault>
+                <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('Upload')">Upload</button>
                 <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('Export')">Export</button>
                 <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('Edit')">Edit</button>
                 <button style="margin-top: 2em; cursor: pointer;" (click)="Setmode('Delete')">Delete</button>
                 <a class="button" href="/archive" routerLinkActive="active">Log out</a>
-                <ul>
-                    <div *ngFor="let archive of Archivedt; let i = index"
-                        [class.marked]="i === SelectedIndex"
-                        (click)="SetSelected(i)">
-                        {{ archive.Nick }}
-                    </div>
-                </ul>
-
             </div>
             <!--============================================ MAIN MENU =====================================================-->
         </div>
-
-
-        <!--
-        <div *ngIf="mode === 'Add'">
-            <div class="center">
-                <div class="LoginDiv">
-                    <p style="margin: 10px; font-size: 2em; font-weight: bold;">{{ mode }} Schedule</p>
-                    <hr>
-                    <p>Room : {{ SearchNick }} </p>
-                    <p>Link
-                        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SelectedSched.Link" placeholder="Stream Link">
-                    </p>
-                    <p>Date (In local time)
-                        <input type="date" [(ngModel)]="DateParser">
-                    </p>
-                    <p>Time
-                        <input type="time" [(ngModel)]="TimeParser">
-                    </p>
-                    <p>Note<br>
-                        <input style="margin-left: 1em; width: 75%;" type="text" [(ngModel)]="SelectedSched.Note" placeholder="Note">
-                    </p>
-                    <hr>
-                    <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
-                    <button style="margin-top: 2em;cursor: pointer;" (click)="AddSchedule()">Enter</button>
-                    <p> Reservations will be deleted automatically after 7 days past the date-stamp</p>
-                </div>
-            </div>
-        </div>
-
-
-        <div *ngIf="mode === 'Edit'">
-            <div class="center">
-    
-                <div class="LoginDiv">
-                    <p style="margin: 10px; font-size: 2em; font-weight: bold;">{{ mode }} Schedule</p>
-                    <hr>
-
-                    <ul>
-                        <div class="ScheduleUIList" *ngFor="let Schedule of ScheduleList; let i = index"
-                            [class.marked]="i === SelectedIndex"
-                            (click)="SetSelected(i)">
-                            {{ Schedule.LocalTimeStr }}
-                        </div>
-                    </ul>
-                    <hr>
-                    <p>Reservation Ticket: <span *ngIf="SelectedIndex !== -1"> {{ ScheduleList[SelectedIndex].key }} </span></p>
-                    <p>Room : {{ SearchNick }} </p>
-                    <p>Link
-                        <input style="margin-left: 1em; width: 75%" type="text" [(ngModel)]="SelectedSched.Link" placeholder="Stream Link">
-                    </p>
-                    <p>Date (In local time)
-                        <input type="date" [(ngModel)]="DateParser">
-                    </p>
-                    <p>Time
-                        <input type="time" [(ngModel)]="TimeParser">
-                    </p>
-                    <p>Note<br>
-                        <input style="margin-left: 1em; width: 75%;" type="text" [(ngModel)]="SelectedSched.Note" placeholder="Note">
-                    </p>
-                    <hr>
-                    <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
-                    <button style="margin-top: 2em;cursor: pointer;" (click)="SendUpdate()">Enter Update</button>
-                    <p> Reservations will be deleted automatically after 7 days past the date-stamp</p>
-                </div>
-            </div>
-        </div>
-        
-        <div *ngIf="mode === 'Remove'">
-            <div class="center">
-    
-                <div class="LoginDiv">
-                    <p style="margin: 10px; font-size: 2em; font-weight: bold;">{{ mode }} Schedule</p>
-                    <hr>
-
-                    <ul>
-                        <div class="ScheduleUIList" *ngFor="let Schedule of ScheduleList; let i = index"
-                            [class.marked]="i === SelectedIndex"
-                            (click)="SetSelected(i)">
-                            {{ Schedule.LocalTimeStr }}
-                        </div>
-                    </ul>
-                    <hr>
-
-                    <p *ngIf="status !== ''" style="font-weight: bold;">{{ status }}</p>
-                    <button style="margin-top: 2em;cursor: pointer;" (click)="RemoveSchedule()">Delete</button>
-                    <p> Reservations will be deleted automatically after 7 days past the date-stamp</p>
-                </div>
-            </div>
-        </div>
-        -->
-    </div>
-</body>
