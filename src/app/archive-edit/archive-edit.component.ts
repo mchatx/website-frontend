@@ -3,8 +3,6 @@ import { ArchiveService } from '../services/archive.service';
 import ArchiveData from '../models/ArchiveFullData';
 import Entries from '../models/Entries';
 import { saveAs } from 'file-saver';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
-import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
 
 @Component({
   selector: 'app-archive-edit',
