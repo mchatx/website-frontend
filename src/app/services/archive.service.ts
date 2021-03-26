@@ -31,8 +31,7 @@ export class ArchiveService {
   GetToken(room:string, pass: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Login/', { 
+    return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
       Room: room, 
       Pass: pass
     }, { headers, observe: 'response'}));
@@ -54,8 +53,7 @@ export class ArchiveService {
     
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
-      return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { 
+    return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
       Act: 'Add',
       Room: room, 
       Token: token,
@@ -79,8 +77,7 @@ export class ArchiveService {
       ): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
   
-    //return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
-      return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { 
+    return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
       Act: 'Update',
       Room: room, 
       Token: token,
@@ -103,8 +100,7 @@ export class ArchiveService {
     ): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { 
+    return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
       Act: 'Edit',
       Room: room, 
       Token: token,
@@ -127,8 +123,7 @@ export class ArchiveService {
     
       const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { 
+    return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
       Act: 'Delete',
       Room: room, 
       Token: token,
@@ -143,8 +138,7 @@ export class ArchiveService {
   
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { 
+    return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
       Act: 'GetArchive',
       Room: room, 
       Token: token
@@ -159,8 +153,7 @@ export class ArchiveService {
     
       const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { 
+    return (this.httpclient.post('https://repo.mchatx.org/Archive/', { 
       Act: 'GetOne',
       Room: room, 
       Token: token,
