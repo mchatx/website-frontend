@@ -4,9 +4,7 @@ import { ArchiveService } from '../services/archive.service';
 import ArchiveData from '../models/ArchiveFullData';
 import Entries from '../models/Entries';
 import { saveAs } from 'file-saver';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { faLock, faUser, faTags, faUpload, faEdit, faFileExport, faTrash, faFileUpload } from '@fortawesome/free-solid-svg-icons';
-
 
 @Component({
   selector: 'app-archive-edit',
@@ -310,6 +308,10 @@ export class ArchiveEditComponent implements OnInit {
 
   }
 
+  ResetSelectedIndex(){
+    this.SelectedIndex = -1;
+  }
+
   StringifyTime(TimeStamp: number, mode: boolean): string {
     let Timestring: string = "";
     let Stime: number = 0;
@@ -349,7 +351,57 @@ export class ArchiveEditComponent implements OnInit {
     return (Timestring);
   }
 
+  CheckTimeString(teststring: string): boolean{
+    let Timesplit:string[] = teststring.split(":");
+    if (Timesplit.length != 3){
+      return(false);
+    }
 
+    if (Number.parseInt(Timesplit[0]) == NaN){
+      return(false);
+    }
+
+    if ((Number.parseInt(Timesplit[1]) == NaN) || (Number.parseInt(Timesplit[1]) > 60)){
+      return(false);
+    }
+
+    Timesplit = Timesplit[2].split(",");
+
+    if (Timesplit.length != 2){
+      return (false);
+    }
+
+    if ((Number.parseInt(Timesplit[0]) == NaN) || (Number.parseInt(Timesplit[0]) > 60)){
+      return(false);
+    }
+
+    if ((Number.parseInt(Timesplit[1]) == NaN) || (Number.parseInt(Timesplit[1]) > 1000)){
+      return(false);
+    }
+
+    return (true);
+  }
+
+  SRTTimeCheck(timestring : string): boolean{
+    if (timestring.split("-->").length != 2){
+      return(false);
+    } else if ((this.CheckTimeString(timestring.split("-->")[0].trim())) && (this.CheckTimeString(timestring.split("-->")[1].trim()))) {
+      return(true);
+    } else {
+      return(false);
+    }
+  }
+
+  ParseTimeString(TargetString : string): number{
+    let res: number = 0;
+    let Timesplit:string[] = TargetString.split(":");
+
+    res += Number.parseInt(Timesplit[0])*3600000 + Number.parseInt(Timesplit[1])*60000;
+    Timesplit = Timesplit[2].split(",");
+    res += Number.parseInt(Timesplit[0])*1000 + Number.parseInt(Timesplit[1]);
+
+    return(res);
+  }
 
   //------------------------------------- UPLOAD MODULES -------------------------------------
 
@@ -636,71 +688,72 @@ export class ArchiveEditComponent implements OnInit {
 
   ParseSRT(Feed: string): void {
     let res: string[] = Feed.split("\n");
-    let fail: Boolean = true;
-    let i: number = 0;
 
-    if (isNaN(Number.parseInt(res[0]))) {
-    } else {
-      fail = false;
-      i = Number.parseInt(res[0]);
-      for (let index: number = 0; index < res.length; index++) {
-        if (i == Number.parseInt(res[index])) {
-          if (index > res.length - 3) {
-            fail = true;
+    for (let index: number = 0; index < res.length; index++) {
+      if (this.SRTTimeCheck(res[index])){
+        let Timestamp:number = this.ParseTimeString(res[index].split("-->")[0].trim());
+        let SText:string = "";
+
+        for (index++; index < res.length; index++){
+          if (this.SRTTimeCheck(res[index])){
+            index--;
+            this.Entriesdt.push({
+              Stext: SText,
+              Stime: Timestamp,
+              CC: undefined,
+              OC: undefined
+            });
+            break;
+          } else if (res[index] == ""){
+            this.Entriesdt.push({
+              Stext: SText,
+              Stime: Timestamp,
+              CC: undefined,
+              OC: undefined
+            });
+            break;
+          } else if (index == res.length - 1) {
+            if (res[index].trim() != ""){
+              SText += res[index];
+            }  
+            this.Entriesdt.push({
+              Stext: SText,
+              Stime: Timestamp,
+              CC: undefined,
+              OC: undefined
+            });
             break;
           } else {
-            i++;
-            index++;
-            let TimeSplit: string[] = res[index].split("-->")[0].trim().split(":");
-            if (TimeSplit.length != 3) {
-              fail = true;
-              break;
-            } else {
-              index++;
-
-              let milisec: number = Number.parseInt(TimeSplit[2].split(",")[1]);
-              if (milisec < 10) {
-                milisec *= 100;
-              } else if (milisec < 100) {
-                milisec *= 10;
-              }
-
-              this.Entriesdt.push({
-                Stext: res[index],
-                Stime: Number.parseInt(TimeSplit[0]) * 3600000 + Number.parseInt(TimeSplit[1]) * 60000 + Number.parseInt(TimeSplit[2].split(",")[0]) * 1000 + milisec,
-                CC: undefined,
-                OC: undefined
-              });
-            }
+            if (res[index].trim() != ""){
+              SText += res[index];
+            }  
           }
+        }
+      }
+
+      if (index == res.length - 1){
+        this.status = "SRT file, " + this.Entriesdt.length.toString() + " Entries.";
+
+        this.FileParsed = true;
+        this.SelectedArchive = {
+          Room: this.Room,
+          Link: "",
+          Nick: "",
+          Hidden: false,
+          Pass: false,
+          Tags: "",
+          StreamLink: "",
+          ExtShare: false
         }
       }
     }
 
-    if (fail) {
-      this.status = "UNABLE TO PARSE THE FILE (FILE CORRUPTED?)";
-      return (undefined);
-    } else {
-      this.status = "SRT file, " + this.Entriesdt.length.toString() + " Entries.";
-
-      this.FileParsed = true;
-      this.SelectedArchive = {
-        Room: this.Room,
-        Link: "",
-        Nick: "",
-        Hidden: false,
-        Pass: false,
-        Tags: "",
-        StreamLink: "",
-        ExtShare: false
-      }
-      /*
+    /*
       this.status = "";
       for(let index:number = 0; index < this.Entriesdt.length; index++){
-        this.status += this.Entriesdt[index].Stext + " " + this.Entriesdt[index].Time + " " + this.Entriesdt[index].CC + " " + this.Entriesdt[index].OC + " | ";
+      this.status += this.Entriesdt[index].Stext + " " + this.Entriesdt[index].Time + " " + this.Entriesdt[index].CC + " " + this.Entriesdt[index].OC + " | ";
       }
-      */
-    }
+    */
   }
 
   ParseTTML(Feed: string): void {

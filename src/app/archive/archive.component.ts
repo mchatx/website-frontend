@@ -88,6 +88,14 @@ export class ArchiveComponent implements OnInit {
     this.isSearchActive = !this.isSearchActive;
   }
 
+  ClearSearch(){
+    this.AService.getArchive().subscribe(
+      (response: Archive[]) => {
+        this.ArchiveList = response;
+      }
+    )
+  }
+
   faRedoAlt = faRedoAlt;
   faSearch = faSearch;
   faChevronDown = faChevronDown;

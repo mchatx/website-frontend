@@ -109,6 +109,14 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
+  ClearSearch(){
+    this.SService.getSchedule().subscribe(
+      (response) => {
+        this.PopulatePager(response);
+      }
+    )
+  }
+
   faRedoAlt = faRedoAlt;
   faSearch = faSearch;
   faCalenderPlus = faCalendarPlus;

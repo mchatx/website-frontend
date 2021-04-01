@@ -140,7 +140,7 @@
                   <!------- ONLY SHOW MENU BELOW IF THE FILE IS PARSED WITHOUT ANY TROUBLE ------->
                   <div *ngIf="FileParsed">
                     <label class="checkbox label has-text-centered">
-                      <input type="checkbox" [(ngModel)]="FileNew">
+                      <input type="checkbox" [(ngModel)]="FileNew" (change)="ResetSelectedIndex()">
                       New File
                     </label>
                     <!------- IF UPLOADING NEW ARCHIVE ------->
@@ -360,7 +360,7 @@
                     <progress class="progress is-hidden" max="100" #show_hidden>30%</progress>
                   </div>
                   <div class="section">
-                    <p class="block has-text-centered subtitle is-5">Choose which to Edit</p>
+                    <p class="block has-text-centered subtitle is-5">Choose which to Delete</p>
                     <ul id="wrap">
                       <li class="ArchiveUIList" *ngFor="let archive of Archivedt; let i = index">
                         <p [class.marked]="i === SelectedIndex" (click)="SetSelected(i)">{{i+1}}. {{ archive.Nick }}
