@@ -1,8 +1,10 @@
 <div class="columns is-multiline">
   <div class="column is-full">
     <div class="section">
-      <h1 class="is-size-4 has-text-centered">Schedule Live Translation</h1>
-      <div class="divider is-left is-black"></div>
+      <div class="content">
+        <h1 class="has-text-centered">Schedule Live Translation</h1>
+        <div class="divider is-left is-black"></div>
+      </div>
 
       <div class="buttons is-centered">
         <button class="button is-outlined is-dark" routerLink="/schededit/Add" [routerLinkActive]="['is-active']"><span
@@ -26,33 +28,54 @@
       </div>
     </div>
   </div>
-  <div class="column has-background-primary-dark has-text-white">
-    <div class="section">
-      <h1 class="is-size-4 has-text-centered">Upcoming Live Translations</h1>
-
-      <div class="field has-addons p-4">
-        <input class="input" type="text" [(ngModel)]="SearchLink" placeholder="Search By Link">
-        <p class="control">
-          <button class="button is-dark" (click)="SearchByLink()">Search</button>
-        </p>
-      </div>
-
-      <div class="box animate__animated animate__fadeInUpBig p-4" *ngFor="let SchedPage of SchedulePage">
-        <p class="has-text-centered has-text-weight-bold is-size-5"> Date : {{ SchedPage.Timestamp }}</p>
-        <div class="divider is-left is-black"></div>
-        <div class="entry" *ngFor="let Schedule of SchedPage.DataList">
-          <div class="divider is-black is-left is-vertical"></div>
-          <p>Room : <a class="button is-small is-outlined is-rounded is-light is-inverted"
-              [href]="sanitize(Schedule.Room)">
-              {{ Schedule.Room }}
-            </a><br>
-            Time : {{ Schedule.Time }} <br>
-            Link to stream : <a href="{{ Schedule.Link }}" target="_blank">{{ Schedule.Link }}</a> <br>
-            Note : {{ Schedule.Note }} <br>
-            Tags : {{ Schedule.Tag }} </p>
+  <div class="column">
+    <section class="hero has-background-primary-dark is-fullheight-with-navbar">
+      <div class="hero-body is-align-items-stretch">
+        <div class="container">
+          <div class="section">
+            <div class="content">
+              <h1 class="is-size-4 has-text-centered has-text-white">Upcoming Live Translations</h1>
+            </div>
+            <div class="field has-addons p-4">
+              <input class="input" type="text" [(ngModel)]="SearchLink" placeholder="Search By Link">
+              <div class="control">
+                <button class="button is-dark" (click)="SearchByLink()"><span
+                    class="is-hidden-mobile">Search</span><span class="icon is-small">
+                    <fa-icon [icon]="faSearch"></fa-icon>
+                  </span></button>
+              </div>
+              <div class="control">
+                <button class="button is-dark"><span class="is-hidden-mobile">Clear</span><span class="icon is-small">
+                    <fa-icon [icon]="faRedoAlt"></fa-icon>
+                  </span></button>
+              </div>
+            </div>
+          </div>
+          <div *ngFor="let SchedPage of SchedulePage">
+            <div class="box m-4 animate__animated animate__fadeInUp">
+              <h2 class="has-text-centered has-text-weight-bold is-size-5">Date : {{ SchedPage.Timestamp }}</h2>
+              <div class="divider is-left is-black"></div>
+              <div class="columns is-multiline">
+                <div class="column is-3 hyphenate" *ngFor="let Schedule of SchedPage.DataList">
+                  <div class="p-2" id="wrap">
+                    <p class="hyphenate">Room : <a class="button is-small is-outlined is-rounded is-light is-inverted"
+                        [href]="sanitize(Schedule.Room)">
+                        {{ Schedule.Room }}
+                      </a></p>
+                    <p class="hyphenate">Time : {{ Schedule.Time }} </p>
+                    <p class="hyphenate">Link to stream : <a class="hyphenate" id="link" href="{{ Schedule.Link }}"
+                        target="_blank">{{ Schedule.Link }}</a></p>
+                    <p class="hyphenate">Note : {{ Schedule.Note }}</p>
+                    <p class="hyphenate">Tags : {{ Schedule.Tag }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
+
   </div>
 </div>
 <app-scroll-to-top></app-scroll-to-top>

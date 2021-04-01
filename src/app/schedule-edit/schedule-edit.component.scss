@@ -1,14 +1,10 @@
-.section{
-    .container{
-        max-width: 700px;
-        margin: auto;        
-    }
-    .box{
+   .box{
+        max-width: 750px;
+        margin: auto;
         border-radius: 15px;
         box-shadow: 0 1px 4px 0 rgba(0,0,0,1);       
         transition: box-shadow 0.2s ease-out;
         &:hover{
-        cursor: pointer;
         box-shadow: 0 1px 5px 1px rgba(0,0,0,1);
                }
         .field{
@@ -16,32 +12,89 @@
             margin:auto;                
             }                          
     }     
-}
+
 
 /*   SCHEDULE LIST   */
 ul{
     margin: auto;
     text-align: left;
     height:20vh;
-    width:90%;
     overflow:hidden; 
     overflow-y:scroll;
+    overflow-x:scroll;
     .ScheduleUIList{
-        width: fit-content;
         cursor: pointer;
-        a{  
-            color: lightblue;
-            &:hover{
-                color: blue;
-                text-decoration: underline;
-            }
+        p{
+            a{  
+                color: lightblue;                          
+                &:hover{               
+                    color: blue;
+                    text-decoration: underline;
+                        }            
+            }                
         }
-        
+        .marked {
+            color: rgb(19, 163, 0);
+            font-weight: bold;
+            
+        }/*   WHEN SCHEDULE IS CLICKED   */
     }
-    .marked {
-        color: rgb(19, 163, 0);
-        font-weight: bold;
-        
-      }/*   WHEN SCHEDULE IS CLICKED   */
     
+    
+}
+
+.hyphenate {
+    /* Careful, this breaks the word wherever it is without a hyphen */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    /* Adds a hyphen where the word breaks */
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+  }
+  
+  @media only screen and (min-width : 0px){
+    #wrap{
+       max-width: 150px;
+       margin: auto;
+    }
+   
+}
+
+  @media only screen 
+   and (min-width : 200px) {
+    #wrap{
+        max-width: 150px;
+        margin: auto;
+    }
+}
+  @media only screen 
+  and (min-width : 320px) {
+    #wrap{
+        max-width: 220px;
+        margin: auto;
+    }
+}
+@media only screen 
+   and (min-width : 425px) {
+    #wrap{
+        max-width: 320px;
+        margin: auto;
+    } 
+}
+@media only screen 
+   and (min-width : 768px) {
+    #wrap{
+        max-width: 450px;
+        margin: auto;
+    } 
+}
+@media only screen 
+   and (min-width : 1200px) {
+    #wrap{
+        max-width: 100%;
+        margin: auto;
+    }
 }

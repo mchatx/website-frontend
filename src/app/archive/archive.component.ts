@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ArchiveService } from '../services/archive.service';
 import Archive from '../models/Archive';
 import { ShowSearch } from '../models/ShowSearch';
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faSearch, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSearchengin } from '@fortawesome/free-brands-svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-archive',
@@ -24,8 +27,9 @@ export class ArchiveComponent implements OnInit {
 
   constructor(
     private AService: ArchiveService,
-    private Sanitizer: DomSanitizer
-    ) { }
+    private Sanitizer: DomSanitizer,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.AService.getArchive().subscribe(
@@ -68,7 +72,7 @@ export class ArchiveComponent implements OnInit {
     )
   }
 
-  sanitize(url:string | undefined){
+  sanitize(url: string | undefined) {
     if (url != undefined) {
       return this.Sanitizer.bypassSecurityTrustUrl("m-chad://Archive/" + url.replace(" ", "%20"));
     } else {
@@ -79,12 +83,12 @@ export class ArchiveComponent implements OnInit {
     this.isdropActive = !this.isdropActive;
   }
 
-  ShowSearch(indexitem:number) {
+  ShowSearch(indexitem: number) {
     this.SelectedIndex = indexitem;
     this.isSearchActive = !this.isSearchActive;
   }
 
-
-
+  faRedoAlt = faRedoAlt;
+  faSearch = faSearch;
   faChevronDown = faChevronDown;
 }

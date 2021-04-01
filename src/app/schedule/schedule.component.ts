@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ScheduleService } from '../services/schedule.service';
 import ScheduleData from '../models/Schedule';
 import ScheduleDisplay from '../models/ScheduleDisplay';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faSearch, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
 import { faCalendarPlus, faCalendarMinus } from '@fortawesome/free-regular-svg-icons';
-import {DomSanitizer} from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 //  TO DIVIDE THE SCHEDULE DEPENDING ON THE DAYS BASED ON LOCAL TIME
 type Pager = {
@@ -38,7 +38,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   PopulatePager(Data: ScheduleData[]): void {
-    while(this.SchedulePage.length > 0) {
+    while (this.SchedulePage.length > 0) {
       this.SchedulePage.pop();
     }
 
@@ -101,7 +101,7 @@ export class ScheduleComponent implements OnInit {
     )
   }
 
-  sanitize(url:string | undefined){
+  sanitize(url: string | undefined) {
     if (url != undefined) {
       return this.Sanitizer.bypassSecurityTrustUrl("m-chad://Room/" + url.replace(" ", "%20"));
     } else {
@@ -109,6 +109,8 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
+  faRedoAlt = faRedoAlt;
+  faSearch = faSearch;
   faCalenderPlus = faCalendarPlus;
   faCalenderMinus = faCalendarMinus;
   faEdit = faEdit;

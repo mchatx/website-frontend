@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject, HostListener } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ScheduleService } from '../services/schedule.service';
 import ScheduleData from '../models/Schedule';
@@ -12,6 +13,8 @@ import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 })
 export class ScheduleEditComponent implements OnInit {
   isModalActive: boolean = false;
+  @ViewChild('loadstate') loadbutton!: ElementRef;
+  @ViewChild('show_hidden') showhidden!: ElementRef;
   mode: string | null = "";
   LoginMode: boolean = false;
   status: string = "";
@@ -28,14 +31,32 @@ export class ScheduleEditComponent implements OnInit {
   };
   DateParser: String = "";
   TimeParser: String = "";
-
+  windowScrolled: boolean | undefined;
   Token: string = "";
 
-  constructor(
+  constructor(@Inject(DOCUMENT) private document: Document,
     private RouteParam: ActivatedRoute,
     private ScheduleService: ScheduleService,
     private router: Router,
   ) { }
+  @HostListener("window:scroll", [])
+  onWindowScroll() {
+    if (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop > 100) {
+      this.windowScrolled = true;
+    }
+    else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
+      this.windowScrolled = false;
+    }
+  }
+  scrollToTop() {
+    (function smoothscroll() {
+      var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      if (currentScroll > 0) {
+        window.requestAnimationFrame(smoothscroll);
+        window.scrollTo(0, currentScroll - (currentScroll / 8));
+      }
+    })();
+  }
 
   ngOnInit(): void {
     this.LoginMode = false;
@@ -47,9 +68,17 @@ export class ScheduleEditComponent implements OnInit {
   }
 
   LoginRoom() {
+    this.status = "";
+    this.loadbutton.nativeElement.classList.add('is-loading')
+    setTimeout(() => {
+      this.loadbutton.nativeElement.classList.remove('is-loading')
+    }, 1000);
     this.ScheduleService.GetToken(this.SearchNick, this.SearchPass).subscribe({
       error: error => {
+        setTimeout(() => {
+        }, 2000);
         this.status = "WRONG PASSWORD/ROOM NAME";
+        this.SearchNick = "";
         this.SearchPass = "";
       },
       next: data => {
@@ -66,32 +95,42 @@ export class ScheduleEditComponent implements OnInit {
   }
 
   AddSchedule() {
-    let time: string = ((new Date(this.DateParser + " " + this.TimeParser + ":00")).getTime()).toString();
+    this.status = "";
+    this.loadbutton.nativeElement.classList.add('is-loading');
+    setTimeout(() => {
+      this.loadbutton.nativeElement.classList.remove('is-loading');
+      this.showhidden.nativeElement.classList.remove('is-hidden');
+      setTimeout(() => {
+        this.showhidden.nativeElement.classList.add('is-hidden');
+        let time: string = ((new Date(this.DateParser + " " + this.TimeParser + ":00")).getTime()).toString();
 
-    if (this.SelectedSched.Link == "") {
-      this.status = "Stream Link Missing";
-    } else if (Number.parseInt(time) < (Date.now())) {
-      this.status = "Stream has already ended?";
-    } else if (time == "NaN") {
-      this.status = "Invalid Date";
-    } else {
-      this.SelectedSched.Room = this.SearchNick;
-      this.SelectedSched.Time = Number.parseInt(time);
+        if (this.SelectedSched.Link == "") {
+          this.status = "Stream Link Missing";
+        } else if (Number.parseInt(time) < (Date.now())) {
+          this.status = "Stream has already ended?";
+        } else if (time == "NaN") {
+          this.status = "Invalid Date";
+        } else {
+          this.SelectedSched.Room = this.SearchNick;
+          this.SelectedSched.Time = Number.parseInt(time);
 
-      this.ScheduleService.AddSchedule(this.SelectedSched.Room, this.Token, this.SelectedSched.Link, this.SelectedSched.Note, this.SelectedSched.Tag, this.SelectedSched.Time).subscribe({
-        error: error => {
-          this.status = error.message;
-          this.LoginMode = false;
-        },
-        next: data => {
-          this.status = "Schedule Added. Redirecting...";
-          this.isModalActive = !this.isModalActive;
-          setTimeout(() => {
-            this.router.navigate(['/schedule']);
-          }, 5000); //3s
+          this.ScheduleService.AddSchedule(this.SelectedSched.Room, this.Token, this.SelectedSched.Link, this.SelectedSched.Note, this.SelectedSched.Tag, this.SelectedSched.Time).subscribe({
+            error: error => {
+              this.status = error.message;
+              this.LoginMode = false;
+            },
+            next: data => {
+              this.status = "Schedule Added. Redirecting...";
+              this.isModalActive = !this.isModalActive;
+              setTimeout(() => {
+                this.router.navigate(['/schedule']);
+                this.scrollToTop();
+              }, 3000); //3s
+            }
+          });
         }
-      });
-    }
+      }, 3000);  //delay for progress
+    }, 1000);   //delay for button loading
   }
 
   LoadSchedule() {
@@ -122,49 +161,72 @@ export class ScheduleEditComponent implements OnInit {
   }
 
   SendUpdate() {
-    let time: string = ((new Date(this.DateParser + " " + this.TimeParser + ":00")).getTime()).toString();
+    this.status = "";
+    this.loadbutton.nativeElement.classList.add('is-loading');
+    setTimeout(() => {
+      this.loadbutton.nativeElement.classList.remove('is-loading');
+      this.showhidden.nativeElement.classList.remove('is-hidden');
+      setTimeout(() => {
+        this.showhidden.nativeElement.classList.add('is-hidden');
+        let time: string = ((new Date(this.DateParser + " " + this.TimeParser + ":00")).getTime()).toString();
 
-    if (this.SelectedSched.Link == "") {
-      this.status = "Needed Link";
-    } else if (time == "NaN") {
-      this.status = "Invalid Date";
-    } else {
-      this.ScheduleService.EditSchedule(this.SelectedSched.Room, this.Token, this.SelectedSched.Link, this.SelectedSched.Note, this.SelectedSched.Tag, this.ScheduleList[this.SelectedIndex]._id, Number.parseInt(time)).subscribe({
-        error: error => {
-          this.status = error.message;
-          this.LoginMode = false;
-        },
-        next: data => {
-          this.status = "Schedule Updated. Redirecting...";
-          this.isModalActive = !this.isModalActive;
-          setTimeout(() => {
-            this.router.navigate(['/schedule']);
-          }, 3000); //5s
-
+        if (this.SelectedSched.Link == "") {
+          this.status = "Needed Link";
+        } else if (this.SelectedIndex == -1) {
+          this.status = "Select a Schedule to Edit"
         }
-      });
-    }
+        else if (time == "NaN") {
+          this.status = "Invalid Date";
+        } else {
+          this.ScheduleService.EditSchedule(this.SelectedSched.Room, this.Token, this.SelectedSched.Link, this.SelectedSched.Note, this.SelectedSched.Tag, this.ScheduleList[this.SelectedIndex]._id, Number.parseInt(time)).subscribe({
+            error: error => {
+              this.status = error.message;
+              this.LoginMode = false;
+            },
+            next: data => {
+              this.status = "Schedule Updated. Redirecting...";
+              this.isModalActive = !this.isModalActive;
+              setTimeout(() => {
+                this.router.navigate(['/schedule']);
+                this.scrollToTop();
+              }, 3000); //3s
+            }
+          });
+        }
+      }, 3000); //delay for progress bar
+    }, 1000); //delay for button loading
   }
 
   RemoveSchedule() {
-    if (this.SelectedIndex != -1) {
-      this.ScheduleService.DeleteSchedule(this.SelectedSched.Room, this.Token, this.ScheduleList[this.SelectedIndex]._id).subscribe({
-        error: error => {
-          this.status = error.message;
-          this.LoginMode = false;
-        },
-        next: data => {
-          this.status = "Schedule Removed. Redirecting...";
-          this.isModalActive = !this.isModalActive;
-          setTimeout(() => {
-            this.router.navigate(['/schedule']);
-          }, 3000); //5s
+    this.status = "";
+    this.loadbutton.nativeElement.classList.add('is-loading')
+    setTimeout(() => {
+      this.loadbutton.nativeElement.classList.remove('is-loading')
+      this.showhidden.nativeElement.classList.remove('is-hidden')
+      setTimeout(() => {
+        this.showhidden.nativeElement.classList.add('is-hidden')
+
+        if (this.SelectedIndex != -1) {
+          this.ScheduleService.DeleteSchedule(this.SelectedSched.Room, this.Token, this.ScheduleList[this.SelectedIndex]._id).subscribe({
+            error: error => {
+              this.status = error.message;
+              this.LoginMode = false;
+            },
+            next: data => {
+              this.status = "Schedule Removed. Redirecting...";
+              this.isModalActive = !this.isModalActive;
+              setTimeout(() => {
+                this.router.navigate(['/schedule']);
+                this.scrollToTop();
+              }, 3000); //3s
+            }
+          });
         }
-      });
-    }
-    else {
-      this.status = "No Schedule Selected for Removal.";
-    }
+        else {
+          this.status = "No Schedule Selected for Removal.";
+        }
+      }, 3000); // delay for progess bar
+    }, 1000); //delay for button loading    
   }
 
   faUser = faUser;

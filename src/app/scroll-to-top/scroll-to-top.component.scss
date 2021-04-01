@@ -3,14 +3,12 @@
     bottom: 30px;
     right: 30px;
     opacity: 0;
-    transition: all .2s ease-in-out;
-    .icon{
-        color: white;
-    }
-    .button{
-        &:hover{
-            background: #585870;
-        }
+    transition: all .2s ease-in-out;    
+    .button{    
+        background: #705870;   
+        .icon{
+            color: white;
+        } 
     }
     
    }

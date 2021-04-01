@@ -6,9 +6,7 @@
 /* focus links */
 /* active links */
 /* all active links */
-.body {
-	position: relative;
-}
+
 .main-body{
 	background-color: #D0D1CD;
 }
@@ -64,7 +62,6 @@ pre {
 	 
 }
 
-
 .affix {
 	position: static;
 }
@@ -83,7 +80,7 @@ pre {
 				color: rgb(218, 218, 218);
 				border-left: 2px solid transparent;
 				padding: 0 7px;
-				font-size: 18px;
+				font-size: 16px;
 				font-weight: 400;
 			}
 			&:not(.active) {
@@ -92,9 +89,9 @@ pre {
 						color: #ffffff;
 						text-decoration: underline;
 						background-color: transparent;
-						border-left-width: 2px;
+						border-left: solid;
 						border-left-color: #ffffff;
-            			font-weight: 500;
+            			font-weight: 600;
 					}
 				}
 			}
@@ -126,6 +123,23 @@ pre {
 				}
 			}
 		}
+	}
+}
+.affix {
+	width: 300px;
+	position: fixed;
+	top: 10px;
+	.docs-sidebar {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+}
+.affix-bottom {
+	width: 300px;
+	position: absolute;
+	.docs-sidebar {
+		margin-top: 0;
+		margin-bottom: 0;
 	}
 }
 @media (min-width: 1023px){
@@ -178,11 +192,9 @@ pre {
 
 //section links
   .links{
-      color: rgb(0, 0, 0);
       &:hover {
-        color: #ffffff;
         text-decoration: underline;
         background-color: transparent;
-        font-weight: 1000;
+        font-weight: 650;
       }
     }

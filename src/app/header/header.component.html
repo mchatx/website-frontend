@@ -3,7 +3,7 @@
     <a class="navbar-item" routerLink="/">
       <h1 class="title has-text-white">MCHAD</h1>
     </a>
-    <div (click)="toggleNavbar()" class="navbar-burger" data-target="navToggle" #navBurger>
+    <div (click)="toggleNavbar()" class="navbar-burger" #navBurger>
       <span></span>
       <span></span>
       <span></span>
@@ -11,35 +11,32 @@
 
   </div>
 
-  <div class="navbar-menu" id="navToggle" #navMenu>
+  <div class="navbar-menu" #navMenu>
     <div class="navbar-start">
       <p class="navbar-item is-unselectable">One-direction Live translation Client/App</p>
     </div>
 
     <div class="navbar-end">
       <a class="navbar-item" routerLink="/" [routerLinkActive]="['is-active']" [routerLinkActiveOptions]="{exact:
-        true}">Home</a>
-      <a class="navbar-item" routerLink="/docs">How to
+        true}" (click)="toggleNavbar()">Home</a>
+      <a class="navbar-item" routerLink="/docs" [routerLinkActive]="['is-active']" (click)="toggleNavbar()">How to
         Use</a>
-      <a class="navbar-item" routerLink="/schedule" [routerLinkActive]="['is-active']">Schedule</a>
-      <a class="navbar-item" routerLink="/archive" [routerLinkActive]="['is-active']">Archive</a>
-      <a class="navbar-item" routerLink="/about" [routerLinkActive]="['is-active']">About</a>
-      <div class="navbar-item is-tablet">
-        <div class="field is-grouped">
-          <p class="control">
-            <a class="button is-rounded" href="https://discord.gg/g9t52ms" target="_blank">
-              <!-- discord invite link goes here -->
-              <span class="icon">
-                <fa-icon [icon]="faDiscord"></fa-icon>
-              </span>
-            </a>
-          </p>
+      <a class="navbar-item" routerLink="/schedule" [routerLinkActive]="['is-active']"
+        (click)="toggleNavbar()">Schedule</a>
+      <a class="navbar-item" routerLink="/archive" [routerLinkActive]="['is-active']"
+        (click)="toggleNavbar()">Archive</a>
+      <a class="navbar-item" routerLink="/about" [routerLinkActive]="['is-active']" (click)="toggleNavbar()">About</a>
+      <div class="navbar-item">
+        <div class="buttons">
+          <a class="button is-light" href="https://discord.gg/g9t52ms" target="_blank" (click)="toggleNavbar()">
+            <span class="icon">
+              <fa-icon [icon]="faDiscord"></fa-icon>
+            </span>
+          </a>
 
-          <p class="control">
-            <a class="button" routerLink="/roomapply">
-              New Room
-            </a>
-          </p>
+          <a class="button is-light" routerLink="/roomapply" (click)="toggleNavbar()">
+            New Room
+          </a>
 
         </div>
       </div>

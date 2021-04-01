@@ -1,31 +1,31 @@
 //Changing bulma variables and Global Styles
 // Import a Google Font
 
-@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
 
 // Set your brand colors
 $comet: #585870;
 $brickred: #c32c3f;
 $bluevoilet: #BA39E2;
 $dandelion: #FFDB66;
-$unnamed: #705870;
+$trendy_pink: #705870;
 $brown: #757763;
 $beige-light: #D0D1CD;
 $beige-lighter: #f6f7f2;
 
 // Update Bulma's global variables
-$family-sans-serif: "Nunito", sans-serif;
+$family-sans-serif: 'Open Sans', sans-serif;
 $primary: $comet;
-$success: $unnamed;
+
 // Update some of Bulma's component variables
 $body-background-color: $beige-lighter;
 $control-border-width: 2px;
 //$input-border-color: $brickred;
+//$input-border-color: $success;
 $input-shadow: none;
 
 $subtitle-size: 1.10rem;
 
 $section-padding: 1rem 1.5rem;
-
 $message-body-padding: 0.5em 1em;
 $hero-body-padding: 0.5rem 0.5rem

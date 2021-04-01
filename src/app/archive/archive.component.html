@@ -1,125 +1,145 @@
-<div class="section">
-  <div [ngSwitch]="SelectedIndex">
-    
-    <!------------------------- LOGIN BUTTON --------------------------------------->
-    <div class="control">
-      <a href="/archiveedit" class="button is-dark">Login Archive Manager</a>
-    </div>
-    <!--==========================================================================-->
+ <div class="columns is-multiline">
+   <div class="column is-full">
+     <!--======================== LOGIN BUTTON ====================================-->
+     <div class="section">
+       <div class="content">
+         <h1 class="has-text-centered">Archive</h1>
+       </div>
+       <div class="divider is-black"><button routerLink="/archiveedit" class="button is-dark">Login
+           Archive Manager</button>
+       </div>
+     </div>
+     <!--======================== LOGIN BUTTON ====================================-->
+   </div>
 
-    <div class="field has-addons" *ngSwitchCase="0">
-      <div class="control">
-        <div class="dropdown is-hoverable is-boxed">
-          <div class="dropdown-trigger">
-            <p class="control">
-              <a class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu">
-                <span>Search Filter</span>
-                <span class="icon is-small">
-                  <fa-icon [icon]="faChevronDown"></fa-icon>
-                </span>
-              </a>
-            </p>
-          </div>
-          <div class="dropdown-menu" id="dropdown-menu" role="menu">
-            <div class="dropdown-content" *ngFor="let SearchText of Search; index as i">
-              <a class="dropdown-item" (click)="ShowSearch(i)">
-                {{ SearchText }}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <input class="input is-white" type="text" [(ngModel)]="SearchRoom" placeholder="Search By Room">
-      <div class="control">
-        <a class="button is-dark" (click)="SearchByRoom()">Search</a>
-      </div>
-      <div class="control">
-        <a href="/archive" class="button is-dark">Clear</a>
-      </div>
-    </div>
+   <div class="column">
+     <section class="hero is-fullheight">
+       <div class="hero-body has-background-primary-dark is-align-items-stretch">
+         <div class="container">
+           <!-- ========================== Search Filter ================================= -->
+           <div [ngSwitch]="SelectedIndex">
+             <div class="section" id="s1">
+               <div class="field has-addons" *ngSwitchCase="0">
+                 <div class="control">
+                   <div class="dropdown is-hoverable">
+                     <div class="dropdown-trigger">
+                       <p class="control">
+                         <a class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu">
+                           <span class="is-hidden-mobile">Search Filter</span>
+                           <span class="icon is-small">
+                             <fa-icon [icon]="faChevronDown"></fa-icon>
+                           </span>
+                         </a>
+                       </p>
+                     </div>
+                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                       <div class="dropdown-content has-background-dark" *ngFor="let SearchText of Search; index as i">
+                         <a class="dropdown-item button is-dark" (click)="ShowSearch(i)">
+                           {{ SearchText }}
+                         </a>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                 <input class="input" type="text" [(ngModel)]="SearchRoom" placeholder="Search By Room">
+                 <div class="control">
+                   <a class="button is-dark" (click)="SearchByRoom()"><span class="is-hidden-mobile">Search</span><span
+                       class="icon is-small">
+                       <fa-icon [icon]="faSearch"></fa-icon>
+                     </span></a>
+                 </div>
+                 <div class="control">
+                   <a class="button is-dark"><span class="is-hidden-mobile">Clear</span><span class="icon is-small">
+                       <fa-icon [icon]="faRedoAlt"></fa-icon>
+                     </span></a>
+                 </div>
+               </div>
 
-    <div class="field has-addons" *ngSwitchCase="1">
-      <div class="control">
-        <div class="dropdown is-hoverable is-boxed">
-          <div class="dropdown-trigger">
-            <p class="control">
-              <a class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu">
-                <span>Search Filter</span>
-                <span class="icon">
-                  <fa-icon [icon]="faChevronDown"></fa-icon>
-                </span>
-              </a>
-            </p>
-          </div>
-          <div class="dropdown-menu" id="dropdown-menu" role="menu">
-            <div class="dropdown-content" *ngFor="let SearchText of Search; index as i">
-              <a class="dropdown-item" (click)="ShowSearch(i)">
-                {{ SearchText }}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <input class="input is-white" type="text" [(ngModel)]="SearchLink" placeholder="Search By Link">
-      <div class="control">
-        <button class="button is-dark" (click)="SearchByLink()">Search</button>
-      </div>
-      <div class="control">
-        <a href="/archive" class="button is-dark">Clear</a>
-      </div>
-    </div>
+               <div class="field has-addons" *ngSwitchCase="1">
+                 <div class="control">
+                   <div class="dropdown is-hoverable">
+                     <div class="dropdown-trigger">
+                       <p class="control">
+                         <a class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu">
+                           <span class="icon">
+                             <fa-icon [icon]="faChevronDown"></fa-icon>
+                           </span>
+                         </a>
+                       </p>
+                     </div>
+                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                       <div class="dropdown-content has-background-dark" *ngFor="let SearchText of Search; index as i">
+                         <a class="dropdown-item button is-dark" (click)="ShowSearch(i)">
+                           {{ SearchText }}
+                         </a>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                 <input class="input" type="text" [(ngModel)]="SearchLink" placeholder="Search By Link">
+                 <div class="control">
+                   <button class="button is-dark" (click)="SearchByLink()">Search</button>
+                 </div>
+                 <div class="control">
+                   <a href="/archive" class="button is-dark">X</a>
+                 </div>
+               </div>
 
-    <div class="field has-addons" *ngSwitchCase="2">
-      <div class="control">
-        <div class="dropdown is-hoverable is-boxed">
-          <div class="dropdown-trigger">
-            <p class="control">
-              <a class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu">
-                <span>Search Filter</span>
-                <span class="icon">
-                  <fa-icon [icon]="faChevronDown"></fa-icon>
-                </span>
-              </a>
-            </p>
-          </div>
-          <div class="dropdown-menu" id="dropdown-menu" role="menu">
-            <div class="dropdown-content" *ngFor="let SearchText of Search; index as i">
-              <a class="dropdown-item" (click)="ShowSearch(i)">
-                {{ SearchText }}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <input class="input is-white" type="text" [(ngModel)]="SearchTags" placeholder="Search By Tags">
-      <div class="control">
-        <button class="button is-dark" (click)="SearchByTags()">Search</button>
-      </div>
-      <div class="control">
-        <a href="/archive" class="button is-dark">Clear</a>
-      </div>
-    </div>
-  </div>
-</div>
+               <div class="field has-addons" *ngSwitchCase="2">
+                 <div class="control">
+                   <div class="dropdown is-hoverable">
+                     <div class="dropdown-trigger">
+                       <p class="control">
+                         <a class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu">
+                           <span class="icon">
+                             <fa-icon [icon]="faChevronDown"></fa-icon>
+                           </span>
+                         </a>
+                       </p>
+                     </div>
+                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                       <div class="dropdown-content has-background-dark" *ngFor="let SearchText of Search; index as i">
+                         <a class="dropdown-item button is-dark" (click)="ShowSearch(i)">
+                           {{ SearchText }}
+                         </a>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                 <input class="input" type="text" [(ngModel)]="SearchTags" placeholder="Search By Tags">
+                 <div class="control">
+                   <button class="button is-dark" (click)="SearchByTags()">Search</button>
+                 </div>
+                 <div class="control">
+                   <a href="/archive" class="button is-dark">X</a>
+                 </div>
+               </div>
+             </div>
+           </div>
+           <!--====================== Search Filter ================================-->
 
-
-<!--                NEED TO WORK ON THIS ARCHIVE CARD TOO           -->
-<div class="section has-background-primary-dark" *ngFor="let Archive of ArchiveList">
-  <div class="container has-text-centered">
-    <div class="box animate__animated animate__slideInRight">
-      <p>Room : {{ Archive.Room }} </p>
-      <p>Title : {{ Archive.Nick }}</p>
-      <p>Link to stream : <a href="{{ Archive.StreamLink }}" target="_blank">{{ Archive.StreamLink }}</a></p>
-      <p>Tags : {{ Archive.Tags }} <br></p>
-      <div *ngIf="Archive.Pass">
-        <p> <strong>Password Protected</strong></p>
-      </div>
-      <div class="divider is-black is-left"></div>
-      <a class="button is-small is-outlined is-rounded is-light is-inverted" [href]="sanitize(Archive.Link)">
-        Open in client
-      </a>
-    </div>
-  </div>
-
-</div>
-<app-scroll-to-top></app-scroll-to-top>
+           <!--                Card is working           -->
+           <div class="columns is-multiline">
+             <div class="column is-6" *ngFor="let Archive of ArchiveList">
+               <div class="box m-4 animate__animated animate__fadeInUp">
+                 <p>Room : {{ Archive.Room }} </p>
+                 <p>Title : {{ Archive.Nick }}</p>
+                 <p>Link to stream : <a href="{{ Archive.StreamLink }}" target="_blank">{{ Archive.StreamLink }}</a>
+                 </p>
+                 <p>Tags : {{ Archive.Tags }} <br></p>
+                 <div *ngIf="Archive.Pass">
+                   <p> <strong>Password Protected</strong></p>
+                 </div>
+                 <div class="divider is-black"><a class="button is-small is-outlined is-rounded is-light is-inverted"
+                     [href]="sanitize(Archive.Link)">
+                     Open in client
+                   </a></div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </section>
+   </div>
+ </div>
+ <app-scroll-to-top></app-scroll-to-top>
