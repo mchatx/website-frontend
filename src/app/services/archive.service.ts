@@ -28,27 +28,6 @@ export class ArchiveService {
 
   //------------------------------------------- ARCHIVE EDIT HANDLER -------------------------------------------
 
-  GetToken(room: string, pass: string): Observable<any> {
-    const headers = { 'Content-Type': 'application/json' };
-
-    return (this.httpclient.post('https://repo.mchatx.org/Login/', {
-      /* return (this.httpclient.post('http://127.1.0.1:33333/Login/', { */
-      Room: room,
-      Pass: pass
-    }, { headers, observe: 'response' }));
-  }
-
-  // RETURN OK WHEN SUCCESS OR HTTP STATUS 400 FOR ERROR
-  CheckToken(room:string, token: string): Observable<any> {
-    const headers = {'Content-Type': 'application/json'};
-
-    return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
-    //return (this.httpclient.post('http://127.1.0.1:33333/Login/', {
-      Room: room, 
-      Token: token
-    }, { headers, observe: 'response', responseType: 'text'}));
-  }
-
   AddArchive(
     room: string,
     token: string,

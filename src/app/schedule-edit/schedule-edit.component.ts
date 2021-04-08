@@ -3,6 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ScheduleService } from '../services/schedule.service';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
+import { AccountService } from '../services/account.service';
 import ScheduleData from '../models/Schedule';
 import { faLock, faUser, faTags } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
@@ -39,6 +40,7 @@ export class ScheduleEditComponent implements OnInit {
     private RouteParam: ActivatedRoute,
     private ScheduleService: ScheduleService,
     private TGCrypt: TsugeGushiService,
+    private AccService: AccountService,
     private router: Router,
   ) { }
   @HostListener("window:scroll", [])
@@ -65,7 +67,7 @@ export class ScheduleEditComponent implements OnInit {
     let test:string | null = sessionStorage.getItem("MChatToken");
     if (test != undefined){
       let TokenData = JSON.parse(this.TGCrypt.TGDecryption(test));
-      this.ScheduleService.CheckToken(TokenData["Room"], TokenData["Token"]).subscribe({
+      this.AccService.CheckToken(TokenData["Room"], TokenData["Token"]).subscribe({
         error: error => {
           sessionStorage.removeItem("MChatToken");
         },
@@ -93,7 +95,7 @@ export class ScheduleEditComponent implements OnInit {
     setTimeout(() => {
       this.loadbutton.nativeElement.classList.remove('is-loading')
     }, 1000);
-    this.ScheduleService.GetToken(this.SearchNick, this.SearchPass).subscribe({
+    this.AccService.GetToken(this.SearchNick, this.SearchPass).subscribe({
       error: error => {
         setTimeout(() => {
         }, 2000);

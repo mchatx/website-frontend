@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Inject, HostListener } from '
 import { DOCUMENT } from '@angular/common';
 import { ArchiveService } from '../services/archive.service';
 import { TsugeGushiService } from '../services/tsuge-gushi.service'
+import { AccountService } from '../services/account.service';
 import ArchiveData from '../models/ArchiveFullData';
 import Entries from '../models/Entries';
 import { saveAs } from 'file-saver';
@@ -69,7 +70,8 @@ export class ArchiveEditComponent implements OnInit {
 
   constructor(@Inject(DOCUMENT) private document: Document,
     private AService: ArchiveService,
-    private TGCrypt: TsugeGushiService
+    private TGCrypt: TsugeGushiService,
+    private AccService: AccountService
   ) { }
 
   @HostListener("window:scroll", [])
@@ -96,7 +98,7 @@ export class ArchiveEditComponent implements OnInit {
     
     if (test != undefined){
       let TokenData = JSON.parse(this.TGCrypt.TGDecryption(test));
-      this.AService.CheckToken(TokenData["Room"], TokenData["Token"]).subscribe({
+      this.AccService.CheckToken(TokenData["Room"], TokenData["Token"]).subscribe({
         error: error => {
           sessionStorage.removeItem("MChatToken");
         },
@@ -116,7 +118,7 @@ export class ArchiveEditComponent implements OnInit {
     setTimeout(() => {
       this.loadbutton.nativeElement.classList.remove('is-loading')
     }, 1000);
-    this.AService.GetToken(this.SearchNick, this.SearchPass).subscribe({
+    this.AccService.GetToken(this.SearchNick, this.SearchPass).subscribe({
       error: error => {
         setTimeout(() => {
         }, 2000);
