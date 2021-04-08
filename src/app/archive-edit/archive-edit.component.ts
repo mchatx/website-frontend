@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ArchiveService } from '../services/archive.service';
+import { TsugeGushiService } from '../services/tsuge-gushi.service'
 import ArchiveData from '../models/ArchiveFullData';
 import Entries from '../models/Entries';
 import { saveAs } from 'file-saver';
@@ -67,7 +68,8 @@ export class ArchiveEditComponent implements OnInit {
   PassString: string = "";
 
   constructor(@Inject(DOCUMENT) private document: Document,
-    private AService: ArchiveService
+    private AService: ArchiveService,
+    private TGCrypt: TsugeGushiService
   ) { }
 
   @HostListener("window:scroll", [])
@@ -88,7 +90,24 @@ export class ArchiveEditComponent implements OnInit {
       }
     })();
   }
+
   ngOnInit(): void {
+    let test:string | null = sessionStorage.getItem("MChatToken");
+    
+    if (test != undefined){
+      let TokenData = JSON.parse(this.TGCrypt.TGDecryption(test));
+      this.AService.CheckToken(TokenData["Room"], TokenData["Token"]).subscribe({
+        error: error => {
+          sessionStorage.removeItem("MChatToken");
+        },
+        next: data => {
+          this.LoginMode = true;
+          this.Room = TokenData["Room"];
+          this.Token = TokenData["Token"];
+          this.LoadArchive();
+        }
+      });
+    }
   }
 
   LoginRoom() {
@@ -106,12 +125,12 @@ export class ArchiveEditComponent implements OnInit {
         this.SearchPass = "";
       },
       next: data => {
-        this.Token = data.body[0]["Token"];
-        this.Room = this.SearchNick;
-        this.LoginMode = true;
-        this.SearchPass = "";
-        this.status = "";
-        this.LoadArchive();
+        sessionStorage.setItem("MChatToken", this.TGCrypt.TGEncryption(JSON.stringify({
+          Room: this.SearchNick,
+          Token: data.body[0]["Token"],
+          Role: "TL"
+        }), 15 ,Date.now() % 100));
+        location.reload();
       }
     });
   }
@@ -226,9 +245,14 @@ export class ArchiveEditComponent implements OnInit {
           if (this.SelectedArchive.Room != undefined) {
             this.AService.EditArchive(this.Room, this.Token, this.SelectedArchive.Link, this.SelectedArchive.Nick, this.SelectedArchive.Hidden, this.SelectedArchive.ExtShare, this.SelectedArchive.Tags, this.SelectedArchive.Pass, this.PassString, this.SelectedArchive.StreamLink).subscribe({
               error: error => {
-                this.status = error.message;
+                this.status = error["error"];
                 this.LoginMode = false;
                 this.mode = '';
+
+                if (error["error"] == "ERROR : INVALID TOKEN"){
+                  sessionStorage.removeItem("MChatToken");
+                  location.reload();
+                } 
               },
               next: data => {
                 this.status = "Archive Data Updated. Redirecting...";
@@ -277,9 +301,14 @@ export class ArchiveEditComponent implements OnInit {
           if (this.SelectedArchive.Room != undefined) {
             this.AService.DeleteArchive(this.Room, this.Token, this.Archivedt[this.SelectedIndex].Link).subscribe({
               error: error => {
-                this.status = error.message;
+                this.status = error["error"];
                 this.LoginMode = false;
                 this.mode = '';
+                
+                if (error["error"] == "ERROR : INVALID TOKEN"){
+                  sessionStorage.removeItem("MChatToken");
+                  location.reload();
+                } 
               },
               next: data => {
                 this.status = "Archive Deleted. Redirecting...";
@@ -424,9 +453,14 @@ export class ArchiveEditComponent implements OnInit {
 
             this.AService.AddArchive(this.Room, this.Token, this.SelectedArchive.Nick, this.SelectedArchive.Link, this.SelectedArchive.Hidden, this.SelectedArchive.ExtShare, this.SelectedArchive.Tags, this.SelectedArchive.Pass, this.PassString, this.SelectedArchive.StreamLink, JSON.stringify(this.Entriesdt)).subscribe({
               error: error => {
-                this.status = error.message;
+                this.status = error["error"];
                 this.LoginMode = false;
                 this.mode = '';
+
+                if (error["error"] == "ERROR : INVALID TOKEN"){
+                  sessionStorage.removeItem("MChatToken");
+                  location.reload();
+                } 
               },
               next: data => {
                 this.Processing = true;
@@ -449,9 +483,14 @@ export class ArchiveEditComponent implements OnInit {
           } else {
             this.AService.UpdateArchive(this.Room, this.Token, this.Archivedt[this.SelectedIndex].Link, JSON.stringify(this.Entriesdt)).subscribe({
               error: error => {
-                this.status = error.message;
+                this.status = error["error"];
                 this.LoginMode = false;
                 this.mode = '';
+
+                if (error["error"] == "ERROR : INVALID TOKEN"){
+                  sessionStorage.removeItem("MChatToken");
+                  location.reload();
+                } 
               },
               next: data => {
                 this.Processing = true;

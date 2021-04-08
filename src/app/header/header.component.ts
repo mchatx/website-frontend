@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { faDiscord } from '@fortawesome/free-brands-svg-icons';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { TsugeGushiService } from '../services/tsuge-gushi.service'
 
 @Component({
   selector: 'app-header',
@@ -8,9 +9,27 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  constructor() { }
+  constructor(
+    private TGCrypt: TsugeGushiService
+  ) {}
+
+  LoggedIn: boolean = false;
+  AccountName: string = "";
 
   ngOnInit(): void {
+    let test:string | null = sessionStorage.getItem("MChatToken");
+    if (test != undefined){
+      let TokenData = JSON.parse(this.TGCrypt.TGDecryption(test));
+      this.AccountName = TokenData["Room"];
+      this.LoggedIn = true;
+    }
+  }
+
+  LogoutButtonPush():void {
+    sessionStorage.removeItem("MChatToken");
+    this.LoggedIn = false;
+    this.AccountName = "";
+    location.reload();
   }
 
   @ViewChild('navBurger') navBurger!: ElementRef;

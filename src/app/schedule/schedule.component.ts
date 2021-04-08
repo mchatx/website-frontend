@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ScheduleService } from '../services/schedule.service';
 import ScheduleData from '../models/Schedule';
 import ScheduleDisplay from '../models/ScheduleDisplay';
@@ -17,7 +17,7 @@ type Pager = {
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss']
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit{
 
   SchedulePage: Pager[] = [];   //  DIVIDE SCHEDULE INTO PAGES BASED ON LOCAL TIME DAY
   SearchRoom: string = "";
@@ -29,15 +29,29 @@ export class ScheduleComponent implements OnInit {
     private Sanitizer: DomSanitizer
   ) { }
 
+  timer:any;
+  Failcount : number = 0;
+
+  JumpToContainer(index : string): void {
+    this.Failcount++;
+    if (document.getElementById( index + " Container") != null){
+      //document.getElementById( index + " Container")?.setAttribute("AttributeA", "ValueX");
+      clearInterval(this.timer);
+    }
+    if (this.Failcount == 5){
+      clearInterval(this.timer);
+    }
+  }
+
   ngOnInit(): void {
     this.SService.getSchedule().subscribe(
       (response) => {
-        this.PopulatePager(response); // PARSE AND DIVIDE THE INCOMING RESPONSE INTO PAGES
+        this.PopulatePager(response, true); // PARSE AND DIVIDE THE INCOMING RESPONSE INTO PAGES
       }
     )
   }
 
-  PopulatePager(Data: ScheduleData[]): void {
+  PopulatePager(Data: ScheduleData[], InitJump: boolean = false): void {
     while (this.SchedulePage.length > 0) {
       this.SchedulePage.pop();
     }
@@ -46,6 +60,9 @@ export class ScheduleComponent implements OnInit {
 
     let index: number = -1;
     let created: boolean = false;
+    let todayindex: number = -1;
+
+    let i:number = 0;
 
     Data.map(e => {
       if (e.Time != undefined) {
@@ -55,6 +72,10 @@ export class ScheduleComponent implements OnInit {
         }
 
         if (created == false) {
+          if (Date.now() > Startnum){
+            todayindex++;
+          }
+
           let Stamp: string = (new Date(Startnum - ((new Date().getTimezoneOffset() + 24.0 * 60.0) * 60.0 * 1000.0))).toISOString();
           this.SchedulePage.push({
             Timestamp: Stamp.substr(0, 10),
@@ -72,6 +93,14 @@ export class ScheduleComponent implements OnInit {
           Time: Stamp.substr(0, 10) + " " + Stamp.substr(11, 5),
           Tag: e.Tag,
         });
+      }
+
+      i++;
+      this.Failcount = 0;
+      if ((i == Data.length) && (InitJump)){
+        this.timer = setInterval(() => {
+          this.JumpToContainer((todayindex + 1).toString());
+        }, 1000);
       }
     });
   }

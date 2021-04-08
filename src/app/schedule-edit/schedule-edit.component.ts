@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Inject, HostListener } from '
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ScheduleService } from '../services/schedule.service';
+import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import ScheduleData from '../models/Schedule';
 import { faLock, faUser, faTags } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
@@ -37,6 +38,7 @@ export class ScheduleEditComponent implements OnInit {
   constructor(@Inject(DOCUMENT) private document: Document,
     private RouteParam: ActivatedRoute,
     private ScheduleService: ScheduleService,
+    private TGCrypt: TsugeGushiService,
     private router: Router,
   ) { }
   @HostListener("window:scroll", [])
@@ -60,6 +62,24 @@ export class ScheduleEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.LoginMode = false;
+    let test:string | null = sessionStorage.getItem("MChatToken");
+    if (test != undefined){
+      let TokenData = JSON.parse(this.TGCrypt.TGDecryption(test));
+      this.ScheduleService.CheckToken(TokenData["Room"], TokenData["Token"]).subscribe({
+        error: error => {
+          sessionStorage.removeItem("MChatToken");
+        },
+        next: data => {
+          this.LoginMode = true;
+          this.SelectedSched.Room = TokenData["Room"];
+          this.Token = TokenData["Token"];
+          if (this.mode != "Add") {
+            this.LoadSchedule();
+          }
+        }
+      });
+    }
+
     this.mode = this.RouteParam.snapshot.paramMap.get('mode');
 
     let Today: string = (new Date(Date.now() - (new Date().getTimezoneOffset() * 60.0 * 1000.0))).toISOString();
@@ -80,16 +100,16 @@ export class ScheduleEditComponent implements OnInit {
         this.status = "WRONG PASSWORD/ROOM NAME";
         this.SearchNick = "";
         this.SearchPass = "";
+        sessionStorage.removeItem("MChatToken");
       },
       next: data => {
-        this.Token = data.body[0]["Token"];
-        this.SelectedSched.Room = this.SearchNick;
-        this.LoginMode = true;
-        if (this.mode != "Add") {
-          this.LoadSchedule();
-        }
-        this.SearchPass = "";
-        this.status = "";
+        sessionStorage.setItem("MChatToken", this.TGCrypt.TGEncryption(JSON.stringify({
+          Room: this.SearchNick,
+          Token: data.body[0]["Token"],
+          Role: "TL"
+        }), 15 ,Date.now() % 100));
+
+        location.reload();
       }
     });
   }
@@ -116,8 +136,13 @@ export class ScheduleEditComponent implements OnInit {
 
           this.ScheduleService.AddSchedule(this.SelectedSched.Room, this.Token, this.SelectedSched.Link, this.SelectedSched.Note, this.SelectedSched.Tag, this.SelectedSched.Time).subscribe({
             error: error => {
-              this.status = error.message;
+              this.status = error["error"];
               this.LoginMode = false;
+
+              if (error["error"] == "ERROR : INVALID TOKEN"){
+                sessionStorage.removeItem("MChatToken");
+                location.reload();
+              } 
             },
             next: data => {
               this.status = "Schedule Added. Redirecting...";
@@ -180,8 +205,13 @@ export class ScheduleEditComponent implements OnInit {
         } else {
           this.ScheduleService.EditSchedule(this.SelectedSched.Room, this.Token, this.SelectedSched.Link, this.SelectedSched.Note, this.SelectedSched.Tag, this.ScheduleList[this.SelectedIndex]._id, Number.parseInt(time)).subscribe({
             error: error => {
-              this.status = error.message;
+              this.status = error["error"];
               this.LoginMode = false;
+
+              if (error["error"] == "ERROR : INVALID TOKEN"){
+                sessionStorage.removeItem("MChatToken");
+                location.reload();
+              } 
             },
             next: data => {
               this.status = "Schedule Updated. Redirecting...";
@@ -209,8 +239,13 @@ export class ScheduleEditComponent implements OnInit {
         if (this.SelectedIndex != -1) {
           this.ScheduleService.DeleteSchedule(this.SelectedSched.Room, this.Token, this.ScheduleList[this.SelectedIndex]._id).subscribe({
             error: error => {
-              this.status = error.message;
+              this.status = error["error"];
               this.LoginMode = false;
+
+              if (error["error"] == "ERROR : INVALID TOKEN"){
+                sessionStorage.removeItem("MChatToken");
+                location.reload();
+              } 
             },
             next: data => {
               this.status = "Schedule Removed. Redirecting...";

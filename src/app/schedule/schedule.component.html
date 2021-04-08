@@ -52,8 +52,8 @@
               </div>
             </div>
           </div>
-          <div *ngFor="let SchedPage of SchedulePage">
-            <div class="box m-4 animate__animated animate__fadeInUp">
+          <div *ngFor="let SchedPage of SchedulePage; let i = index">
+            <div id="{{ i }} Container" class="box m-4 animate__animated animate__fadeInUp">
               <h2 class="has-text-centered has-text-weight-bold is-size-5">Date : {{ SchedPage.Timestamp }}</h2>
               <div class="divider is-left is-black"></div>
               <div class="columns is-multiline">

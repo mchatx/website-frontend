@@ -22,6 +22,7 @@ import { ArchiveComponent } from './archive/archive.component';
 import { ScheduleEditComponent } from './schedule-edit/schedule-edit.component'
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { ArchiveEditComponent } from './archive-edit/archive-edit.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ArchiveEditComponent } from './archive-edit/archive-edit.component';
     ScheduleComponent,
     ScheduleEditComponent,
     ArchiveComponent,
-    ArchiveEditComponent
+    ArchiveEditComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

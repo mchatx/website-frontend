@@ -38,6 +38,15 @@
             New Room
           </a>
 
+          <!------------------------------ LOGIN/LOGOUT BUTTON ------------------------------>
+          <a *ngIf="!LoggedIn" class="button is-light" routerLink="/login" [routerLinkActive]="['is-active']">
+            Login
+          </a>
+          <a *ngIf="LoggedIn" class="button is-light" (click)="LogoutButtonPush()">
+            Logout ({{ AccountName }})
+          </a>
+          <!--============================ LOGIN/LOGOUT BUTTON ============================-->
+
         </div>
       </div>
     </div>

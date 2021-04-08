@@ -37,9 +37,21 @@ export class ScheduleService {
     const headers = {'Content-Type': 'application/json'};
 
     return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Login/', {
       Room: room, 
       Pass: pass
     }, { headers, observe: 'response'}));
+  }
+
+  // RETURN OK WHEN SUCCESS OR HTTP STATUS 400 FOR ERROR
+  CheckToken(room:string, token: string): Observable<any> {
+    const headers = {'Content-Type': 'application/json'};
+
+    return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Login/', {
+      Room: room, 
+      Token: token
+    }, { headers, observe: 'response', responseType: 'text'}));
   }
 
   // RETURN STRING "OK" WHEN SUCCESS OR HTTP STATUS 400 FOR ERROR
@@ -47,6 +59,7 @@ export class ScheduleService {
     const headers = {'Content-Type': 'application/json'};
 
     return (this.httpclient.post('https://repo.mchatx.org/Schedule/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Schedule/', {
       Act: 'Add',
       Room: room, 
       Token: token,
@@ -59,26 +72,28 @@ export class ScheduleService {
 
   // RETURN STRING "OK" WHEN SUCCESS OR HTTP STATUS 400 FOR ERROR
   // YOU CAN GET SCHEDULE ID FROM getSchedule WITH ROOM ARGUMENT
-    EditSchedule(room:string | undefined, token: string, link: string | undefined, note: string | undefined, tag: string | undefined, idObject: string | undefined, time: number): Observable<any> {
-      const headers = {'Content-Type': 'application/json'};
+  EditSchedule(room:string | undefined, token: string, link: string | undefined, note: string | undefined, tag: string | undefined, idObject: string | undefined, time: number): Observable<any> {
+    const headers = {'Content-Type': 'application/json'};
   
-      return (this.httpclient.post('https://repo.mchatx.org/Schedule/', { 
-        Act: 'Edit',
-        Room: room, 
-        Token: token,
-        Link: link,
-        Note: note,
-        Tag: tag,
-        Time: time,
-        id: idObject
-      }, { headers, observe: 'response', responseType: 'text'}));
-    }
+    return (this.httpclient.post('https://repo.mchatx.org/Schedule/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Schedule/', {
+      Act: 'Edit',
+      Room: room, 
+      Token: token,
+      Link: link,
+      Note: note,
+      Tag: tag,
+      Time: time,
+      id: idObject
+    }, { headers, observe: 'response', responseType: 'text'}));
+  }
 
   // RETURN STRING "OK" WHEN SUCCESS OR HTTP STATUS 400 FOR ERROR
   DeleteSchedule(room:string | undefined, token: string, idObject: string | undefined): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
     return (this.httpclient.post('https://repo.mchatx.org/Schedule/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Schedule/', {
       Act: 'Delete',
       Room: room, 
       Token: token,
