@@ -10,7 +10,7 @@ import { TsugeGushiService } from '../services/tsuge-gushi.service'
 })
 export class HeaderComponent implements OnInit {
   constructor(
-    private TGCrypt: TsugeGushiService
+    private TGEnc: TsugeGushiService
   ) {}
 
   LoggedIn: boolean = false;
@@ -19,9 +19,13 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     let test:string | null = sessionStorage.getItem("MChatToken");
     if (test != undefined){
-      let TokenData = JSON.parse(this.TGCrypt.TGDecryption(test));
-      this.AccountName = TokenData["Room"];
-      this.LoggedIn = true;
+      try {
+        let TokenData = JSON.parse(this.TGEnc.TGDecoding(test));
+        this.AccountName = TokenData["Room"];
+        this.LoggedIn = true;          
+      } catch (error) {
+        sessionStorage.removeItem("MChatToken");
+      }
     }
   }
 

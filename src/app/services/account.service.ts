@@ -25,8 +25,8 @@ export class AccountService {
   GetToken(room:string, pass: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
-    //return (this.httpclient.post('http://127.1.0.1:33333/Login/', {
+    //return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
+    return (this.httpclient.post('http://127.1.0.1:33333/Login/', {
       Room: room, 
       Pass: pass
     }, { headers, observe: 'response'}));
@@ -36,8 +36,8 @@ export class AccountService {
   CheckToken(room:string, token: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
-    //return (this.httpclient.post('http://127.1.0.1:33333/Login/', {
+    //return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
+    return (this.httpclient.post('http://127.1.0.1:33333/Login/', {
       Room: room, 
       Token: token
     }, { headers, observe: 'response', responseType: 'text'}));

@@ -1,5 +1,5 @@
 <!--============================================ SIGN IN PAGE =====================================================-->
-<div *ngIf="ModeSignin">
+<div *ngIf="ModeSignin && !Logged">
     <section class="hero is-primary is-fullheight-with-navbar">
       <div class="hero-body is-align-items-stretch">
         <div class="container has-text-centered has-text-black">
@@ -13,7 +13,7 @@
                 <div class="field has-text-left">
                   <label class="label">Account Nick</label>
                   <div class="control has-icons-left">
-                    <input class="input is-rounded" type="text" placeholder="Account Nick" [(ngModel)]="SearchNick">
+                    <input class="input is-rounded" type="text" placeholder="Account Nick" [(ngModel)]="Nick">
                     <span class="icon is-left is-small">
                       <fa-icon [icon]="faUser"></fa-icon>
                     </span>
@@ -25,7 +25,7 @@
                 <div class="field has-text-left">
                   <label class="label">Password</label>
                   <div class="control has-icons-left">
-                    <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="SearchPass">
+                    <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="Pass">
                     <span class="icon is-left is-small">
                       <fa-icon [icon]="faLock"></fa-icon>
                     </span>
@@ -63,7 +63,7 @@
   <!--============================================ SIGN IN PAGE  =====================================================-->
 
   <!--============================================ SIGN IN PAGE =====================================================-->
-<div *ngIf="!ModeSignin">
+<div *ngIf="!ModeSignin && !Logged">
     <section class="hero is-primary is-fullheight-with-navbar">
       <div class="hero-body is-align-items-stretch">
         <div class="container has-text-centered has-text-black">
@@ -77,7 +77,7 @@
                 <div class="field has-text-left">
                   <label class="label">Account Nick</label>
                   <div class="control has-icons-left">
-                    <input class="input is-rounded" type="text" placeholder="Account Nick" [(ngModel)]="SearchNick">
+                    <input class="input is-rounded" type="text" placeholder="Account Nick" [(ngModel)]="Nick">
                     <span class="icon is-left is-small">
                       <fa-icon [icon]="faUser"></fa-icon>
                     </span>
@@ -89,7 +89,7 @@
                 <div class="field has-text-left">
                   <label class="label">Password</label>
                   <div class="control has-icons-left">
-                    <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="SearchPass">
+                    <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="Pass">
                     <span class="icon is-left is-small">
                       <fa-icon [icon]="faLock"></fa-icon>
                     </span>

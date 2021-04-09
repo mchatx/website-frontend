@@ -39,7 +39,7 @@ export class ScheduleEditComponent implements OnInit {
   constructor(@Inject(DOCUMENT) private document: Document,
     private RouteParam: ActivatedRoute,
     private ScheduleService: ScheduleService,
-    private TGCrypt: TsugeGushiService,
+    private TGEnc: TsugeGushiService,
     private AccService: AccountService,
     private router: Router,
   ) { }
@@ -66,20 +66,28 @@ export class ScheduleEditComponent implements OnInit {
     this.LoginMode = false;
     let test:string | null = sessionStorage.getItem("MChatToken");
     if (test != undefined){
-      let TokenData = JSON.parse(this.TGCrypt.TGDecryption(test));
-      this.AccService.CheckToken(TokenData["Room"], TokenData["Token"]).subscribe({
-        error: error => {
-          sessionStorage.removeItem("MChatToken");
-        },
-        next: data => {
-          this.LoginMode = true;
-          this.SelectedSched.Room = TokenData["Room"];
-          this.Token = TokenData["Token"];
-          if (this.mode != "Add") {
-            this.LoadSchedule();
-          }
-        }
-      });
+      try {
+        let TokenData = JSON.parse(this.TGEnc.TGDecoding(test));
+        if (TokenData["Role"] == "TL"){
+          this.AccService.CheckToken(TokenData["Room"], TokenData["Token"]).subscribe({
+            error: error => {
+              sessionStorage.removeItem("MChatToken");
+            },
+            next: data => {
+              this.LoginMode = true;
+              this.SelectedSched.Room = TokenData["Room"];
+              this.Token = TokenData["Token"];
+              if (this.mode != "Add") {
+                this.LoadSchedule();
+              }
+            }
+          });  
+        } else {
+          this.status = "THIS ACCOUNT DOESN'T HAVE TL PRIVILEGE";
+        }          
+      } catch (error) {
+        sessionStorage.removeItem("MChatToken");
+      }
     }
 
     this.mode = this.RouteParam.snapshot.paramMap.get('mode');
@@ -105,13 +113,19 @@ export class ScheduleEditComponent implements OnInit {
         sessionStorage.removeItem("MChatToken");
       },
       next: data => {
-        sessionStorage.setItem("MChatToken", this.TGCrypt.TGEncryption(JSON.stringify({
-          Room: this.SearchNick,
-          Token: data.body[0]["Token"],
-          Role: "TL"
-        }), 15 ,Date.now() % 100));
-
-        location.reload();
+        if (data.body[0]["Role"] == "TL"){
+          sessionStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
+            Room: this.SearchNick,
+            Token: data.body[0]["Token"],
+            Role: "TL"
+          })));
+  
+          location.reload();  
+        } else {
+          this.status = "THIS ACCOUNT DOESN'T HAVE TL PRIVILEGE";
+          this.SearchNick = "";
+          this.SearchPass = "";  
+        }
       }
     });
   }
