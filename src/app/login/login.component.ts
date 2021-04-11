@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   Pass:string = "";
   ConfirmPass:string = "";
   EmailAddress:string = "";
+  Processing:boolean = false;
   
   // ICONS
   faUser = faUser;
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit {
   }
 
   LoginTry(): void{
-    this.AccService.GetToken(this.Nick, this.Pass).subscribe({
+    this.AccService.GetTokenPublic(this.Nick, this.Pass).subscribe({
       error: error => {
         setTimeout(() => {
         }, 2000);
@@ -64,6 +65,45 @@ export class LoginComponent implements OnInit {
         }
       }
     });    
+  }
+
+  SignUpTry():void {
+    if ((this.Nick == "") || (this.EmailAddress == "")){
+      this.status = "Please fill all fields";
+      return;
+    }
+
+    if (this.Pass != this.ConfirmPass){
+      this.Pass = "";
+      this.ConfirmPass = "";
+      this.status = "Password does not match";
+      return;
+    }
+
+    if (!this.Processing){
+      this.Processing = true;
+      this.AccService.PostSignUp(
+        this.TGEnc.TGEncoding(JSON.stringify({
+          Nick: this.Nick,
+          Pass: this.Pass,
+          Email: this.EmailAddress
+        }))
+      ).subscribe({
+        error: error => {
+          this.status = error["error"];
+          this.Pass = "";
+          this.ConfirmPass = "";
+          this.Processing = false;
+        },
+        next: data => {
+          this.status = "VERIVICATION EMAIL WILL BE SENT TO YOUR EMAIL ADDRESS SOON(TM)."
+          setTimeout(() => {
+            this.Router.navigate(['']);
+          }, 2000);
+        }
+      });    
+    }
+
   }
 
   ChangeMode(newmode: boolean): void{
