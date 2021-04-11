@@ -63,6 +63,46 @@ export class AccountService {
     }, { headers, observe: 'response', responseType: 'text'}));
   }
 
+  PostResetPass(token: string): Observable<any> {
+    const headers = {'Content-Type': 'application/json'};
+
+    //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
+    return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
+      Act: 'ResetPass', 
+      Token: token
+    }, { headers, observe: 'response', responseType: 'text'}));
+  }
+
+  GetAccountData(token:string): Observable<any> {
+    const headers = {'Content-Type': 'application/json'};
+
+    //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
+    return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
+      Act: 'Get', 
+      Token: token
+    }, { headers, observe: 'response', responseType: 'text'}));
+  }
+
+  PostDeleteAccount(token:string): Observable<any> {
+    const headers = {'Content-Type': 'application/json'};
+
+    //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
+    return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
+      Act: 'Delete', 
+      Token: token
+    }, { headers, observe: 'response', responseType: 'text'}));
+  }
+
+  PostChangePass(token:string): Observable<any> {
+    const headers = {'Content-Type': 'application/json'};
+
+    //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
+    return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
+      Act: 'ChangePass', 
+      Token: token
+    }, { headers, observe: 'response', responseType: 'text'}));
+  }
+
   // RETURN OK WHEN SUCCESS OR HTTP STATUS 400 FOR ERROR
   CheckToken(room:string, token: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};

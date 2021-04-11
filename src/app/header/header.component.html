@@ -42,10 +42,27 @@
           <a *ngIf="!LoggedIn" class="button is-light" routerLink="/login" [routerLinkActive]="['is-active']">
             Login
           </a>
-          <a *ngIf="LoggedIn" class="button is-light" (click)="LogoutButtonPush()">
-            Logout ({{ AccountName }})
-          </a>
-          <!--============================ LOGIN/LOGOUT BUTTON ============================-->
+          
+          <div *ngIf="LoggedIn" class="control">
+            <div class="dropdown is-hoverable">
+              <div class="dropdown-trigger">
+                <p class="control">
+                  <a class="button is-light" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span class="is-hidden-mobile">{{ AccountName }}</span>
+                  </a>
+                </p>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content has-background-light">
+                  <a class="button is-light" routerLink="/account" [routerLinkActive]="['is-active']">Account</a>
+                </div>
+                <div class="dropdown-content has-background-light">
+                  <a class="button is-light" (click)="LogoutButtonPush()">Logout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+   <!--============================ LOGIN/LOGOUT BUTTON ============================-->
 
         </div>
       </div>

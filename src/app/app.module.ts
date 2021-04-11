@@ -24,6 +24,9 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { ArchiveEditComponent } from './archive-edit/archive-edit.component';
 import { LoginComponent } from './login/login.component';
 import { VerivyComponent } from './verivy/verivy.component';
+import { SignupComponent } from './signup/signup.component';
+import { RestartpassComponent } from './restartpass/restartpass.component';
+import { AccountpageComponent } from './accountpage/accountpage.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import { VerivyComponent } from './verivy/verivy.component';
     ArchiveComponent,
     ArchiveEditComponent,
     LoginComponent,
-    VerivyComponent
+    VerivyComponent,
+    SignupComponent,
+    RestartpassComponent,
+    AccountpageComponent
   ],
   imports: [
     BrowserModule,

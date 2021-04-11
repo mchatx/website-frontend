@@ -1,0 +1,68 @@
+<!--------------------------  HEAD  -------------------------->
+<p>Nick : {{ Nick }}</p>
+<p>Email : {{ EmailAddress }}</p>
+<!--========================  HEAD  ========================-->
+
+<!--------------------------  CHANGE EMAIL ADDRESS  -------------------------->
+<p>
+    <a class="button is-dark" (click)="ChangeMode(1)">Change Email Address</a>
+</p>
+<div *ngIf="mode == 1">
+    <div class="field has-text-left">
+        <label class="label">Email Address.</label>
+        <div class="control has-icons-left">
+          <input class="input is-rounded" type="text" placeholder="New email address" [(ngModel)]="input1">
+        </div>
+      </div>
+
+      <div class="field has-text-left">
+        <label class="label">Password.</label>
+        <div class="control has-icons-left">
+          <input class="input is-rounded" type="password" placeholder="password" [(ngModel)]="Pass">
+        </div>
+      </div>
+    
+    <a class="button is-dark" (click)="ChangeMode(0)">Confirm Change</a>
+    <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
+    <div class="control">
+        <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
+    </div>
+
+</div>
+<!--========================  CHANGE EMAIL ADDRESS  ========================-->
+
+<!--------------------------  CHANGE PASSWORD  -------------------------->
+<p>
+    <a class="button is-dark" (click)="ChangeMode(2)">Change Password</a>
+</p>
+<div *ngIf="mode == 2">
+    <div class="field has-text-left">
+        <label class="label">Old Password.</label>
+        <div class="control has-icons-left">
+          <input class="input is-rounded" type="password" placeholder="Old password" [(ngModel)]="Pass">
+        </div>
+      </div>
+
+      <div class="field has-text-left">
+        <label class="label">New Password.</label>
+        <div class="control has-icons-left">
+          <input class="input is-rounded" type="password" placeholder="New password" [(ngModel)]="input1">
+        </div>
+        <div class="control has-icons-left">
+            <input class="input is-rounded" type="password" placeholder="Confirm new password" [(ngModel)]="input2">
+        </div>
+    </div>
+    
+    <a class="button is-dark" (click)="ChangePass()">Change Password</a>
+    <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
+    <div class="control">
+        <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
+    </div>
+
+</div>
+<!--========================  CHANGE PASSWORD  ========================-->
+
+
+<p>
+    <a class="button is-dark" (click)="DeleteAccount()">Delete Account</a>
+</p>

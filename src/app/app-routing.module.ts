@@ -12,6 +12,9 @@ import { ArchiveComponent } from './archive/archive.component';
 import { ArchiveEditComponent } from './archive-edit/archive-edit.component';
 import { LoginComponent } from './login/login.component';
 import { VerivyComponent } from './verivy/verivy.component';
+import { SignupComponent } from './signup/signup.component';
+import { RestartpassComponent } from './restartpass/restartpass.component';
+import { AccountpageComponent } from './accountpage/accountpage.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -26,6 +29,9 @@ const routes: Routes = [
   { path: 'schededit/:mode', component: ScheduleEditComponent },
   { path: 'verivy/:token', component: VerivyComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
+  { path: 'restart-pass', component: RestartpassComponent },
+  { path: 'account', component: AccountpageComponent },
   { path: 'archiveedit', component: ArchiveEditComponent }
 ];
 
