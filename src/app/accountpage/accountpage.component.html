@@ -1,6 +1,10 @@
 <!--------------------------  HEAD  -------------------------->
 <p>Nick : {{ Nick }}</p>
 <p>Email : {{ EmailAddress }}</p>
+<div class="control">
+  <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
+</div>
+
 <!--========================  HEAD  ========================-->
 
 <!--------------------------  CHANGE EMAIL ADDRESS  -------------------------->
@@ -22,12 +26,8 @@
         </div>
       </div>
     
-    <a class="button is-dark" (click)="ChangeMode(0)">Confirm Change</a>
+    <a class="button is-dark" (click)="ChangeEmail()">Confirm Change</a>
     <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
-    <div class="control">
-        <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
-    </div>
-
 </div>
 <!--========================  CHANGE EMAIL ADDRESS  ========================-->
 
@@ -55,14 +55,31 @@
     
     <a class="button is-dark" (click)="ChangePass()">Change Password</a>
     <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
-    <div class="control">
-        <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
-    </div>
-
 </div>
 <!--========================  CHANGE PASSWORD  ========================-->
 
-
+<!--------------------------  DELETE  -------------------------->
 <p>
-    <a class="button is-dark" (click)="DeleteAccount()">Delete Account</a>
+    <a class="button is-dark" (click)="ChangeMode(3)">Delete Account</a>
 </p>
+<div id="DeleteModal" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="field has-text-left">
+      <label class="label">Enter your nick to confirm.</label>
+      <div class="control has-icons-left">
+        <input class="input is-rounded" type="text" placeholder="{{ Nick }}" [(ngModel)]="input1">
+      </div>
+    </div>
+  
+    <a class="button is-dark" (click)="DeleteAccount()">DELETE</a>
+    <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
+
+    <div class="control">
+      <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
+    </div>
+    
+  </div>
+  <button class="modal-close is-large" aria-label="close" (click)="ChangeMode(0)"></button>
+</div>
+<!--========================  DELETE  ========================-->

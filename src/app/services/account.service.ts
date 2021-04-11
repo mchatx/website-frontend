@@ -103,6 +103,16 @@ export class AccountService {
     }, { headers, observe: 'response', responseType: 'text'}));
   }
 
+  PostChangeEmail(token:string): Observable<any> {
+    const headers = {'Content-Type': 'application/json'};
+
+    //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
+    return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
+      Act: 'ChangeEmail', 
+      Token: token
+    }, { headers, observe: 'response', responseType: 'text'}));
+  }
+
   // RETURN OK WHEN SUCCESS OR HTTP STATUS 400 FOR ERROR
   CheckToken(room:string, token: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};

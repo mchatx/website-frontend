@@ -35,7 +35,7 @@ export class AccountpageComponent implements OnInit {
         }))
       ).subscribe({
         error: error => {
-          this.Nick = JSON.stringify(error);
+          this.Router.navigate(['']);
         },
         next: data => {
           dt = JSON.parse(data["body"]);
@@ -49,9 +49,11 @@ export class AccountpageComponent implements OnInit {
   }
 
   DeleteAccount():void {
-    if (!this.processing){
+    if (this.input1 != this.Nick) {
+      this.input1 = "";
+    } else if (!this.processing){
       this.processing = true;
-      this.AccService.GetAccountData(
+      this.AccService.PostDeleteAccount(
         this.TGEnc.TGEncoding(JSON.stringify({
           Nick: this.Nick
         }))
@@ -62,20 +64,38 @@ export class AccountpageComponent implements OnInit {
         },
         next: data => {
           sessionStorage.removeItem("MChatToken");
+          this.status = "Account has been deleted, redirecting now (Your data is still cached for 14 days before permanent deletion)"
           setTimeout(() => {
-            this.Router.navigate(['']);
-          }, 2000);
+            location.reload();
+          }, 10000);
         }
       });
     }
   }
 
   ChangeMode(modechange:number) {
-    this.mode = modechange;
-    this.input1 = "";
-    this.input2 = "";
-    this.Pass = "";
-    this.status = "";
+    if ((this.mode != modechange) && (!this.processing)){
+      if (this.mode == 3){
+        let modaltarget = document.getElementById("DeleteModal");
+        if (modaltarget != null){
+          modaltarget.className = "modal";
+        }
+      }
+  
+      this.mode = modechange;
+      this.input1 = "";
+      this.input2 = "";
+      this.Pass = "";
+      this.status = "";
+  
+      
+      if (modechange == 3){
+        let modaltarget = document.getElementById("DeleteModal");
+        if (modaltarget != null){
+          modaltarget.className = "modal is-active";
+        }
+      }
+    }
   }
 
   ChangePass():void {
@@ -88,6 +108,7 @@ export class AccountpageComponent implements OnInit {
     }
 
     if (!this.processing){
+      this.status = "";
       this.processing = true;
       this.AccService.PostChangePass(
         this.TGEnc.TGEncoding(JSON.stringify({
@@ -99,8 +120,38 @@ export class AccountpageComponent implements OnInit {
         error: error => {
           this.status = error["error"];
           this.processing = false;
+          this.Pass = "";
         },
         next: data => {
+          this.mode = 0;
+          this.status = "Password has been changed."
+          this.processing = false;
+        }
+      });
+    }
+  }
+
+  ChangeEmail():void {
+    if (!this.processing){
+      this.status = "";
+      this.processing = true;
+      this.AccService.PostChangeEmail(
+        this.TGEnc.TGEncoding(JSON.stringify({
+          Nick: this.Nick,
+          Pass: this.Pass,
+          NewEmail: this.input1
+        }))
+      ).subscribe({
+        error: error => {
+          this.status = error["error"];
+          this.Pass = "";
+          this.input1 = "";
+          this.input2 = "";
+          this.processing = false;
+        },
+        next: data => {
+          this.EmailAddress = this.input1;
+          this.mode = 0;
           this.processing = false;
         }
       });
