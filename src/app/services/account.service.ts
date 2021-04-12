@@ -49,7 +49,7 @@ export class AccountService {
     //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
     return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'SignUp', 
-      Token: Data
+      BToken: Data
     }, { headers, observe: 'response', responseType: 'text'}));
   }
 
@@ -59,7 +59,7 @@ export class AccountService {
     //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
     return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'Verivy', 
-      Token: token
+      BToken: token
     }, { headers, observe: 'response', responseType: 'text'}));
   }
 
@@ -69,7 +69,7 @@ export class AccountService {
     //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
     return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'ResetPass', 
-      Token: token
+      BToken: token
     }, { headers, observe: 'response', responseType: 'text'}));
   }
 
@@ -79,7 +79,7 @@ export class AccountService {
     //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
     return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'Get', 
-      Token: token
+      BToken: token
     }, { headers, observe: 'response', responseType: 'text'}));
   }
 
@@ -89,7 +89,7 @@ export class AccountService {
     //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
     return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'Delete', 
-      Token: token
+      BToken: token
     }, { headers, observe: 'response', responseType: 'text'}));
   }
 
@@ -99,7 +99,7 @@ export class AccountService {
     //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
     return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'ChangePass', 
-      Token: token
+      BToken: token
     }, { headers, observe: 'response', responseType: 'text'}));
   }
 
@@ -109,7 +109,7 @@ export class AccountService {
     //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
     return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'ChangeEmail', 
-      Token: token
+      BToken: token
     }, { headers, observe: 'response', responseType: 'text'}));
   }
 

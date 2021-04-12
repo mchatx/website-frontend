@@ -25,14 +25,14 @@ export class VerivyComponent implements OnInit {
         error: error => {
           setTimeout(() => {
             this.Router.navigate(['']);
-          }, 2000);
+          }, 5000);
           this.status = "UNABLE TO PROCESS TOKEN.";
         },
         next: data => {
           setTimeout(() => {
             this.Router.navigate(['']);
-          }, 2000);
-          this.status = "ACCOUNT VERIVIED.";
+          }, 5000);
+          this.status = "ACCOUNT VERIVIED. REDIRECTING...";
         }
       });      
     } else {

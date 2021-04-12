@@ -71,6 +71,12 @@
         <input class="input is-rounded" type="text" placeholder="{{ Nick }}" [(ngModel)]="input1">
       </div>
     </div>
+    <div class="field has-text-left">
+      <label class="label">Password.</label>
+      <div class="control has-icons-left">
+        <input class="input is-rounded" type="password" placeholder="Password here" [(ngModel)]="Pass">
+      </div>
+    </div>
   
     <a class="button is-dark" (click)="DeleteAccount()">DELETE</a>
     <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>

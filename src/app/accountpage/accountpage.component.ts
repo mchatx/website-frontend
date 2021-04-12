@@ -55,7 +55,8 @@ export class AccountpageComponent implements OnInit {
       this.processing = true;
       this.AccService.PostDeleteAccount(
         this.TGEnc.TGEncoding(JSON.stringify({
-          Nick: this.Nick
+          Nick: this.Nick,
+          Pass: this.Pass
         }))
       ).subscribe({
         error: error => {
@@ -67,7 +68,7 @@ export class AccountpageComponent implements OnInit {
           this.status = "Account has been deleted, redirecting now (Your data is still cached for 14 days before permanent deletion)"
           setTimeout(() => {
             location.reload();
-          }, 10000);
+          }, 7000);
         }
       });
     }
