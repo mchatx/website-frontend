@@ -25,8 +25,8 @@ export class AccountService {
   GetToken(room:string, pass: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Login/', {
+    return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Login/', {
       Room: room, 
       Pass: pass
     }, { headers, observe: 'response'}));
@@ -35,8 +35,8 @@ export class AccountService {
   GetTokenPublic(room:string, pass: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Login/', {
+    return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Login/', {
       Room: room, 
       Pass: pass,
       Public: true
@@ -46,8 +46,8 @@ export class AccountService {
   PostSignUp(Data: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
+    return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'SignUp', 
       BToken: Data
     }, { headers, observe: 'response', responseType: 'text'}));
@@ -56,8 +56,8 @@ export class AccountService {
   PostVerivy(token: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
+    return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'Verivy', 
       BToken: token
     }, { headers, observe: 'response', responseType: 'text'}));
@@ -66,8 +66,8 @@ export class AccountService {
   PostResetPass(token: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
+    return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'ResetPass', 
       BToken: token
     }, { headers, observe: 'response', responseType: 'text'}));
@@ -76,8 +76,8 @@ export class AccountService {
   GetAccountData(token:string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
+    return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'Get', 
       BToken: token
     }, { headers, observe: 'response', responseType: 'text'}));
@@ -86,8 +86,8 @@ export class AccountService {
   PostDeleteAccount(token:string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
+    return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'Delete', 
       BToken: token
     }, { headers, observe: 'response', responseType: 'text'}));
@@ -96,8 +96,8 @@ export class AccountService {
   PostChangePass(token:string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
+    return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'ChangePass', 
       BToken: token
     }, { headers, observe: 'response', responseType: 'text'}));
@@ -106,8 +106,8 @@ export class AccountService {
   PostChangeEmail(token:string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
+    return (this.httpclient.post('https://repo.mchatx.org/Account/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Account/', {
       Act: 'ChangeEmail', 
       BToken: token
     }, { headers, observe: 'response', responseType: 'text'}));
@@ -117,8 +117,8 @@ export class AccountService {
   CheckToken(room:string, token: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Login/', {
+    return (this.httpclient.post('https://repo.mchatx.org/Login/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Login/', {
       Room: room, 
       Token: token
     }, { headers, observe: 'response', responseType: 'text'}));

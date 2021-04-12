@@ -36,8 +36,8 @@ export class ScheduleService {
   AddSchedule(room:string, token: string, link: string | undefined, note: string | undefined, tag: string | undefined, time: number): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Schedule/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Schedule/', {
+    return (this.httpclient.post('https://repo.mchatx.org/Schedule/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Schedule/', {
       Act: 'Add',
       Room: room, 
       Token: token,
@@ -53,8 +53,8 @@ export class ScheduleService {
   EditSchedule(room:string | undefined, token: string, link: string | undefined, note: string | undefined, tag: string | undefined, idObject: string | undefined, time: number): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
   
-    //return (this.httpclient.post('https://repo.mchatx.org/Schedule/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Schedule/', {
+    return (this.httpclient.post('https://repo.mchatx.org/Schedule/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Schedule/', {
       Act: 'Edit',
       Room: room, 
       Token: token,
@@ -70,8 +70,8 @@ export class ScheduleService {
   DeleteSchedule(room:string | undefined, token: string, idObject: string | undefined): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    //return (this.httpclient.post('https://repo.mchatx.org/Schedule/', { 
-    return (this.httpclient.post('http://127.1.0.1:33333/Schedule/', {
+    return (this.httpclient.post('https://repo.mchatx.org/Schedule/', { 
+    //return (this.httpclient.post('http://127.1.0.1:33333/Schedule/', {
       Act: 'Delete',
       Room: room, 
       Token: token,

@@ -108,6 +108,7 @@ export class ArchiveEditComponent implements OnInit {
               this.LoginMode = true;
               this.Room = TokenData["Room"];
               this.Token = TokenData["Token"];
+              this.SearchNick = TokenData["Room"];
               this.LoadArchive();
             }
           });

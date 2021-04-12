@@ -77,6 +77,7 @@ export class ScheduleEditComponent implements OnInit {
               this.LoginMode = true;
               this.SelectedSched.Room = TokenData["Room"];
               this.Token = TokenData["Token"];
+              this.SearchNick = TokenData["Room"];
               if (this.mode != "Add") {
                 this.LoadSchedule();
               }

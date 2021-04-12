@@ -65,7 +65,7 @@ export class AccountpageComponent implements OnInit {
         },
         next: data => {
           sessionStorage.removeItem("MChatToken");
-          this.status = "Account has been deleted, redirecting now (Your data is still cached for 14 days before permanent deletion)"
+          this.status = "Account has been deleted, redirecting now"
           setTimeout(() => {
             location.reload();
           }, 7000);

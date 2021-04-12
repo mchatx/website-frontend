@@ -31,11 +31,13 @@ export class ScheduleComponent implements OnInit{
 
   timer:any;
   Failcount : number = 0;
-
   JumpToContainer(index : string): void {
     this.Failcount++;
-    if (document.getElementById( index + " Container") != null){
-      //document.getElementById( index + " Container")?.setAttribute("AttributeA", "ValueX");
+    let DOMtarget = document.getElementById( index + " Container");
+    if (DOMtarget != null){
+      //DOMtarget.setAttribute("AttributeA", "ValueX");
+      //DOMtarget.className = "box m-4 animate__animated animate__fadeInUp is-active";
+      //DOMtarget.scrollIntoView();
       clearInterval(this.timer);
     }
     if (this.Failcount == 5){
@@ -96,8 +98,10 @@ export class ScheduleComponent implements OnInit{
       }
 
       i++;
-      this.Failcount = 0;
+
+      //  ACTIVATE JUMP TO CONTAINER
       if ((i == Data.length) && (InitJump)){
+        this.Failcount = 0;
         this.timer = setInterval(() => {
           this.JumpToContainer((todayindex + 1).toString());
         }, 1000);

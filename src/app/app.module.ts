@@ -27,6 +27,7 @@ import { VerivyComponent } from './verivy/verivy.component';
 import { SignupComponent } from './signup/signup.component';
 import { RestartpassComponent } from './restartpass/restartpass.component';
 import { AccountpageComponent } from './accountpage/accountpage.component';
+import { TestingGroundComponent } from './testing-ground/testing-ground.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { AccountpageComponent } from './accountpage/accountpage.component';
     VerivyComponent,
     SignupComponent,
     RestartpassComponent,
-    AccountpageComponent
+    AccountpageComponent,
+    TestingGroundComponent
   ],
   imports: [
     BrowserModule,

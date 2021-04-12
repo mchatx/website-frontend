@@ -15,11 +15,12 @@ import { VerivyComponent } from './verivy/verivy.component';
 import { SignupComponent } from './signup/signup.component';
 import { RestartpassComponent } from './restartpass/restartpass.component';
 import { AccountpageComponent } from './accountpage/accountpage.component';
+import { TestingGroundComponent } from './testing-ground/testing-ground.component'
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'docs', component: DocsComponent },
-  //{path: 'docs', loadChildren: () => import('./docs/docs.module').then(m => m.DocsModule)}
+  //{path: 'docs', loadChildren: () => import('./docs/docs.module').then(m => m.DocsModule)} Lazy loading need more work first
   { path: 'footer', component: FooterComponent },
   { path: 'header', component: HeaderComponent },
   { path: '', component: HomeComponent },
@@ -32,7 +33,8 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'restart-pass', component: RestartpassComponent },
   { path: 'account', component: AccountpageComponent },
-  { path: 'archiveedit', component: ArchiveEditComponent }
+  { path: 'archiveedit', component: ArchiveEditComponent },
+  { path: 'test', component: TestingGroundComponent }
 ];
 
 @NgModule({
