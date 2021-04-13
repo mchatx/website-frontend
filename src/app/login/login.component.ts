@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
@@ -12,11 +12,12 @@ import { faLock, faUser } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  status:string = "";
-  Nick:string = "";
-  Pass:string = "";
-  Processing:boolean = false;
-  
+  @ViewChild('loadstate') loadbutton!: ElementRef;
+  status: string = "";
+  Nick: string = "";
+  Pass: string = "";
+  Processing: boolean = false;
+
   // ICONS
   faUser = faUser;
   faLock = faLock;
@@ -28,41 +29,47 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (sessionStorage.getItem("MChatToken") != undefined){    
+    if (sessionStorage.getItem("MChatToken") != undefined) {
       this.Router.navigate(['']);
     }
   }
 
-  LoginTry(): void{
-    if (!this.Processing) {
-      this.Processing = true;
-      this.AccService.GetTokenPublic(this.Nick, this.Pass).subscribe({
-        error: error => {
-          setTimeout(() => {
-          }, 2000);
-          this.status = "WRONG PASSWORD/ROOM NAME";
-          this.Nick = "";
-          this.Pass = "";
-          sessionStorage.removeItem("MChatToken");
-          this.Processing = false;
-        },
-        next: data => {
-          if (data.body[0]["Role"] == "TL"){
-            sessionStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
-              Room: this.Nick,
-              Token: data.body[0]["Token"],
-              Role: "TL"
-            })));
-            location.reload();
-          } else {
-            sessionStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
-              Room: this.Nick,
-              Token: data.body[0]["Token"]
-            })));
-            location.reload();
+  LoginTry(): void {
+    this.status = "";
+    this.loadbutton.nativeElement.classList.add('is-loading');
+    setTimeout(() => {
+      this.loadbutton.nativeElement.classList.remove('is-loading');
+      if (!this.Processing) {
+        this.Processing = true;
+        this.AccService.GetTokenPublic(this.Nick, this.Pass).subscribe({
+          error: error => {
+            setTimeout(() => {
+            }, 2000);
+            this.status = "WRONG PASSWORD/ROOM NAME";
+            this.Nick = "";
+            this.Pass = "";
+            sessionStorage.removeItem("MChatToken");
+            this.Processing = false;
+          },
+          next: data => {
+            this.status = "LOGIN SUCCESS"
+            if (data.body[0]["Role"] == "TL") {
+              sessionStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
+                Room: this.Nick,
+                Token: data.body[0]["Token"],
+                Role: "TL"
+              })));
+              location.reload();
+            } else {
+              sessionStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
+                Room: this.Nick,
+                Token: data.body[0]["Token"]
+              })));
+              location.reload();
+            }
           }
-        }
-      });    
-    }
+        });
+      }
+    }, 1000); //delay for button loading    
   }
 }

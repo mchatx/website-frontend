@@ -1,91 +1,132 @@
-<!--------------------------  HEAD  -------------------------->
-<p>Nick : {{ Nick }}</p>
-<p>Email : {{ EmailAddress }}</p>
-<div class="control">
-  <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
-</div>
+<section class="hero is-fullheight-with-navbar">
+  <div class="hero-body is-align-items-stretch">
+    <div class="container">
+      <div class="mt-4">
+        <div class="box1 p-6">
+          <div class="columns">
+            <div class="column">
+              <!--------------------------  HEAD  -------------------------->
+              <div class="card">
+                <header class="card-header">
+                  <p class="card-header-title">
+                    Nick : {{ Nick }}
+                  </p>
+                </header>
+                <div class="card-content">
+                  <div class="content">
+                    Email : {{ EmailAddress }}
+                  </div>
+                </div>
+              </div>
+              <!--========================  HEAD  ========================-->
+              <div class="control">
+                <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
+              </div>
 
-<!--========================  HEAD  ========================-->
+            </div>
+            <div class="column">
+              <div class="buttons">
+                <!--------------------------  CHANGE EMAIL ADDRESS  -------------------------->
+                <button class="button is-dark" [ngClass]="{'is-hidden': ishiddenemail}" (click)="ChangeMode(1)">Change
+                  Email Address</button>
+                <div *ngIf="mode == 1">
+                  <div class="field has-text-left">
+                    <label class="label">Email Address.</label>
+                    <div class="control has-icons-left">
+                      <input class="input is-rounded" type="text" placeholder="New email address" [(ngModel)]="input1">
+                      <span class="icon is-left is-small">
+                        <fa-icon [icon]="faAt"></fa-icon>
+                      </span>
+                    </div>
+                  </div>
 
-<!--------------------------  CHANGE EMAIL ADDRESS  -------------------------->
-<p>
-    <a class="button is-dark" (click)="ChangeMode(1)">Change Email Address</a>
-</p>
-<div *ngIf="mode == 1">
-    <div class="field has-text-left">
-        <label class="label">Email Address.</label>
-        <div class="control has-icons-left">
-          <input class="input is-rounded" type="text" placeholder="New email address" [(ngModel)]="input1">
+                  <div class="field has-text-left">
+                    <label class="label">Password.</label>
+                    <div class="control has-icons-left">
+                      <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="Pass">
+                      <span class="icon is-left is-small">
+                        <fa-icon [icon]="faLock"></fa-icon>
+                      </span>
+                    </div>
+                  </div>
+
+                  <a class="button is-dark" (click)="ChangeEmail()" #loadstate>Confirm</a>
+                  <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
+                </div>
+                <!--========================  CHANGE EMAIL ADDRESS  ========================-->
+
+                <!--------------------------  CHANGE PASSWORD  -------------------------->
+                <button class="button is-dark" [ngClass]="{'is-hidden': ishiddenpass}" (click)="ChangeMode(2)">Change
+                  Password</button>
+
+                <div *ngIf="mode == 2">
+                  <div class="field has-text-left">
+                    <label class="label">Old Password.</label>
+                    <div class="control has-icons-left">
+                      <input class="input is-rounded" type="password" placeholder="Old password" [(ngModel)]="Pass">
+                      <span class="icon is-left is-small">
+                        <fa-icon [icon]="faLock"></fa-icon>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="field has-text-left">
+                    <label class="label">New Password.</label>
+                    <div class="control has-icons-left">
+                      <input class="input is-rounded" type="password" placeholder="New password" [(ngModel)]="input1">
+                      <span class="icon is-left is-small">
+                        <fa-icon [icon]="faLock"></fa-icon>
+                      </span>
+                    </div>
+                    <div class="control has-icons-left">
+                      <input class="input is-rounded" type="password" placeholder="Confirm new password"
+                        [(ngModel)]="input2">
+                      <span class="icon is-left is-small">
+                        <fa-icon [icon]="faLock"></fa-icon>
+                      </span>
+                    </div>
+                  </div>
+
+                  <a class="button is-dark" (click)="ChangePass()" #loadstate>Change</a>
+                  <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
+                </div>
+                <!--========================  CHANGE PASSWORD  ========================-->
+
+                <!--------------------------  DELETE  -------------------------->
+                <button class="button is-dark" [ngClass]="{'is-hidden': ishiddendel}" (click)="ChangeMode(3)">Delete
+                  Account</button>
+                <div [ngClass]="{ 'is-active' : isModalActive }" class="modal">
+                  <div class="modal-background"></div>
+                  <div class="modal-content">
+                    <div class="field has-text-left">
+                      <label class="label has-text-white">Enter your nick to confirm.</label>
+                      <div class="control has-icons-left">
+                        <input class="input is-rounded" type="text" placeholder="{{ Nick }}" [(ngModel)]="input1">
+                      </div>
+                    </div>
+                    <div class="field has-text-left">
+                      <label class="label has-text-white">Password.</label>
+                      <div class="control has-icons-left">
+                        <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="Pass">
+                      </div>
+                    </div>
+                    <a class="button is-dark" (click)="DeleteAccount()" #loadstate>DELETE</a>
+                    <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
+                    <div class="control">
+                      <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
+                    </div>
+                  </div>
+                </div>
+                <!--========================  DELETE  ========================-->
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="field has-text-left">
-        <label class="label">Password.</label>
-        <div class="control has-icons-left">
-          <input class="input is-rounded" type="password" placeholder="password" [(ngModel)]="Pass">
-        </div>
-      </div>
-    
-    <a class="button is-dark" (click)="ChangeEmail()">Confirm Change</a>
-    <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
-</div>
-<!--========================  CHANGE EMAIL ADDRESS  ========================-->
 
-<!--------------------------  CHANGE PASSWORD  -------------------------->
-<p>
-    <a class="button is-dark" (click)="ChangeMode(2)">Change Password</a>
-</p>
-<div *ngIf="mode == 2">
-    <div class="field has-text-left">
-        <label class="label">Old Password.</label>
-        <div class="control has-icons-left">
-          <input class="input is-rounded" type="password" placeholder="Old password" [(ngModel)]="Pass">
-        </div>
-      </div>
 
-      <div class="field has-text-left">
-        <label class="label">New Password.</label>
-        <div class="control has-icons-left">
-          <input class="input is-rounded" type="password" placeholder="New password" [(ngModel)]="input1">
-        </div>
-        <div class="control has-icons-left">
-            <input class="input is-rounded" type="password" placeholder="Confirm new password" [(ngModel)]="input2">
-        </div>
+
     </div>
-    
-    <a class="button is-dark" (click)="ChangePass()">Change Password</a>
-    <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
-</div>
-<!--========================  CHANGE PASSWORD  ========================-->
-
-<!--------------------------  DELETE  -------------------------->
-<p>
-    <a class="button is-dark" (click)="ChangeMode(3)">Delete Account</a>
-</p>
-<div id="DeleteModal" class="modal">
-  <div class="modal-background"></div>
-  <div class="modal-content">
-    <div class="field has-text-left">
-      <label class="label">Enter your nick to confirm.</label>
-      <div class="control has-icons-left">
-        <input class="input is-rounded" type="text" placeholder="{{ Nick }}" [(ngModel)]="input1">
-      </div>
-    </div>
-    <div class="field has-text-left">
-      <label class="label">Password.</label>
-      <div class="control has-icons-left">
-        <input class="input is-rounded" type="password" placeholder="Password here" [(ngModel)]="Pass">
-      </div>
-    </div>
-  
-    <a class="button is-dark" (click)="DeleteAccount()">DELETE</a>
-    <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
-
-    <div class="control">
-      <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
-    </div>
-    
   </div>
-  <button class="modal-close is-large" aria-label="close" (click)="ChangeMode(0)"></button>
-</div>
-<!--========================  DELETE  ========================-->
+</section>

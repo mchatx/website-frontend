@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { faDiscord } from '@fortawesome/free-brands-svg-icons';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faUserAlt, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { TsugeGushiService } from '../services/tsuge-gushi.service'
 
 @Component({
@@ -11,25 +12,25 @@ import { TsugeGushiService } from '../services/tsuge-gushi.service'
 export class HeaderComponent implements OnInit {
   constructor(
     private TGEnc: TsugeGushiService
-  ) {}
+  ) { }
 
   LoggedIn: boolean = false;
   AccountName: string = "";
 
   ngOnInit(): void {
-    let test:string | null = sessionStorage.getItem("MChatToken");
-    if (test != undefined){
+    let test: string | null = sessionStorage.getItem("MChatToken");
+    if (test != undefined) {
       try {
         let TokenData = JSON.parse(this.TGEnc.TGDecoding(test));
         this.AccountName = TokenData["Room"];
-        this.LoggedIn = true;          
+        this.LoggedIn = true;
       } catch (error) {
         sessionStorage.removeItem("MChatToken");
       }
     }
   }
 
-  LogoutButtonPush():void {
+  LogoutButtonPush(): void {
     sessionStorage.removeItem("MChatToken");
     this.LoggedIn = false;
     this.AccountName = "";
@@ -46,5 +47,8 @@ export class HeaderComponent implements OnInit {
 
   faDiscord = faDiscord;
   faDownload = faDownload;
+  faUser = faUser;
+  faUserAlt = faUserAlt;
+  faSignInAlt = faSignInAlt;
 
 }

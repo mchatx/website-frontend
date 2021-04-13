@@ -94,12 +94,12 @@ export class ArchiveEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let test:string | null = sessionStorage.getItem("MChatToken");
-    
-    if (test != undefined){
+    let test: string | null = sessionStorage.getItem("MChatToken");
+
+    if (test != undefined) {
       try {
         let TokenData = JSON.parse(this.TGEnc.TGDecoding(test));
-        if (TokenData["Role"] == "TL"){
+        if (TokenData["Role"] == "TL") {
           this.AccService.CheckToken(TokenData["Room"], TokenData["Token"]).subscribe({
             error: error => {
               sessionStorage.removeItem("MChatToken");
@@ -114,7 +114,7 @@ export class ArchiveEditComponent implements OnInit {
           });
         } else {
           this.status = "THIS ACCOUNT DOESN'T HAVE TL PRIVILEGE";
-        }          
+        }
       } catch (error) {
         sessionStorage.removeItem("MChatToken");
       }
@@ -126,31 +126,32 @@ export class ArchiveEditComponent implements OnInit {
     this.loadbutton.nativeElement.classList.add('is-loading')
     setTimeout(() => {
       this.loadbutton.nativeElement.classList.remove('is-loading')
-    }, 1000);
-    this.AccService.GetToken(this.SearchNick, this.SearchPass).subscribe({
-      error: error => {
-        setTimeout(() => {
-        }, 2000);
-        this.status = "WRONG PASSWORD/ROOM NAME";
-        this.SearchNick = "";
-        this.SearchPass = "";
-      },
-      next: data => {
-        if (data.body[0]["Role"] == "TL"){
-          sessionStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
-            Room: this.SearchNick,
-            Token: data.body[0]["Token"],
-            Role: "TL"
-          })));
-  
-          location.reload();  
-        } else {
-          this.status = "THIS ACCOUNT DOESN'T HAVE TL PRIVILEGE";
+      this.AccService.GetToken(this.SearchNick, this.SearchPass).subscribe({
+        error: error => {
+          setTimeout(() => {
+          }, 2000);
+          this.status = "WRONG PASSWORD/ROOM NAME";
           this.SearchNick = "";
-          this.SearchPass = "";  
+          this.SearchPass = "";
+        },
+        next: data => {
+          this.status = "LOGIN SUCCESS"
+          if (data.body[0]["Role"] == "TL") {
+            sessionStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
+              Room: this.SearchNick,
+              Token: data.body[0]["Token"],
+              Role: "TL"
+            })));
+
+            location.reload();
+          } else {
+            this.status = "THIS ACCOUNT DOESN'T HAVE TL PRIVILEGE";
+            this.SearchNick = "";
+            this.SearchPass = "";
+          }
         }
-      }
-    });
+      });
+    }, 1000); //delay for button loading
   }
 
   Setmode(modestring: string) {
@@ -267,10 +268,10 @@ export class ArchiveEditComponent implements OnInit {
                 this.LoginMode = false;
                 this.mode = '';
 
-                if (error["error"] == "ERROR : INVALID TOKEN"){
+                if (error["error"] == "ERROR : INVALID TOKEN") {
                   sessionStorage.removeItem("MChatToken");
                   location.reload();
-                } 
+                }
               },
               next: data => {
                 this.status = "Archive Data Updated. Redirecting...";
@@ -322,11 +323,11 @@ export class ArchiveEditComponent implements OnInit {
                 this.status = error["error"];
                 this.LoginMode = false;
                 this.mode = '';
-                
-                if (error["error"] == "ERROR : INVALID TOKEN"){
+
+                if (error["error"] == "ERROR : INVALID TOKEN") {
                   sessionStorage.removeItem("MChatToken");
                   location.reload();
-                } 
+                }
               },
               next: data => {
                 this.status = "Archive Deleted. Redirecting...";
@@ -355,7 +356,7 @@ export class ArchiveEditComponent implements OnInit {
 
   }
 
-  ResetSelectedIndex(){
+  ResetSelectedIndex() {
     this.SelectedIndex = -1;
   }
 
@@ -398,56 +399,56 @@ export class ArchiveEditComponent implements OnInit {
     return (Timestring);
   }
 
-  CheckTimeString(teststring: string): boolean{
-    let Timesplit:string[] = teststring.split(":");
-    if (Timesplit.length != 3){
-      return(false);
+  CheckTimeString(teststring: string): boolean {
+    let Timesplit: string[] = teststring.split(":");
+    if (Timesplit.length != 3) {
+      return (false);
     }
 
-    if (Number.parseInt(Timesplit[0]) == NaN){
-      return(false);
+    if (Number.parseInt(Timesplit[0]) == NaN) {
+      return (false);
     }
 
-    if ((Number.parseInt(Timesplit[1]) == NaN) || (Number.parseInt(Timesplit[1]) > 60)){
-      return(false);
+    if ((Number.parseInt(Timesplit[1]) == NaN) || (Number.parseInt(Timesplit[1]) > 60)) {
+      return (false);
     }
 
     Timesplit = Timesplit[2].split(",");
 
-    if (Timesplit.length != 2){
+    if (Timesplit.length != 2) {
       return (false);
     }
 
-    if ((Number.parseInt(Timesplit[0]) == NaN) || (Number.parseInt(Timesplit[0]) > 60)){
-      return(false);
+    if ((Number.parseInt(Timesplit[0]) == NaN) || (Number.parseInt(Timesplit[0]) > 60)) {
+      return (false);
     }
 
-    if ((Number.parseInt(Timesplit[1]) == NaN) || (Number.parseInt(Timesplit[1]) > 1000)){
-      return(false);
+    if ((Number.parseInt(Timesplit[1]) == NaN) || (Number.parseInt(Timesplit[1]) > 1000)) {
+      return (false);
     }
 
     return (true);
   }
 
-  SRTTimeCheck(timestring : string): boolean{
-    if (timestring.split("-->").length != 2){
-      return(false);
+  SRTTimeCheck(timestring: string): boolean {
+    if (timestring.split("-->").length != 2) {
+      return (false);
     } else if ((this.CheckTimeString(timestring.split("-->")[0].trim())) && (this.CheckTimeString(timestring.split("-->")[1].trim()))) {
-      return(true);
+      return (true);
     } else {
-      return(false);
+      return (false);
     }
   }
 
-  ParseTimeString(TargetString : string): number{
+  ParseTimeString(TargetString: string): number {
     let res: number = 0;
-    let Timesplit:string[] = TargetString.split(":");
+    let Timesplit: string[] = TargetString.split(":");
 
-    res += Number.parseInt(Timesplit[0])*3600000 + Number.parseInt(Timesplit[1])*60000;
+    res += Number.parseInt(Timesplit[0]) * 3600000 + Number.parseInt(Timesplit[1]) * 60000;
     Timesplit = Timesplit[2].split(",");
-    res += Number.parseInt(Timesplit[0])*1000 + Number.parseInt(Timesplit[1]);
+    res += Number.parseInt(Timesplit[0]) * 1000 + Number.parseInt(Timesplit[1]);
 
-    return(res);
+    return (res);
   }
 
   //------------------------------------- UPLOAD MODULES -------------------------------------
@@ -475,10 +476,10 @@ export class ArchiveEditComponent implements OnInit {
                 this.LoginMode = false;
                 this.mode = '';
 
-                if (error["error"] == "ERROR : INVALID TOKEN"){
+                if (error["error"] == "ERROR : INVALID TOKEN") {
                   sessionStorage.removeItem("MChatToken");
                   location.reload();
-                } 
+                }
               },
               next: data => {
                 this.Processing = true;
@@ -505,10 +506,10 @@ export class ArchiveEditComponent implements OnInit {
                 this.LoginMode = false;
                 this.mode = '';
 
-                if (error["error"] == "ERROR : INVALID TOKEN"){
+                if (error["error"] == "ERROR : INVALID TOKEN") {
                   sessionStorage.removeItem("MChatToken");
                   location.reload();
-                } 
+                }
               },
               next: data => {
                 this.Processing = true;
@@ -747,12 +748,12 @@ export class ArchiveEditComponent implements OnInit {
     let res: string[] = Feed.split("\n");
 
     for (let index: number = 0; index < res.length; index++) {
-      if (this.SRTTimeCheck(res[index])){
-        let Timestamp:number = this.ParseTimeString(res[index].split("-->")[0].trim());
-        let SText:string = "";
+      if (this.SRTTimeCheck(res[index])) {
+        let Timestamp: number = this.ParseTimeString(res[index].split("-->")[0].trim());
+        let SText: string = "";
 
-        for (index++; index < res.length; index++){
-          if (this.SRTTimeCheck(res[index])){
+        for (index++; index < res.length; index++) {
+          if (this.SRTTimeCheck(res[index])) {
             index--;
             this.Entriesdt.push({
               Stext: SText,
@@ -761,7 +762,7 @@ export class ArchiveEditComponent implements OnInit {
               OC: undefined
             });
             break;
-          } else if (res[index] == ""){
+          } else if (res[index] == "") {
             this.Entriesdt.push({
               Stext: SText,
               Stime: Timestamp,
@@ -770,9 +771,9 @@ export class ArchiveEditComponent implements OnInit {
             });
             break;
           } else if (index == res.length - 1) {
-            if (res[index].trim() != ""){
+            if (res[index].trim() != "") {
               SText += res[index];
-            }  
+            }
             this.Entriesdt.push({
               Stext: SText,
               Stime: Timestamp,
@@ -781,14 +782,14 @@ export class ArchiveEditComponent implements OnInit {
             });
             break;
           } else {
-            if (res[index].trim() != ""){
+            if (res[index].trim() != "") {
               SText += res[index];
-            }  
+            }
           }
         }
       }
 
-      if (index == res.length - 1){
+      if (index == res.length - 1) {
         this.status = "SRT file, " + this.Entriesdt.length.toString() + " Entries.";
 
         this.FileParsed = true;

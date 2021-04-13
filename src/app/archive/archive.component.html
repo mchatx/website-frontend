@@ -20,28 +20,28 @@
            <div [ngSwitch]="SelectedIndex">
              <div class="section" id="s1">
                <div class="field has-addons" *ngSwitchCase="0">
-                 <div class="control">
-                   <div class="dropdown is-hoverable">
-                     <div class="dropdown-trigger">
-                       <p class="control">
-                         <a class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu">
-                           <span class="is-hidden-mobile">Search Filter</span>
-                           <span class="icon is-small">
-                             <fa-icon [icon]="faChevronDown"></fa-icon>
-                           </span>
-                         </a>
-                       </p>
-                     </div>
-                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                       <div class="dropdown-content has-background-dark" *ngFor="let SearchText of Search; index as i">
-                         <a class="dropdown-item button is-dark" (click)="ShowSearch(i)">
-                           {{ SearchText }}
-                         </a>
-                       </div>
+                 <div class="dropdown is-hoverable">
+                   <div class="dropdown-trigger">
+                     <p class="control">
+                       <a class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu">
+                         <span class="is-hidden-mobile">Search Filter</span>
+                         <span class="icon is-small">
+                           <fa-icon [icon]="faChevronDown"></fa-icon>
+                         </span>
+                       </a>
+                     </p>
+                   </div>
+                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                     <div class="dropdown-content has-background-dark" *ngFor="let SearchText of Search; index as i">
+                       <a class="dropdown-item button is-dark" (click)="ShowSearch(i)">
+                         {{ SearchText }}
+                       </a>
                      </div>
                    </div>
                  </div>
-                 <input class="input" type="text" [(ngModel)]="SearchRoom" placeholder="Search By Room">
+                 <div class="control is-expanded">
+                   <input class="input" type="text" [(ngModel)]="SearchRoom" placeholder="Search By Room">
+                 </div>
                  <div class="control">
                    <a class="button is-dark" (click)="SearchByRoom()"><span class="is-hidden-mobile">Search</span><span
                        class="icon is-small">
@@ -55,29 +55,29 @@
                      </span></a>
                  </div>
                </div>
-
                <div class="field has-addons" *ngSwitchCase="1">
-                 <div class="control">
-                   <div class="dropdown is-hoverable">
-                     <div class="dropdown-trigger">
-                       <p class="control">
-                         <a class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu">
-                           <span class="icon is-small">
-                             <fa-icon [icon]="faChevronDown"></fa-icon>
-                           </span>
-                         </a>
-                       </p>
-                     </div>
-                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                       <div class="dropdown-content has-background-dark" *ngFor="let SearchText of Search; index as i">
-                         <a class="dropdown-item button is-dark" (click)="ShowSearch(i)">
-                           {{ SearchText }}
-                         </a>
-                       </div>
+                 <div class="dropdown is-hoverable">
+                   <div class="dropdown-trigger">
+                     <p class="control">
+                       <a class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu">
+                         <span class="is-hidden-mobile">Search Filter</span>
+                         <span class="icon is-small">
+                           <fa-icon [icon]="faChevronDown"></fa-icon>
+                         </span>
+                       </a>
+                     </p>
+                   </div>
+                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                     <div class="dropdown-content has-background-dark" *ngFor="let SearchText of Search; index as i">
+                       <a class="dropdown-item button is-dark" (click)="ShowSearch(i)">
+                         {{ SearchText }}
+                       </a>
                      </div>
                    </div>
                  </div>
-                 <input class="input" type="text" [(ngModel)]="SearchLink" placeholder="Search By Link">
+                 <div class="control">
+                   <input class="input" type="text" [(ngModel)]="SearchLink" placeholder="Search By Link">
+                 </div>
                  <div class="control">
                    <a class="button is-dark" (click)="SearchByLink()"><span class="is-hidden-mobile">Search</span><span
                        class="icon is-small">
@@ -91,29 +91,29 @@
                      </span></a>
                  </div>
                </div>
-
                <div class="field has-addons" *ngSwitchCase="2">
-                 <div class="control">
-                   <div class="dropdown is-hoverable">
-                     <div class="dropdown-trigger">
-                       <p class="control">
-                         <a class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu">
-                           <span class="icon">
-                             <fa-icon [icon]="faChevronDown"></fa-icon>
-                           </span>
-                         </a>
-                       </p>
-                     </div>
-                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                       <div class="dropdown-content has-background-dark" *ngFor="let SearchText of Search; index as i">
-                         <a class="dropdown-item button is-dark" (click)="ShowSearch(i)">
-                           {{ SearchText }}
-                         </a>
-                       </div>
+                 <div class="dropdown is-hoverable">
+                   <div class="dropdown-trigger">
+                     <p class="control">
+                       <a class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu">
+                         <span class="is-hidden-mobile">Search Filter</span>
+                         <span class="icon is-small">
+                           <fa-icon [icon]="faChevronDown"></fa-icon>
+                         </span>
+                       </a>
+                     </p>
+                   </div>
+                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                     <div class="dropdown-content has-background-dark" *ngFor="let SearchText of Search; index as i">
+                       <a class="dropdown-item button is-dark" (click)="ShowSearch(i)">
+                         {{ SearchText }}
+                       </a>
                      </div>
                    </div>
                  </div>
-                 <input class="input" type="text" [(ngModel)]="SearchTags" placeholder="Search By Tags">
+                 <div class="control">
+                   <input class="input" type="text" [(ngModel)]="SearchTags" placeholder="Search By Tags">
+                 </div>
                  <div class="control">
                    <a class="button is-dark" (click)="SearchByTags()"><span class="is-hidden-mobile">Search</span><span
                        class="icon is-small">
