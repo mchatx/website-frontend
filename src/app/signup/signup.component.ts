@@ -70,7 +70,7 @@ export class SignupComponent implements OnInit {
             this.Processing = false;
           },
           next: data => {
-            this.status = "VERIVICATION EMAIL WILL BE SENT TO YOUR EMAIL ADDRESS SOON(TM)."
+            this.status = "VERIFICATION EMAIL WILL BE SENT TO YOUR EMAIL ADDRESS SOON(TM)."
             setTimeout(() => {
               this.Router.navigate(['']);
             }, 2000);

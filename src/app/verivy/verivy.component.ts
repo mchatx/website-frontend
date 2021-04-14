@@ -20,7 +20,7 @@ export class VerivyComponent implements OnInit {
   ngOnInit(): void {
     this.Token = this.RouteParam.snapshot.paramMap.get('token');
     if (this.Token!= null){
-      this.status = "Verivying account...";
+      this.status = "Verifying account...";
       this.AccService.PostVerivy(this.Token).subscribe({
         error: error => {
           setTimeout(() => {
@@ -32,7 +32,7 @@ export class VerivyComponent implements OnInit {
           setTimeout(() => {
             this.Router.navigate(['']);
           }, 5000);
-          this.status = "ACCOUNT VERIVIED. REDIRECTING...";
+          this.status = "ACCOUNT VERIFIED. REDIRECTING...";
         }
       });      
     } else {
