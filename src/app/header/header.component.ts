@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { faDiscord } from '@fortawesome/free-brands-svg-icons';
-import { faDownload, faUserAlt, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faUserAlt, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { TsugeGushiService } from '../services/tsuge-gushi.service'
 
@@ -50,5 +50,6 @@ export class HeaderComponent implements OnInit {
   faUser = faUser;
   faUserAlt = faUserAlt;
   faSignInAlt = faSignInAlt;
+  faSignOutAlt = faSignOutAlt;
 
 }

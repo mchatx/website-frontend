@@ -92,6 +92,18 @@ export class ArchiveService {
     streamlink: string | undefined
   ): Observable<any> {
     const headers = { 'Content-Type': 'application/json' };
+    if (!link){
+      link = "";
+    }
+    if (!nick){
+      nick = "";
+    }
+    if (!tags){
+      tags = "";
+    }
+    if (!streamlink){
+      streamlink = "";
+    }
 
     return (this.httpclient.post('https://repo.mchatx.org/Archive/', {
       /* return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { */
