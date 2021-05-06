@@ -135,6 +135,7 @@
            <div class="columns is-multiline">
              <div class="column is-6" *ngFor="let Archive of ArchiveList">
                <div class="box m-4 animate__animated animate__fadeInUp">
+                 <div style="float: right;"><strong> {{ Archive.Star }} </strong><fa-icon [icon]="faStar"></fa-icon></div>
                  <p>Room : {{ Archive.Room }} </p>
                  <p>Title : {{ Archive.Nick }}</p>
                  <p>Link to stream : <a href="{{ Archive.StreamLink }}" target="_blank">{{ Archive.StreamLink }}</a>
@@ -146,10 +147,13 @@
                  <div class="divider is-black"><a class="button is-small is-outlined is-rounded is-light is-inverted"
                      [href]="sanitize(Archive.Link)">
                      Open in client
-                   </a></div>
+                   </a>
+                  </div>
                </div>
              </div>
            </div>
+           <!--==================== CARD ================-->           
+
          </div>
        </div>
      </section>

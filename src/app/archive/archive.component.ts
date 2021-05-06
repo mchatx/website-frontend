@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ArchiveService } from '../services/archive.service';
 import Archive from '../models/Archive';
 import { ShowSearch } from '../models/ShowSearch';
-import { faChevronDown, faSearch, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faRedoAlt, faStar } from '@fortawesome/free-solid-svg-icons';
 import { faSearchengin } from '@fortawesome/free-brands-svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -34,7 +34,10 @@ export class ArchiveComponent implements OnInit {
   ngOnInit(): void {
     this.AService.getArchive().subscribe(
       (response: Archive[]) => {
-        this.ArchiveList = response;
+        this.ArchiveList = response.map( e=> {
+          if (!e.Star) e.Star = 0;          
+          return e;
+        });
       }
     )
   }
@@ -42,7 +45,10 @@ export class ArchiveComponent implements OnInit {
   SearchByRoom(): void {
     this.AService.getArchiveRoom(this.SearchRoom).subscribe(
       (response: Archive[]) => {
-        this.ArchiveList = response;
+        this.ArchiveList = response.map( e=> {
+          if (!e.Star) e.Star = 0;          
+          return e;
+        });
         this.SearchRoom = "";
         this.SearchLink = "";
         this.SearchTags = "";
@@ -53,7 +59,10 @@ export class ArchiveComponent implements OnInit {
   SearchByLink(): void {
     this.AService.getArchiveLink(this.SearchLink).subscribe(
       (response: Archive[]) => {
-        this.ArchiveList = response;
+        this.ArchiveList = response.map( e=> {
+          if (!e.Star) e.Star = 0;          
+          return e;
+        });
         this.SearchRoom = "";
         this.SearchLink = "";
         this.SearchTags = "";
@@ -64,7 +73,10 @@ export class ArchiveComponent implements OnInit {
   SearchByTags(): void {
     this.AService.getArchiveTags(this.SearchTags.replace(", ", "_").replace(" ", "_")).subscribe(
       (response: Archive[]) => {
-        this.ArchiveList = response;
+        this.ArchiveList = response.map( e=> {
+          if (!e.Star) e.Star = 0;          
+          return e;
+        });
         this.SearchRoom = "";
         this.SearchLink = "";
         this.SearchTags = "";
@@ -91,7 +103,10 @@ export class ArchiveComponent implements OnInit {
   ClearSearch(){
     this.AService.getArchive().subscribe(
       (response: Archive[]) => {
-        this.ArchiveList = response;
+        this.ArchiveList = response.map( e=> {
+          if (!e.Star) e.Star = 0;          
+          return e;
+        });
       }
     )
   }
@@ -99,4 +114,5 @@ export class ArchiveComponent implements OnInit {
   faRedoAlt = faRedoAlt;
   faSearch = faSearch;
   faChevronDown = faChevronDown;
+  faStar = faStar;
 }

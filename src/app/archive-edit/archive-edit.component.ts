@@ -64,7 +64,8 @@ export class ArchiveEditComponent implements OnInit {
     Pass: false,
     Tags: "",
     StreamLink: "",
-    ExtShare: false
+    ExtShare: false,
+    Star : 0
   }
   PassString: string = "";
 
@@ -164,7 +165,8 @@ export class ArchiveEditComponent implements OnInit {
       Pass: false,
       Tags: "",
       StreamLink: "",
-      ExtShare: false
+      ExtShare: false,
+      Star: 0
     }
     this.PassString = "";
     this.Entriesdt = [];
@@ -227,7 +229,8 @@ export class ArchiveEditComponent implements OnInit {
         Pass: this.Archivedt[this.SelectedIndex].Pass,
         Tags: this.Archivedt[this.SelectedIndex].Tags,
         StreamLink: this.Archivedt[this.SelectedIndex].StreamLink,
-        ExtShare: this.Archivedt[this.SelectedIndex].ExtShare
+        ExtShare: this.Archivedt[this.SelectedIndex].ExtShare,
+        Star: this.Archivedt[this.SelectedIndex].Star
       };
     }
   }
@@ -246,7 +249,8 @@ export class ArchiveEditComponent implements OnInit {
             Pass: dt[i].Pass,
             Tags: dt[i].Tags,
             StreamLink: dt[i].StreamLink,
-            ExtShare: dt[i].ExtShare
+            ExtShare: dt[i].ExtShare,
+            Star: dt[i].Star
           });
         }
       });
@@ -284,7 +288,8 @@ export class ArchiveEditComponent implements OnInit {
                   Pass: this.SelectedArchive.Pass,
                   Tags: this.SelectedArchive.Tags,
                   StreamLink: this.SelectedArchive.StreamLink,
-                  ExtShare: this.SelectedArchive.ExtShare
+                  ExtShare: this.SelectedArchive.ExtShare,
+                  Star: this.SelectedArchive.Star
                 };
 
                 setTimeout(() => {
@@ -733,7 +738,8 @@ export class ArchiveEditComponent implements OnInit {
         Pass: false,
         Tags: "",
         StreamLink: "",
-        ExtShare: false
+        ExtShare: false,
+        Star: 0
       }
       /*
       this.status = "";
@@ -801,7 +807,8 @@ export class ArchiveEditComponent implements OnInit {
           Pass: false,
           Tags: "",
           StreamLink: "",
-          ExtShare: false
+          ExtShare: false,
+          Star: 0
         }
       }
     }
@@ -1025,7 +1032,8 @@ export class ArchiveEditComponent implements OnInit {
         Pass: false,
         Tags: "",
         StreamLink: "",
-        ExtShare: false
+        ExtShare: false,
+        Star: 0
       }
       /*
       this.status = this.Entriesdt.length.toString() + " = ";

@@ -5,4 +5,5 @@ export default class Archive {
     Link: string | undefined;
     StreamLink: string | undefined;
     Tags: string | undefined;
+    Star: number = 0;
 }

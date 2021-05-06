@@ -7,5 +7,6 @@ export default class ArchiveData{
     Tags: string | undefined;
     StreamLink: string | undefined;
     ExtShare: boolean  = false;
+    Star: number = 0;
   }
   
