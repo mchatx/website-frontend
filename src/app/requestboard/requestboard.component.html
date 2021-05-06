@@ -1,49 +1,118 @@
-
-<!------------------------------------------- REQUEST FORM ------------------------------------------->
-<p>Request translation for url : </p>
-<input class="input is-rounded" type="text" placeholder="Link" [(ngModel)]="CheckLink">
-<br>
-<button class="button is-dark" (click)="AddRequest()" #loadstate>Enter</button>
-<p>{{ status }}</p>
-<!--========================================= REQUEST FORM =========================================-->
-
-<!------------------------------------------- REQUEST CARD ------------------------------------------->
-<div *ngFor="let Request of RequestData, let i = index">
-  <p>Title = {{ Request.Title }}</p>
-  <p>Link = <a href="{{ Request.Link }}" target="_blank">{{ Request.Link }}</a></p>
-  <p># of request = {{ Request.Sum }}</p>
-  <div *ngIf="Request.Sign">
-    <a class="button is-dark" (click)="RemoveRequest(i)">Cancel Request</a>
-  </div>
-  <div *ngIf="!Request.Sign">
-    <a class="button is-dark" (click)="AddRequest(i)">Send Request</a>
-  </div>
-  <br>
-</div>
-<!--========================================= REQUEST CARD =========================================-->
-
-<!------------------------------------------- LOGIN MODAL ------------------------------------------->
-<div [ngClass]="{ 'is-active' : isLoginModalActive }" class="modal">
-    <div class="modal-background" (click)="CloseLoginModal()"></div>
-    <div class="modal-content">
-      <a style="float: right;" class="button is-dark" (click)="CloseLoginModal()">X</a>
-      <label class="label has-text-white">Login</label>
-      <div class="field has-text-left">
-        <label class="label has-text-white">Username</label>
+<div class="columns">
+  <div class="column">
+    <div class="section" id="reqform">
+      <div class="content">
+        <h1 class="has-text-centered">Request Form</h1>
+      </div>
+      <!------------------------------------------- REQUEST FORM ------------------------------------------->
+      <div class="field">
+        <label class="label">Request translation for url :</label>
         <div class="control has-icons-left">
-          <input class="input is-rounded" type="text" placeholder="Username" [(ngModel)]="Nick">
+          <input class="input is-rounded" type="text" placeholder="Link" [(ngModel)]="CheckLink">
+          <span class="icon is-left is-small">
+            <fa-icon [icon]="faPlay"></fa-icon>
+          </span>
         </div>
       </div>
-      <div class="field has-text-left">
-        <label class="label has-text-white">Password</label>
-        <div class="control has-icons-left">
-          <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="Pass">
-        </div>
-      </div>
-      <a class="button is-dark" (click)="Login()">Login</a>
+
       <div class="control">
-        <p *ngIf="modalstatus !== ''" class="has-text-danger">{{ modalstatus }}</p>
+        <button class="button is-dark" (click)="AddRequest()" #loadstate>Request</button>
+      </div>
+
+      <div class="notification m-4">
+        <progress class="progress is-hidden" max='100' #showhidden>30%</progress>
+        <p *ngIf="status !== ''" class="has-text-danger has-text-centered">{{ status }}</p>
+      </div>
+
+
+
+
+      <!--========================================= REQUEST FORM =========================================-->
+    </div>
+  </div>
+  <div class="column has-background-primary-dark">
+    <!-- <section class="hero">
+      <div class="hero-body has-background-primary-dark is-align-items-stretch">
+        
+      </div>
+    </section> -->
+    <div class="section">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title ">
+            Request Board
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <!------------------------------------------- REQUEST CARD ------------------------------------------->
+            <div id="boardlist">
+              <div *ngFor="let Request of RequestData, let i = index">
+                <div class="box m-3">
+                  <p class="tag has-text-white" style="background-color: #EA3323;">Title: {{ Request.Title }}</p>
+                  <p>Vtuber: {{ Request.Vtuber }}</p>
+                  <p>Link: <a href="{{ Request.Link }}" target="_blank">{{ Request.Link }}</a></p>
+                  <p># of request: {{ Request.Sum }}</p>
+                  <div *ngIf="Request.Sign">
+                    <a class="button is-dark is-small" (click)="RemoveRequest(i)">Cancel Request</a>
+                  </div>
+                  <div *ngIf="!Request.Sign">
+                    <a class="button is-dark is-small" (click)="AddRequest(i)">Send Request</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--========================================= REQUEST CARD =========================================-->
+          </div>
+        </div>
       </div>
     </div>
- </div>
+
+  </div>
+</div>
+
+
+
+
+<!------------------------------------------- LOGIN MODAL ------------------------------------------->
+<div class="modal" [ngClass]="{ 'is-active' : isLoginModalActive }">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box">
+      <a style="float: right;" class="delete is-dark" (click)="CloseLoginModal()"></a>
+      <p class="title">Login</p>
+      <div class="divider is-left is-black"></div>
+
+      <div class="field has-text-left">
+        <label class="label">Username</label>
+        <div class="control has-icons-left">
+          <input class="input is-rounded" type="text" placeholder="Username" [(ngModel)]="Nick">
+          <span class="icon is-left is-small">
+            <fa-icon [icon]="faUser"></fa-icon>
+          </span>
+        </div>
+      </div>
+
+      <div class="field has-text-left">
+        <label class="label">Password</label>
+        <div class="control has-icons-left">
+          <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="Pass">
+          <span class="icon is-left is-small">
+            <fa-icon [icon]="faLock"></fa-icon>
+          </span>
+        </div>
+      </div>
+
+      <div class="field is-grouped p-4">
+        <div class="control">
+          <button class="button is-dark" (click)="Login()" #loadstate1>Enter</button>
+        </div>
+        <div class="control">
+          <p *ngIf="modalstatus !== ''" class="has-text-danger">{{ modalstatus }}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 <!--========================================= LOGIN MODAL =========================================-->

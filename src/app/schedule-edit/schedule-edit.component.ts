@@ -15,6 +15,7 @@ import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 })
 export class ScheduleEditComponent implements OnInit {
   isModalActive: boolean = false;
+  isModalLogin: boolean = true;
   @ViewChild('loadstate') loadbutton!: ElementRef;
   @ViewChild('show_hidden') showhidden!: ElementRef;
   mode: string | null = "";
@@ -64,11 +65,11 @@ export class ScheduleEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.LoginMode = false;
-    let test:string | null = localStorage.getItem("MChatToken");
-    if (test != undefined){
+    let test: string | null = localStorage.getItem("MChatToken");
+    if (test != undefined) {
       try {
         let TokenData = JSON.parse(this.TGEnc.TGDecoding(test));
-        if (TokenData["Role"] == "TL"){
+        if (TokenData["Role"] == "TL") {
           this.AccService.CheckToken(TokenData["Room"], TokenData["Token"]).subscribe({
             error: error => {
               localStorage.removeItem("MChatToken");
@@ -82,10 +83,10 @@ export class ScheduleEditComponent implements OnInit {
                 this.LoadSchedule();
               }
             }
-          });  
+          });
         } else {
           this.status = "THIS ACCOUNT DOESN'T HAVE TL PRIVILEGE";
-        }          
+        }
       } catch (error) {
         localStorage.removeItem("MChatToken");
       }
@@ -114,18 +115,18 @@ export class ScheduleEditComponent implements OnInit {
         localStorage.removeItem("MChatToken");
       },
       next: data => {
-        if (data.body[0]["Role"] == "TL"){
+        if (data.body[0]["Role"] == "TL") {
           localStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
             Room: this.SearchNick,
             Token: data.body[0]["Token"],
             Role: "TL"
           })));
-  
-          location.reload();  
+
+          location.reload();
         } else {
           this.status = "THIS ACCOUNT DOESN'T HAVE TL PRIVILEGE";
           this.SearchNick = "";
-          this.SearchPass = "";  
+          this.SearchPass = "";
         }
       }
     });
@@ -156,10 +157,10 @@ export class ScheduleEditComponent implements OnInit {
               this.status = error["error"];
               this.LoginMode = false;
 
-              if (error["error"] == "ERROR : INVALID TOKEN"){
+              if (error["error"] == "ERROR : INVALID TOKEN") {
                 localStorage.removeItem("MChatToken");
                 location.reload();
-              } 
+              }
             },
             next: data => {
               this.status = "Schedule Added. Redirecting...";
@@ -225,10 +226,10 @@ export class ScheduleEditComponent implements OnInit {
               this.status = error["error"];
               this.LoginMode = false;
 
-              if (error["error"] == "ERROR : INVALID TOKEN"){
+              if (error["error"] == "ERROR : INVALID TOKEN") {
                 localStorage.removeItem("MChatToken");
                 location.reload();
-              } 
+              }
             },
             next: data => {
               this.status = "Schedule Updated. Redirecting...";
@@ -259,10 +260,10 @@ export class ScheduleEditComponent implements OnInit {
               this.status = error["error"];
               this.LoginMode = false;
 
-              if (error["error"] == "ERROR : INVALID TOKEN"){
+              if (error["error"] == "ERROR : INVALID TOKEN") {
                 localStorage.removeItem("MChatToken");
                 location.reload();
-              } 
+              }
             },
             next: data => {
               this.status = "Schedule Removed. Redirecting...";
