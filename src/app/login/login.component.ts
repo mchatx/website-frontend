@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (sessionStorage.getItem("MChatToken") != undefined) {
+    if (localStorage.getItem("MChatToken") != undefined) {
       this.Router.navigate(['']);
     }
   }
@@ -48,20 +48,20 @@ export class LoginComponent implements OnInit {
             this.status = "WRONG PASSWORD/ROOM NAME";
             this.Nick = "";
             this.Pass = "";
-            sessionStorage.removeItem("MChatToken");
+            localStorage.removeItem("MChatToken");
             this.Processing = false;
           },
           next: data => {
             this.status = "LOGIN SUCCESS"
             if (data.body[0]["Role"] == "TL") {
-              sessionStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
+              localStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
                 Room: this.Nick,
                 Token: data.body[0]["Token"],
                 Role: "TL"
               })));
               location.reload();
             } else {
-              sessionStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
+              localStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
                 Room: this.Nick,
                 Token: data.body[0]["Token"]
               })));

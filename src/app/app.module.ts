@@ -28,6 +28,7 @@ import { SignupComponent } from './signup/signup.component';
 import { RestartpassComponent } from './restartpass/restartpass.component';
 import { AccountpageComponent } from './accountpage/accountpage.component';
 import { TestingGroundComponent } from './testing-ground/testing-ground.component';
+import { RequestboardComponent } from './requestboard/requestboard.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { TestingGroundComponent } from './testing-ground/testing-ground.componen
     SignupComponent,
     RestartpassComponent,
     AccountpageComponent,
-    TestingGroundComponent
+    TestingGroundComponent,
+    RequestboardComponent
   ],
   imports: [
     BrowserModule,

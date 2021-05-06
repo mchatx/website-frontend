@@ -18,20 +18,20 @@ export class HeaderComponent implements OnInit {
   AccountName: string = "";
 
   ngOnInit(): void {
-    let test: string | null = sessionStorage.getItem("MChatToken");
+    let test: string | null = localStorage.getItem("MChatToken");
     if (test != undefined) {
       try {
         let TokenData = JSON.parse(this.TGEnc.TGDecoding(test));
         this.AccountName = TokenData["Room"];
         this.LoggedIn = true;
       } catch (error) {
-        sessionStorage.removeItem("MChatToken");
+        localStorage.removeItem("MChatToken");
       }
     }
   }
 
   LogoutButtonPush(): void {
-    sessionStorage.removeItem("MChatToken");
+    localStorage.removeItem("MChatToken");
     this.LoggedIn = false;
     this.AccountName = "";
     location.reload();

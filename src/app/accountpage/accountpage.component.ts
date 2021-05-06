@@ -34,7 +34,7 @@ export class AccountpageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let rawdt = sessionStorage.getItem("MChatToken");
+    let rawdt = localStorage.getItem("MChatToken");
     if (rawdt != null) {
       let dt = JSON.parse(this.TGEnc.TGDecoding(rawdt));
       this.AccService.GetAccountData(
@@ -76,7 +76,7 @@ export class AccountpageComponent implements OnInit {
             this.processing = false;
           },
           next: data => {
-            sessionStorage.removeItem("MChatToken");
+            localStorage.removeItem("MChatToken");
             this.status = "Account has been deleted, redirecting now"
             setTimeout(() => {
               location.reload();

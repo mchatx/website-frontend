@@ -15,7 +15,8 @@ import { VerivyComponent } from './verivy/verivy.component';
 import { SignupComponent } from './signup/signup.component';
 import { RestartpassComponent } from './restartpass/restartpass.component';
 import { AccountpageComponent } from './accountpage/accountpage.component';
-import { TestingGroundComponent } from './testing-ground/testing-ground.component'
+import { TestingGroundComponent } from './testing-ground/testing-ground.component';
+import { RequestboardComponent } from './requestboard/requestboard.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'restart-pass', component: RestartpassComponent },
   { path: 'account', component: AccountpageComponent },
   { path: 'archiveedit', component: ArchiveEditComponent },
+  { path: 'requestboard', component: RequestboardComponent },
   { path: 'test', component: TestingGroundComponent }
 ];
 

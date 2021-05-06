@@ -1,0 +1,33 @@
+
+<!------------------------------------------- REQUEST FORM ------------------------------------------->
+<input class="input is-rounded" type="text" placeholder="Link" [(ngModel)]="CheckLink">
+<br>
+<button class="button is-dark" (click)="AddRequest()" #loadstate>Enter</button>
+<p>{{ status }}</p>
+<!--========================================= REQUEST FORM =========================================-->
+
+<!------------------------------------------- LOGIN MODAL ------------------------------------------->
+<div [ngClass]="{ 'is-active' : isLoginModalActive }" class="modal">
+    <div class="modal-background" (click)="CloseLoginModal()"></div>
+    <div class="modal-content">
+      <a style="float: right;" class="button is-dark" (click)="CloseLoginModal()">X</a>
+      <label class="label has-text-white">Login</label>
+      <div class="field has-text-left">
+        <label class="label has-text-white">Username</label>
+        <div class="control has-icons-left">
+          <input class="input is-rounded" type="text" placeholder="Username" [(ngModel)]="Nick">
+        </div>
+      </div>
+      <div class="field has-text-left">
+        <label class="label has-text-white">Password</label>
+        <div class="control has-icons-left">
+          <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="Pass">
+        </div>
+      </div>
+      <a class="button is-dark" (click)="Login()">Login</a>
+      <div class="control">
+        <p *ngIf="modalstatus !== ''" class="has-text-danger">{{ modalstatus }}</p>
+      </div>
+    </div>
+ </div>
+<!--========================================= LOGIN MODAL =========================================-->

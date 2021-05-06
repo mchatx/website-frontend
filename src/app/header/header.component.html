@@ -12,15 +12,18 @@
 
   <div class="navbar-menu" #navMenu>
     <div class="navbar-start">
-      <a class="navbar-item" routerLink="/" [routerLinkActive]="['is-active']" [routerLinkActiveOptions]="{exact:
-        true}" (click)="toggleNavbar()">Home</a>
-      <a class="navbar-item" routerLink="/docs" [routerLinkActive]="['is-active']" (click)="toggleNavbar()">How to
-        Use</a>
+      <a class="navbar-item" routerLink="/" [routerLinkActive]="['is-active']" [routerLinkActiveOptions]="{exact:true}" 
+        (click)="toggleNavbar()">Home</a>
+      <a class="navbar-item" routerLink="/docs" [routerLinkActive]="['is-active']" 
+        (click)="toggleNavbar()">How to Use</a>
       <a class="navbar-item" routerLink="/schedule" [routerLinkActive]="['is-active']"
         (click)="toggleNavbar()">Schedule</a>
       <a class="navbar-item" routerLink="/archive" [routerLinkActive]="['is-active']"
         (click)="toggleNavbar()">Archive</a>
-      <a class="navbar-item" routerLink="/about" [routerLinkActive]="['is-active']" (click)="toggleNavbar()">About</a>
+      <a class="navbar-item" routerLink="/requestboard" [routerLinkActive]="['is-active']"
+        (click)="toggleNavbar()">Request Board</a>
+      <a class="navbar-item" routerLink="/about" [routerLinkActive]="['is-active']" 
+        (click)="toggleNavbar()">About</a>
     </div>
 
     <div class="navbar-end">

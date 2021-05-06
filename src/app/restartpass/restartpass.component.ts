@@ -25,7 +25,7 @@ export class RestartpassComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (sessionStorage.getItem("MChatToken") != undefined){    
+    if (localStorage.getItem("MChatToken") != undefined){    
       this.Router.navigate(['']);
     }
   }

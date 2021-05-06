@@ -64,14 +64,14 @@ export class ScheduleEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.LoginMode = false;
-    let test:string | null = sessionStorage.getItem("MChatToken");
+    let test:string | null = localStorage.getItem("MChatToken");
     if (test != undefined){
       try {
         let TokenData = JSON.parse(this.TGEnc.TGDecoding(test));
         if (TokenData["Role"] == "TL"){
           this.AccService.CheckToken(TokenData["Room"], TokenData["Token"]).subscribe({
             error: error => {
-              sessionStorage.removeItem("MChatToken");
+              localStorage.removeItem("MChatToken");
             },
             next: data => {
               this.LoginMode = true;
@@ -87,7 +87,7 @@ export class ScheduleEditComponent implements OnInit {
           this.status = "THIS ACCOUNT DOESN'T HAVE TL PRIVILEGE";
         }          
       } catch (error) {
-        sessionStorage.removeItem("MChatToken");
+        localStorage.removeItem("MChatToken");
       }
     }
 
@@ -111,11 +111,11 @@ export class ScheduleEditComponent implements OnInit {
         this.status = "WRONG PASSWORD/ROOM NAME";
         this.SearchNick = "";
         this.SearchPass = "";
-        sessionStorage.removeItem("MChatToken");
+        localStorage.removeItem("MChatToken");
       },
       next: data => {
         if (data.body[0]["Role"] == "TL"){
-          sessionStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
+          localStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
             Room: this.SearchNick,
             Token: data.body[0]["Token"],
             Role: "TL"
@@ -157,7 +157,7 @@ export class ScheduleEditComponent implements OnInit {
               this.LoginMode = false;
 
               if (error["error"] == "ERROR : INVALID TOKEN"){
-                sessionStorage.removeItem("MChatToken");
+                localStorage.removeItem("MChatToken");
                 location.reload();
               } 
             },
@@ -226,7 +226,7 @@ export class ScheduleEditComponent implements OnInit {
               this.LoginMode = false;
 
               if (error["error"] == "ERROR : INVALID TOKEN"){
-                sessionStorage.removeItem("MChatToken");
+                localStorage.removeItem("MChatToken");
                 location.reload();
               } 
             },
@@ -260,7 +260,7 @@ export class ScheduleEditComponent implements OnInit {
               this.LoginMode = false;
 
               if (error["error"] == "ERROR : INVALID TOKEN"){
-                sessionStorage.removeItem("MChatToken");
+                localStorage.removeItem("MChatToken");
                 location.reload();
               } 
             },

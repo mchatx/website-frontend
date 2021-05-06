@@ -94,7 +94,7 @@ export class ArchiveEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let test: string | null = sessionStorage.getItem("MChatToken");
+    let test: string | null = localStorage.getItem("MChatToken");
 
     if (test != undefined) {
       try {
@@ -102,7 +102,7 @@ export class ArchiveEditComponent implements OnInit {
         if (TokenData["Role"] == "TL") {
           this.AccService.CheckToken(TokenData["Room"], TokenData["Token"]).subscribe({
             error: error => {
-              sessionStorage.removeItem("MChatToken");
+              localStorage.removeItem("MChatToken");
             },
             next: data => {
               this.LoginMode = true;
@@ -116,7 +116,7 @@ export class ArchiveEditComponent implements OnInit {
           this.status = "THIS ACCOUNT DOESN'T HAVE TL PRIVILEGE";
         }
       } catch (error) {
-        sessionStorage.removeItem("MChatToken");
+        localStorage.removeItem("MChatToken");
       }
     }
   }
@@ -137,7 +137,7 @@ export class ArchiveEditComponent implements OnInit {
         next: data => {
           this.status = "LOGIN SUCCESS"
           if (data.body[0]["Role"] == "TL") {
-            sessionStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
+            localStorage.setItem("MChatToken", this.TGEnc.TGEncoding(JSON.stringify({
               Room: this.SearchNick,
               Token: data.body[0]["Token"],
               Role: "TL"
@@ -269,7 +269,7 @@ export class ArchiveEditComponent implements OnInit {
                 this.mode = '';
 
                 if (error["error"] == "ERROR : INVALID TOKEN") {
-                  sessionStorage.removeItem("MChatToken");
+                  localStorage.removeItem("MChatToken");
                   location.reload();
                 }
               },
@@ -325,7 +325,7 @@ export class ArchiveEditComponent implements OnInit {
                 this.mode = '';
 
                 if (error["error"] == "ERROR : INVALID TOKEN") {
-                  sessionStorage.removeItem("MChatToken");
+                  localStorage.removeItem("MChatToken");
                   location.reload();
                 }
               },
@@ -477,7 +477,7 @@ export class ArchiveEditComponent implements OnInit {
                 this.mode = '';
 
                 if (error["error"] == "ERROR : INVALID TOKEN") {
-                  sessionStorage.removeItem("MChatToken");
+                  localStorage.removeItem("MChatToken");
                   location.reload();
                 }
               },
@@ -507,7 +507,7 @@ export class ArchiveEditComponent implements OnInit {
                 this.mode = '';
 
                 if (error["error"] == "ERROR : INVALID TOKEN") {
-                  sessionStorage.removeItem("MChatToken");
+                  localStorage.removeItem("MChatToken");
                   location.reload();
                 }
               },
