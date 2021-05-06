@@ -19,6 +19,9 @@ export class RequestService {
         if (linkstr.indexOf("?") != -1){
           linkstr = linkstr.substring(0, linkstr.indexOf("?"));
         }
+        if (linkstr.indexOf("&") != -1){
+          linkstr = linkstr.substring(0, linkstr.indexOf("&"));
+        }
         return(linkstr);
     } else if (linkstr.indexOf("https://youtu.be/") != -1){
         linkstr = linkstr.replace("https://youtu.be/", "YT_");
@@ -59,7 +62,34 @@ export class RequestService {
     }
   }
 
-  AddRequest(
+  ReverseLinkParser(linkstr: string):string {
+    switch(linkstr.substring(0,3)){
+      case "YT_":
+          return("https://www.youtube.com/watch?v=" + linkstr.substring(3));
+      case "TW_":
+          return("https://www.twitch.tv/videos/" + linkstr.substring(3));
+      case "TC_":
+          return("https://twitcasting.tv/" + linkstr.split("/")[0].split("_")[1] + "/movie/" + linkstr.split("/")[1]);
+      case "NL_":
+          return("https://live2.nicovideo.jp/watch/" + linkstr.substring(3));
+      case "NC_":
+          return("https://www.nicovideo.jp/watch/" + linkstr.substring(3));
+      case "BL_":
+          return("https://www.bilibili.com/video/" + linkstr.substring(3));
+      default:
+          return(linkstr);
+    }
+  }
+
+  GetRecentRequest(Nick: string | undefined): Observable<any> {
+    if ((!Nick) || (Nick == "")){
+      return (this.httpclient.get('https://repo.mchatx.org/Request/'));
+    } else {
+      return (this.httpclient.get('https://repo.mchatx.org/Request?Nick=' + Nick.replace(/ /g, "%20")));
+    }
+  }
+
+  RequestPost(
     bToken: string,
   ): Observable<any> {
     const headers = { 'Content-Type': 'application/json' };

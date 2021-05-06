@@ -6,6 +6,21 @@
 <p>{{ status }}</p>
 <!--========================================= REQUEST FORM =========================================-->
 
+<!------------------------------------------- REQUEST CARD ------------------------------------------->
+<div *ngFor="let Request of RequestData, let i = index">
+  <p>Title = {{ Request.Title }}</p>
+  <p>Link = <a href="{{ Request.Link }}" target="_blank">{{ Request.Link }}</a></p>
+  <p># of request = {{ Request.Sum }}</p>
+  <div *ngIf="Request.Sign">
+    <a class="button is-dark" (click)="RemoveRequest(i)">Cancel Request</a>
+  </div>
+  <div *ngIf="!Request.Sign">
+    <a class="button is-dark" (click)="AddRequest(i)">Send Request</a>
+  </div>
+  <br>
+</div>
+<!--========================================= REQUEST CARD =========================================-->
+
 <!------------------------------------------- LOGIN MODAL ------------------------------------------->
 <div [ngClass]="{ 'is-active' : isLoginModalActive }" class="modal">
     <div class="modal-background" (click)="CloseLoginModal()"></div>

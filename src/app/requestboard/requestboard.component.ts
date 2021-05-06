@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RequestService  } from '../services/request.service';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import { AccountService } from '../services/account.service';
+import RequestCard from '../models/RequestCard';
 
 @Component({
   selector: 'app-requestboard',
@@ -17,6 +18,7 @@ export class RequestboardComponent implements OnInit {
   Token: string = "";
   Pass: string = "";
   isLoginModalActive: boolean = false;
+  RequestData: RequestCard[] = [];
 
   constructor(
     private RService: RequestService,
@@ -25,6 +27,26 @@ export class RequestboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    let test = localStorage.getItem("MChatToken") 
+    if (test != undefined){
+      let TokenData = JSON.parse(this.TGEnc.TGDecoding(test));
+      this.Nick = TokenData["Room"];
+      this.Token = TokenData["Token"];
+    }
+    this.RepopulateData();
+  }
+
+  RepopulateData(): void{
+    this.RService.GetRecentRequest(this.Nick).subscribe(
+      (response: RequestCard[]) => {
+        this.RequestData = response.map( e => {
+          if (e.Link != undefined){
+            e.Link = this.RService.ReverseLinkParser(e.Link);
+          }
+          return e;
+        });
+      }
+    )
   }
 
   Login():void {
@@ -64,24 +86,27 @@ export class RequestboardComponent implements OnInit {
     this.isLoginModalActive = !this.isLoginModalActive;
   }
 
-  AddRequest(): void{
+  AddRequest(index: number = -1): void{
     if (!this.Processing){
-
-      let test = localStorage.getItem("MChatToken") 
-      if (!test){
+      if (!localStorage.getItem("MChatToken")){
         this.Nick = "";
         this.Token = "";
         this.isLoginModalActive = !this.isLoginModalActive;
         this.Pass = "";
         this.modalstatus = "";
         return;
-      } else {
-        let TokenData = JSON.parse(this.TGEnc.TGDecoding(test));
-        this.Nick = TokenData["Room"];
-        this.Token = TokenData["Token"];
       }
 
-      let UID = this.RService.LinkParser(this.CheckLink);
+      let UID;
+      if (index == -1){
+        UID = this.RService.LinkParser(this.CheckLink);
+      } else {
+        UID = this.RequestData[index].Link;
+        if (UID != undefined){
+          UID = this.RService.LinkParser(UID);
+        }
+      }
+      
       if (UID == "ERROR"){
         this.status = "INVALID LINK";
         return;
@@ -90,7 +115,7 @@ export class RequestboardComponent implements OnInit {
       this.status = "PROCESSING REQUEST";
       this.Processing = true;
 
-      this.RService.AddRequest(this.TGEnc.TGEncoding(JSON.stringify({
+      this.RService.RequestPost(this.TGEnc.TGEncoding(JSON.stringify({
         Act: "Add",
         Nick: this.Nick,
         Link: UID,
@@ -101,6 +126,56 @@ export class RequestboardComponent implements OnInit {
           this.status = "SENT";
           this.Processing = false;
           this.CheckLink = "";
+          this.RepopulateData();
+        },
+        (error) => {
+          this.status = error.error;
+          this.Processing = false;
+
+          if (error.error == "ERROR : INVALID TOKEN"){
+            this.isLoginModalActive = !this.isLoginModalActive;
+            this.Pass = "";
+            this.modalstatus = "";
+          }
+        }
+      )
+    }
+  }
+
+  RemoveRequest(index: number): void{
+    if (!this.Processing){
+      if (!localStorage.getItem("MChatToken")){
+        this.Nick = "";
+        this.Token = "";
+        this.isLoginModalActive = !this.isLoginModalActive;
+        this.Pass = "";
+        this.modalstatus = "";
+        return;
+      }
+
+      let UID = this.RequestData[index].Link;
+      if (UID != undefined){
+        UID = this.RService.LinkParser(UID);
+      }
+      
+      if (UID == "ERROR"){
+        this.status = "INVALID LINK";
+        return;
+      }
+  
+      this.status = "PROCESSING REQUEST";
+      this.Processing = true;
+
+      this.RService.RequestPost(this.TGEnc.TGEncoding(JSON.stringify({
+        Act: "Delete",
+        Nick: this.Nick,
+        Link: UID,
+        Token: this.Token
+      }))).subscribe(
+        (response) => {
+          this.status = "SENT";
+          this.Processing = false;
+          this.RepopulateData();
         },
         (error) => {
           this.status = error.error;
