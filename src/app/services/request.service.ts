@@ -81,12 +81,14 @@ export class RequestService {
     }
   }
 
-  GetRecentRequest(Nick: string | undefined): Observable<any> {
-    if ((!Nick) || (Nick == "")){
-      return (this.httpclient.get('https://repo.mchatx.org/Request/'));
-    } else {
-      return (this.httpclient.get('https://repo.mchatx.org/Request?Nick=' + Nick.replace(/ /g, "%20")));
-    }
+  GetRecentRequest(
+    bToken: string,
+  ): Observable<any> {
+    const headers = { 'Content-Type': 'application/json' };
+
+    return (this.httpclient.post('https://repo.mchatx.org/Request/', {
+      BToken : bToken,
+    }, { headers, observe: 'response', responseType: 'text' }));
   }
 
   RequestPost(

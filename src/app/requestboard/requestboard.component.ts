@@ -40,9 +40,21 @@ export class RequestboardComponent implements OnInit {
   }
 
   RepopulateData(): void {
-    this.RService.GetRecentRequest(this.Nick).subscribe(
-      (response: RequestCard[]) => {
-        this.RequestData = response.map(e => {
+    let dt = "";
+    if (this.Nick == "" ){
+      dt = this.TGEnc.TGEncoding(JSON.stringify({
+        Act: "Request"
+      }))
+    } else {
+      dt = this.TGEnc.TGEncoding(JSON.stringify({
+        Act: "Request",
+        Nick: this.Nick
+      }))
+    }
+
+    this.RService.GetRecentRequest(dt).subscribe(
+      (response) => {
+        this.RequestData = JSON.parse(response.body).map((e:RequestCard) => {
           if (e.Link != undefined) {
             e.Link = this.RService.ReverseLinkParser(e.Link);
           }
@@ -50,6 +62,7 @@ export class RequestboardComponent implements OnInit {
         });
       }
     )
+
   }
 
   Login(): void {
