@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArchiveService } from '../services/archive.service';
+import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import Archive from '../models/Archive';
 import { ShowSearch } from '../models/ShowSearch';
 import { faChevronDown, faSearch, faRedoAlt, faStar } from '@fortawesome/free-solid-svg-icons';
@@ -28,13 +29,16 @@ export class ArchiveComponent implements OnInit {
   constructor(
     private AService: ArchiveService,
     private Sanitizer: DomSanitizer,
+    private TGEnc: TsugeGushiService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.AService.getArchive().subscribe(
-      (response: Archive[]) => {
-        this.ArchiveList = response.map( e=> {
+    this.AService.FetchArchive(this.TGEnc.TGEncoding(JSON.stringify({
+      Act: "ArchiveList",
+    }))).subscribe(
+      (response) => {
+        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
           if (!e.Star) e.Star = 0;          
           return e;
         });
@@ -43,43 +47,43 @@ export class ArchiveComponent implements OnInit {
   }
 
   SearchByRoom(): void {
-    this.AService.getArchiveRoom(this.SearchRoom).subscribe(
-      (response: Archive[]) => {
-        this.ArchiveList = response.map( e=> {
+    this.AService.FetchArchive(this.TGEnc.TGEncoding(JSON.stringify({
+      Act: "ArchiveList",
+      Room: this.SearchRoom
+    }))).subscribe(
+      (response) => {
+        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
           if (!e.Star) e.Star = 0;          
           return e;
         });
-        this.SearchRoom = "";
-        this.SearchLink = "";
-        this.SearchTags = "";
       }
     )
   }
 
   SearchByLink(): void {
-    this.AService.getArchiveLink(this.SearchLink).subscribe(
-      (response: Archive[]) => {
-        this.ArchiveList = response.map( e=> {
+    this.AService.FetchArchive(this.TGEnc.TGEncoding(JSON.stringify({
+      Act: "ArchiveList",
+      Link: this.SearchLink
+    }))).subscribe(
+      (response) => {
+        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
           if (!e.Star) e.Star = 0;          
           return e;
         });
-        this.SearchRoom = "";
-        this.SearchLink = "";
-        this.SearchTags = "";
       }
     )
   }
 
   SearchByTags(): void {
-    this.AService.getArchiveTags(this.SearchTags.replace(", ", "_").replace(" ", "_")).subscribe(
-      (response: Archive[]) => {
-        this.ArchiveList = response.map( e=> {
+    this.AService.FetchArchive(this.TGEnc.TGEncoding(JSON.stringify({
+      Act: "ArchiveList",
+      Tags: this.SearchTags.replace(", ", "_").replace(" ", "_")
+    }))).subscribe(
+      (response) => {
+        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
           if (!e.Star) e.Star = 0;          
           return e;
         });
-        this.SearchRoom = "";
-        this.SearchLink = "";
-        this.SearchTags = "";
       }
     )
   }
@@ -101,9 +105,11 @@ export class ArchiveComponent implements OnInit {
   }
 
   ClearSearch(){
-    this.AService.getArchive().subscribe(
-      (response: Archive[]) => {
-        this.ArchiveList = response.map( e=> {
+    this.AService.FetchArchive(this.TGEnc.TGEncoding(JSON.stringify({
+      Act: "ArchiveList",
+    }))).subscribe(
+      (response) => {
+        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
           if (!e.Star) e.Star = 0;          
           return e;
         });

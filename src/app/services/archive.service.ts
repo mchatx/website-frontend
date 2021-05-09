@@ -9,24 +9,22 @@ export class ArchiveService {
 
   constructor(private httpclient: HttpClient) { }
 
-  getArchive(): Observable<any> {
-    return (this.httpclient.get('https://repo.mchatx.org/Archive/'));
-  }
+  //------------------------------------------- ARCHIVE GET PAGE HANDLER -------------------------------------------
+  FetchArchive(
+    btoken: string,
+  ): Observable<any> {
+    const headers = { 'Content-Type': 'application/json' };
 
-  getArchiveRoom(room: string): Observable<any> {
-    return (this.httpclient.get('https://repo.mchatx.org/Archive/?room=' + room));
+    //return (this.httpclient.post('https://repo.mchatx.org/FetchRaw/', {
+    return (this.httpclient.post('http://127.1.0.1:33333/FetchRaw/', {
+      BToken: btoken
+    }, { headers, observe: 'response', responseType: 'text' }));
   }
+  //=========================================== ARCHIVE GET PAGE HANDLER ===========================================
 
-  getArchiveLink(link: string): Observable<any> {
-    return (this.httpclient.get('https://repo.mchatx.org/Archive/?link=' + link));
-  }
 
-  getArchiveTags(tags: string): Observable<any> {
-    return (this.httpclient.get('https://repo.mchatx.org/Archive/?tags=' + tags));
-  }
 
   //------------------------------------------- ARCHIVE EDIT HANDLER -------------------------------------------
-
   AddArchive(
     room: string,
     token: string,
