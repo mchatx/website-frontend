@@ -8,7 +8,6 @@ import { faChevronDown, faSearch, faRedoAlt, faStar } from '@fortawesome/free-so
 import { faSearchengin } from '@fortawesome/free-brands-svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
 
-
 @Component({
   selector: 'app-archive',
   templateUrl: './archive.component.html',
@@ -95,6 +94,7 @@ export class ArchiveComponent implements OnInit {
       return ("Error");
     }
   }
+  
   toggleDrop() {
     this.isdropActive = !this.isdropActive;
   }

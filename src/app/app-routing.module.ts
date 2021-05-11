@@ -17,6 +17,7 @@ import { RestartpassComponent } from './restartpass/restartpass.component';
 import { AccountpageComponent } from './accountpage/accountpage.component';
 import { TestingGroundComponent } from './testing-ground/testing-ground.component';
 import { RequestboardComponent } from './requestboard/requestboard.component';
+import { ArchiveDetailComponent } from './archive-detail/archive-detail.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'roomapply', component: NewRoomComponent },
   { path: 'schedule', component: ScheduleComponent },
+  { path: 'archivecard/:ArLink', component: ArchiveDetailComponent},
   { path: 'archive', component: ArchiveComponent },
   { path: 'schededit/:mode', component: ScheduleEditComponent },
   { path: 'verivy/:token', component: VerivyComponent },

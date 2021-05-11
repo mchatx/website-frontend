@@ -1,0 +1,74 @@
+<!------------------------- ERROR ACCESS NOTIF ------------------------->
+<div *ngIf="CurrentArchive === null">
+    <p>{{ this.status }}</p>
+</div>
+<!--======================= ERROR ACCESS NOTIF =======================-->
+
+
+
+<!------------------------- ARCHIVE DETAIL PART ------------------------->
+<div *ngIf="CurrentArchive !== null">
+    <p>Title: {{ CurrentArchive.Nick }}</p>
+    <p>Author: {{ CurrentArchive.Room }}</p>
+    <p>Link: {{ CurrentArchive.StreamLink }}</p>
+    <p>Tags: {{ CurrentArchive.Tags }}</p>
+    <div>
+        {{ CurrentArchive.Star }}🟊 | 
+        <fa-icon *ngIf="CurrentArchive.Pass" [icon]="faLock"></fa-icon>
+        <fa-icon *ngIf="!CurrentArchive.Pass" [icon]="faUnlock"></fa-icon>
+    </div>
+
+    <a class="button is-small is-outlined is-rounded is-light is-inverted"
+    [href]="sanitize(CurrentArchive.Link)">
+    Open in client
+    </a>
+
+    <p>{{ this.status }}</p>
+</div>
+<!--======================= ARCHIVE DETAIL PART =======================-->
+
+
+
+<!------------------------------------------- LOGIN MODAL ------------------------------------------->
+<div class="modal" [ngClass]="{ 'is-active' : isLoginModalActive }">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <a style="float: right;" class="delete is-dark" (click)="CloseLoginModal()"></a>
+        <p class="title">Login</p>
+        <div class="divider is-left is-black"></div>
+  
+        <div class="field has-text-left">
+          <label class="label">Username</label>
+          <div class="control has-icons-left">
+            <input class="input is-rounded" type="text" placeholder="Username" [(ngModel)]="Nick">
+            <span class="icon is-left is-small">
+              <fa-icon [icon]="faUser"></fa-icon>
+            </span>
+          </div>
+        </div>
+  
+        <div class="field has-text-left">
+          <label class="label">Password</label>
+          <div class="control has-icons-left">
+            <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="Pass">
+            <span class="icon is-left is-small">
+              <fa-icon [icon]="faLock"></fa-icon>
+            </span>
+          </div>
+        </div>
+  
+        <div class="field is-grouped p-4">
+          <div class="control">
+            <button class="button is-dark" (click)="Login()" #loadstate1>Enter</button>
+          </div>
+          <div class="control">
+            <p *ngIf="modalstatus !== ''" class="has-text-danger">{{ modalstatus }}</p>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  <!--========================================= LOGIN MODAL =========================================-->
+  

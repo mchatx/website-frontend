@@ -65,6 +65,7 @@ export class RequestboardComponent implements OnInit {
 
   }
 
+  //------------------------------------------------------- LOGIN HANDLER -------------------------------------------------------
   Login(): void {
     this.modalstatus = "";
     this.loadbutton1.nativeElement.classList.add('is-loading');
@@ -107,6 +108,7 @@ export class RequestboardComponent implements OnInit {
   CloseLoginModal(): void {
     this.isLoginModalActive = !this.isLoginModalActive;
   }
+  //======================================================= LOGIN HANDLER =======================================================
 
   AddRequest(index: number = -1): void {
     this.status = "";

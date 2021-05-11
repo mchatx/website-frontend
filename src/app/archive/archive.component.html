@@ -144,10 +144,15 @@
                  <div *ngIf="Archive.Pass">
                    <p> <strong>Password Protected</strong></p>
                  </div>
-                 <div class="divider is-black"><a class="button is-small is-outlined is-rounded is-light is-inverted"
-                     [href]="sanitize(Archive.Link)">
-                     Open in client
-                   </a>
+                 <div class="divider is-black">
+                    <a class="button is-small is-outlined is-rounded is-light is-inverted"
+                      [href]="sanitize(Archive.Link)">
+                      Open in client
+                    </a>
+                    <a class="button is-small is-outlined is-rounded is-light is-inverted"
+                      [routerLink]="['/archivecard', Archive.Link]">
+                      Archive Page
+                    </a>
                   </div>
                </div>
              </div>

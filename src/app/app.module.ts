@@ -29,6 +29,7 @@ import { RestartpassComponent } from './restartpass/restartpass.component';
 import { AccountpageComponent } from './accountpage/accountpage.component';
 import { TestingGroundComponent } from './testing-ground/testing-ground.component';
 import { RequestboardComponent } from './requestboard/requestboard.component';
+import { ArchiveDetailComponent } from './archive-detail/archive-detail.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { RequestboardComponent } from './requestboard/requestboard.component';
     RestartpassComponent,
     AccountpageComponent,
     TestingGroundComponent,
-    RequestboardComponent
+    RequestboardComponent,
+    ArchiveDetailComponent
   ],
   imports: [
     BrowserModule,
