@@ -4,6 +4,6 @@ export default class Archive {
     Pass: boolean | undefined;
     Link: string | undefined;
     StreamLink: string | undefined;
-    Tags: string | undefined;
+    Tags: string[] | undefined;
     Star: number = 0;
 }

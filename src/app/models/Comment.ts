@@ -1,5 +1,5 @@
 export default class Comments {
     Nick: string | undefined;
-    TStamp: string | undefined;
+    TStamp: number | undefined;
     Content: string | undefined;
 }

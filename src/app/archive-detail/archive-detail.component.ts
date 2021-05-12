@@ -3,8 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import { CommentService } from '../services/comment.service';
 import { AccountService } from '../services/account.service';
+import { RatingService } from '../services/rating.service';
 import Archive from '../models/Archive';
-import { faLock, faUnlock, faUser } from '@fortawesome/free-solid-svg-icons';
+import Comment from '../models/Comment';
+import { faLock, faUnlock, faUser, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -32,6 +34,7 @@ export class ArchiveDetailComponent implements OnInit {
     private TGEnc: TsugeGushiService,
     private CMService: CommentService,
     private AccService: AccountService,
+    private RateService: RatingService,
     private RouteParam: ActivatedRoute,
     private Router: Router
     ) 
@@ -60,7 +63,7 @@ export class ArchiveDetailComponent implements OnInit {
         }
       }
 
-      this.CMService.FirstTest(this.TGEnc.TGEncoding(JSON.stringify(dt))).subscribe(
+      this.CMService.GetArchiveData(this.TGEnc.TGEncoding(JSON.stringify(dt))).subscribe(
         (response) => {
           if (response.status != 200){
             setTimeout(() => {
@@ -85,6 +88,11 @@ export class ArchiveDetailComponent implements OnInit {
           if (!this.CurrentArchive.Star){
             this.CurrentArchive.Star = 0;
           }
+          this.RepopulateComment();
+
+          if (this.Nick != ""){
+            this.CheckRating();
+          }
         },
         (error) => {
           setTimeout(() => {
@@ -107,6 +115,8 @@ export class ArchiveDetailComponent implements OnInit {
     }
   }
 
+
+  
   //------------------------------------------------------- LOGIN HANDLER -------------------------------------------------------
   Login(): void {
     this.modalstatus = "";
@@ -152,24 +162,270 @@ export class ArchiveDetailComponent implements OnInit {
   }
   //======================================================= LOGIN HANDLER =======================================================
 
-  //------------------------------------------------------- COMMENT HANDLER -------------------------------------------------------
-  AddComment():void {
 
+
+  //------------------------------------------------------- COMMENT HANDLER -------------------------------------------------------
+  newcomment: string = "";
+  editcomment: string = "";
+  CommentsList : Comment[] = [];
+  SelectedComment: number = -1;
+  isDeleteModalActive:boolean = false;
+  isEditModalActive:boolean = false;
+
+  AddComment():void {
+    if ((!this.Processing) || (this.newcomment.length != 0))
+    {
+      if (!localStorage.getItem("MChatToken")) {
+        this.Nick = "";
+        this.Token = "";
+        this.isLoginModalActive = !this.isLoginModalActive;
+        this.Pass = "";
+        this.modalstatus = "";
+        return;
+      }
+
+      this.Processing = true;
+
+      this.CMService.CommentPost(this.TGEnc.TGEncoding(JSON.stringify({
+        Act: "Add",
+        Nick: this.Nick,
+        Token: this.Token,
+        content: this.newcomment,
+        TStamp:  Math.floor(Date.now()/1000).toString(),
+        ARID: this.ARID
+      }))).subscribe(
+        (response) => {
+          this.Processing = false;
+          this.newcomment = "";
+          this.RepopulateComment();
+        },
+        (error) => {
+          this.status = error.error;
+          this.Processing = false;
+
+          if (error.error == "ERROR : INVALID TOKEN") {
+            this.isLoginModalActive = !this.isLoginModalActive;
+            this.Pass = "";
+            this.modalstatus = "";
+          }
+        }
+      )
+    }
   }
 
   RemoveComment():void {
+    if ((!this.Processing) || ((this.SelectedComment != -1) && (this.SelectedComment < this.CommentsList.length))) {
+      this.Processing = true;
 
+      this.CMService.CommentPost(this.TGEnc.TGEncoding(JSON.stringify({
+        Act: "Delete",
+        Nick: this.Nick,
+        Token: this.Token,
+        TStamp: this.CommentsList[this.SelectedComment].TStamp,
+        ARID: this.ARID
+      }))).subscribe(
+        (response) => {
+          this.Processing = false;
+          this.CloseDeleteModal();
+          this.RepopulateComment();
+        },
+        (error) => {
+          this.status = error.error;
+          this.Processing = false;
+
+          if (error.error == "ERROR : INVALID TOKEN") {
+            this.isLoginModalActive = !this.isLoginModalActive;
+            this.Pass = "";
+            this.modalstatus = "";
+            this.CloseDeleteModal();
+            this.RepopulateComment();
+          }
+        }
+      )
+    }
+  }
+
+  OpenDeleteModal(index: number):void {
+    this.isDeleteModalActive = !this.isDeleteModalActive;
+    this.SelectedComment = index;
+  }
+
+  CloseDeleteModal(): void {
+    this.isDeleteModalActive = !this.isDeleteModalActive;
+    this.SelectedComment = -1;
   }
 
   EditComment():void {
+    if ((!this.Processing) || ((this.SelectedComment != -1) && (this.SelectedComment < this.CommentsList.length))) {
+      this.Processing = true;
 
+      this.CMService.CommentPost(this.TGEnc.TGEncoding(JSON.stringify({
+        Act: "Edit",
+        Nick: this.Nick,
+        Token: this.Token,
+        TStamp: this.CommentsList[this.SelectedComment].TStamp,
+        content: this.editcomment + " (edited)",
+        ARID: this.ARID
+      }))).subscribe(
+        (response) => {
+          this.Processing = false;
+          this.CloseEditModal();
+          this.RepopulateComment();
+        },
+        (error) => {
+          this.status = error.error;
+          this.Processing = false;
+
+          if (error.error == "ERROR : INVALID TOKEN") {
+            this.isLoginModalActive = !this.isLoginModalActive;
+            this.Pass = "";
+            this.modalstatus = "";
+            this.CloseEditModal();
+            this.RepopulateComment();
+          }
+        }
+      )
+    }
+  }
+
+  OpenEditModal(index: number):void {
+    this.isEditModalActive = !this.isEditModalActive;
+
+    let test = this.CommentsList[index].Content;
+    if (test != undefined){
+      this.editcomment = test;
+    }
+
+    this.SelectedComment = index;
+  }
+
+  CloseEditModal():void {
+    this.isEditModalActive = !this.isEditModalActive;
+    this.SelectedComment = -1;
+  }
+
+  RepopulateComment():void {
+    this.CommentsList = [];
+    this.CMService.CommentPost(this.TGEnc.TGEncoding(JSON.stringify({
+      Act: "Request",
+      ARID: this.ARID
+    }))).subscribe(
+      (response) => {
+        this.CommentsList = JSON.parse(response.body);
+      },
+      (error) => {
+        this.status = error.error;
+      }
+    );
   }
   //======================================================= COMMENT HANDLER =======================================================
 
+
+
   //-------------------------------------------------------- RATING HANDLER --------------------------------------------------------
+  RatingBtn:string = "☆"
+  //☆★
+
+  CheckRating(){
+    if ((this.Nick != "") && (this.ARID != "")){
+      this.RateService.RatingPost(this.TGEnc.TGEncoding(JSON.stringify({
+        Act: "Check",
+        Nick: this.Nick,
+        ARID: this.ARID
+      }))).subscribe(
+        (response) => {
+          if (response.body == "True"){
+            this.RatingBtn = "★"
+          } else {
+            this.RatingBtn = "☆"
+          }
+        },
+        (error) => {
+          this.RatingBtn = "☆"
+        }
+      )
+    }
+  }
+
+  RatingBtnClick(){
+    if ((this.Nick != "") && (this.ARID != "") && (!this.Processing)){
+      if (!localStorage.getItem("MChatToken")) {
+        this.Nick = "";
+        this.Token = "";
+        this.isLoginModalActive = !this.isLoginModalActive;
+        this.Pass = "";
+        this.modalstatus = "";
+        return;
+      }
+
+      if (this.RatingBtn == "☆"){
+        this.Processing = true;
+        this.RateService.RatingPost(this.TGEnc.TGEncoding(JSON.stringify({
+          Act: "Add",
+          Nick: this.Nick,
+          Token: this.Token,
+          ARID: this.ARID
+        }))).subscribe(
+          (response) => {
+            this.Processing = false;
+            if (response.body == "Ok"){
+              this.RatingBtn = "★"
+              var test = this.CurrentArchive?.Star;
+              if ((test != null) && (this.CurrentArchive != null)){
+                test += 1;
+                this.CurrentArchive.Star = test;
+              }
+            } else {
+              this.RatingBtn = "★"
+            }
+          },
+          (error) => {
+            this.Processing = false;
+            if (error.error == "ERROR : INVALID TOKEN") {
+              this.isLoginModalActive = !this.isLoginModalActive;
+              this.Pass = "";
+              this.modalstatus = "";
+            }  
+          }
+        )
+      } else {
+        this.Processing = true;
+        this.RateService.RatingPost(this.TGEnc.TGEncoding(JSON.stringify({
+          Act: "Delete",
+          Nick: this.Nick,
+          Token: this.Token,
+          ARID: this.ARID
+        }))).subscribe(
+          (response) => {
+            this.Processing = false;
+            if (response.body == "OK"){
+              this.RatingBtn = "☆"
+              var test = this.CurrentArchive?.Star;
+              if ((test != null) && (this.CurrentArchive != null)){
+                test -= 1;
+                this.CurrentArchive.Star = test;
+              }
+            }
+          },
+          (error) => {
+            this.Processing = false;
+            if (error.error == "ERROR : INVALID TOKEN") {
+              this.isLoginModalActive = !this.isLoginModalActive;
+              this.Pass = "";
+              this.modalstatus = "";
+            }  
+          }
+        )
+      }
+    }
+  }
   //======================================================== RATING HANDLER ========================================================
+
+
 
   faUser = faUser;
   faLock = faLock;
   faUnlock = faUnlock;
+  faEdit = faEdit;
+  faTrash = faTrash;
 }

@@ -22,7 +22,7 @@ import { ArchiveDetailComponent } from './archive-detail/archive-detail.componen
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'docs', component: DocsComponent },
-  //{path: 'docs', loadChildren: () => import('./docs/docs.module').then(m => m.DocsModule)} Lazy loading need more work first
+  //{ path: 'docs', loadChildren: () => import('./docs/docs.component').then(m => m.DocsModule)}, // Lazy loading need more work first
   { path: 'footer', component: FooterComponent },
   { path: 'header', component: HeaderComponent },
   { path: '', component: HomeComponent },

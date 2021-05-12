@@ -5,17 +5,19 @@
 <!--======================= ERROR ACCESS NOTIF =======================-->
 
 
-
-<!------------------------- ARCHIVE DETAIL PART ------------------------->
 <div *ngIf="CurrentArchive !== null">
+<!------------------------- ARCHIVE DETAIL PART ------------------------->
     <p>Title: {{ CurrentArchive.Nick }}</p>
     <p>Author: {{ CurrentArchive.Room }}</p>
     <p>Link: {{ CurrentArchive.StreamLink }}</p>
     <p>Tags: {{ CurrentArchive.Tags }}</p>
-    <div>
-        {{ CurrentArchive.Star }}🟊 | 
+    <div style="display: flex; flex-direction: row; align-items: center; margin-top: 10px; margin-bottom: 10px;">
         <fa-icon *ngIf="CurrentArchive.Pass" [icon]="faLock"></fa-icon>
         <fa-icon *ngIf="!CurrentArchive.Pass" [icon]="faUnlock"></fa-icon>
+        <span style="margin-left: 5px;">| {{ CurrentArchive.Star }}</span>
+        <span style="margin-left: 5px; cursor: pointer; font-size: 1.5em;" (click)="RatingBtnClick()">
+        {{ RatingBtn }}
+        </span>
     </div>
 
     <a class="button is-small is-outlined is-rounded is-light is-inverted"
@@ -24,9 +26,109 @@
     </a>
 
     <p>{{ this.status }}</p>
-</div>
 <!--======================= ARCHIVE DETAIL PART =======================-->
 
+
+
+<!------------------------- COMMENT FORM ------------------------->
+  <div style="width:min-content;">
+    <textarea maxlength="255" style="resize: none; padding: 5px;" [(ngModel)]="newcomment"></textarea>
+    <div style="display: flex; flex-direction: row-reverse; align-items: center; width: 100%;">
+      <a style="margin-left: 5px;" class="button is-small is-outlined is-rounded is-light is-inverted"
+      (click)="AddComment()">
+      Comment
+      </a>
+      <span>{{ newcomment.length }}/255 </span>
+    </div>
+  </div>
+<!--======================= COMMENT FORM =======================-->
+
+
+
+<!------------------------- COMMENT LIST ------------------------->
+<div *ngFor="let Comment of CommentsList; let i = index">
+  <div style="display: flex; flex-direction: column;">
+    
+    <div id="COMMENT HEAD" style="display: flex; flex-direction: row;">
+      <div id="Comment author head" style="width: 100%;">
+        <span>{{ Comment.Nick }} </span>
+        <span *ngIf="Comment.TStamp !== undefined">({{ Comment.TStamp*1000 | date : 'yyyy-MM-dd HH:mm:ss' }})</span>
+      </div>
+      <div style="display: flex; flex-direction: row;" *ngIf="(Nick !== '') && ( Comment.Nick === Nick )">
+        <fa-icon [icon]="faEdit" style="cursor: pointer;" (click)="OpenEditModal(i)"></fa-icon>
+        <fa-icon [icon]="faTrash" style="cursor: pointer;" (click)="OpenDeleteModal(i)"></fa-icon>
+      </div>
+    </div>
+
+    <p>{{ Comment.Content }}</p>
+  </div>
+  <br>
+</div>
+<!--======================= COMMENT LIST =======================-->
+</div>
+
+
+
+
+
+
+<!------------------------------------------- DELETE MODAL ------------------------------------------->
+<div class="modal" [ngClass]="{ 'is-active' : isDeleteModalActive }">
+  <div class="modal-background" (click)="CloseDeleteModal()"></div>
+  <div style="width: 15%; min-width:fit-content" class="modal-content">
+    <div class="box">
+      <a style="float: right;" class="delete is-dark" (click)="CloseDeleteModal()"></a>
+      <p>Delete Confimation</p>
+
+      <div style="margin-top: 15px; display: flex; flex-direction: row; width: 100%; align-items: center; justify-content: center;">
+        <a class="button is-small is-outlined is-rounded is-light is-inverted"
+        (click)="CloseDeleteModal()">
+        Cancel
+        </a>
+  
+        <a style="margin-left: 15px;" class="button is-small is-outlined is-rounded is-light is-inverted"
+        (click)="RemoveComment()">
+        Delete
+        <fa-icon style="margin-left: 5px;" [icon]="faTrash"></fa-icon>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<!--========================================= DELETE MODAL =========================================-->
+
+
+
+<!------------------------------------------- EDIT MODAL ------------------------------------------->
+<div class="modal" [ngClass]="{ 'is-active' : isEditModalActive }">
+  <div class="modal-background" (click)="CloseEditModal()"></div>
+  <div class="modal-content">
+    <div class="box">
+      <a style="float: right;" class="delete is-dark" (click)="CloseEditModal()"></a>
+      <p>Edit Comment</p>
+      <div class="divider is-left is-black"></div>
+      
+      <textarea maxlength="255" style="resize: none; padding: 5px; width: 100%; margin-bottom: 15px;" [(ngModel)]="editcomment"></textarea>
+
+      <div style="display: flex; flex-direction: row-reverse; width: 100%;">
+        <a class="button is-small is-outlined is-rounded is-light is-inverted"
+        (click)="EditComment()">
+        Post Edit 
+        <fa-icon style="margin-left: 5px;" [icon]="faEdit"></fa-icon>
+        </a>
+        
+        <span style="align-self: center; margin-left: 5px; margin-right: 5px;">{{ editcomment.length }}/255 </span>
+
+        <a class="button is-small is-outlined is-rounded is-light is-inverted"
+        (click)="CloseEditModal()">
+        Cancel
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--========================================= EDIT MODAL =========================================-->
 
 
 <!------------------------------------------- LOGIN MODAL ------------------------------------------->

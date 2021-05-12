@@ -38,7 +38,13 @@ export class ArchiveComponent implements OnInit {
     }))).subscribe(
       (response) => {
         this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
-          if (!e.Star) e.Star = 0;          
+          if (!e.Star) e.Star = 0;
+          if (e.Tags != undefined){
+            e.Tags = e.Tags.toString().split(",");
+            for(let i = 0; i < e.Tags.length; i++){
+              e.Tags[i] = e.Tags[i].trim();
+            }
+          }
           return e;
         });
       }
@@ -52,7 +58,13 @@ export class ArchiveComponent implements OnInit {
     }))).subscribe(
       (response) => {
         this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
-          if (!e.Star) e.Star = 0;          
+          if (!e.Star) e.Star = 0;
+          if (e.Tags != undefined){
+            e.Tags = e.Tags.toString().split(",");
+            for(let i = 0; i < e.Tags.length; i++){
+              e.Tags[i] = e.Tags[i].trim();
+            }
+          }
           return e;
         });
       }
@@ -66,7 +78,13 @@ export class ArchiveComponent implements OnInit {
     }))).subscribe(
       (response) => {
         this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
-          if (!e.Star) e.Star = 0;          
+          if (!e.Star) e.Star = 0;
+          if (e.Tags != undefined){
+            e.Tags = e.Tags.toString().split(",");
+            for(let i = 0; i < e.Tags.length; i++){
+              e.Tags[i] = e.Tags[i].trim();
+            }
+          }
           return e;
         });
       }
@@ -80,7 +98,13 @@ export class ArchiveComponent implements OnInit {
     }))).subscribe(
       (response) => {
         this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
-          if (!e.Star) e.Star = 0;          
+          if (!e.Star) e.Star = 0;
+          if (e.Tags != undefined){
+            e.Tags = e.Tags.toString().split(",");
+            for(let i = 0; i < e.Tags.length; i++){
+              e.Tags[i] = e.Tags[i].trim();
+            }
+          }  
           return e;
         });
       }
@@ -110,11 +134,33 @@ export class ArchiveComponent implements OnInit {
     }))).subscribe(
       (response) => {
         this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
-          if (!e.Star) e.Star = 0;          
+          if (!e.Star) e.Star = 0;
+          if (e.Tags != undefined){
+            e.Tags = e.Tags.toString().split(",");
+            for(let i = 0; i < e.Tags.length; i++){
+              e.Tags[i] = e.Tags[i].trim();
+            }
+          }    
           return e;
         });
       }
     )
+  }
+
+  RoomNameClick(RoomName: string | undefined) {
+    if (RoomName != undefined){
+      this.SelectedIndex = 0;
+      this.SearchRoom = RoomName;
+      this.SearchByRoom();
+    }
+  }
+
+  TagClick(Tag: string | undefined) {
+    if (Tag != undefined){
+      this.SelectedIndex = 2;
+      this.SearchTags = Tag;
+      this.SearchByTags();
+    }
   }
 
   faRedoAlt = faRedoAlt;
