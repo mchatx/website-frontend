@@ -42,7 +42,7 @@
                 <p class="notification has-text-white" style="background-color: #EA3323;">
                   Title:
                   {{ Request.Title }}</p>
-                <p>Vtuber: {{ Request.Vtuber }}</p>
+                <p>Vtuber Channel: {{ Request.Vtuber }}</p>
                 <p>Link: <a href="{{ Request.Link }}" target="_blank">{{ Request.Link }}</a></p>
                 <p># of request: {{ Request.Sum }}</p>
                 <div *ngIf="Request.Sign" class="is-flex is-justify-content-flex-end">
@@ -101,6 +101,10 @@
       <div class="field is-grouped p-4">
         <div class="control">
           <button class="button is-dark" (click)="Login()" #loadstate1>Enter</button>
+        </div>
+        <div class="control">
+          <p class="has-text-weight-bold"><a id=sign_up routerLink="/signup">Sign
+              Up</a></p>
         </div>
         <div class="control">
           <p *ngIf="modalstatus !== ''" class="has-text-danger">{{ modalstatus }}</p>

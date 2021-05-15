@@ -4,9 +4,10 @@ import { ArchiveService } from '../services/archive.service';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import Archive from '../models/Archive';
 import { ShowSearch } from '../models/ShowSearch';
-import { faChevronDown, faSearch, faRedoAlt, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faRedoAlt, faStar, faLock } from '@fortawesome/free-solid-svg-icons';
 import { faSearchengin } from '@fortawesome/free-brands-svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-archive',
@@ -37,11 +38,11 @@ export class ArchiveComponent implements OnInit {
       Act: "ArchiveList",
     }))).subscribe(
       (response) => {
-        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
+        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map((e: Archive) => {
           if (!e.Star) e.Star = 0;
-          if (e.Tags != undefined){
+          if (e.Tags != undefined) {
             e.Tags = e.Tags.toString().split(",");
-            for(let i = 0; i < e.Tags.length; i++){
+            for (let i = 0; i < e.Tags.length; i++) {
               e.Tags[i] = e.Tags[i].trim();
             }
           }
@@ -57,11 +58,11 @@ export class ArchiveComponent implements OnInit {
       Room: this.SearchRoom
     }))).subscribe(
       (response) => {
-        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
+        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map((e: Archive) => {
           if (!e.Star) e.Star = 0;
-          if (e.Tags != undefined){
+          if (e.Tags != undefined) {
             e.Tags = e.Tags.toString().split(",");
-            for(let i = 0; i < e.Tags.length; i++){
+            for (let i = 0; i < e.Tags.length; i++) {
               e.Tags[i] = e.Tags[i].trim();
             }
           }
@@ -77,11 +78,11 @@ export class ArchiveComponent implements OnInit {
       Link: this.SearchLink
     }))).subscribe(
       (response) => {
-        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
+        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map((e: Archive) => {
           if (!e.Star) e.Star = 0;
-          if (e.Tags != undefined){
+          if (e.Tags != undefined) {
             e.Tags = e.Tags.toString().split(",");
-            for(let i = 0; i < e.Tags.length; i++){
+            for (let i = 0; i < e.Tags.length; i++) {
               e.Tags[i] = e.Tags[i].trim();
             }
           }
@@ -97,14 +98,14 @@ export class ArchiveComponent implements OnInit {
       Tags: this.SearchTags.replace(", ", "_").replace(" ", "_")
     }))).subscribe(
       (response) => {
-        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
+        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map((e: Archive) => {
           if (!e.Star) e.Star = 0;
-          if (e.Tags != undefined){
+          if (e.Tags != undefined) {
             e.Tags = e.Tags.toString().split(",");
-            for(let i = 0; i < e.Tags.length; i++){
+            for (let i = 0; i < e.Tags.length; i++) {
               e.Tags[i] = e.Tags[i].trim();
             }
-          }  
+          }
           return e;
         });
       }
@@ -118,7 +119,7 @@ export class ArchiveComponent implements OnInit {
       return ("Error");
     }
   }
-  
+
   toggleDrop() {
     this.isdropActive = !this.isdropActive;
   }
@@ -128,19 +129,19 @@ export class ArchiveComponent implements OnInit {
     this.isSearchActive = !this.isSearchActive;
   }
 
-  ClearSearch(){
+  ClearSearch() {
     this.AService.FetchArchive(this.TGEnc.TGEncoding(JSON.stringify({
       Act: "ArchiveList",
     }))).subscribe(
       (response) => {
-        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map( (e: Archive) => {
+        this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map((e: Archive) => {
           if (!e.Star) e.Star = 0;
-          if (e.Tags != undefined){
+          if (e.Tags != undefined) {
             e.Tags = e.Tags.toString().split(",");
-            for(let i = 0; i < e.Tags.length; i++){
+            for (let i = 0; i < e.Tags.length; i++) {
               e.Tags[i] = e.Tags[i].trim();
             }
-          }    
+          }
           return e;
         });
       }
@@ -148,7 +149,7 @@ export class ArchiveComponent implements OnInit {
   }
 
   RoomNameClick(RoomName: string | undefined) {
-    if (RoomName != undefined){
+    if (RoomName != undefined) {
       this.SelectedIndex = 0;
       this.SearchRoom = RoomName;
       this.SearchByRoom();
@@ -156,7 +157,7 @@ export class ArchiveComponent implements OnInit {
   }
 
   TagClick(Tag: string | undefined) {
-    if (Tag != undefined){
+    if (Tag != undefined) {
       this.SelectedIndex = 2;
       this.SearchTags = Tag;
       this.SearchByTags();
@@ -167,4 +168,5 @@ export class ArchiveComponent implements OnInit {
   faSearch = faSearch;
   faChevronDown = faChevronDown;
   faStar = faStar;
+  faLock = faLock;
 }

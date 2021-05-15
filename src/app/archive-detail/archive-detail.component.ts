@@ -6,7 +6,7 @@ import { AccountService } from '../services/account.service';
 import { RatingService } from '../services/rating.service';
 import Archive from '../models/Archive';
 import Comment from '../models/Comment';
-import { faLock, faUnlock, faUser, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faUnlock, faUser, faEdit, faTrash, faReply } from '@fortawesome/free-solid-svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -17,19 +17,20 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ArchiveDetailComponent implements OnInit {
 
   status: string = "";
-  ARLink: string|null = "";
+  ARLink: string | null = "";
   Nick: string = "";
   Pass: string = "";
   Token: string = "";
-  CurrentArchive: Archive|null = null;
+  CurrentArchive: Archive | null = null;
   ARID: string = "";
   isLoginModalActive: boolean = false;
   modalstatus: string = "";
   Processing: boolean = false;
 
   @ViewChild('loadstate1') loadbutton1!: ElementRef;
-
-  constructor(    
+  @ViewChild('loadstate2') loadbutton2!: ElementRef;
+  @ViewChild('loadstate3') loadbutton3!: ElementRef;
+  constructor(
     private Sanitizer: DomSanitizer,
     private TGEnc: TsugeGushiService,
     private CMService: CommentService,
@@ -37,8 +38,7 @@ export class ArchiveDetailComponent implements OnInit {
     private RateService: RatingService,
     private RouteParam: ActivatedRoute,
     private Router: Router
-    ) 
-    { }
+  ) { }
 
   ngOnInit(): void {
     let test = localStorage.getItem("MChatToken")
@@ -49,30 +49,30 @@ export class ArchiveDetailComponent implements OnInit {
     }
 
     this.ARLink = this.RouteParam.snapshot.paramMap.get('ArLink');
-    if (this.ARLink != null){
+    if (this.ARLink != null) {
       var dt;
 
-      if (this.Nick != ""){
+      if (this.Nick != "") {
         dt = {
-          Link : this.ARLink.replace("%20", " "),
-          Nick : this.Nick
+          Link: this.ARLink.replace("%20", " "),
+          Nick: this.Nick
         }
       } else {
         dt = {
-          Link : this.ARLink,
+          Link: this.ARLink,
         }
       }
 
       this.CMService.GetArchiveData(this.TGEnc.TGEncoding(JSON.stringify(dt))).subscribe(
         (response) => {
-          if (response.status != 200){
+          if (response.status != 200) {
             setTimeout(() => {
               this.Router.navigate(['archive']);
             }, 5000);
             this.status = "UNABLE TO ACCESS ARCHIVE.";
             return;
           }
-          
+
           let dt = JSON.parse(response.body);
           this.ARID = dt["_id"];
           this.CurrentArchive = {
@@ -84,13 +84,13 @@ export class ArchiveDetailComponent implements OnInit {
             Tags: dt["Tags"],
             Star: dt["Star"]
           }
-          
-          if (!this.CurrentArchive.Star){
+
+          if (!this.CurrentArchive.Star) {
             this.CurrentArchive.Star = 0;
           }
           this.RepopulateComment();
 
-          if (this.Nick != ""){
+          if (this.Nick != "") {
             this.CheckRating();
           }
         },
@@ -101,7 +101,7 @@ export class ArchiveDetailComponent implements OnInit {
           this.status = "UNABLE TO ACCESS ARCHIVE, REDIRECTING BACK.";
           return;
         }
-      );      
+      );
     } else {
       this.Router.navigate(['archive']);
     }
@@ -116,13 +116,13 @@ export class ArchiveDetailComponent implements OnInit {
   }
 
 
-  
+
   //------------------------------------------------------- LOGIN HANDLER -------------------------------------------------------
   Login(): void {
     this.modalstatus = "";
-    this.loadbutton1.nativeElement.classList.add('is-loading');
+    this.loadbutton3.nativeElement.classList.add('is-loading');
     setTimeout(() => {
-      this.loadbutton1.nativeElement.classList.remove('is-loading');
+      this.loadbutton3.nativeElement.classList.remove('is-loading');
       if (!this.Processing) {
         this.Processing = true;
         this.AccService.GetTokenPublic(this.Nick, this.Pass).subscribe({
@@ -167,53 +167,58 @@ export class ArchiveDetailComponent implements OnInit {
   //------------------------------------------------------- COMMENT HANDLER -------------------------------------------------------
   newcomment: string = "";
   editcomment: string = "";
-  CommentsList : Comment[] = [];
+  CommentsList: Comment[] = [];
   SelectedComment: number = -1;
-  isDeleteModalActive:boolean = false;
-  isEditModalActive:boolean = false;
+  isDeleteModalActive: boolean = false;
+  isEditModalActive: boolean = false;
 
-  AddComment():void {
-    if ((!this.Processing) || (this.newcomment.length != 0))
-    {
-      if (!localStorage.getItem("MChatToken")) {
-        this.Nick = "";
-        this.Token = "";
-        this.isLoginModalActive = !this.isLoginModalActive;
-        this.Pass = "";
-        this.modalstatus = "";
-        return;
-      }
-
-      this.Processing = true;
-
-      this.CMService.CommentPost(this.TGEnc.TGEncoding(JSON.stringify({
-        Act: "Add",
-        Nick: this.Nick,
-        Token: this.Token,
-        content: this.newcomment,
-        TStamp:  Math.floor(Date.now()/1000).toString(),
-        ARID: this.ARID
-      }))).subscribe(
-        (response) => {
-          this.Processing = false;
-          this.newcomment = "";
-          this.RepopulateComment();
-        },
-        (error) => {
-          this.status = error.error;
-          this.Processing = false;
-
-          if (error.error == "ERROR : INVALID TOKEN") {
-            this.isLoginModalActive = !this.isLoginModalActive;
-            this.Pass = "";
-            this.modalstatus = "";
-          }
+  AddComment(): void {
+    this.status = "";
+    this.loadbutton1.nativeElement.classList.add("is-loading");
+    setTimeout(() => {
+      this.loadbutton1.nativeElement.classList.remove("is-loading");
+      if ((!this.Processing) || (this.newcomment.length != 0)) {
+        if (!localStorage.getItem("MChatToken")) {
+          this.Nick = "";
+          this.Token = "";
+          this.isLoginModalActive = !this.isLoginModalActive;
+          this.Pass = "";
+          this.modalstatus = "";
+          return;
         }
-      )
-    }
+
+        this.Processing = true;
+
+        this.CMService.CommentPost(this.TGEnc.TGEncoding(JSON.stringify({
+          Act: "Add",
+          Nick: this.Nick,
+          Token: this.Token,
+          content: this.newcomment,
+          TStamp: Math.floor(Date.now() / 1000).toString(),
+          ARID: this.ARID
+        }))).subscribe(
+          (response) => {
+            this.Processing = false;
+            this.newcomment = "";
+            this.RepopulateComment();
+          },
+          (error) => {
+            this.status = error.error;
+            this.Processing = false;
+
+            if (error.error == "ERROR : INVALID TOKEN") {
+              this.isLoginModalActive = !this.isLoginModalActive;
+              this.Pass = "";
+              this.modalstatus = "";
+            }
+          }
+        )
+      }
+    }, 1000); // delay for loading
+
   }
 
-  RemoveComment():void {
+  RemoveComment(): void {
     if ((!this.Processing) || ((this.SelectedComment != -1) && (this.SelectedComment < this.CommentsList.length))) {
       this.Processing = true;
 
@@ -245,9 +250,20 @@ export class ArchiveDetailComponent implements OnInit {
     }
   }
 
-  OpenDeleteModal(index: number):void {
-    this.isDeleteModalActive = !this.isDeleteModalActive;
-    this.SelectedComment = index;
+  OpenDeleteModal(index: number): void {
+    if (!localStorage.getItem("MChatToken")) {
+      this.Nick = "";
+      this.Token = "";
+      this.isDeleteModalActive = false;
+      this.isLoginModalActive = true;
+      this.Pass = "";
+      this.modalstatus = "";
+      return;
+    }
+    else {
+      this.isDeleteModalActive = !this.isDeleteModalActive;
+      this.SelectedComment = index;
+    }
   }
 
   CloseDeleteModal(): void {
@@ -255,56 +271,72 @@ export class ArchiveDetailComponent implements OnInit {
     this.SelectedComment = -1;
   }
 
-  EditComment():void {
-    if ((!this.Processing) || ((this.SelectedComment != -1) && (this.SelectedComment < this.CommentsList.length))) {
-      this.Processing = true;
+  EditComment(): void {
+    this.status = "";
+    this.loadbutton2.nativeElement.classList.add("is-loading");
+    setTimeout(() => {
+      this.loadbutton2.nativeElement.classList.remove("is-loading");
+      if ((!this.Processing) || ((this.SelectedComment != -1) && (this.SelectedComment < this.CommentsList.length))) {
+        this.Processing = true;
 
-      this.CMService.CommentPost(this.TGEnc.TGEncoding(JSON.stringify({
-        Act: "Edit",
-        Nick: this.Nick,
-        Token: this.Token,
-        TStamp: this.CommentsList[this.SelectedComment].TStamp,
-        content: this.editcomment + " (edited)",
-        ARID: this.ARID
-      }))).subscribe(
-        (response) => {
-          this.Processing = false;
-          this.CloseEditModal();
-          this.RepopulateComment();
-        },
-        (error) => {
-          this.status = error.error;
-          this.Processing = false;
-
-          if (error.error == "ERROR : INVALID TOKEN") {
-            this.isLoginModalActive = !this.isLoginModalActive;
-            this.Pass = "";
-            this.modalstatus = "";
+        this.CMService.CommentPost(this.TGEnc.TGEncoding(JSON.stringify({
+          Act: "Edit",
+          Nick: this.Nick,
+          Token: this.Token,
+          TStamp: this.CommentsList[this.SelectedComment].TStamp,
+          content: this.editcomment + " (edited)",
+          ARID: this.ARID
+        }))).subscribe(
+          (response) => {
+            this.Processing = false;
             this.CloseEditModal();
             this.RepopulateComment();
+          },
+          (error) => {
+            this.status = error.error;
+            this.Processing = false;
+
+            if (error.error == "ERROR : INVALID TOKEN") {
+              this.isLoginModalActive = !this.isLoginModalActive;
+              this.Pass = "";
+              this.modalstatus = "";
+              this.CloseEditModal();
+              this.RepopulateComment();
+            }
           }
-        }
-      )
-    }
+        )
+      }
+    }, 1000); // delay for loading
+
   }
 
-  OpenEditModal(index: number):void {
-    this.isEditModalActive = !this.isEditModalActive;
+  OpenEditModal(index: number): void {
+    if (!localStorage.getItem("MChatToken")) {
+      this.Nick = "";
+      this.Token = "";
+      this.isEditModalActive = false;
+      this.isLoginModalActive = true;
+      this.Pass = "";
+      this.modalstatus = "";
+      return;
+    }
+    else
+      this.isEditModalActive = !this.isEditModalActive;
 
     let test = this.CommentsList[index].Content;
-    if (test != undefined){
+    if (test != undefined) {
       this.editcomment = test;
     }
 
     this.SelectedComment = index;
   }
 
-  CloseEditModal():void {
+  CloseEditModal(): void {
     this.isEditModalActive = !this.isEditModalActive;
     this.SelectedComment = -1;
   }
 
-  RepopulateComment():void {
+  RepopulateComment(): void {
     this.CommentsList = [];
     this.CMService.CommentPost(this.TGEnc.TGEncoding(JSON.stringify({
       Act: "Request",
@@ -323,19 +355,19 @@ export class ArchiveDetailComponent implements OnInit {
 
 
   //-------------------------------------------------------- RATING HANDLER --------------------------------------------------------
-  RatingBtn:string = "☆"
-  //☆★
+  RatingBtn: string = "☆"
+  //☆ or ★ (Rated)
 
-  CheckRating(){
-    if ((this.Nick != "") && (this.ARID != "")){
+  CheckRating() {
+    if ((this.Nick != "") && (this.ARID != "")) {
       this.RateService.RatingPost(this.TGEnc.TGEncoding(JSON.stringify({
         Act: "Check",
         Nick: this.Nick,
         ARID: this.ARID
       }))).subscribe(
         (response) => {
-          if (response.body == "True"){
-            this.RatingBtn = "★"
+          if (response.body == "True") {
+            this.RatingBtn = "★ (Rated)"
           } else {
             this.RatingBtn = "☆"
           }
@@ -347,18 +379,18 @@ export class ArchiveDetailComponent implements OnInit {
     }
   }
 
-  RatingBtnClick(){
-    if ((this.Nick != "") && (this.ARID != "") && (!this.Processing)){
-      if (!localStorage.getItem("MChatToken")) {
-        this.Nick = "";
-        this.Token = "";
-        this.isLoginModalActive = !this.isLoginModalActive;
-        this.Pass = "";
-        this.modalstatus = "";
-        return;
-      }
+  RatingBtnClick() {
+    if (!localStorage.getItem("MChatToken")) {
+      this.Nick = "";
+      this.Token = "";
+      this.isLoginModalActive = !this.isLoginModalActive;
+      this.Pass = "";
+      this.modalstatus = "";
+      return;
+    }
+    if ((this.Nick != "") && (this.ARID != "") && (!this.Processing)) {
 
-      if (this.RatingBtn == "☆"){
+      if (this.RatingBtn == "☆") {
         this.Processing = true;
         this.RateService.RatingPost(this.TGEnc.TGEncoding(JSON.stringify({
           Act: "Add",
@@ -368,15 +400,15 @@ export class ArchiveDetailComponent implements OnInit {
         }))).subscribe(
           (response) => {
             this.Processing = false;
-            if (response.body == "Ok"){
-              this.RatingBtn = "★"
+            if (response.body == "Ok") {
+              this.RatingBtn = "★ (Rated)"
               var test = this.CurrentArchive?.Star;
-              if ((test != null) && (this.CurrentArchive != null)){
+              if ((test != null) && (this.CurrentArchive != null)) {
                 test += 1;
                 this.CurrentArchive.Star = test;
               }
             } else {
-              this.RatingBtn = "★"
+              this.RatingBtn = "★ (Rated)"
             }
           },
           (error) => {
@@ -385,7 +417,7 @@ export class ArchiveDetailComponent implements OnInit {
               this.isLoginModalActive = !this.isLoginModalActive;
               this.Pass = "";
               this.modalstatus = "";
-            }  
+            }
           }
         )
       } else {
@@ -398,10 +430,10 @@ export class ArchiveDetailComponent implements OnInit {
         }))).subscribe(
           (response) => {
             this.Processing = false;
-            if (response.body == "OK"){
+            if (response.body == "OK") {
               this.RatingBtn = "☆"
               var test = this.CurrentArchive?.Star;
-              if ((test != null) && (this.CurrentArchive != null)){
+              if ((test != null) && (this.CurrentArchive != null)) {
                 test -= 1;
                 this.CurrentArchive.Star = test;
               }
@@ -413,7 +445,7 @@ export class ArchiveDetailComponent implements OnInit {
               this.isLoginModalActive = !this.isLoginModalActive;
               this.Pass = "";
               this.modalstatus = "";
-            }  
+            }
           }
         )
       }
@@ -428,4 +460,5 @@ export class ArchiveDetailComponent implements OnInit {
   faUnlock = faUnlock;
   faEdit = faEdit;
   faTrash = faTrash;
+  faReply = faReply;
 }

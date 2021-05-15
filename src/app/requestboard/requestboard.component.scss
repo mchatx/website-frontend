@@ -16,3 +16,11 @@
         overflow-x: scroll;
     }
 }
+#sign_up{
+    color: #3273DC;
+    text-decoration: underline;
+    &:hover{
+        color: blue;
+        
+    }
+}     

@@ -41,7 +41,7 @@ export class RequestboardComponent implements OnInit {
 
   RepopulateData(): void {
     let dt = "";
-    if (this.Nick == "" ){
+    if (this.Nick == "") {
       dt = this.TGEnc.TGEncoding(JSON.stringify({
         Act: "Request"
       }))
@@ -54,7 +54,7 @@ export class RequestboardComponent implements OnInit {
 
     this.RService.GetRecentRequest(dt).subscribe(
       (response) => {
-        this.RequestData = JSON.parse(response.body).map((e:RequestCard) => {
+        this.RequestData = JSON.parse(response.body).map((e: RequestCard) => {
           if (e.Link != undefined) {
             e.Link = this.RService.ReverseLinkParser(e.Link);
           }
@@ -156,7 +156,7 @@ export class RequestboardComponent implements OnInit {
               insecure: true
             }))).subscribe(
               (response) => {
-                this.status = "Request from form Sent";
+                this.status = "Request Sent";
                 this.Processing = false;
                 this.CheckLink = "";
                 this.RepopulateData();

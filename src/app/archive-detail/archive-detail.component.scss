@@ -1,0 +1,29 @@
+.arcard{
+    max-width: 900px;
+    margin:auto;
+    .rating{
+        &:hover{
+        text-decoration: underline;        
+        color: black;
+        font-weight: 550;
+        }
+    } 
+    .links{
+        &:hover{
+        color: blue;
+        }
+    }    
+}
+
+#sign_up{
+    color: #3273DC;
+    text-decoration: underline;
+    &:hover{
+        color: blue;
+        
+    }
+}     
+
+textarea{
+    resize: none;
+}
