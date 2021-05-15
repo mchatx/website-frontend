@@ -7,12 +7,13 @@
 <div class="arcard" *ngIf="CurrentArchive !== null">
   <!------------------------- ARCHIVE DETAIL PART ------------------------->
   <article class="box media has-background-dark">
+    <!-- insert vtuber channel thumbnail here or the Tranlator's DP 
     <figure class="media-left">
       <p class="image is-128x128">
         <img src="https://bulma.io/images/placeholders/256x256.png">
-        <!-- insert vtuber channel thumbnail here or the Tranlator's DP -->
       </p>
     </figure>
+    -->
     <div class="media-content">
       <div class="content">
         <p class="has-text-weight-bold has-text-white">Title: {{ CurrentArchive.Nick }} <br>
@@ -46,11 +47,13 @@
   <!--======================= ARCHIVE DETAIL PART =======================-->
   <!------------------------- COMMENT FORM ------------------------->
   <article class="box media">
+    <!-- commenters dp when posting 
     <figure class="media-left">
       <p class="image is-64x64">
-        <img src="https://bulma.io/images/placeholders/128x128.png"> <!-- commenters dp when posting -->
+        <img src="https://bulma.io/images/placeholders/128x128.png"> 
       </p>
     </figure>
+    -->
     <div class="media-content">
       <div class="field">
         <p class="control">
@@ -66,11 +69,13 @@
       <!------------------------- COMMENT LIST ------------------------->
       <div *ngFor="let Comment of CommentsList; let i = index">
         <article class="media">
+          <!-- commenter's dp when in comment list 
           <figure class="media-left">
             <p class="image is-48x48">
-              <img src="https://bulma.io/images/placeholders/96x96.png"> <!-- commenter's dp when in comment list -->
+              <img src="https://bulma.io/images/placeholders/96x96.png"> 
             </p>
           </figure>
+          -->
           <div class="media-content">
             <div class="content">
               <p>
@@ -78,29 +83,37 @@
                 <br>
                 {{ Comment.Content }}
                 <br><br>
-                <small><a class="links" (click)="OpenEditModal(i)">
-                    <fa-icon [icon]="faEdit"></fa-icon>Edit
-                  </a> · <a class="links" (click)="OpenDeleteModal(i)">
-                    <fa-icon [icon]="faTrash"></fa-icon>Delete
-                  </a> · <a class="links">
+                <small>
+                  <span *ngIf="Comment.Nick == Nick">
+                    <a class="links" (click)="OpenEditModal(i)">
+                      <fa-icon [icon]="faEdit"></fa-icon>Edit
+                    </a> · <a class="links" (click)="OpenDeleteModal(i)">
+                      <fa-icon [icon]="faTrash"></fa-icon>Delete
+                    </a> ·
+                  </span> 
+                  <!--  REPLY BUTTON
+                  <a class="links">
                     <fa-icon [icon]="faReply"></fa-icon>Reply
-                  </a> · <span *ngIf="Comment.TStamp !== undefined">commented on
-                    {{ Comment.TStamp*1000 | date : 'yyyy-MM-dd HH:mm' }}</span></small>
+                  </a> · -->
+                  <span *ngIf="Comment.TStamp !== undefined">commented on
+                    {{ Comment.TStamp*1000 | date : 'yyyy-MM-dd HH:mm' }}</span>
+                </small>
               </p>
             </div>
+            <!-- repliers list 
             <article class="media">
               <figure class="media-left">
                 <p class="image is-48x48">
-                  <img src="https://bulma.io/images/placeholders/96x96.png"> <!-- repliers list -->
+                  <img src="https://bulma.io/images/placeholders/96x96.png"> 
                 </p>
               </figure>
               <div class="media-content">
                 <div class="content">
                   Reply media template
-                  <!-- ---- for defining the reply part of the comments -->
                 </div>
               </div>
             </article>
+            -->
           </div>
         </article>
       </div>
@@ -193,7 +206,7 @@
   <div class="modal-background" (click)="CloseDeleteModal()"></div>
   <div style="min-width:fit-content" class="modal-content">
     <div class="box">
-      <p class="title has-text-centered is-size-4">Delete Confimation</p>
+      <p class="title has-text-centered is-size-4">Delete Confirmation</p>
       <div class="buttons is-centered">
         <button class="button is-small is-outlined is-rounded is-light is-inverted" (click)="RemoveComment()">
           <span class="icon">

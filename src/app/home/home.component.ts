@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
+import { faDiscord } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -13,4 +14,5 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
   faDownload = faDownload;
+  faDiscord = faDiscord;
 }

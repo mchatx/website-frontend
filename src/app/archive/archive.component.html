@@ -137,7 +137,7 @@
                <div class="card animate__animated animate__fadeInUp">
                  <header class="card-header has-background-dark">
                    <div class="card-header-title has-text-centered has-text-white">
-                     Room : <span class="tag taglinks is-clickable" (click)="RoomNameClick(Archive.Room)">
+                     Room : <span style="margin-left: 10px;" class="tag taglinks is-clickable" (click)="RoomNameClick(Archive.Room)">
                        {{ Archive.Room }} </span>
                      <div class="pl-6" *ngIf="Archive.Pass"><span class="icon is-small">
                          <fa-icon [icon]="faLock"></fa-icon>
@@ -145,7 +145,7 @@
                    </div>
                    <button class="card-header-icon" aria-label="more options">
                      <strong> {{ Archive.Star }} </strong>
-                     <fa-icon [icon]="faStar"></fa-icon>
+                     <fa-icon style="margin-left: 5px;" [icon]="faStar"></fa-icon>
                    </button>
                  </header>
                  <div class="card-content">
@@ -154,10 +154,10 @@
                      Link to stream : <a href="{{ Archive.StreamLink }}" target="_blank">{{ Archive.StreamLink }}</a>
                      <br>
                      Tags:
-                     <div class="tags">
-                       <span class="tag taglinks is-rounded is-link is-clickable" *ngFor="let Tag of Archive.Tags"
-                         (click)="TagClick(Tag)">{{ Tag }}</span>
-                     </div>
+                       <span *ngFor="let Tag of Archive.Tags">
+                          <span style="margin-left: 5px;" class="tag taglinks is-rounded is-link is-clickable" *ngIf="Tag !== ''"
+                            (click)="TagClick(Tag)">{{ Tag }}</span>
+                       </span>
                    </div>
                  </div>
                  <footer class="card-footer">
