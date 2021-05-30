@@ -1,6 +1,6 @@
 <!------------------------- ERROR ACCESS NOTIF ------------------------->
 <div *ngIf="CurrentArchive === null">
-  <p>aa</p>
+  <p>Unable to load the archive</p>
 </div>
 <!--======================= ERROR ACCESS NOTIF =======================-->
 
@@ -41,6 +41,16 @@
           Open in client
         </a>
         <p class="has-text-danger">{{ this.status }}</p>
+      </div>
+    </div>
+  </article>
+
+  <article *ngIf="(CurrentArchive.Note !== undefined) && (CurrentArchive.Note !== '')" class="box media has-background-dark">
+    <div class="media-content">
+      <div class="content">
+        <p class="has-text-weight-bold has-text-white">Note : <br>
+          {{ CurrentArchive.Note }}
+        </p>
       </div>
     </div>
   </article>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,7 @@ export class ArchiveService {
   ): Observable<any> {
     const headers = { 'Content-Type': 'application/json' };
 
-    return (this.httpclient.post('https://repo.mchatx.org/FetchRaw/', {
-    //return (this.httpclient.post('http://127.1.0.1:33333/FetchRaw/', {
+    return (this.httpclient.post(environment.DBConn + '/FetchRaw/', {
       BToken: btoken
     }, { headers, observe: 'response', responseType: 'text' }));
   }
@@ -36,13 +36,13 @@ export class ArchiveService {
     pass: boolean,
     passstr: string,
     streamlink: string | undefined,
-    entries: any
+    entries: any,
+    note : string | undefined
   ): Observable<any> {
 
     const headers = { 'Content-Type': 'application/json' };
 
-    return (this.httpclient.post('https://repo.mchatx.org/Archive/', {
-      /* return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { */
+    return (this.httpclient.post(environment.DBConn + '/Archive/', {
       Act: 'Add',
       Room: room,
       Token: token,
@@ -54,7 +54,8 @@ export class ArchiveService {
       PassStr: passstr,
       Tags: tags,
       StreamLink: streamlink,
-      Entries: entries
+      Entries: entries,
+      Note: note
     }, { headers, observe: 'response', responseType: 'text' }));
   }
 
@@ -66,8 +67,7 @@ export class ArchiveService {
   ): Observable<any> {
     const headers = { 'Content-Type': 'application/json' };
 
-    return (this.httpclient.post('https://repo.mchatx.org/Archive/', {
-      /* return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { */
+    return (this.httpclient.post(environment.DBConn + '/Archive/', {
       Act: 'Update',
       Room: room,
       Token: token,
@@ -86,7 +86,8 @@ export class ArchiveService {
     tags: string | undefined,
     pass: boolean,
     passstr: string,
-    streamlink: string | undefined
+    streamlink: string | undefined,
+    note: string | undefined
   ): Observable<any> {
     const headers = { 'Content-Type': 'application/json' };
     if (!link){
@@ -101,9 +102,11 @@ export class ArchiveService {
     if (!streamlink){
       streamlink = "";
     }
+    if (!note){
+      note = "";
+    }
 
-    return (this.httpclient.post('https://repo.mchatx.org/Archive/', {
-      /* return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { */
+    return (this.httpclient.post(environment.DBConn + '/Archive/', {
       Act: 'Edit',
       Room: room,
       Token: token,
@@ -115,6 +118,7 @@ export class ArchiveService {
       PassStr: passstr,
       Tags: tags,
       StreamLink: streamlink,
+      Note : note
     }, { headers, observe: 'response', responseType: 'text' }));
   }
 
@@ -126,8 +130,7 @@ export class ArchiveService {
 
     const headers = { 'Content-Type': 'application/json' };
 
-    return (this.httpclient.post('https://repo.mchatx.org/Archive/', {
-      /* return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { */
+    return (this.httpclient.post(environment.DBConn + '/Archive/', {
       Act: 'Delete',
       Room: room,
       Token: token,
@@ -142,8 +145,7 @@ export class ArchiveService {
 
     const headers = { 'Content-Type': 'application/json' };
 
-    return (this.httpclient.post('https://repo.mchatx.org/Archive/', {
-      /* return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { */
+    return (this.httpclient.post(environment.DBConn + '/Archive/', {
       Act: 'GetArchive',
       Room: room,
       Token: token
@@ -158,8 +160,7 @@ export class ArchiveService {
 
     const headers = { 'Content-Type': 'application/json' };
 
-    return (this.httpclient.post('https://repo.mchatx.org/Archive/', {
-      /* return (this.httpclient.post('http://127.1.0.1:33333/Archive/', { */
+    return (this.httpclient.post(environment.DBConn + '/Archive/', {
       Act: 'GetOne',
       Room: room,
       Token: token,

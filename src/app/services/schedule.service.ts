@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,22 +12,22 @@ export class ScheduleService {
 
   getSchedule(room:string = ""): Observable<any>  {
     if (room == ""){
-      return (this.httpclient.get('https://repo.mchatx.org/Schedule'));      
+      return (this.httpclient.get(environment.DBConn + '/Schedule'));      
     } else {
-      return (this.httpclient.get('https://repo.mchatx.org/Schedule?room=' + room));
+      return (this.httpclient.get(environment.DBConn + '/Schedule?room=' + room));
     }
   }
 
   getScheduleRoom(room:string): Observable<any>  {
-    return (this.httpclient.get('https://repo.mchatx.org/Schedule/?room=' + room));
+    return (this.httpclient.get(environment.DBConn + '/Schedule/?room=' + room));
   }
 
   getScheduleLink(link:string): Observable<any>  {
-    return (this.httpclient.get('https://repo.mchatx.org/Schedule/?link=' + link));
+    return (this.httpclient.get(environment.DBConn + '/Schedule/?link=' + link));
   }
 
   getScheduleTags(tags:string): Observable<any>  {
-    return (this.httpclient.get('https://repo.mchatx.org/Schedule/?tags=' + tags));
+    return (this.httpclient.get(environment.DBConn + '/Schedule/?tags=' + tags));
   }
 
 
@@ -36,8 +37,7 @@ export class ScheduleService {
   AddSchedule(room:string, token: string, link: string | undefined, note: string | undefined, tag: string | undefined, time: number): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('https://repo.mchatx.org/Schedule/', { 
-    //return (this.httpclient.post('http://127.1.0.1:33333/Schedule/', {
+    return (this.httpclient.post(environment.DBConn + '/Schedule/', { 
       Act: 'Add',
       Room: room, 
       Token: token,
@@ -53,8 +53,7 @@ export class ScheduleService {
   EditSchedule(room:string | undefined, token: string, link: string | undefined, note: string | undefined, tag: string | undefined, idObject: string | undefined, time: number): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
   
-    return (this.httpclient.post('https://repo.mchatx.org/Schedule/', { 
-    //return (this.httpclient.post('http://127.1.0.1:33333/Schedule/', {
+    return (this.httpclient.post(environment.DBConn + '/Schedule/', { 
       Act: 'Edit',
       Room: room, 
       Token: token,
@@ -70,8 +69,7 @@ export class ScheduleService {
   DeleteSchedule(room:string | undefined, token: string, idObject: string | undefined): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
-    return (this.httpclient.post('https://repo.mchatx.org/Schedule/', { 
-    //return (this.httpclient.post('http://127.1.0.1:33333/Schedule/', {
+    return (this.httpclient.post(environment.DBConn + '/Schedule/', { 
       Act: 'Delete',
       Room: room, 
       Token: token,

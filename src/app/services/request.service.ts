@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -86,7 +87,7 @@ export class RequestService {
   ): Observable<any> {
     const headers = { 'Content-Type': 'application/json' };
 
-    return (this.httpclient.post('https://repo.mchatx.org/Request/', {
+    return (this.httpclient.post(environment.DBConn + '/Request/', {
       BToken : bToken,
     }, { headers, observe: 'response', responseType: 'text' }));
   }
@@ -96,7 +97,7 @@ export class RequestService {
   ): Observable<any> {
     const headers = { 'Content-Type': 'application/json' };
 
-    return (this.httpclient.post('https://repo.mchatx.org/Request/', {
+    return (this.httpclient.post(environment.DBConn + '/Request/', {
       BToken : bToken,
     }, { headers, observe: 'response', responseType: 'text' }));
   }

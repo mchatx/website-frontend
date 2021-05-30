@@ -65,7 +65,8 @@ export class ArchiveEditComponent implements OnInit {
     Tags: "",
     StreamLink: "",
     ExtShare: false,
-    Star : 0
+    Star: 0,
+    Note: ""
   }
   PassString: string = "";
 
@@ -166,7 +167,8 @@ export class ArchiveEditComponent implements OnInit {
       Tags: "",
       StreamLink: "",
       ExtShare: false,
-      Star: 0
+      Star: 0,
+      Note: ""
     }
     this.PassString = "";
     this.Entriesdt = [];
@@ -230,7 +232,8 @@ export class ArchiveEditComponent implements OnInit {
         Tags: this.Archivedt[this.SelectedIndex].Tags,
         StreamLink: this.Archivedt[this.SelectedIndex].StreamLink,
         ExtShare: this.Archivedt[this.SelectedIndex].ExtShare,
-        Star: this.Archivedt[this.SelectedIndex].Star
+        Star: this.Archivedt[this.SelectedIndex].Star,
+        Note: this.Archivedt[this.SelectedIndex].Note
       };
     }
   }
@@ -250,7 +253,8 @@ export class ArchiveEditComponent implements OnInit {
             Tags: dt[i].Tags,
             StreamLink: dt[i].StreamLink,
             ExtShare: dt[i].ExtShare,
-            Star: dt[i].Star
+            Star: dt[i].Star,
+            Note: dt[i].Note
           });
         }
       });
@@ -266,7 +270,7 @@ export class ArchiveEditComponent implements OnInit {
         this.showhidden.nativeElement.classList.add('is-hidden');
         if (!this.Processing) {
           if (this.SelectedArchive.Room != undefined) {
-            this.AService.EditArchive(this.Room, this.Token, this.SelectedArchive.Link, this.SelectedArchive.Nick, this.SelectedArchive.Hidden, this.SelectedArchive.ExtShare, this.SelectedArchive.Tags, this.SelectedArchive.Pass, this.PassString, this.SelectedArchive.StreamLink).subscribe({
+            this.AService.EditArchive(this.Room, this.Token, this.SelectedArchive.Link, this.SelectedArchive.Nick, this.SelectedArchive.Hidden, this.SelectedArchive.ExtShare, this.SelectedArchive.Tags, this.SelectedArchive.Pass, this.PassString, this.SelectedArchive.StreamLink, this.SelectedArchive.Note).subscribe({
               error: error => {
                 this.status = error["error"];
                 this.LoginMode = false;
@@ -289,7 +293,8 @@ export class ArchiveEditComponent implements OnInit {
                   Tags: this.SelectedArchive.Tags,
                   StreamLink: this.SelectedArchive.StreamLink,
                   ExtShare: this.SelectedArchive.ExtShare,
-                  Star: this.SelectedArchive.Star
+                  Star: this.SelectedArchive.Star,
+                  Note: this.SelectedArchive.Note
                 };
 
                 setTimeout(() => {
@@ -475,7 +480,7 @@ export class ArchiveEditComponent implements OnInit {
               this.SelectedArchive.Nick = this.SelectedArchive.Link;
             }
 
-            this.AService.AddArchive(this.Room, this.Token, this.SelectedArchive.Nick, this.SelectedArchive.Link, this.SelectedArchive.Hidden, this.SelectedArchive.ExtShare, this.SelectedArchive.Tags, this.SelectedArchive.Pass, this.PassString, this.SelectedArchive.StreamLink, JSON.stringify(this.Entriesdt)).subscribe({
+            this.AService.AddArchive(this.Room, this.Token, this.SelectedArchive.Nick, this.SelectedArchive.Link, this.SelectedArchive.Hidden, this.SelectedArchive.ExtShare, this.SelectedArchive.Tags, this.SelectedArchive.Pass, this.PassString, this.SelectedArchive.StreamLink, JSON.stringify(this.Entriesdt), this.SelectedArchive.Note).subscribe({
               error: error => {
                 this.status = error["error"];
                 this.LoginMode = false;
@@ -739,7 +744,8 @@ export class ArchiveEditComponent implements OnInit {
         Tags: "",
         StreamLink: "",
         ExtShare: false,
-        Star: 0
+        Star: 0,
+        Note: ""
       }
       /*
       this.status = "";
@@ -808,7 +814,8 @@ export class ArchiveEditComponent implements OnInit {
           Tags: "",
           StreamLink: "",
           ExtShare: false,
-          Star: 0
+          Star: 0,
+          Note: ""
         }
       }
     }
@@ -1033,7 +1040,8 @@ export class ArchiveEditComponent implements OnInit {
         Tags: "",
         StreamLink: "",
         ExtShare: false,
-        Star: 0
+        Star: 0,
+        Note: ""
       }
       /*
       this.status = this.Entriesdt.length.toString() + " = ";

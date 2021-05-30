@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,7 @@ export class CommentService {
   ): Observable<any> {
     const headers = { 'Content-Type': 'application/json' };
 
-    return (this.httpclient.post('https://repo.mchatx.org/ArchiveCheck/', {
-    //return (this.httpclient.post('http://localhost:33333/ArchiveCheck/', {
+    return (this.httpclient.post(environment.DBConn + '/ArchiveCheck/', {
       BToken : bToken,
     }, { headers, observe: 'response', responseType: 'text' }));
   }
@@ -25,8 +25,7 @@ export class CommentService {
   ): Observable<any> {
     const headers = { 'Content-Type': 'application/json' };
 
-    return (this.httpclient.post('https://repo.mchatx.org/Comment/', {
-    //return (this.httpclient.post('http://localhost:33333/Comment/', {
+    return (this.httpclient.post(environment.DBConn + '/Comment/', {
       BToken : bToken,
     }, { headers, observe: 'response', responseType: 'text' }));
   }

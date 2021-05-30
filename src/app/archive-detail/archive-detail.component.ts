@@ -82,7 +82,8 @@ export class ArchiveDetailComponent implements OnInit {
             Link: dt["Link"],
             StreamLink: dt["StreamLink"],
             Tags: dt["Tags"],
-            Star: dt["Star"]
+            Star: dt["Star"],
+            Note: dt["Note"]
           }
 
           if (!this.CurrentArchive.Star) {
