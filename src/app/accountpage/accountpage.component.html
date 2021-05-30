@@ -3,7 +3,7 @@
     <div class="container">
       <div class="mt-4">
         <div class="box1 p-6">
-          <div class="columns">
+          <div class="columns has-background-white">
             <div class="column">
               <!--------------------------  HEAD  -------------------------->
               <div class="card">
@@ -121,12 +121,73 @@
               </div>
             </div>
           </div>
+
+          <!------------------------- FRONT PAGE DATA ------------------------->
+          <div class="container has-background-white" *ngIf="RoleTL">
+            <p>Front Page Info</p>
+
+            <!--    EDIT MODE   -->
+            <div *ngIf="FPEditmode" >
+              <!--    LINKS   -->
+              <div>
+                <p>Links:</p>
+                <div style="display: flex; flex-direction: row;">
+                  <input type="text" style="width:100%;" maxlength="100" [(ngModel)]="LinkInput" placeholder="Link...">
+                  <button class="button is-dark" (click)="AddLink()">Add</button>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: row;" *ngFor="let Link of LinksTemp; let i = index">
+                <ng-container [ngTemplateOutlet]="LinkIcon" [ngTemplateOutletContext]="{link:Link}"></ng-container>
+                <span style="align-self: center;">{{ Link }}</span>
+                <button style="margin-left: auto;" class="button is-dark" (click)="DeleteFPLinks(i)">✖</button>  
+              </div>
+
+              <!--    NOTE   -->
+              <p>Note:</p>
+              <div class="field">
+                <p class="control">
+                  <textarea class="textarea" placeholder="Extra Note..." maxlength="1024" [(ngModel)]="NoteTemps"></textarea>
+                </p>
+              </div>
+
+              <div style="display:flex; flex-direction:row;">
+                <button class="button is-dark" (click)="CancelFPEdit()">Cancel Edit</button>
+                <span style="align-self: center; margin-right: 5px; text-align: right; width: 100%;" class="ml-2">{{ NoteTemps.length }}/1024 </span>
+                <button class="button is-dark" (click)="SaveFPEdit()">Save Edit</button>
+              </div>
+            </div>
+
+            <!--    DISPLAY MODE   -->
+            <div *ngIf="!FPEditmode" >
+              <p>Links:</p>
+              <div style="display: flex; flex-direction: row;" *ngFor="let Link of Links;">
+                <ng-container [ngTemplateOutlet]="LinkIcon" [ngTemplateOutletContext]="{link:Link}"></ng-container>
+                <span style="align-self: center;">{{ Link }}</span>
+              </div>
+              <p>Note:<br> {{ Note }}</p>
+              <div style="display:flex; flex-direction:row-reverse;">
+                <button class="button is-dark" (click)="OpenFPEdit()">Edit</button>
+              </div>
+            </div>
+          </div>
+          <!--======================= FRONT PAGE DATA =======================-->
+          
         </div>
       </div>
-
-
-
-
     </div>
   </div>
 </section>
+
+
+
+<!-------------------------------- LINK ICON SWITCHER ------------------------------->
+<ng-template #LinkIcon let-link='link'>
+  <div style="align-self: center; margin-left: 3px; margin-right: 3px;" [ngSwitch]="CheckLink(link)">
+    <fa-icon *ngSwitchCase="'mail.com'" [icon]="faEnvelope"></fa-icon>
+    <fa-icon *ngSwitchCase="'youtube.com/channel/'" [icon]="faYoutube"></fa-icon>
+    <fa-icon *ngSwitchCase="'ko-fi.com/'" [icon]="faCoffee"></fa-icon>
+    <fa-icon *ngSwitchCase="'www.patreon.com/'" [icon]="faPatreon"></fa-icon>
+    <fa-icon *ngSwitchDefault [icon]="faLink"></fa-icon>
+  </div>
+</ng-template>
+<!--============================== LINK ICON SWITCHER =============================-->

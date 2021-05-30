@@ -116,7 +116,11 @@ export class ArchiveDetailComponent implements OnInit {
     }
   }
 
-
+  RoomNameClick(RoomName: string | undefined) {
+    if (RoomName != undefined) {
+      this.Router.navigate(['room', RoomName]);
+    }
+  }
 
   //------------------------------------------------------- LOGIN HANDLER -------------------------------------------------------
   Login(): void {

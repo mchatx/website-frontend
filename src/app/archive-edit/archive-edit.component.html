@@ -166,6 +166,12 @@
                               [(ngModel)]="SelectedArchive.StreamLink">
                           </div>
                         </div>
+                        <div class="field">
+                          <label class="label">Archive Note</label>
+                          <p class="control">
+                            <textarea class="textarea" placeholder="Note" maxlength="1024" [(ngModel)]="SelectedArchive.Note"></textarea>
+                          </p>
+                        </div>
                         <div class="field has-text-left">
                           <label class="label"><input type="checkbox" [(ngModel)]="SelectedArchive.Pass">Password
                             Protection</label>

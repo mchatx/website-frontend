@@ -17,7 +17,8 @@
     <div class="media-content">
       <div class="content">
         <p class="has-text-weight-bold has-text-white">Title: {{ CurrentArchive.Nick }} <br>
-          Author: {{ CurrentArchive.Room }} <br>
+          Author: <span style="margin-left: 10px;" class="tag taglinks is-clickable" (click)="RoomNameClick(CurrentArchive.Room)">
+            {{ CurrentArchive.Room }} </span><br>
           Link: {{ CurrentArchive.StreamLink }} <br>
           Tags: {{ CurrentArchive.Tags }}</p>
         <span class="icon-text has-text-white" *ngIf="CurrentArchive.Pass">

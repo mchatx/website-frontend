@@ -2,7 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AccountService } from '../services/account.service';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import { Router } from '@angular/router';
-import { faAt, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faAt, faLock, faLink, faEnvelope, faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { faDiscord, faPatreon, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-accountpage',
@@ -19,9 +20,18 @@ export class AccountpageComponent implements OnInit {
 
   Nick: string | null = "";
   EmailAddress: string = "";
+  RoleTL: boolean = false;
+  Links: string[] = [];
+  LinksTemp: string[] = [];
+  Note: string = "";
+  NoteTemps: string = "";
+
   status: string = "";
   processing: boolean = false;
   mode: number = 0;
+
+  FPEditmode: boolean = false;
+  LinkInput: string = "";
 
   Pass: string = "";
   input1: string = "";
@@ -49,6 +59,17 @@ export class AccountpageComponent implements OnInit {
           dt = JSON.parse(data["body"]);
           this.Nick = dt["Nick"];
           this.EmailAddress = dt["Email"];
+          if (dt["Role"] != undefined){
+            if (dt["Role"] == "TL"){
+              this.RoleTL = true;
+            }
+          }
+          if (dt["Note"] != undefined){
+            this.Note = dt["Note"];
+          }
+          if (dt["Links"] != undefined){
+            this.Links = dt["Links"];
+          }
         }
       });
     } else {
@@ -188,6 +209,68 @@ export class AccountpageComponent implements OnInit {
 
   }
 
+  OpenFPEdit(){
+    this.FPEditmode = true;
+    this.LinksTemp = this.Links.slice();
+    this.NoteTemps = this.Note;
+    this.LinkInput = "";
+  }
+
+  CancelFPEdit(){
+    this.FPEditmode = false;
+  }
+
+  SaveFPEdit(){
+    if (!this.processing) {
+      this.status = "";
+      this.processing = true;
+      this.AccService.PostChangeFPInfo(
+        this.TGEnc.TGEncoding(JSON.stringify({
+          Nick: this.Nick,
+          Note: this.NoteTemps,
+          Links: this.LinksTemp
+        }))
+      ).subscribe({
+        error: error => {
+          this.status = error["error"];
+          this.processing = false;
+        },
+        next: data => {
+          this.FPEditmode = false;
+          this.Links = this.LinksTemp.slice();
+          this.Note = this.NoteTemps;
+          this.processing = false;
+        }
+      });
+    }
+  }
+
+  DeleteFPLinks(index:number){
+    this.LinksTemp.splice(index, 1);
+  }
+
+  AddLink(){
+    if (this.LinkInput != ""){
+      this.LinksTemp.push(this.LinkInput);
+      this.LinkInput = "";
+    }
+  }
+
+  CheckLink(link:string): string{
+    let MatchResult = link.match(/mail\.com|youtube\.com\/channel\/|ko-fi\.com\/|www\.patreon\.com\//g);
+    if (MatchResult != null){
+      return MatchResult[0];
+    } else {
+      return "Neutral";
+    }
+  }
+
   faLock = faLock;
   faAt = faAt;
+  faLink = faLink;
+  faEnvelope = faEnvelope;
+  faCoffee = faCoffee;
+  faDiscord = faDiscord;
+  faPatreon = faPatreon;
+  faYoutube = faYoutube;
 }

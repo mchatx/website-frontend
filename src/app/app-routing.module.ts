@@ -18,6 +18,7 @@ import { AccountpageComponent } from './accountpage/accountpage.component';
 import { TestingGroundComponent } from './testing-ground/testing-ground.component';
 import { RequestboardComponent } from './requestboard/requestboard.component';
 import { ArchiveDetailComponent } from './archive-detail/archive-detail.component';
+import { RoomComponent } from './room/room.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'footer', component: FooterComponent },
   { path: 'header', component: HeaderComponent },
   { path: '', component: HomeComponent },
+  { path: 'room/:Nick', component: RoomComponent },
   { path: 'roomapply', component: NewRoomComponent },
   { path: 'schedule', component: ScheduleComponent },
   { path: 'archivecard/:ArLink', component: ArchiveDetailComponent},
@@ -42,7 +44,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{
+    scrollPositionRestoration: 'enabled'
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

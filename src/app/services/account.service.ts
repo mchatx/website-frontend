@@ -42,6 +42,7 @@ export class AccountService {
     }, { headers, observe: 'response'}));
   }
 
+  //  SIGN UP SEND DATA
   PostSignUp(Data: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
@@ -51,6 +52,7 @@ export class AccountService {
     }, { headers, observe: 'response', responseType: 'text'}));
   }
 
+  //  VERIVY NEW ACCOUNT
   PostVerivy(token: string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
@@ -78,6 +80,7 @@ export class AccountService {
     }, { headers, observe: 'response', responseType: 'text'}));
   }
 
+  //  ACCOUNT ROOM HANDLER
   PostDeleteAccount(token:string): Observable<any> {
     const headers = {'Content-Type': 'application/json'};
 
@@ -101,6 +104,14 @@ export class AccountService {
 
     return (this.httpclient.post(environment.DBConn + '/Account/', { 
       Act: 'ChangeEmail', 
+      BToken: token
+    }, { headers, observe: 'response', responseType: 'text'}));
+  }
+
+  PostChangeFPInfo(token:string): Observable<any> {
+    const headers = {'Content-Type': 'application/json'};
+    return (this.httpclient.post(environment.DBConn + '/Account/', { 
+      Act: 'ChangeFPInfo', 
       BToken: token
     }, { headers, observe: 'response', responseType: 'text'}));
   }

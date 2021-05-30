@@ -150,9 +150,7 @@ export class ArchiveComponent implements OnInit {
 
   RoomNameClick(RoomName: string | undefined) {
     if (RoomName != undefined) {
-      this.SelectedIndex = 0;
-      this.SearchRoom = RoomName;
-      this.SearchByRoom();
+      this.router.navigate(['room', RoomName]);
     }
   }
 
