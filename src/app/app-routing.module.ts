@@ -19,6 +19,8 @@ import { TestingGroundComponent } from './testing-ground/testing-ground.componen
 import { RequestboardComponent } from './requestboard/requestboard.component';
 import { ArchiveDetailComponent } from './archive-detail/archive-detail.component';
 import { RoomComponent } from './room/room.component';
+import { ProxyappComponent } from './proxyapp/proxyapp.component';
+import { ProxyappsetComponent } from './proxyappset/proxyappset.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -40,7 +42,10 @@ const routes: Routes = [
   { path: 'account', component: AccountpageComponent },
   { path: 'archiveedit', component: ArchiveEditComponent },
   { path: 'requestboard', component: RequestboardComponent },
-  { path: 'test', component: TestingGroundComponent }
+  { path: 'test', component: TestingGroundComponent },
+
+  { path: 'proxyapp', component: ProxyappComponent, data:{PlainPage:true}},
+  { path: 'proxyappset', component: ProxyappsetComponent, data:{PlainPage:true}}
 ];
 
 @NgModule({

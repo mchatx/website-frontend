@@ -9,7 +9,6 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -32,6 +31,8 @@ import { TestingGroundComponent } from './testing-ground/testing-ground.componen
 import { RequestboardComponent } from './requestboard/requestboard.component';
 import { ArchiveDetailComponent } from './archive-detail/archive-detail.component';
 import { RoomComponent } from './room/room.component';
+import { ProxyappComponent } from './proxyapp/proxyapp.component';
+import { ProxyappsetComponent } from './proxyappset/proxyappset.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,9 @@ import { RoomComponent } from './room/room.component';
     TestingGroundComponent,
     RequestboardComponent,
     ArchiveDetailComponent,
-    RoomComponent
+    RoomComponent,
+    ProxyappComponent,
+    ProxyappsetComponent
   ],
   imports: [
     BrowserModule,
