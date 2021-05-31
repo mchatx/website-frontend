@@ -137,13 +137,14 @@
                <div class="card animate__animated animate__fadeInUp">
                  <header class="card-header has-background-dark">
                    <div class="card-header-title has-text-centered has-text-white">
-                     Room : <span style="margin-left: 10px;" class="tag taglinks is-clickable" (click)="RoomNameClick(Archive.Room)">
+                     Room : <span style="margin-left: 10px;" class="tag taglinks is-clickable"
+                       (click)="RoomNameClick(Archive.Room)">
                        {{ Archive.Room }} </span>
                      <div class="pl-6" *ngIf="Archive.Pass"><span class="icon is-small">
                          <fa-icon [icon]="faLock"></fa-icon>
                        </span>Password Protected</div>
                    </div>
-                   <button class="card-header-icon" aria-label="more options">
+                   <button class="card-header-icon" style="pointer-events: none;" aria-label="more options">
                      <strong> {{ Archive.Star }} </strong>
                      <fa-icon style="margin-left: 5px;" [icon]="faStar"></fa-icon>
                    </button>
@@ -154,10 +155,10 @@
                      Link to stream : <a href="{{ Archive.StreamLink }}" target="_blank">{{ Archive.StreamLink }}</a>
                      <br>
                      Tags:
-                       <span *ngFor="let Tag of Archive.Tags">
-                          <span style="margin-left: 5px;" class="tag taglinks is-rounded is-link is-clickable" *ngIf="Tag !== ''"
-                            (click)="TagClick(Tag)">{{ Tag }}</span>
-                       </span>
+                     <span *ngFor="let Tag of Archive.Tags">
+                       <span style="margin-left: 5px;" class="tag taglinks is-rounded is-link is-clickable"
+                         *ngIf="Tag !== ''" (click)="TagClick(Tag)">{{ Tag }}</span>
+                     </span>
                    </div>
                  </div>
                  <footer class="card-footer">

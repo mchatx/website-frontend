@@ -3,7 +3,7 @@
     <div class="container">
       <div class="mt-4">
         <div class="box1 p-6">
-          <div class="columns has-background-white">
+          <div class="columns">
             <div class="column">
               <!--------------------------  HEAD  -------------------------->
               <div class="card">
@@ -14,7 +14,7 @@
                 </header>
                 <div class="card-content">
                   <div class="content">
-                    Email : {{ EmailAddress }}
+                    <label class="label">Email :</label> {{ EmailAddress }}
                   </div>
                 </div>
               </div>
@@ -22,7 +22,6 @@
               <div class="control">
                 <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
               </div>
-
             </div>
             <div class="column">
               <div class="buttons">
@@ -39,7 +38,6 @@
                       </span>
                     </div>
                   </div>
-
                   <div class="field has-text-left">
                     <label class="label">Password.</label>
                     <div class="control has-icons-left">
@@ -49,7 +47,6 @@
                       </span>
                     </div>
                   </div>
-
                   <a class="button is-dark" (click)="ChangeEmail()" #loadstate>Confirm</a>
                   <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
                 </div>
@@ -86,7 +83,6 @@
                       </span>
                     </div>
                   </div>
-
                   <a class="button is-dark" (click)="ChangePass()" #loadstate>Change</a>
                   <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
                 </div>
@@ -110,7 +106,7 @@
                         <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="Pass">
                       </div>
                     </div>
-                    <a class="button is-dark" (click)="DeleteAccount()" #loadstate>DELETE</a>
+                    <a class="button is-dark" (click)="DeleteAccount()" #loadstate>Delete</a>
                     <a class="button is-dark" (click)="ChangeMode(0)">Cancel</a>
                     <div class="control">
                       <p *ngIf="status !== ''" class="has-text-danger">{{ status }}</p>
@@ -123,55 +119,101 @@
           </div>
 
           <!------------------------- FRONT PAGE DATA ------------------------->
-          <div class="container has-background-white" *ngIf="RoleTL">
-            <p>Front Page Info</p>
-
-            <!--    EDIT MODE   -->
-            <div *ngIf="FPEditmode" >
-              <!--    LINKS   -->
-              <div>
-                <p>Links:</p>
-                <div style="display: flex; flex-direction: row;">
-                  <input type="text" style="width:100%;" maxlength="100" [(ngModel)]="LinkInput" placeholder="Link...">
-                  <button class="button is-dark" (click)="AddLink()">Add</button>
+          <div class="mt-6 columns" *ngIf="RoleTL">
+            <div class="column">
+              <div class="card">
+                <header class="card-header">
+                  <p class="card-header-title">
+                    Front Page Info
+                  </p>
+                </header>
+                <div class="card-content">
+                  <div class="content">
+                    <!--    DISPLAY MODE   -->
+                    <div *ngIf="!FPEditmode">
+                      <div class="field has-text-left">
+                        <label class="label">Links:</label>
+                        <div class="control">
+                          <div class="wrap" *ngFor="let Link of Links;">
+                            <span class="icon-text">
+                              <span class="icon">
+                                <ng-container [ngTemplateOutlet]="LinkIcon" [ngTemplateOutletContext]="{link:Link}">
+                                </ng-container>
+                              </span>
+                              <span>{{ Link }}</span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="field has-text-left">
+                        <label class="label">Note:</label>
+                        <div class="control">
+                          <article class="message is-black" [style.display]="Note === '' ? 'none' : 'block'">
+                            <div class="message-body">
+                              {{ Note }}
+                            </div>
+                          </article>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <p class="control">
+                          <button class="button is-dark" (click)="OpenFPEdit()">Edit</button>
+                        </p>
+                      </div>
+                    </div>
+                    <!--    EDIT MODE   -->
+                    <div *ngIf="FPEditmode">
+                      <!--    LINKS   -->
+                      <div class="field has-text-left">
+                        <label class="label">Links:</label>
+                        <div class="wrap" *ngFor="let Link of LinksTemp; let i = index">
+                          <span class="icon-text">
+                            <span class="icon">
+                              <ng-container [ngTemplateOutlet]="LinkIcon" [ngTemplateOutletContext]="{link:Link}">
+                              </ng-container>
+                            </span>
+                            <span>{{ Link }}</span>
+                          </span>
+                          <button class="delete is-dark" (click)="DeleteFPLinks(i)"></button>
+                        </div>
+                        <div class="mt-2 control has-icons-left">
+                          <input class="input is-rounded" type="text" maxlength="100" [(ngModel)]="LinkInput"
+                            placeholder="Link...">
+                          <span class="icon is-left is-small">
+                            <fa-icon [icon]="faPlus"></fa-icon>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <p class="control">
+                          <button class="button is-dark" (click)="AddLink()">Add</button>
+                        </p>
+                      </div>
+                      <!--    NOTE   -->
+                      <div class="field has-text-left">
+                        <label class="label">Note:</label>
+                        <p class="control">
+                          <textarea class="textarea" placeholder="Extra Note..." maxlength="1024"
+                            [(ngModel)]="NoteTemps"></textarea>
+                        </p>
+                      </div>
+                      <div class="field">
+                        <div class="control">
+                          <div class="buttons">
+                            <button class="button is-dark" (click)="CancelFPEdit()">Cancel Edit</button>
+                            <button class="button is-dark" (click)="SaveFPEdit()">Save Edit</button>
+                            <span class="ml-2">{{ NoteTemps.length }}/1024 </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div style="display: flex; flex-direction: row;" *ngFor="let Link of LinksTemp; let i = index">
-                <ng-container [ngTemplateOutlet]="LinkIcon" [ngTemplateOutletContext]="{link:Link}"></ng-container>
-                <span style="align-self: center;">{{ Link }}</span>
-                <button style="margin-left: auto;" class="button is-dark" (click)="DeleteFPLinks(i)">✖</button>  
-              </div>
-
-              <!--    NOTE   -->
-              <p>Note:</p>
-              <div class="field">
-                <p class="control">
-                  <textarea class="textarea" placeholder="Extra Note..." maxlength="1024" [(ngModel)]="NoteTemps"></textarea>
-                </p>
-              </div>
-
-              <div style="display:flex; flex-direction:row;">
-                <button class="button is-dark" (click)="CancelFPEdit()">Cancel Edit</button>
-                <span style="align-self: center; margin-right: 5px; text-align: right; width: 100%;" class="ml-2">{{ NoteTemps.length }}/1024 </span>
-                <button class="button is-dark" (click)="SaveFPEdit()">Save Edit</button>
-              </div>
-            </div>
-
-            <!--    DISPLAY MODE   -->
-            <div *ngIf="!FPEditmode" >
-              <p>Links:</p>
-              <div style="display: flex; flex-direction: row;" *ngFor="let Link of Links;">
-                <ng-container [ngTemplateOutlet]="LinkIcon" [ngTemplateOutletContext]="{link:Link}"></ng-container>
-                <span style="align-self: center;">{{ Link }}</span>
-              </div>
-              <p>Note:<br> {{ Note }}</p>
-              <div style="display:flex; flex-direction:row-reverse;">
-                <button class="button is-dark" (click)="OpenFPEdit()">Edit</button>
               </div>
             </div>
           </div>
           <!--======================= FRONT PAGE DATA =======================-->
-          
+
         </div>
       </div>
     </div>
@@ -182,11 +224,12 @@
 
 <!-------------------------------- LINK ICON SWITCHER ------------------------------->
 <ng-template #LinkIcon let-link='link'>
-  <div style="align-self: center; margin-left: 3px; margin-right: 3px;" [ngSwitch]="CheckLink(link)">
+  <div [ngSwitch]="CheckLink(link)">
     <fa-icon *ngSwitchCase="'mail.com'" [icon]="faEnvelope"></fa-icon>
     <fa-icon *ngSwitchCase="'youtube.com/channel/'" [icon]="faYoutube"></fa-icon>
     <fa-icon *ngSwitchCase="'ko-fi.com/'" [icon]="faCoffee"></fa-icon>
     <fa-icon *ngSwitchCase="'www.patreon.com/'" [icon]="faPatreon"></fa-icon>
+    <fa-icon *ngSwitchCase="'twitter.com/'" [icon]="faTwitter"></fa-icon>
     <fa-icon *ngSwitchDefault [icon]="faLink"></fa-icon>
   </div>
 </ng-template>

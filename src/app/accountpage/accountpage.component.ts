@@ -2,8 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AccountService } from '../services/account.service';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import { Router } from '@angular/router';
-import { faAt, faLock, faLink, faEnvelope, faCoffee } from '@fortawesome/free-solid-svg-icons';
-import { faDiscord, faPatreon, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faAt, faLock, faLink, faEnvelope, faCoffee, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faDiscord, faPatreon, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-accountpage',
@@ -59,15 +59,15 @@ export class AccountpageComponent implements OnInit {
           dt = JSON.parse(data["body"]);
           this.Nick = dt["Nick"];
           this.EmailAddress = dt["Email"];
-          if (dt["Role"] != undefined){
-            if (dt["Role"] == "TL"){
+          if (dt["Role"] != undefined) {
+            if (dt["Role"] == "TL") {
               this.RoleTL = true;
             }
           }
-          if (dt["Note"] != undefined){
+          if (dt["Note"] != undefined) {
             this.Note = dt["Note"];
           }
-          if (dt["Links"] != undefined){
+          if (dt["Links"] != undefined) {
             this.Links = dt["Links"];
           }
         }
@@ -209,18 +209,18 @@ export class AccountpageComponent implements OnInit {
 
   }
 
-  OpenFPEdit(){
+  OpenFPEdit() {
     this.FPEditmode = true;
     this.LinksTemp = this.Links.slice();
     this.NoteTemps = this.Note;
     this.LinkInput = "";
   }
 
-  CancelFPEdit(){
+  CancelFPEdit() {
     this.FPEditmode = false;
   }
 
-  SaveFPEdit(){
+  SaveFPEdit() {
     if (!this.processing) {
       this.status = "";
       this.processing = true;
@@ -245,20 +245,20 @@ export class AccountpageComponent implements OnInit {
     }
   }
 
-  DeleteFPLinks(index:number){
+  DeleteFPLinks(index: number) {
     this.LinksTemp.splice(index, 1);
   }
 
-  AddLink(){
-    if (this.LinkInput != ""){
+  AddLink() {
+    if (this.LinkInput != "") {
       this.LinksTemp.push(this.LinkInput);
       this.LinkInput = "";
     }
   }
 
-  CheckLink(link:string): string{
-    let MatchResult = link.match(/mail\.com|youtube\.com\/channel\/|ko-fi\.com\/|www\.patreon\.com\//g);
-    if (MatchResult != null){
+  CheckLink(link: string): string {
+    let MatchResult = link.match(/mail\.com|youtube\.com\/channel\/|ko-fi\.com\/|www\.patreon\.com\/|twitter\.com\//g);
+    if (MatchResult != null) {
       return MatchResult[0];
     } else {
       return "Neutral";
@@ -273,4 +273,6 @@ export class AccountpageComponent implements OnInit {
   faDiscord = faDiscord;
   faPatreon = faPatreon;
   faYoutube = faYoutube;
+  faPlus = faPlus;
+  faTwitter = faTwitter;
 }

@@ -1,32 +1,27 @@
-  
-    #s1{
-        max-width: 700px;
-        margin: auto;
-        
-    }
+#s1 {
+    max-width: 700px;
+    margin: auto;
+}
 
-
-.card{
+.card {
     max-width: 600px;
-    margin: auto;        
+    margin: auto;
     border-radius: 12px;
-    .taglinks{      
-          &:hover{
+    .taglinks {
+        &:hover {
             text-decoration: underline;
-            background-color: blanchedalmond; 
-            color: #363636;     
-      }  
+            background-color: blanchedalmond;
+            color: #363636;
+        }
     }
-   .card-footer{
-       a{
-           color: black;
-           &:hover{
-               color: white;
-                   background-color: #363636;
-               
-           }
-       }
-   } 
-       
-} 
-
+    .card-footer {
+        a {
+            color: black;
+            &:hover {
+                color: white;
+                background-color: #363636;
+                border-radius: 11px;
+            }
+        }
+    }
+}

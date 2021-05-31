@@ -1,6 +1,6 @@
 <!------------------------- ERROR ACCESS NOTIF ------------------------->
 <div *ngIf="CurrentArchive === null">
-  <p>Unable to load the archive</p>
+  <p class="notification is-danger">Unable to load the archive</p>
 </div>
 <!--======================= ERROR ACCESS NOTIF =======================-->
 
@@ -17,7 +17,8 @@
     <div class="media-content">
       <div class="content">
         <p class="has-text-weight-bold has-text-white">Title: {{ CurrentArchive.Nick }} <br>
-          Author: <span style="margin-left: 10px;" class="tag taglinks is-clickable" (click)="RoomNameClick(CurrentArchive.Room)">
+          Author: <span style="margin-left: 10px;" class="tag taglinks is-clickable"
+            (click)="RoomNameClick(CurrentArchive.Room)">
             {{ CurrentArchive.Room }} </span><br>
           Link: {{ CurrentArchive.StreamLink }} <br>
           Tags: {{ CurrentArchive.Tags }}</p>
@@ -46,7 +47,8 @@
     </div>
   </article>
 
-  <article *ngIf="(CurrentArchive.Note !== undefined) && (CurrentArchive.Note !== '')" class="box media has-background-dark">
+  <article *ngIf="(CurrentArchive.Note !== undefined) && (CurrentArchive.Note !== '')"
+    class="box media has-background-dark">
     <div class="media-content">
       <div class="content">
         <p class="has-text-weight-bold has-text-white">Note : <br>
@@ -101,7 +103,7 @@
                     </a> · <a class="links" (click)="OpenDeleteModal(i)">
                       <fa-icon [icon]="faTrash"></fa-icon>Delete
                     </a> ·
-                  </span> 
+                  </span>
                   <!--  REPLY BUTTON
                   <a class="links">
                     <fa-icon [icon]="faReply"></fa-icon>Reply
