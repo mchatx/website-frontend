@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { WPproxyService } from '../services/wpproxy.service';
 import { Subscription, timer } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
 
 class RoomData{
   Nick: string | undefined;
@@ -26,6 +27,7 @@ class FullEntry {
 export class ProxyappsetComponent implements OnInit {
   @ViewChild("cardcontainer") cardcontainer !: ElementRef;
   @ViewChild("BGSwitchButton") BGSwitchButton !: ElementRef;
+
   CurrentPage:number = 0;
   Timer:Subscription|undefined;
 
@@ -60,7 +62,11 @@ export class ProxyappsetComponent implements OnInit {
   FFamily:string = "sans-serif";
   FFsize:number = 50;
   TxAlign:string = "center";
-  
+  WebFont:string = "";
+  WebFontTemp: string =  "";
+  AniDir:string = "Up";
+  AniType:string = "fadeIn";
+
   /*  
     THIRD PAGE
     Link and CSS generator
@@ -70,11 +76,12 @@ export class ProxyappsetComponent implements OnInit {
 
   constructor(
     private WPService: WPproxyService,
-    private Renderer: Renderer2
+    private Renderer: Renderer2,
+    private Sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
-    //this.getRoom();
+    this.getRoom();
   }
 
   //------------------------------ FIRST PAGE HANDLER ------------------------------
@@ -107,6 +114,30 @@ export class ProxyappsetComponent implements OnInit {
     }
     this.RepaintEntries();
   }
+  
+  FetchWebFont() {
+    if (this.WebFont == ""){
+      return this.Sanitizer.bypassSecurityTrustResourceUrl("");
+    } else {
+      return this.Sanitizer.bypassSecurityTrustResourceUrl("https://fonts.googleapis.com/css?family=" + this.WebFont.replace(" ", "+"));
+    }
+  }
+
+  LoadWebFont() {
+    this.WebFont = this.WebFontTemp;
+    this.FFamily = this.WebFont;
+    this.RepaintEntries();
+  }
+
+  FFSelectChange(){
+    if ((this.FFamily == "sans-serif") || (this.FFamily == "cursive") || (this.FFamily != "monospace")){
+      this.WebFontTemp = "";
+    } else {
+      this.WebFont = this.FFamily;
+      this.RepaintEntries();
+    }
+    this.RepaintEntries();
+  }
 
   Backgroundchange():void{
     if (this.cardcontainer.nativeElement.style["background-color"] == "black"){
@@ -122,8 +153,8 @@ export class ProxyappsetComponent implements OnInit {
     this.EntryPrint({
       Stime: 0,
       Stext: "TEST " + stext,
-      CC: "",
-      OC: "",
+      CC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
+      OC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
       key: ""
     });
   }
@@ -153,6 +184,9 @@ export class ProxyappsetComponent implements OnInit {
     cvs.style.fontSize = this.FFsize.toString() + "px";
     cvs.style.textAlign = this.TxAlign;
     cvs.style.backgroundColor = "rgba(" + this.CardBGColour.r.toString() + ", " + this.CardBGColour.g.toString() + ", " + this.CardBGColour.b.toString() + ", " + this.CardBGColour.a.toString() + ")";
+    if (this.AniType != "None"){
+      cvs.className = "animate__animated animate__" + this.AniType + this.AniDir;
+    }
 
     const Stext = dt.Stext;
     const CC = dt.CC;
@@ -199,6 +233,9 @@ export class ProxyappsetComponent implements OnInit {
       if(!this.PasswordProtected){
         this.RoomPass = "";
       }
+      if ((this.FFamily != "sans-serif") && (this.FFamily != "cursive") && (this.FFamily != "monospace")){
+        this.WebFontTemp = this.FFamily;
+      }
     } else if (this.CurrentPage == 2){
       var TempString = "";
 
@@ -218,6 +255,13 @@ export class ProxyappsetComponent implements OnInit {
       if (this.OT != 1){
         TempString += "ot=" + this.OT + "&";
       }
+      if ((this.FFamily != "sans-serif") && (this.FFamily != "cursive") && (this.FFamily != "monospace")){
+        TempString += "ff=" + this.FFamily.replace(" ", "%20") + "&";
+      }
+
+      if (this.AniType != "None"){
+        TempString += "ani=" + this.AniType + this.AniDir + "&";
+      }
 
       if(TempString[TempString.length-1] == "&"){
         TempString = TempString.substring(0, TempString.length - 1);
@@ -230,7 +274,9 @@ export class ProxyappsetComponent implements OnInit {
       TempString = "html {\n\tbackground-color: rgba(0, 0, 0, 0);\n}\n";
       TempString += "h1 {\n\tbackground-color: rgba(" + this.CardBGColour.r.toString() + ", " + this.CardBGColour.g.toString() + ", " + this.CardBGColour.b.toString() + ", " + this.CardBGColour.a.toString() + ");\n";
       TempString += "\tfont-size: " + this.FFsize + "px;\n";
-      TempString += "\tfont-family: " + this.FFamily + ";\n";
+      if ((this.FFamily == "sans-serif") || (this.FFamily == "cursive") || (this.FFamily == "monospace")){
+        TempString += "\tfont-family: " + this.FFamily + ";\n";
+      }
       TempString += "\ttext-align: " + this.TxAlign + ";\n";
       TempString += "}";
       this.ProxyCss = TempString;
@@ -249,6 +295,9 @@ export class ProxyappsetComponent implements OnInit {
       this.Timer = timer(1000,1000).subscribe((t) => {
         this.AddEntry(t.toString());
       });
+      if ((this.FFamily != "sans-serif") && (this.FFamily != "cursive") && (this.FFamily != "monospace")){
+        this.WebFontTemp = this.FFamily;
+      }
     }
   }
 

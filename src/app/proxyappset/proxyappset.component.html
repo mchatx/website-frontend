@@ -32,31 +32,50 @@
                 <div class="columns" *ngSwitchCase="1">
                     <!-- Options -->
                     <div class="column is-5">
+
+                        <!--        Card Number     -->
+                        <div class="divider is-horizontal" data-content="# max cards"></div>
+                        <label>Max message card # </label>
+                        <input type="number" min="0" [(ngModel)]="MaxDisplay"/>
+
+                        <!--        Text Alignment     -->
+                        <div class="divider is-horizontal" data-content="Text Align"></div>
                         <label>Text Alignment </label>
                         <select [(ngModel)]="TxAlign" (ngModelChange)="RepaintEntries()">
                            <option [value]="'left'" [selected]="TxAlign=='left'">Left</option>
                            <option [value]="'center'" [selected]="TxAlign=='center'">Center</option>
                            <option [value]="'right'" [selected]="TxAlign=='right'">Right</option>
                         </select>
-                        <br>
-                
-                        <label>Max message card # </label>
-                        <input type="number" min="0" [(ngModel)]="MaxDisplay"/>
-                        <br>        
                         
+                        <!--        Font     -->
+                        <div class="divider is-horizontal" data-content="Font"></div>
                         <label>Font Family </label>
-                        <select [(ngModel)]="FFamily" (ngModelChange)="RepaintEntries()">
-                           <option [value]="'sans-serif'" [selected]="FFamily=='sans-serif'">sans-serif</option>
+                        <select [(ngModel)]="FFamily" (ngModelChange)="FFSelectChange()">
+                           <option [value]="'sans-serif'" [selected]="FFamily=='sans-serif'">Sans-serif</option>
+                           <option [value]="'cursive'" [selected]="FFamily=='cursive'">Cursive</option>
+                           <option [value]="'monospace'" [selected]="FFamily=='monospace'">Monospace</option>
                         </select>
+                        <br>
+                        <label>Or load Google web font
+                            (<a href="https://fonts.google.com/" target="_blank" >browse font</a>)
+                        </label>
+                        <br>
+                        <label>Font name </label>
+                        <input type="text" [(ngModel)]="WebFontTemp"/>
+                        <br>
+                        <button (click)="LoadWebFont()">Load Web Font</button>
+                        <link [href]="FetchWebFont()" rel="stylesheet">
                         <br>
                         <label>Font Size </label>
                         <input type="number" min="0" [(ngModel)]="FFsize" (ngModelChange)="RepaintEntries()"/>
-                        <br>
-                
+
+                        <!--        Outline Thickness     -->
+                        <div class="divider is-horizontal" data-content="Outline Thickness"></div>
                         <label>Outline Thickness </label>
                         <input type="number" min="0" [(ngModel)]="OT" (ngModelChange)="RepaintEntries()"/>        
-                        <br>
-                
+                        
+                        <!--        Card Colour     -->
+                        <div class="divider is-horizontal" data-content="Card Colour"></div>
                         <label>Card BG Colour </label>
                         <input type="color" [(ngModel)]="BGcolour" (ngModelChange)="ReRenderExample()"/>
                         <br>     
@@ -64,8 +83,29 @@
                         <br>
                         <p>{{ 100 - CardBGColour.a*100 }}%</p>
                         <input type="range" min="0" max="1" step="0.01" [(ngModel)]="CardBGColour.a" (ngModelChange)="RepaintEntries()"/>        
+
+                        <!--        Card Animation     -->
+                        <div class="divider is-horizontal" data-content="Card Animation"></div>
+                        <label>Animation Type </label>
+                        <select [(ngModel)]="AniType">
+                           <option [value]="'fadeIn'" [selected]="AniType=='fadeIn'">Fade In</option>
+                           <option [value]="'backIn'" [selected]="AniType=='backIn'">Back In</option>
+                           <option [value]="'bounceIn'" [selected]="AniType=='bounceIn'">Bounce In</option>
+                           <option [value]="'slideIn'" [selected]="AniType=='slideIn'">Slide In</option>
+                           <option [value]="'zoomIn'" [selected]="AniType=='zoomIn'">Zoom In</option>
+                           <option [value]="'None'" [selected]="AniType=='None'">None</option>
+                        </select>
+                        <br>
+                        <label>Animation Direction </label>
+                        <select [(ngModel)]="AniDir">
+                           <option [value]="'Up'" [selected]="AniDir=='Up'">Up</option>
+                           <option [value]="'Left'" [selected]="AniDir=='Left'">Left</option>
+                           <option [value]="'Right'" [selected]="AniDir=='Right'">Right</option>
+                           <option [value]="'Down'" [selected]="AniDir=='Down'">Down</option>
+                        </select>
                         <br>
                 
+                        <div class="divider is-horizontal"></div>
                         <button (click)="PrevButtonClick()">Prev</button>
                         <button (click)="NextButtonClick()">Next</button>
                     </div>
@@ -83,10 +123,10 @@
                 </div>
                 <!--============================= Second Page  =============================-->
             
-                <!------------------------------- Thrid Page  ------------------------------->
+                <!------------------------------- Third Page  ------------------------------->
                 <div *ngSwitchCase="2">
-                    In OBS, add "browser source", use link below
-                    <p>Browser Link
+                    In OBS, add "browser" source, use URL below
+                    <p>URL
                         <button (click)="CopyBtnClick(true)">Copy</button>
                     </p>        
                     <textarea class="textarea" placeholder="Generating Link..." readonly

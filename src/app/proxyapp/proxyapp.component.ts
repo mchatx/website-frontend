@@ -42,6 +42,8 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
   EntryList: FullEntry[] = [];
   MaxDisplay = 1;
   OT:number = 1;
+  FF:string = "";
+  Ani: string = "";
 
   DisplayElem:HTMLHeadElement[] = [];
 
@@ -60,26 +62,6 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
     this.route.queryParamMap.subscribe((params) => {
       this.ParamParse(params);
     });
-
-    for (let i:number = 0; i < 5; i++){
-      if (i % 2 != 0){
-        this.EntryPrint({ 
-          Stext: "TEST" + i.toString() + " asdfkjzx" + " asdfkjzx" + " asdfkjzx" + " asdfkjzx" + " asdfkjzx",
-          Stime: 10000,
-          CC: "000000",
-          OC: "FFFFFF",
-          key: ""
-        })
-      } else {
-        this.EntryPrint({ 
-          Stext: "TEST" + i.toString(),
-          Stime: 10000,
-          CC: "FFFFFF",
-          OC: "000000",
-          key: ""
-        })
-      }
-    }
   }
 
   ParamParse(ParamsList: ParamMap){
@@ -97,23 +79,58 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       }
     }
 
+    if (ParamsList.has("ani")){
+      var test = ParamsList.get("ani")?.toString();
+      if (test != null){
+        this.Ani = test;
+      }
+    }
+
+    if (ParamsList.has("ff")){
+      var test = ParamsList.get("ff")?.toString();
+      if (test != null){
+        const lnk:HTMLLinkElement = this.Renderer.createElement('link');
+        lnk.href = "https://fonts.googleapis.com/css?family=" + test.replace(" ", "+");
+        lnk.rel = "stylesheet";
+        this.Renderer.appendChild(this.cardcontainer.nativeElement.parentNode, lnk);
+        this.FF = test;
+      }
+    }
+
+
     if (ParamsList.has("room")){
       var test = ParamsList.get("pass")?.toString()
       if (test != null){
-        /*
         this.StartListening(this.TGEnc.TGEncoding(JSON.stringify({
           Act: 'Listen',
           Room: ParamsList.get("room")?.toString(),
           Pass: SHA256(test).toString(enc.Hex).toLowerCase()
         })));
-        */
       } else {
-        /*
         this.StartListening(this.TGEnc.TGEncoding(JSON.stringify({
           Act: 'Listen',
           Room: ParamsList.get("room")?.toString()
         })));
-        */
+      }
+    } else {
+      for (let i:number = 0; i < 10; i++){
+        if (i % 2 != 0){
+          this.EntryPrint({ 
+            Stext: "TEST" + i.toString() + " asdfkjzx" + " asdfkjzx" + " asdfkjzx" + " asdfkjzx" + " asdfkjzx",
+            Stime: 10000,
+            CC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
+            OC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
+            key: ""
+          })
+        } else {
+          this.EntryPrint({ 
+            Stext: "TEST" + i.toString(),
+            Stime: 10000,
+            CC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
+            OC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
+            key: ""
+          })
+        }
       }
     }
   }
@@ -233,6 +250,12 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
     cvs.style.marginTop = "5px";
     cvs.style.paddingLeft = "10px"
     cvs.style.paddingRight = "10px"
+    if (this.Ani != ""){
+      cvs.className = "animate__animated animate__" + this.Ani;
+    }
+    if (this.FF != ""){
+      cvs.style.fontFamily = this.FF;
+    }
     cvs.style.webkitTextStrokeWidth = this.OT.toString() + "px";
 
     const Stext = dt.Stext;
