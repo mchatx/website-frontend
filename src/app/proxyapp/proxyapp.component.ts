@@ -17,6 +17,7 @@ import { SHA256, enc } from 'crypto-js';
     background-color
     font-size
     font-family
+    text-align
 */
 
 class FullEntry {
@@ -227,7 +228,8 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
     const cvs:HTMLHeadElement = this.Renderer.createElement('h1');
     cvs.style.marginTop = "5px";
-    cvs.style.textAlign = "center";
+    cvs.style.paddingLeft = "10px"
+    cvs.style.paddingRight = "10px"
     cvs.style.webkitTextStrokeWidth = this.OT.toString() + "px";
 
     const Stext = dt.Stext;
