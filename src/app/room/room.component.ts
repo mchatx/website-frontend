@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faStar, faLock, faLink, faEnvelope, faCoffee, faSearch, faRedoAlt, faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { faDiscord, faPatreon, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faDiscord, faPatreon, faYoutube, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { AccountService } from '../services/account.service';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import { ArchiveService } from '../services/archive.service';
@@ -183,6 +183,7 @@ export class RoomComponent implements OnInit {
     )
   }
 
+  faTwitter = faTwitter;
   faLock = faLock;
   faStar = faStar;
   faLink = faLink;

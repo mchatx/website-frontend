@@ -170,11 +170,12 @@
 
 <!-------------------------------- LINK ICON SWITCHER ------------------------------->
 <ng-template #LinkIcon let-link='link'>
-  <div style="align-self: center; margin-left: 3px; margin-right: 3px;" [ngSwitch]="CheckLink(link)">
+  <div [ngSwitch]="CheckLink(link)">
     <fa-icon *ngSwitchCase="'mail.com'" [icon]="faEnvelope"></fa-icon>
     <fa-icon *ngSwitchCase="'youtube.com/channel/'" [icon]="faYoutube"></fa-icon>
     <fa-icon *ngSwitchCase="'ko-fi.com/'" [icon]="faCoffee"></fa-icon>
     <fa-icon *ngSwitchCase="'www.patreon.com/'" [icon]="faPatreon"></fa-icon>
+    <fa-icon *ngSwitchCase="'twitter.com/'" [icon]="faTwitter"></fa-icon>
     <fa-icon *ngSwitchDefault [icon]="faLink"></fa-icon>
   </div>
 </ng-template>

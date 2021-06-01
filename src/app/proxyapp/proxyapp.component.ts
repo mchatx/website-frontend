@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Renderer2, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import { SHA256, enc } from 'crypto-js';
@@ -33,7 +33,11 @@ class FullEntry {
   templateUrl: './proxyapp.component.html',
   styleUrls: ['./proxyapp.component.scss']
 })
+
+
 export class ProxyappComponent implements OnInit, AfterViewInit {
+  @ViewChild('cardcontainer') cardcontainer !: ElementRef; 
+
   Status:string | undefined = "";
   EntryList: FullEntry[] = [];
   MaxDisplay = 1;
@@ -116,7 +120,7 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
   StartListening(Btoken: string): void {
     this.Status = Btoken;
-    const RoomES = new EventSource('http://127.1.0.1:33333/FetchRaw/?BToken=' + Btoken);
+    const RoomES = new EventSource('https://repo.mchatx.org/FetchRaw/?BToken=' + Btoken);
 
     this.Status = "1";
 
@@ -197,7 +201,6 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
           this.DisplayElem[i].textContent = Stext;
         }
     
-        const fontctx = "50px sans-serif";
         var CCctx = "#";
         if (CC != undefined){
           CCctx += CC;
@@ -239,7 +242,6 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       cvs.textContent = Stext;
     }
 
-    const fontctx = "50px sans-serif";
     var CCctx = "#";
     if (CC != undefined){
       CCctx += CC;
@@ -255,7 +257,7 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
     cvs.style.webkitTextFillColor = CCctx;
     cvs.style.webkitTextStrokeColor = OCctx;
-    this.Renderer.appendChild(document.getElementById("CardContainer"), cvs);
+    this.Renderer.appendChild(this.cardcontainer.nativeElement, cvs);
 
     /*
     const cvs:HTMLCanvasElement = this.Renderer.createElement('canvas');

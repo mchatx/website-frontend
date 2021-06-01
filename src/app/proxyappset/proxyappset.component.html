@@ -1,1 +1,109 @@
-<p>proxyappset works!</p>
+<div class="menucard">
+    <article class="box media has-background-light">
+      <div class="media-content">
+        <div class="content">
+            <div [ngSwitch]="CurrentPage">
+                <!------------------------------- First Page  ------------------------------->
+                <div *ngSwitchCase="0">
+                    <label>Mode:</label>
+                    <select [(ngModel)]="ProxyMode">
+                      <option [value]="0" [selected]="ProxyMode==0">MChad Room</option>
+                    </select>
+                    <br>
+            
+                    <label>Choose Room:
+                    <input list="Rooms" [(ngModel)]="RoomNick" (ngModelChange)="CheckPass()"/></label>
+                    <datalist id="Rooms">
+                        <option *ngFor="let dt of RoomList" [value]="dt.Nick" >{{dt.Nick}}</option>
+                    </datalist>
+                    <br>
+            
+                    <div *ngIf="PasswordProtected">
+                        <label>Password:</label>
+                        <input type="text" [(ngModel)]="RoomPass"/>
+                        <br>        
+                    </div>
+            
+                    <button (click)="NextButtonClick()">Next</button>
+                </div>
+                <!--============================= First Page  =============================-->
+            
+                <!------------------------------- Second Page  ------------------------------->
+                <div class="columns" *ngSwitchCase="1">
+                    <!-- Options -->
+                    <div class="column is-5">
+                        <label>Text Alignment </label>
+                        <select [(ngModel)]="TxAlign" (ngModelChange)="RepaintEntries()">
+                           <option [value]="'left'" [selected]="TxAlign=='left'">Left</option>
+                           <option [value]="'center'" [selected]="TxAlign=='center'">Center</option>
+                           <option [value]="'right'" [selected]="TxAlign=='right'">Right</option>
+                        </select>
+                        <br>
+                
+                        <label>Max message card # </label>
+                        <input type="number" min="0" [(ngModel)]="MaxDisplay"/>
+                        <br>        
+                        
+                        <label>Font Family </label>
+                        <select [(ngModel)]="FFamily" (ngModelChange)="RepaintEntries()">
+                           <option [value]="'sans-serif'" [selected]="FFamily=='sans-serif'">sans-serif</option>
+                        </select>
+                        <br>
+                        <label>Font Size </label>
+                        <input type="number" min="0" [(ngModel)]="FFsize" (ngModelChange)="RepaintEntries()"/>
+                        <br>
+                
+                        <label>Outline Thickness </label>
+                        <input type="number" min="0" [(ngModel)]="OT" (ngModelChange)="RepaintEntries()"/>        
+                        <br>
+                
+                        <label>Card BG Colour </label>
+                        <input type="color" [(ngModel)]="BGcolour" (ngModelChange)="ReRenderExample()"/>
+                        <br>     
+                        <label>Transparency </label>
+                        <br>
+                        <p>{{ 100 - CardBGColour.a*100 }}%</p>
+                        <input type="range" min="0" max="1" step="0.01" [(ngModel)]="CardBGColour.a" (ngModelChange)="RepaintEntries()"/>        
+                        <br>
+                
+                        <button (click)="PrevButtonClick()">Prev</button>
+                        <button (click)="NextButtonClick()">Next</button>
+                    </div>
+                    <div class="divider is-vertical is-left"></div>
+                    <!-- Example -->
+                    <div class="column" style="display: flex; flex-direction: column;">
+                        <div style="display: flex; flex-direction: row;">
+                            <span>Preview</span>
+                            <button style="margin-left: auto;" (click)="Backgroundchange()" #BGSwitchButton>Black</button>
+                        </div>
+                        <div style="display: flex; flex-direction: column-reverse; height: 100%; background-color: white; padding: 15px; margin-top: 10px;">
+                            <div style="display: flex; flex-direction: column;" #cardcontainer></div>
+                        </div>                        
+                    </div>
+                </div>
+                <!--============================= Second Page  =============================-->
+            
+                <!------------------------------- Thrid Page  ------------------------------->
+                <div *ngSwitchCase="2">
+                    In OBS, add "browser source", use link below
+                    <p>Browser Link
+                        <button (click)="CopyBtnClick(true)">Copy</button>
+                    </p>        
+                    <textarea class="textarea" placeholder="Generating Link..." readonly
+                    [(ngModel)]="ProxyLink" #LinkTextArea></textarea>
+            
+                    and custom CSS below
+                    <p>Custom CSS
+                        <button (click)="CopyBtnClick(false)">Copy</button>
+                    </p>
+                    <textarea class="textarea" placeholder="Generating CSS..." readonly
+                    [(ngModel)]="ProxyCss" #CSSTextArea></textarea>
+            
+                    <button (click)="PrevButtonClick()">Prev</button>
+                </div>
+                <!--============================= Third Page  =============================-->
+            </div>
+        </div>
+      </div>
+    </article>
+</div>
