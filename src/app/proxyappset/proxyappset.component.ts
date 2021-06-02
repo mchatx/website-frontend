@@ -27,6 +27,7 @@ class FullEntry {
 export class ProxyappsetComponent implements OnInit {
   @ViewChild("cardcontainer") cardcontainer !: ElementRef;
   @ViewChild("BGSwitchButton") BGSwitchButton !: ElementRef;
+  @ViewChild("previewcontainer") previewcontainer !: ElementRef;
 
   CurrentPage:number = 0;
   Timer:Subscription|undefined;
@@ -45,6 +46,8 @@ export class ProxyappsetComponent implements OnInit {
   RoomPass:string = "";
   RoomList: RoomData[] = [];
   PasswordProtected: boolean = false;
+
+  ChatURL: string = "";
 
   /*  
     SECOND PAGE SETTING
@@ -140,11 +143,11 @@ export class ProxyappsetComponent implements OnInit {
   }
 
   Backgroundchange():void{
-    if (this.cardcontainer.nativeElement.style["background-color"] == "black"){
-      this.cardcontainer.nativeElement.style["background-color"] = "white";
+    if (this.previewcontainer.nativeElement.style["background-color"] == "black"){
+      this.previewcontainer.nativeElement.style["background-color"] = "white";
       this.BGSwitchButton.nativeElement.innerHTML = "black";
     } else {
-      this.cardcontainer.nativeElement.style["background-color"] = "black";
+      this.previewcontainer.nativeElement.style["background-color"] = "black";
       this.BGSwitchButton.nativeElement.innerHTML = "white";
     }
   }
@@ -243,20 +246,44 @@ export class ProxyappsetComponent implements OnInit {
       this.ProxyLink = TempString;
 
       TempString = "https://mchatx.org/proxyapp?";
-      if (this.RoomNick != ""){
-        TempString += "room=" + this.RoomNick.replace(" ", "%20") + "&";
+
+      switch (Number(this.ProxyMode)) {
+        case 0:
+          if (this.RoomNick != ""){
+            TempString += "room=" + this.RoomNick.replace(" ", "%20") + "&";
+          }
+          if (this.RoomPass != ""){
+            TempString += "pass=" + this.RoomPass.replace(" ", "%20") + "&";
+          }              
+          break;
+
+        case 1:
+          var TempS:string = this.ChatURL;
+          if (TempS.indexOf("https://www.youtube.com/live_chat") != -1){
+            TempS = TempS.replace("https://www.youtube.com/live_chat", "");
+            if (TempS.indexOf("v=") != -1){
+              TempS = TempS.substring(TempS.indexOf("v=") + 2);
+              if (TempS.indexOf("&") != -1){
+                TempS = TempS.substring(0, TempS.indexOf("&"));
+              }
+              TempString += "lc=YT&vid=" + TempS + "&";
+            }
+          } else if (TempS.indexOf("https://www.twitch.tv/popout/") != -1){
+            TempS = TempS.replace("https://www.twitch.tv/popout/", "");
+            if (TempS.indexOf("/chat") != -1){
+              TempS = TempS.substring(0, TempS.indexOf("/chat"));
+              TempString += "lc=TW&vid=" + TempS + "&";
+            }
+          }
+          break;
       }
-      if (this.RoomPass != ""){
-        TempString += "pass=" + this.RoomPass.replace(" ", "%20") + "&";
-      }
+
       if (this.MaxDisplay != 1){
         TempString += "max=" + this.MaxDisplay + "&";
       }
+
       if (this.OT != 1){
         TempString += "ot=" + this.OT + "&";
-      }
-      if ((this.FFamily != "sans-serif") && (this.FFamily != "cursive") && (this.FFamily != "monospace")){
-        TempString += "ff=" + this.FFamily.replace(" ", "%20") + "&";
       }
 
       if (this.AniType != "None"){
@@ -271,12 +298,15 @@ export class ProxyappsetComponent implements OnInit {
       //-------------------- CSS GENERATOR --------------------
       TempString = "";
       this.ProxyCss = TempString;
-      TempString = "html {\n\tbackground-color: rgba(0, 0, 0, 0);\n}\n";
+
+      if ((this.FFamily != "sans-serif") && (this.FFamily != "cursive") && (this.FFamily != "monospace")){
+        TempString += '@import url("https://fonts.googleapis.com/css?family=' + this.FFamily.replace(" ", "+") + '");\n';
+      }
+
+      TempString += "html {\n\tbackground-color: rgba(0, 0, 0, 0);\n\tmargin: 0px auto;\n\toverflow: hidden;\n}\n";
       TempString += "h1 {\n\tbackground-color: rgba(" + this.CardBGColour.r.toString() + ", " + this.CardBGColour.g.toString() + ", " + this.CardBGColour.b.toString() + ", " + this.CardBGColour.a.toString() + ");\n";
       TempString += "\tfont-size: " + this.FFsize + "px;\n";
-      if ((this.FFamily == "sans-serif") || (this.FFamily == "cursive") || (this.FFamily == "monospace")){
-        TempString += "\tfont-family: " + this.FFamily + ";\n";
-      }
+      TempString += "\tfont-family: " + this.FFamily + ";\n";
       TempString += "\ttext-align: " + this.TxAlign + ";\n";
       TempString += "}";
       this.ProxyCss = TempString;

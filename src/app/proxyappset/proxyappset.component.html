@@ -8,20 +8,31 @@
                     <label>Mode:</label>
                     <select [(ngModel)]="ProxyMode">
                       <option [value]="0" [selected]="ProxyMode==0">MChad Room</option>
+                      <!--
+                        <option [value]="1" [selected]="ProxyMode==1">Live Chat</option>
+                      -->
                     </select>
                     <br>
-            
-                    <label>Choose Room:
-                    <input list="Rooms" [(ngModel)]="RoomNick" (ngModelChange)="CheckPass()"/></label>
-                    <datalist id="Rooms">
-                        <option *ngFor="let dt of RoomList" [value]="dt.Nick" >{{dt.Nick}}</option>
-                    </datalist>
-                    <br>
-            
-                    <div *ngIf="PasswordProtected">
-                        <label>Password:</label>
-                        <input type="text" [(ngModel)]="RoomPass"/>
-                        <br>        
+                    
+                    <div [ngSwitch]="ProxyMode">
+                        <div *ngSwitchCase="0">
+                            <label>Choose Room:
+                                <input list="Rooms" [(ngModel)]="RoomNick" (ngModelChange)="CheckPass()"/></label>
+                            <datalist id="Rooms">
+                                <option *ngFor="let dt of RoomList" [value]="dt.Nick" >{{dt.Nick}}</option>
+                            </datalist>
+                            <br>
+                        
+                            <div *ngIf="PasswordProtected">
+                                <label>Password:</label>
+                                <input type="text" [(ngModel)]="RoomPass"/>
+                            <br>        
+                            </div>            
+                        </div>
+                        <div *ngSwitchCase="1">
+                            Pop out chat URL
+                            <input type="text" [(ngModel)]="ChatURL"/>
+                        </div>
                     </div>
             
                     <button (click)="NextButtonClick()">Next</button>
@@ -116,7 +127,7 @@
                             <span>Preview</span>
                             <button style="margin-left: auto;" (click)="Backgroundchange()" #BGSwitchButton>Black</button>
                         </div>
-                        <div style="display: flex; flex-direction: column-reverse; height: 100%; background-color: white; padding: 15px; margin-top: 10px;">
+                        <div style="display: flex; flex-direction: column-reverse; height: 100%; background-color: white; padding: 15px; margin-top: 10px;" #previewcontainer>
                             <div style="display: flex; flex-direction: column;" #cardcontainer></div>
                         </div>                        
                     </div>

@@ -42,15 +42,15 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
   EntryList: FullEntry[] = [];
   MaxDisplay = 1;
   OT:number = 1;
-  FF:string = "";
   Ani: string = "";
+  ChatProxy:HTMLIFrameElement | undefined;
 
   DisplayElem:HTMLHeadElement[] = [];
 
   constructor(
     private Renderer: Renderer2,
     private TGEnc: TsugeGushiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) { }
 
 
@@ -86,18 +86,6 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       }
     }
 
-    if (ParamsList.has("ff")){
-      var test = ParamsList.get("ff")?.toString();
-      if (test != null){
-        const lnk:HTMLLinkElement = this.Renderer.createElement('link');
-        lnk.href = "https://fonts.googleapis.com/css?family=" + test.replace(" ", "+");
-        lnk.rel = "stylesheet";
-        this.Renderer.appendChild(this.cardcontainer.nativeElement.parentNode, lnk);
-        this.FF = test;
-      }
-    }
-
-
     if (ParamsList.has("room")){
       var test = ParamsList.get("pass")?.toString()
       if (test != null){
@@ -111,6 +99,12 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
           Act: 'Listen',
           Room: ParamsList.get("room")?.toString()
         })));
+      }
+    } else if (ParamsList.has("lc") && ParamsList.has("vid")) {
+      var test1 = ParamsList.get("lc")?.toString()
+      var test2 = ParamsList.get("vid")?.toString()
+      if ((test1 != null) && (test2 != null)) {
+        this.StartChatProxy(test1, test2);
       }
     } else {
       for (let i:number = 0; i < 10; i++){
@@ -132,6 +126,51 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
           })
         }
       }
+    }
+  }
+
+  StartChatProxy(ChatType:string, VidID: string){
+    switch (ChatType) {
+      case "YT":
+        this.ChatProxy = this.Renderer.createElement("iframe");
+        if (this.ChatProxy){
+          /*
+          this.ChatProxy.id = "ChatProxy";
+          window.addEventListener('load', () => {console.log("LOADED")});
+
+          const script:HTMLScriptElement =  document.createElement('script');
+          script.innerHTML = `
+              window.document.getElementById("ChatProxy").onload = function() {
+                var s = document.createElement("script");
+                s.innerHTML= 'console.log("TEST");'
+                console.log(window.document.getElementById("ChatProxy"));
+            }
+          `;
+
+          this.ChatProxy.onload = function() {
+          }
+          */
+
+          this.ChatProxy.src = "https://www.youtube.com/live_chat?v=" + VidID + "&embed_domain=" + window.location.hostname;
+          this.ChatProxy.style.height = "100%";
+          this.ChatProxy.frameBorder = "0";
+          this.Renderer.appendChild(this.cardcontainer.nativeElement.parentNode, this.ChatProxy);
+          //this.ChatProxy.parentNode?.appendChild(script); 
+          this.cardcontainer.nativeElement.remove();
+
+        }
+        break;
+
+      case "TW":
+        this.ChatProxy = this.Renderer.createElement("iframe");
+        if (this.ChatProxy){
+          this.ChatProxy.src = "https://www.twitch.tv/embed/" + VidID + "/chat?parent=" + window.location.hostname;
+          this.ChatProxy.style.height = "100%";
+          this.ChatProxy.frameBorder = "0";
+          this.Renderer.appendChild(this.cardcontainer.nativeElement.parentNode, this.ChatProxy);
+          this.cardcontainer.nativeElement.remove();
+        }
+        break;      
     }
   }
 
@@ -252,9 +291,6 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
     cvs.style.paddingRight = "10px"
     if (this.Ani != ""){
       cvs.className = "animate__animated animate__" + this.Ani;
-    }
-    if (this.FF != ""){
-      cvs.style.fontFamily = this.FF;
     }
     cvs.style.webkitTextStrokeWidth = this.OT.toString() + "px";
 
