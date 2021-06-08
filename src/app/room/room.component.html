@@ -9,7 +9,7 @@
             <label class="label has-text-white">Contact:</label>
             <div class="wrap" *ngFor="let Link of Links;">
               <span class="icon-text linkslinks">
-                <a href="{{ Link }}" target="_blank"><span class="icon">
+                <a href="{{ LinkParser(Link) }}" target="_blank"><span class="icon">
                     <ng-container [ngTemplateOutlet]="LinkIcon" [ngTemplateOutletContext]="{link:Link}">
                     </ng-container>
                   </span>
@@ -21,7 +21,7 @@
           <!-- Note -->
           <div class="column">
             <label class="label has-text-white">Note: </label>
-            <p class="p-2 message has-text-justified" [style.display]="Note === '' ? 'none' : 'block'">{{ Note }}</p>
+            <p class="p-2 message has-text-justified" style="white-space: pre-wrap;" [style.display]="Note === '' ? 'none' : 'block'">{{ Note }}</p>
           </div>
         </div>
         <div class="has-text-centered">

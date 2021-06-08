@@ -83,6 +83,14 @@ export class RoomComponent implements OnInit {
     });
   }
 
+  LinkParser(link:string):string {
+    if (link.indexOf("mail.com") != -1){
+      return ("mailto:" + link);
+    } else {
+      return (link);
+    }
+  }
+
   CheckLink(link:string): string{
     let MatchResult = link.match(/mail\.com|youtube\.com\/channel\/|ko-fi\.com\/|www\.patreon\.com\//g);
     if (MatchResult != null){

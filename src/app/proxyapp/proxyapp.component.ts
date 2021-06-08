@@ -50,11 +50,10 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
   constructor(
     private Renderer: Renderer2,
     private TGEnc: TsugeGushiService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) { }
 
-
-  
+ 
   ngOnInit(): void {
   }
 
@@ -134,8 +133,8 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       case "YT":
         this.ChatProxy = this.Renderer.createElement("iframe");
         if (this.ChatProxy){
-          /*
           this.ChatProxy.id = "ChatProxy";
+          /*
           window.addEventListener('load', () => {console.log("LOADED")});
 
           const script:HTMLScriptElement =  document.createElement('script');
@@ -157,7 +156,6 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
           this.Renderer.appendChild(this.cardcontainer.nativeElement.parentNode, this.ChatProxy);
           //this.ChatProxy.parentNode?.appendChild(script); 
           this.cardcontainer.nativeElement.remove();
-
         }
         break;
 
@@ -287,8 +285,10 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
     const cvs:HTMLHeadElement = this.Renderer.createElement('h1');
     cvs.style.marginTop = "5px";
-    cvs.style.paddingLeft = "10px"
-    cvs.style.paddingRight = "10px"
+    cvs.style.paddingLeft = "20px";
+    cvs.style.paddingRight = "20px";
+    cvs.id = "BoxShape";
+
     if (this.Ani != ""){
       cvs.className = "animate__animated animate__" + this.Ani;
     }

@@ -180,15 +180,17 @@ export class ProxyappsetComponent implements OnInit {
 
     const cvs:HTMLHeadElement = this.Renderer.createElement('h1');
     cvs.style.marginTop = "5px";
-    cvs.style.paddingLeft = "10px"
-    cvs.style.paddingRight = "10px"
+    cvs.style.paddingLeft = "20px"
+    cvs.style.paddingRight = "20px"
     cvs.style.webkitTextStrokeWidth = this.OT.toString() + "px";
     cvs.style.fontFamily = this.FFamily;
     cvs.style.fontSize = this.FFsize.toString() + "px";
     cvs.style.textAlign = this.TxAlign;
     cvs.style.backgroundColor = "rgba(" + this.CardBGColour.r.toString() + ", " + this.CardBGColour.g.toString() + ", " + this.CardBGColour.b.toString() + ", " + this.CardBGColour.a.toString() + ")";
+    cvs.id = "BoxShape";
+
     if (this.AniType != "None"){
-      cvs.className = "animate__animated animate__" + this.AniType + this.AniDir;
+      cvs.className += " animate__animated animate__" + this.AniType + this.AniDir;
     }
 
     const Stext = dt.Stext;
