@@ -1,0 +1,25 @@
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+
+<button style="z-index: 1; position:absolute; left: 0; top: 0;" class="button is-small is-fullwidth is-primary" (click)="OpenOption=true">Menu</button>
+
+<div [ngClass]="BGColour == '#28282B' ? 'has-background-primary-light' : 'has-background-black'" *ngIf="OpenOption" style="z-index: 1; position: absolute; width: 100%; left: 0; top: 0;">
+    <div style="width: 100%; display:flex; padding-left: 30px; padding-right: 30px; padding-top: 10px; padding-bottom: 10px; align-items: center;">
+        <!--
+        <a class="button is-primary" routerLink="/" [routerLinkActive]="['is-active']">←</a>
+        -->
+        <button class="button is-link" (click)="OpenOption=false">←</button>
+        <div style="margin-left: 15px; margin-right: 15px;">
+            <label [ngStyle]="{'color': BGColour == '#28282B' ? 'black' : 'white'}" >Font Size </label>
+            <input type="number" min="0" [(ngModel)]="FFsize" (ngModelChange)="EntryRepaintEverything()"/>
+        </div>
+        <button class="button is-link" style="margin-left: 15px; margin-right: auto;" (click)="SwitchColour()">Switch BG Colour</button>
+        <button class="button is-link" (click)="SaveSetting()">Save</button>
+    </div>
+</div>
+
+<div style="height: 100vh" [style.background-color]="BGColour">
+    <div (window:resize)="onResize($event)" class="container is-fluid" style="height: 98%; display: flex; flex-direction: column-reverse;" (click)="OpenOption=false">
+        <div style="display: flex; flex-direction: column;" #cardcontainer>
+        </div>
+    </div>
+</div>

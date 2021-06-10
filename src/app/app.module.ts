@@ -33,6 +33,7 @@ import { ArchiveDetailComponent } from './archive-detail/archive-detail.componen
 import { RoomComponent } from './room/room.component';
 import { ProxyappComponent } from './proxyapp/proxyapp.component';
 import { ProxyappsetComponent } from './proxyappset/proxyappset.component';
+import { WebappComponent } from './webapp/webapp.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { ProxyappsetComponent } from './proxyappset/proxyappset.component';
     ArchiveDetailComponent,
     RoomComponent,
     ProxyappComponent,
-    ProxyappsetComponent
+    ProxyappsetComponent,
+    WebappComponent
   ],
   imports: [
     BrowserModule,

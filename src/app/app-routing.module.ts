@@ -21,6 +21,7 @@ import { ArchiveDetailComponent } from './archive-detail/archive-detail.componen
 import { RoomComponent } from './room/room.component';
 import { ProxyappComponent } from './proxyapp/proxyapp.component';
 import { ProxyappsetComponent } from './proxyappset/proxyappset.component';
+import { WebappComponent } from './webapp/webapp.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -42,10 +43,11 @@ const routes: Routes = [
   { path: 'account', component: AccountpageComponent },
   { path: 'archiveedit', component: ArchiveEditComponent },
   { path: 'requestboard', component: RequestboardComponent },
+  { path: 'proxyapp', component: WebappComponent, data:{PlainPage:true}},
   { path: 'test', component: TestingGroundComponent },
 
-  { path: 'proxyapp', component: ProxyappComponent, data:{PlainPage:true}},
-  { path: 'proxyappset', component: ProxyappsetComponent, data:{PlainPage:true}}
+  //{ path: 'proxyapp2', component: ProxyappComponent, data:{PlainPage:true}},
+  //{ path: 'proxyappset', component: ProxyappsetComponent, data:{PlainPage:true}}
 ];
 
 @NgModule({
