@@ -24,10 +24,27 @@
             <p class="p-2 message has-text-justified" style="white-space: pre-wrap;" [style.display]="Note === '' ? 'none' : 'block'">{{ Note }}</p>
           </div>
         </div>
-        <div class="has-text-centered">
-          <a style="width: 40%;" class="button is-small is-outlined is-rounded is-light"
-            [href]="sanitizeroom(RoomNick)"> Open Room </a>
+
+        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+          <div class="dropdown is-hoverable">
+            <div class="dropdown-trigger">
+              <a class="button is-small is-outlined is-rounded is-light has-text-centered" aria-haspopup="true" aria-controls="dropdown-menu">
+                Open Room
+              </a>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+              <div class="dropdown-content">
+                <a [href]="sanitizeroom(RoomNick)" class="dropdown-item">
+                  Desktop Client
+                </a>
+                <a class="dropdown-item" [routerLink]="['/proxyapp']" [queryParams]="{room: RoomNick}">
+                  Web Client
+                </a>
+              </div>
+            </div>
+          </div>  
         </div>
+
         <p class="has-text-centered has-text-danger">{{ this.status }}</p>
       </div>
     </div>
@@ -147,7 +164,10 @@
               </div>
               <footer class="card-footer">
                 <a class="card-footer-item" [href]="sanitize(Archive.Link)">
-                  Open Archive
+                  Desktop Client
+                </a>
+                <a class="card-footer-item" [routerLink]="['/proxyapp']" [queryParams]="{archive: Archive.Link}">
+                 Web Client
                 </a>
                 <a class="card-footer-item" [routerLink]="['/archivecard', Archive.Link]">
                   Archive Page

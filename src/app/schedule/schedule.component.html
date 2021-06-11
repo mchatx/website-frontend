@@ -58,10 +58,25 @@
               <div class="columns is-multiline">
                 <div class="column is-3 hyphenate" *ngFor="let Schedule of SchedPage.DataList">
                   <div class="p-2" id="wrap">
-                    <p class="hyphenate">Room : <a class="button is-small is-outlined is-rounded is-light is-inverted"
-                        [href]="sanitize(Schedule.Room)">
-                        {{ Schedule.Room }}
-                      </a></p>
+                    <span class="hyphenate">Room : </span>
+                      <div class="dropdown is-hoverable">
+                        <div class="dropdown-trigger">
+                          <a class="button is-small is-outlined is-rounded is-light is-inverted" aria-haspopup="true" aria-controls="dropdown-menu">
+                            {{ Schedule.Room }}
+                          </a>
+                        </div>
+                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                          <div class="dropdown-content">
+                            <a [href]="sanitize(Schedule.Room)" class="dropdown-item">
+                              Desktop Client
+                            </a>
+                            <a class="dropdown-item" [routerLink]="['/proxyapp']" [queryParams]="{room: Schedule.Room}">
+                              Web Client
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    <br>
                     <p class="hyphenate">Time : {{ Schedule.Time }} </p>
                     <p class="hyphenate">Link to stream : <a class="hyphenate" id="link" href="{{ Schedule.Link }}"
                         target="_blank">{{ Schedule.Link }}</a></p>

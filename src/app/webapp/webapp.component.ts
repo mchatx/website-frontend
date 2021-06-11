@@ -1,8 +1,9 @@
 import { Component, OnInit, Renderer2, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
+import { WPproxyService } from '../services/wpproxy.service';
 import { SHA256, enc } from 'crypto-js';
-
+import { faHome, faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
 /*
   Params
   room = room nick
@@ -49,12 +50,22 @@ export class WebappComponent implements OnInit, AfterViewInit {
   FFsize:number = 16;
   FStyle:string = "Ubuntu";
   TAlign:CanvasTextAlign = "left";
-  MaxDisplay = 25;
+  MaxDisplay = 15;
   BGColour:string = "#28282B";
+
+  ArchiveMode: boolean = false;
+  Currtime:number = 0;
+  CurrIdx:number = -1;
+  BoolPlay:boolean = false;
+  TimeShift:number = 0;
+  IntervalID:any;
+  MaxRange:number = 100;
+  ArchiveEntryList: FullEntry[] = [];
 
   constructor(
     private Renderer: Renderer2,
     private TGEnc: TsugeGushiService,
+    private WPServ: WPproxyService,
     private route: ActivatedRoute
   ) { }
 
@@ -140,6 +151,28 @@ export class WebappComponent implements OnInit, AfterViewInit {
           Room: ParamsList.get("room")?.toString()
         })));
       }
+    } else if (ParamsList.has("archive")){
+      var test = ParamsList.get("pass")?.toString()
+      if (test != null){
+        this.WPServ.getArchive(this.TGEnc.TGEncoding(JSON.stringify({
+          Act: 'GetArchive',
+          ARLink: ParamsList.get("archive")?.toString(),
+          Pass: test
+        }))).subscribe(
+          (response) => {
+            this.ArchiveParse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"]));
+          }
+        )
+      } else {
+        this.WPServ.getArchive(this.TGEnc.TGEncoding(JSON.stringify({
+          Act: 'GetArchive',
+          ARLink: ParamsList.get("archive")?.toString()
+        }))).subscribe(
+          (response) => {
+            this.ArchiveParse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"]));
+          }
+        )
+      }
     } else {
       for (let i:number = 0; i < 10; i++){
         if (i % 2 != 0){
@@ -162,6 +195,23 @@ export class WebappComponent implements OnInit, AfterViewInit {
       }
     }
   }
+
+  ArchiveParse(response:string):void {
+    this.ArchiveMode = true;
+    this.ArchiveEntryList = JSON.parse(response).map((e: FullEntry) => {
+      if (!e.key) e.key = "";
+      e.Stime = e.Stime/1000;
+      return e;
+    });
+    this.MaxRange = this.ArchiveEntryList[this.ArchiveEntryList.length - 1].Stime;
+    this.EntryPrint({
+      Stext: "ARCHIVE LOADED",
+      Stime: 0,
+      key: undefined,
+      CC: undefined,
+      OC: undefined
+    })
+  }
   //===================================  PARAM PARSER  ===================================
 
 
@@ -181,29 +231,23 @@ export class WebappComponent implements OnInit, AfterViewInit {
           RoomES.close();
         } else {
           var dt = JSON.parse(DecodedString);
-          var tempFE:FullEntry = {
-            Stext: dt["content"]["Stext"],
-            key: dt["content"]["key"],
-            Stime: 0,
-            CC: "",
-            OC: ""
-          };
-
-          if (!dt["content"]["CC"]){
-            tempFE.CC = "FFFFFF";
-          } else {
-            tempFE.CC = dt["content"]["CC"];
-          }
-          if (!dt["content"]["OC"]){
-            tempFE.OC = "000000";
-          } else {
-            tempFE.OC = dt["content"]["OC"];
-          }
 
           if (dt["flag"] == "insert"){
-            this.EntryPrint(tempFE);
+            this.EntryPrint({
+              Stext: dt["content"]["Stext"],
+              key: dt["content"]["key"],
+              Stime: 0,
+              CC: dt["content"]["CC"],
+              OC: dt["content"]["OC"]              
+            });
           } else if (dt["flag"] == "update"){
-            this.EntryRepaint(tempFE);
+            this.EntryRepaint({
+              Stext: dt["content"]["Stext"],
+              key: dt["content"]["key"],
+              Stime: 0,
+              CC: dt["content"]["CC"],
+              OC: dt["content"]["OC"]              
+            });
           }
         }
       }
@@ -256,13 +300,21 @@ export class WebappComponent implements OnInit, AfterViewInit {
         if (CC != undefined){
           CCctx += CC;
         } else {
-          CCctx += "000000"
+          if (this.BGColour == "#28282B"){
+            CCctx += "FFFFFF";
+          } else {
+            CCctx += "000000";
+          }
         }
         var OCctx = "#";
         if (CC != undefined){
           OCctx += OC;
         } else {
-          OCctx += "000000"
+          if (this.BGColour == "#28282B"){
+            OCctx += "FFFFFF";
+          } else {
+            OCctx += "000000";
+          }
         }
 
         var TextPos:number = 0;
@@ -357,13 +409,21 @@ export class WebappComponent implements OnInit, AfterViewInit {
     if (CC != undefined){
       CCctx += CC;
     } else {
-      CCctx += "000000"
+      if (this.BGColour == "#28282B"){
+        CCctx += "FFFFFF";
+      } else {
+        CCctx += "000000";
+      }
     }
     var OCctx = "#";
     if (CC != undefined){
       OCctx += OC;
     } else {
-      OCctx += "000000"
+      if (this.BGColour == "#28282B"){
+        OCctx += "FFFFFF";
+      } else {
+        OCctx += "000000";
+      }
     }
 
     var TextPos:number = 0;
@@ -447,13 +507,22 @@ export class WebappComponent implements OnInit, AfterViewInit {
       if (CC != undefined){
         CCctx += CC;
       } else {
-        CCctx += "000000"
+        if (this.BGColour == "#28282B"){
+          CCctx += "FFFFFF";
+        } else {
+          CCctx += "000000";
+        }
       }
+
       var OCctx = "#";
       if (CC != undefined){
         OCctx += OC;
       } else {
-        OCctx += "000000"
+        if (this.BGColour == "#28282B"){
+          OCctx += "FFFFFF";
+        } else {
+          OCctx += "000000";
+        }
       }
   
       var TextPos:number = 0;
@@ -520,4 +589,128 @@ export class WebappComponent implements OnInit, AfterViewInit {
     }
   }
   //===================================  ENTRY HANDLER  ===================================
+
+
+
+  //------------------------------------ ARCHIVE MENU ------------------------------------
+  PlayButtonClick(){
+    this.BoolPlay = true;
+    this.IntervalID = setInterval(() => {
+      this.Currtime += 0.1;
+      this.CheckNewEntry();
+    },100);
+  }
+
+  PauseButtonClick(){
+    this.BoolPlay = false;
+    clearInterval(this.IntervalID);
+  }
+
+  StopButtonClick(){
+    this.PauseButtonClick();
+    this.SetCurTime(0);
+  }
+
+  ParseTime(): string{
+    var DTime:number = Math.floor(this.Currtime);
+    var Sres:number = 0;
+    var Stime:string = "";
+    Sres = Math.floor(DTime/3600);
+    DTime -= Sres*3600;
+    if (Sres < 10){
+      Stime += "0";
+    }
+    Stime += Sres.toString() + ":";
+    Sres = Math.floor(DTime/60);
+    DTime -= Sres*60;
+    if (Sres < 10){
+      Stime += "0";
+    }
+    Stime += Sres.toString() + ":";
+    if (DTime < 10){
+      Stime += "0";
+    }
+    Stime += DTime.toString();
+    return(Stime);
+  }
+
+  SlideRelease():void {
+    var playing = this.BoolPlay;
+    if(this.BoolPlay){
+      this.PauseButtonClick();
+    }
+
+    while(this.DisplayElem.length != 0){
+      this.DisplayElem.pop()?.remove();
+      this.EntryList.pop();
+    }
+
+    for (this.CurrIdx = -1; this.CurrIdx < this.ArchiveEntryList.length - 1; this.CurrIdx++){
+      if (this.ArchiveEntryList[this.CurrIdx + 1].Stime - this.TimeShift >= this.Currtime){
+        for (var idx = this.CurrIdx - 2; idx <= this.CurrIdx; idx++){
+          if (idx >= 0){
+            this.EntryPrint(this.ArchiveEntryList[idx]);
+          }
+        }
+        break;
+      }
+    }
+
+    if(playing){
+      this.PlayButtonClick();
+    }    
+  }
+
+  SetCurTime(dtime:number):void{
+    var playing = this.BoolPlay;
+    if(this.BoolPlay){
+      this.PauseButtonClick();
+    }
+
+    this.Currtime = dtime;
+    while(this.DisplayElem.length != 0){
+      this.DisplayElem.pop()?.remove();
+      this.EntryList.pop();
+    }
+
+    for (this.CurrIdx = -1; this.CurrIdx < this.ArchiveEntryList.length - 1; this.CurrIdx++){
+      if (this.ArchiveEntryList[this.CurrIdx + 1].Stime - this.TimeShift >= dtime){
+        break;
+      }
+    }
+
+    if(playing){
+      this.PlayButtonClick();
+    }    
+  }
+  //==================================== ARCHIVE MENU ====================================
+
+
+
+  //-------------------------------  ARCHIVE ENTRY HANDLER  -------------------------------
+  CheckNewEntry():void{
+    if ((this.CurrIdx + 1 > this.ArchiveEntryList.length) || (this.ArchiveEntryList.length == 0)){
+      return;
+    }
+    if (this.Currtime > this.ArchiveEntryList[this.CurrIdx + 1].Stime - this.TimeShift){
+      this.CurrIdx++;
+      this.ArchivePrintEntry(this.CurrIdx);
+    }
+  }
+
+  ArchivePrintEntry(idx:number):void {
+    if (idx > this.ArchiveEntryList.length){
+      return;
+    }
+
+    this.EntryPrint(this.ArchiveEntryList[idx]);
+  }
+  //===============================  ARCHIVE ENTRY HANDLER  ===============================
+
+
+
+  faHome = faHome;
+  faStop = faStop;
+  faPlay = faPlay;
+  faPause = faPause;
 }

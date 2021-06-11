@@ -17,4 +17,12 @@ export class WPproxyService {
   getRoom(): Observable<any>  {
     return (this.httpclient.get(environment.DBConn + '/Room/'));
   }
+
+  getArchive(btoken: string):Observable<any> {
+    const headers = {'Content-Type': 'application/json'};
+
+    return (this.httpclient.post(environment.DBConn + '/FetchRaw/', { 
+      BToken: btoken
+    }, { headers, observe: 'response', responseType: 'text'}));
+  }
 }

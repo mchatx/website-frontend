@@ -39,9 +39,24 @@
           Rating {{ CurrentArchive.Star }} {{ RatingBtn }}
         </span>
         <br>
-        <a class="button is-small is-outlined is-rounded is-light" [href]="sanitize(CurrentArchive.Link)">
-          Open in client
-        </a>
+        <div class="dropdown is-hoverable">
+          <div class="dropdown-trigger">
+            <a class="button is-small is-outlined is-rounded is-light" aria-haspopup="true" aria-controls="dropdown-menu">
+              Open in client
+            </a>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-content">
+              <a [href]="sanitize(CurrentArchive.Link)" class="dropdown-item">
+                Desktop Client
+              </a>
+              <a class="dropdown-item" [routerLink]="['/proxyapp']" [queryParams]="{archive: CurrentArchive.Link}">
+                Web Client
+              </a>
+            </div>
+          </div>
+        </div>
+
         <p class="has-text-danger">{{ this.status }}</p>
       </div>
     </div>

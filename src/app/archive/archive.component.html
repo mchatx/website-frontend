@@ -163,7 +163,10 @@
                  </div>
                  <footer class="card-footer">
                    <a class="card-footer-item" [href]="sanitize(Archive.Link)">
-                     Open Archive
+                     Desktop Client
+                   </a>
+                   <a class="card-footer-item" [routerLink]="['/proxyapp']" [queryParams]="{archive: Archive.Link}">
+                    Web Client
                    </a>
                    <a class="card-footer-item" [routerLink]="['/archivecard', Archive.Link]">
                      Archive Page
