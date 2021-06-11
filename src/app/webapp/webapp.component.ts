@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import { WPproxyService } from '../services/wpproxy.service';
 import { SHA256, enc } from 'crypto-js';
-import { faHome, faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faPause, faPlay, faStop, faLock } from '@fortawesome/free-solid-svg-icons';
 /*
   Params
   room = room nick
@@ -53,6 +53,8 @@ export class WebappComponent implements OnInit, AfterViewInit {
   MaxDisplay = 15;
   BGColour:string = "#28282B";
 
+  RoomNick: string = "";
+
   ArchiveMode: boolean = false;
   Currtime:number = 0;
   CurrIdx:number = -1;
@@ -61,6 +63,11 @@ export class WebappComponent implements OnInit, AfterViewInit {
   IntervalID:any;
   MaxRange:number = 100;
   ArchiveEntryList: FullEntry[] = [];
+  ARLink: string = "";
+
+  passretry:number = 0;
+  passmodal:boolean = false;
+  PassString:string = "";
 
   constructor(
     private Renderer: Renderer2,
@@ -119,6 +126,7 @@ export class WebappComponent implements OnInit, AfterViewInit {
     } else {
       this.BGColour = "#28282B";
     }
+    this.EntryRepaintEverything();
   }
 
   //-----------------------------------  PARAM PARSER  -----------------------------------
@@ -138,7 +146,13 @@ export class WebappComponent implements OnInit, AfterViewInit {
     }
 
     if (ParamsList.has("room")){
-      var test = ParamsList.get("pass")?.toString()
+      //------------------------------------------ ROOM ------------------------------------------
+      var test = ParamsList.get("room")?.toString()
+      if (test != null){
+        this.RoomNick = test;
+      }
+
+      test = ParamsList.get("pass")?.toString()
       if (test != null){
         this.StartListening(this.TGEnc.TGEncoding(JSON.stringify({
           Act: 'Listen',
@@ -146,13 +160,32 @@ export class WebappComponent implements OnInit, AfterViewInit {
           Pass: SHA256(test).toString(enc.Hex).toLowerCase()
         })));
       } else {
-        this.StartListening(this.TGEnc.TGEncoding(JSON.stringify({
-          Act: 'Listen',
-          Room: ParamsList.get("room")?.toString()
-        })));
+        this.WPServ.TestRoom(this.TGEnc.TGEncoding(JSON.stringify({
+          Act: 'TestPass',
+          Type: 'PassRoom',
+          ID: this.RoomNick
+        }))).subscribe(
+          (response) => {
+            if (response.body == "OK"){
+              this.StartListening(this.TGEnc.TGEncoding(JSON.stringify({
+                Act: 'Listen',
+                Room: ParamsList.get("room")?.toString()
+              })));
+            } else {
+              this.passretry++;
+              this.passmodal = true;
+            }
+          }
+        )
       }
     } else if (ParamsList.has("archive")){
-      var test = ParamsList.get("pass")?.toString()
+      //------------------------------------------ ARCHIVE ------------------------------------------
+      var test = ParamsList.get("archive")?.toString()
+      if (test != null){
+        this.ARLink = test;
+      }
+
+      test = ParamsList.get("pass")?.toString()
       if (test != null){
         this.WPServ.getArchive(this.TGEnc.TGEncoding(JSON.stringify({
           Act: 'GetArchive',
@@ -161,6 +194,22 @@ export class WebappComponent implements OnInit, AfterViewInit {
         }))).subscribe(
           (response) => {
             this.ArchiveParse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"]));
+          },
+          (err) => {
+            if ((err.error == "ERROR : ARCHIVE IS PASSWORD PROTECTED, PLEASE SUBMIT PASSWORD IN THE PAYLOAD") || (err.error == "ERROR : PASSWORD DOES NOT MATCH")){
+              if (this.passretry < 4){
+                this.passretry++;
+                this.passmodal = true;
+              } else {
+                this.EntryPrint({ 
+                  Stext: "UNABLE TO RETRIEVE DATA",
+                  Stime: 0,
+                  CC: undefined,
+                  OC: undefined,
+                  key: ""
+                })
+              }              
+            }
           }
         )
       } else {
@@ -170,6 +219,22 @@ export class WebappComponent implements OnInit, AfterViewInit {
         }))).subscribe(
           (response) => {
             this.ArchiveParse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"]));
+          },
+          (err) => {
+            if ((err.error == "ERROR : ARCHIVE IS PASSWORD PROTECTED, PLEASE SUBMIT PASSWORD IN THE PAYLOAD") || (err.error == "ERROR : PASSWORD DOES NOT MATCH")){
+              if (this.passretry < 4){
+                this.passretry++;
+                this.passmodal = true;
+              } else {
+                this.EntryPrint({ 
+                  Stext: "UNABLE TO RETRIEVE DATA",
+                  Stime: 0,
+                  CC: undefined,
+                  OC: undefined,
+                  key: ""
+                })
+              }              
+            }
           }
         )
       }
@@ -198,9 +263,14 @@ export class WebappComponent implements OnInit, AfterViewInit {
 
   ArchiveParse(response:string):void {
     this.ArchiveMode = true;
+    var starttime = -1;
     this.ArchiveEntryList = JSON.parse(response).map((e: FullEntry) => {
       if (!e.key) e.key = "";
       e.Stime = e.Stime/1000;
+      if (starttime == -1){
+        starttime = e.Stime;
+      } 
+      e.Stime -= starttime;
       return e;
     });
     this.MaxRange = this.ArchiveEntryList[this.ArchiveEntryList.length - 1].Stime;
@@ -212,6 +282,69 @@ export class WebappComponent implements OnInit, AfterViewInit {
       OC: undefined
     })
   }
+
+  TryFetch():void {
+    this.passmodal = false;
+    if (this.RoomNick != ""){
+      this.WPServ.TestRoom(this.TGEnc.TGEncoding(JSON.stringify({
+        Act: 'TestPass',
+        Type: 'Room',
+        ID: this.RoomNick,
+        Pass: SHA256(this.PassString).toString(enc.Hex).toLowerCase()
+      }))).subscribe(
+        (response) => {
+          if (response.body == "OK"){
+            this.StartListening(this.TGEnc.TGEncoding(JSON.stringify({
+              Act: 'Listen',
+              Room: this.RoomNick,
+              Pass: SHA256(this.PassString).toString(enc.Hex).toLowerCase()
+            })));
+          } else {
+            if (this.passretry < 4){
+              this.passretry++;
+              this.passmodal = true;
+              this.PassString = "";
+            } else {
+              this.EntryPrint({ 
+                Stext: "UNABLE TO RETRIEVE DATA",
+                Stime: 0,
+                CC: undefined,
+                OC: undefined,
+                key: ""
+              })
+            }
+          }
+        }
+      )
+    } else {
+      this.WPServ.getArchive(this.TGEnc.TGEncoding(JSON.stringify({
+        Act: 'GetArchive',
+        ARLink: this.ARLink,
+        Pass: this.PassString
+      }))).subscribe(
+        (response) => {
+          this.ArchiveParse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"]));
+        },
+        (err) => {
+          if ((err.error == "ERROR : ARCHIVE IS PASSWORD PROTECTED, PLEASE SUBMIT PASSWORD IN THE PAYLOAD") || (err.error == "ERROR : PASSWORD DOES NOT MATCH")){
+            if (this.passretry < 4){
+              this.passretry++;
+              this.passmodal = true;
+              this.PassString = "";
+            } else {
+              this.EntryPrint({ 
+                Stext: "UNABLE TO RETRIEVE DATA",
+                Stime: 0,
+                CC: undefined,
+                OC: undefined,
+                key: ""
+              })
+            }              
+          }
+        }
+      )
+    }
+  }
   //===================================  PARAM PARSER  ===================================
 
 
@@ -219,6 +352,7 @@ export class WebappComponent implements OnInit, AfterViewInit {
   //-----------------------------------  LIVE LISTENER  -----------------------------------
   StartListening(Btoken: string): void {
     this.Status = Btoken;
+
     const RoomES = new EventSource('https://repo.mchatx.org/FetchRaw/?BToken=' + Btoken);
 
     this.Status = "1";
@@ -254,11 +388,12 @@ export class WebappComponent implements OnInit, AfterViewInit {
     }
 
     RoomES.onerror = e => {
+      RoomES.close();
       this.EntryPrint({
         Stime: 0,
         Stext: "CONNECTION ERROR",
-        OC: "000000",
-        CC: "FFFFFF",
+        OC: undefined,
+        CC: undefined,
         key: ""
       })
     }
@@ -267,11 +402,12 @@ export class WebappComponent implements OnInit, AfterViewInit {
       this.EntryPrint({
         Stime: 0,
         Stext: "CONNECTED",
-        OC: "000000",
-        CC: "FFFFFF",
+        OC: undefined,
+        CC: undefined,
         key: ""
       })
     }
+    
   
     RoomES.addEventListener('open', function(e) {
     }, false);
@@ -281,7 +417,6 @@ export class WebappComponent implements OnInit, AfterViewInit {
 
     RoomES.addEventListener('error', function(e) {
     }, false);
-
   }
   //===================================  LIVE LISTENER  ===================================
 
@@ -709,6 +844,7 @@ export class WebappComponent implements OnInit, AfterViewInit {
 
 
 
+  faLock = faLock;
   faHome = faHome;
   faStop = faStop;
   faPlay = faPlay;

@@ -32,3 +32,33 @@
         </div>
     </div>
 </div>
+
+<!------------------------------------------- PASSWORD MODAL ------------------------------------------->
+<div class="modal" [ngClass]="{ 'is-active' : passmodal}">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <a style="float: right;" class="delete is-dark" (click)="passmodal=false"></a>
+        <p class="title">Password Protected</p>
+        <div class="divider is-left is-black"></div>
+ 
+        <div class="field has-text-left">
+          <label class="label">Password</label>
+          <div class="control has-icons-left">
+            <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="PassString">
+            <span class="icon is-left is-small">
+              <fa-icon [icon]="faLock"></fa-icon>
+            </span>
+          </div>
+        </div>
+  
+        <div class="field is-grouped p-4">
+          <div class="control">
+            <button class="button is-dark" (click)="TryFetch()" #loadstate1>Enter</button>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  <!--========================================= PASSWORD MODAL =========================================-->
