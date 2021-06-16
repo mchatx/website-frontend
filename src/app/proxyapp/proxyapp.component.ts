@@ -40,12 +40,12 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
   Status:string | undefined = "";
   EntryList: FullEntry[] = [];
-  MaxDisplay = 1;
+  MaxDisplay = 100;
   OT:number = 1;
   Ani: string = "";
   ChatProxy:HTMLIFrameElement | undefined;
 
-  DisplayElem:HTMLHeadElement[] = [];
+  DisplayElem:HTMLDivElement [] = [];
 
   constructor(
     private Renderer: Renderer2,
@@ -131,32 +131,48 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
   StartChatProxy(ChatType:string, VidID: string){
     switch (ChatType) {
       case "YT":
-        this.ChatProxy = this.Renderer.createElement("iframe");
-        if (this.ChatProxy){
-          this.ChatProxy.id = "ChatProxy";
-          /*
-          window.addEventListener('load', () => {console.log("LOADED")});
+        const RoomES = new EventSource('http://localhost:31023/Skimmer?vidID=' + VidID);
 
-          const script:HTMLScriptElement =  document.createElement('script');
-          script.innerHTML = `
-              window.document.getElementById("ChatProxy").onload = function() {
-                var s = document.createElement("script");
-                s.innerHTML= 'console.log("TEST");'
-                console.log(window.document.getElementById("ChatProxy"));
-            }
-          `;
-
-          this.ChatProxy.onload = function() {
+        this.Status = "1";
+    
+        RoomES.onmessage = e => {
+          if (e.data == '{ "flag":"Connect", "content":"CONNECTED TO SECURE SERVER"}'){
+          } else if (e.data != '{}'){
+            JSON.parse(e.data).forEach((dt:any) => {
+              this.YTCprint(dt);
+            });
           }
-          */
-
-          this.ChatProxy.src = "https://www.youtube.com/live_chat?v=" + VidID + "&embed_domain=" + window.location.hostname;
-          this.ChatProxy.style.height = "100%";
-          this.ChatProxy.frameBorder = "0";
-          this.Renderer.appendChild(this.cardcontainer.nativeElement.parentNode, this.ChatProxy);
-          //this.ChatProxy.parentNode?.appendChild(script); 
-          this.cardcontainer.nativeElement.remove();
         }
+    
+        RoomES.onerror = e => {
+          this.EntryPrint({
+            Stime: 0,
+            Stext: "CONNECTION ERROR",
+            OC: "000000",
+            CC: "FFFFFF",
+            key: ""
+          })
+        }
+    
+        RoomES.onopen = e => {
+          this.EntryPrint({
+            Stime: 0,
+            Stext: "CONNECTED",
+            OC: "000000",
+            CC: "FFFFFF",
+            key: ""
+          })
+        }
+      
+        RoomES.addEventListener('open', function(e) {
+        }, false);
+    
+        RoomES.addEventListener('message', function (e) {
+        }, false);
+    
+        RoomES.addEventListener('error', function(e) {
+        }, false);
+    
         break;
 
       case "TW":
@@ -282,17 +298,19 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       this.DisplayElem.shift()?.remove();
       this.EntryList.shift();
     }
+    const parentdiv = this.Renderer.createElement('div');
+    this.DisplayElem.push(parentdiv);
 
     const cvs:HTMLHeadElement = this.Renderer.createElement('h1');
     cvs.style.marginTop = "5px";
     cvs.style.paddingLeft = "20px";
     cvs.style.paddingRight = "20px";
-    cvs.id = "BoxShape";
-
-    if (this.Ani != ""){
-      cvs.className = "animate__animated animate__" + this.Ani;
-    }
     cvs.style.webkitTextStrokeWidth = this.OT.toString() + "px";
+
+    parentdiv.id = "BoxShape";
+    if (this.Ani != ""){
+      parentdiv.className = "animate__animated animate__" + this.Ani;
+    }
 
     const Stext = dt.Stext;
     const CC = dt.CC;
@@ -316,87 +334,83 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
     cvs.style.webkitTextFillColor = CCctx;
     cvs.style.webkitTextStrokeColor = OCctx;
-    this.Renderer.appendChild(this.cardcontainer.nativeElement, cvs);
-
-    /*
-    const cvs:HTMLCanvasElement = this.Renderer.createElement('canvas');
-    this.Renderer.appendChild(document.getElementById("CardContainer"), cvs);
-
-    const Stext = dt.Stext;
-    const CC = dt.CC;
-    const OC = dt.OC;
-
-    const fontctx = "50px sans-serif";
-    var CCctx = "#";
-    if (CC != undefined){
-      CCctx += CC;
-    } else {
-      CCctx += "000000"
-    }
-    var OCctx = "#";
-    if (CC != undefined){
-      OCctx += OC;
-    } else {
-      OCctx += "000000"
-    }
-
-    cvs.style.backgroundColor = "rgba(0, 255, 0, 0.2)";
-    cvs.style.marginTop = "5px";
-    let ctx = cvs.getContext("2d");
-    cvs.width = cvs.clientWidth;
 
     
-    if ((Stext != undefined) && (ctx != null)){
-      cvs.textContent = Stext;
-      cvs.id = Stext;
- 
-      ctx.textAlign = "center";
-      ctx.font = fontctx;
-
-      const Textmetric  = ctx.measureText(Stext);
-      const textheight = Math.abs(Textmetric.actualBoundingBoxAscent) + Math.abs(Textmetric.actualBoundingBoxDescent) + 20;
-
-      var TextFragment = Stext.split(" ");
-      var TextContainer = [];
- 
-      for (var StringContainer = "", i = 0; i < TextFragment.length;i++){
-        if (StringContainer == ""){
-          StringContainer = TextFragment[i];
-        } else {
-          StringContainer += " " + TextFragment[i];
-        }
-    
-        if (ctx.measureText(StringContainer).width + 10 > cvs.width){
-          if (StringContainer.lastIndexOf(" ") == -1){
-            TextContainer.push(StringContainer);
-            StringContainer = "";
-          } else {
-            TextContainer.push(StringContainer.substr(0, StringContainer.lastIndexOf(" ")));
-            StringContainer = StringContainer.substr(StringContainer.lastIndexOf(" ") + 1);
-          }
-        }
-    
-        if (i == TextFragment.length - 1){
-          TextContainer.push(StringContainer);
-          const TextYShift = textheight*(TextContainer.length/2.0 - 0.75);
-    
-          cvs.style.height = (textheight*TextContainer.length + 30) + "px";
-          cvs.height = cvs.clientHeight;
-          ctx.textAlign = "center";
-          ctx.font = fontctx;
-          ctx.fillStyle = "white";
-          //ctx.strokeStyle = OCctx;
-    
-          for (let j = 0; j < TextContainer.length; j++) {
-            ctx.fillText(TextContainer[j], cvs.width/2.0, cvs.height/2.0 - TextYShift + j*textheight);
-            ctx.strokeText(TextContainer[j], cvs.width/2.0, cvs.height/2.0 - TextYShift + j*textheight);
-          }
-        }
-      }
-    }
-    */
-
+    this.Renderer.appendChild(this.cardcontainer.nativeElement, parentdiv);
     this.EntryList.push(dt);
-    this.DisplayElem.push(cvs);
+    this.Renderer.appendChild(parentdiv, cvs);
+  }
+
+  YTCprint(dt:any){
+    if (this.DisplayElem.length == this.MaxDisplay){
+      this.DisplayElem.shift()?.remove();
+      this.EntryList.shift();
+    }
+    const parentdiv = this.Renderer.createElement('div');
+    this.DisplayElem.push(parentdiv);
+
+    parentdiv.id = "BoxShape";
+    if (this.Ani != ""){
+      parentdiv.className = "animate__animated animate__" + this.Ani;
+    } else {
+      parentdiv.className = "animate__animated animate__fadeInLeft";
+    }
+
+    let workhead;
+    // AUTHOR HEAD RENDERER
+    workhead = this.Renderer.createElement('img');
+    workhead.src = dt.authorPhoto;
+    workhead.style.borderRadius = "50%";
+    workhead.style.width = "32px";
+    workhead.style.height = "32px";
+    this.Renderer.appendChild(parentdiv, workhead);
+
+    workhead = this.Renderer.createElement('span');
+    workhead.textContent = dt.author;
+    this.Renderer.appendChild(parentdiv, workhead);
+
+    if (dt.badgeContent){
+      dt.badgeContent.forEach((e:any) => {
+        if (e.Thumbnail){
+          workhead = this.Renderer.createElement('img');
+          workhead.src = e.Thumbnail;
+          workhead.style.width = "32px";
+          workhead.style.height = "32px";
+          this.Renderer.appendChild(parentdiv, workhead);
+        }
+      });
+    }
+
+    workhead = this.Renderer.createElement('br');
+    this.Renderer.appendChild(parentdiv, workhead);
+
+    // CONTENT RENDERER
+    dt.content.forEach((e:string) => {
+      if (e.indexOf("https://") != -1){
+        workhead = this.Renderer.createElement('img');
+        workhead.src = e;
+        workhead.style.width = "32px";
+        workhead.style.height = "32px";
+        this.Renderer.appendChild(parentdiv, workhead);
+      } else {
+        workhead = this.Renderer.createElement('span');
+        workhead.textContent = e;
+        this.Renderer.appendChild(parentdiv, workhead);
+      }
+    });
+
+    //  PUT THE TL TOO
+    if (dt.TL){
+      workhead = this.Renderer.createElement('br');
+      this.Renderer.appendChild(parentdiv, workhead);
+  
+      workhead = this.Renderer.createElement('span');
+      workhead.textContent = "(Deepl:" + dt.TL + ")";
+      this.Renderer.appendChild(parentdiv, workhead);
+    }
+        
+    this.EntryList.push(dt);
+    this.Renderer.appendChild(this.cardcontainer.nativeElement, parentdiv);
+    this.cardcontainer.nativeElement.scrollTop = this.cardcontainer.nativeElement.scrollHeight;
   }
 }
