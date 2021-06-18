@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { WPproxyService } from '../services/wpproxy.service';
+import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import { Subscription, timer } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 class RoomData{
   Nick: string | undefined;
@@ -48,6 +50,13 @@ export class ProxyappsetComponent implements OnInit {
   PasswordProtected: boolean = false;
 
   ChatURL: string = "";
+  ChatMode: string = "Auto-Translation";
+  AuthFilter: boolean = false;
+  AuthorList: string[] = [];
+  AuthorInput: string = "";
+  KeywordFilter: boolean = false;
+  KeywordList: string[] = [];
+  KeywordInput: string = "";
 
   /*  
     SECOND PAGE SETTING
@@ -67,7 +76,7 @@ export class ProxyappsetComponent implements OnInit {
   TxAlign:string = "center";
   WebFont:string = "";
   WebFontTemp: string =  "";
-  AniDir:string = "Up";
+  AniDir:string = "Left";
   AniType:string = "fadeIn";
 
   /*  
@@ -79,6 +88,7 @@ export class ProxyappsetComponent implements OnInit {
 
   constructor(
     private WPService: WPproxyService,
+    private TGService: TsugeGushiService,
     private Renderer: Renderer2,
     private Sanitizer: DomSanitizer
   ) { }
@@ -103,6 +113,36 @@ export class ProxyappsetComponent implements OnInit {
       this.RoomPass = "";
     } else {
       this.PasswordProtected = false;
+    }
+  }
+
+  DeleteAuthList(idx:number){
+    this.AuthorList.splice(idx, 1);
+  }
+
+  AddAuthor(){
+    if (this.AuthorInput != "") {
+      this.AuthorList.push(this.AuthorInput);
+      this.AuthorInput = "";
+    }
+  }
+
+  DeleteKeywordList(idx:number){
+    this.KeywordList.splice(idx, 1);
+  }
+
+  AddKeyword(){
+    if (this.KeywordInput != "") {
+      this.KeywordList.push(this.KeywordInput);
+      this.KeywordInput = "";
+    }
+  }
+
+  CheckedChange(idx:number, e:any){
+    if (idx == 0){
+      this.AuthFilter = e.target.checked;
+    } else {
+      this.KeywordFilter = e.target.checked;
     }
   }
   //============================== FIRST PAGE HANDLER ==============================
@@ -247,15 +287,16 @@ export class ProxyappsetComponent implements OnInit {
       //-------------------- LINK GENERATOR --------------------
       this.ProxyLink = TempString;
 
-      TempString = "https://mchatx.org/proxyapp?";
+      TempString = "http://localhost:4200/streamtool/app/";
 
+      var Linktoken:any = {};
       switch (Number(this.ProxyMode)) {
         case 0:
           if (this.RoomNick != ""){
-            TempString += "room=" + this.RoomNick.replace(" ", "%20") + "&";
+            Linktoken["room"] = this.RoomNick;
           }
           if (this.RoomPass != ""){
-            TempString += "pass=" + this.RoomPass.replace(" ", "%20") + "&";
+            Linktoken["pass"] = this.RoomPass;
           }              
           break;
 
@@ -268,33 +309,52 @@ export class ProxyappsetComponent implements OnInit {
               if (TempS.indexOf("&") != -1){
                 TempS = TempS.substring(0, TempS.indexOf("&"));
               }
-              TempString += "lc=YT&vid=" + TempS + "&";
+              Linktoken["lc"] = "YT";
+              Linktoken["vid"] = TempS;
+            }
+          } else if (TempS.indexOf("https://www.youtube.com/watch") != -1){
+            TempS = TempS.replace("https://www.youtube.com/watch", "");
+            if (TempS.indexOf("v=") != -1){
+              TempS = TempS.substring(TempS.indexOf("v=") + 2);
+              if (TempS.indexOf("&") != -1){
+                TempS = TempS.substring(0, TempS.indexOf("&"));
+              }
+              Linktoken["lc"] = "YT";
+              Linktoken["vid"] = TempS;
             }
           } else if (TempS.indexOf("https://www.twitch.tv/popout/") != -1){
             TempS = TempS.replace("https://www.twitch.tv/popout/", "");
             if (TempS.indexOf("/chat") != -1){
               TempS = TempS.substring(0, TempS.indexOf("/chat"));
-              TempString += "lc=TW&vid=" + TempS + "&";
+              Linktoken["lc"] = "TW";
+              Linktoken["vid"] = TempS;
             }
+          }
+          if ((this.AuthFilter) && (this.AuthorList.length != 0)){
+            Linktoken["FilterMode"] = true;
+            Linktoken["author"] = this.AuthorList;
+          }
+    
+          if ((this.KeywordFilter) && (this.KeywordList.length != 0)){
+            Linktoken["FilterMode"] = true;
+            Linktoken["keywords"] = this.KeywordList;
           }
           break;
       }
 
       if (this.MaxDisplay != 1){
-        TempString += "max=" + this.MaxDisplay + "&";
+        Linktoken["max"] = this.MaxDisplay;
       }
 
       if (this.OT != 1){
-        TempString += "ot=" + this.OT + "&";
+        Linktoken["ot"] = this.OT;
       }
 
       if (this.AniType != "None"){
-        TempString += "ani=" + this.AniType + this.AniDir + "&";
+        Linktoken["ani"] = this.AniType + this.AniDir;
       }
 
-      if(TempString[TempString.length-1] == "&"){
-        TempString = TempString.substring(0, TempString.length - 1);
-      }
+      TempString += encodeURIComponent(this.TGService.TGEncoding(encodeURI(JSON.stringify(Linktoken))))
       this.ProxyLink = TempString;
 
       //-------------------- CSS GENERATOR --------------------
@@ -310,7 +370,8 @@ export class ProxyappsetComponent implements OnInit {
       TempString += "\tfont-size: " + this.FFsize + "px;\n";
       TempString += "\tfont-family: " + this.FFamily + ";\n";
       TempString += "\ttext-align: " + this.TxAlign + ";\n";
-      TempString += "}";
+      TempString += "}\n\n";
+      TempString += "#cardcontainer::-webkit-scrollbar {\n\tdisplay: none;\n}";
       this.ProxyCss = TempString;
     }
   }
@@ -340,4 +401,6 @@ export class ProxyappsetComponent implements OnInit {
       navigator.clipboard.writeText(this.ProxyCss).then().catch(e => console.error(e));
     }
   }
+
+  faPlus = faPlus;
 }

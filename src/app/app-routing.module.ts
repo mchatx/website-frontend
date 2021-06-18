@@ -46,8 +46,8 @@ const routes: Routes = [
   { path: 'proxyapp', component: WebappComponent, data:{PlainPage:true}},
   { path: 'test', component: TestingGroundComponent },
 
-  { path: 'proxyapp2', component: ProxyappComponent, data:{PlainPage:true}},
-  //{ path: 'proxyappset', component: ProxyappsetComponent, data:{PlainPage:true}}
+  { path: 'streamtool/app/:token', component: ProxyappComponent, data:{PlainPage:true}},
+  { path: 'streamtool/setup', component: ProxyappsetComponent, data:{PlainPage:true}}
 ];
 
 @NgModule({

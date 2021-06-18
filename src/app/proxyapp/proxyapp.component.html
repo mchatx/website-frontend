@@ -1,4 +1,23 @@
 <div class="container is-fluid" style="height: 98vh; display: flex; flex-direction: column-reverse;">
-    <div style="display: flex; flex-direction: column; overflow-y: scroll;" #cardcontainer>
+    <div id="cardcontainer" style="display: flex; flex-direction: column; overflow-y: auto;" (scroll)="onScrollView()" #cardcontainer>
+        <div id="BoxShape" style="margin-top: 0.5em;" class="animate__animated animate__fadeInLeft" *ngFor="let Entry of EntryList" #Entry>
+            <!--        AUTHOR HEAD     -->
+            <span style="display: flex;flex-direction: row;align-items: center;">
+                <img src={{Entry.authorPhoto}} style="border-radius: 50%; height: 20x; width: 20px;"/>
+                <span>{{ Entry.author }}</span>
+                <img *ngFor="let e of Entry.badgeContent" src={{e.Thumbnail}} style="height: 20px; width: 20px;"/>
+                <span> : </span>
+            </span>
+            <!--        Content     -->
+            <span *ngFor="let e of Entry.content">
+                <img *ngIf="e.indexOf('https://') != -1" src={{e}} style="height: 20px; width: 20px;"/>
+                <span *ngIf="e.indexOf('https://') == -1">{{ e }}</span>
+            </span>
+            <br>
+
+            <span *ngIf="Entry.TL">
+                (Auto TL: {{ Entry.TL }} )
+            </span>
+        </div>
     </div>
 </div>

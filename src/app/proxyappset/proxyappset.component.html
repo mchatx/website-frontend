@@ -28,8 +28,67 @@
                             </div>            
                         </div>
                         <div *ngSwitchCase="1">
-                            Pop out chat URL
+                            Stream URL
                             <input type="text" [(ngModel)]="ChatURL"/>
+                            <br>
+
+                            <label>Mode </label>
+                            <select [(ngModel)]="ChatMode">
+                               <option [value]="'Auto-Translation'" [selected]="ChatMode=='Auto-Translation'">Auto-Translation</option>
+                               <option [value]="'Filter'" [selected]="ChatMode=='Filter'">Filter</option>
+                            </select>
+
+                            <div *ngIf="ChatMode=='Filter'">
+                                <!--    Author   -->
+                                <div class="field has-text-left">
+                                    <input type="checkbox" [checked]="AuthFilter==true" (change)="CheckedChange(0,$event)"/>Author
+                                    <div class="wrap" *ngFor="let Author of AuthorList; let i = index">
+                                        <span class="icon-text">
+                                            <span>{{ Author }}</span>
+                                        </span>
+                                        <button class="delete is-dark" (click)="DeleteAuthList(i)"></button>
+                                    </div>
+                        
+                                    <div class="mt-2 control has-icons-left">
+                                        <input class="input is-rounded" type="text" maxlength="100" [(ngModel)]="AuthorInput"
+                                            placeholder="Author name...">
+                                        <span class="icon is-left is-small">
+                                    <fa-icon [icon]="faPlus"></fa-icon>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <p class="control">
+                                    <button class="button is-dark" (click)="AddAuthor()">Add</button>
+                                    </p>
+                                </div>
+
+                                <!--    Keywords   -->
+                                <div class="field has-text-left">
+                                    <input type="checkbox" [checked]="KeywordFilter==true" (change)="CheckedChange(1,$event)"/>Keyword
+                                    <div class="wrap" *ngFor="let Keyword of KeywordList; let i = index">
+                                        <span class="icon-text">
+                                            <span>{{ Keyword }}</span>
+                                        </span>
+                                        <button class="delete is-dark" (click)="DeleteKeywordList(i)"></button>
+                                    </div>
+                        
+                                    <div class="mt-2 control has-icons-left">
+                                        <input class="input is-rounded" type="text" maxlength="100" [(ngModel)]="KeywordInput"
+                                            placeholder="Keyword...">
+                                        <span class="icon is-left is-small">
+                                    <fa-icon [icon]="faPlus"></fa-icon>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <p class="control">
+                                    <button class="button is-dark" (click)="AddKeyword()">Add</button>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
             
