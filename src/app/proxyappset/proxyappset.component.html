@@ -100,6 +100,13 @@
                 <div class="columns" *ngSwitchCase="1">
                     <!-- Options -->
                     <div class="column is-5">
+                        <!--        Chat author     -->
+                        <div *ngIf="ProxyMode==1">
+                            <div class="divider is-horizontal"></div>
+                            <input type="checkbox" [checked]="AuthPP==true" (change)="CheckedChange2(0,$event)"/>Author Picture<br>
+                            <input type="checkbox" [checked]="AuthName==true" (change)="CheckedChange2(1,$event)"/>Author Name<br>
+                            <input type="checkbox" [checked]="AuthBadge==true" (change)="CheckedChange2(2,$event)"/>Author Badge<br>
+                        </div>
 
                         <!--        Card Number     -->
                         <div class="divider is-horizontal" data-content="# max cards"></div>

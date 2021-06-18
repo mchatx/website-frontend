@@ -62,6 +62,10 @@ export class ProxyappsetComponent implements OnInit {
     SECOND PAGE SETTING
     Styling and what's not
   */
+  AuthPP:boolean = true;
+  AuthName:boolean = true;
+  AuthBadge:boolean = true;
+
   MaxDisplay: number = 1; //Maximum message card display
   OT:number = 1;          //Outline Thickness in pixel
   CardBGColour = {
@@ -143,6 +147,20 @@ export class ProxyappsetComponent implements OnInit {
       this.AuthFilter = e.target.checked;
     } else {
       this.KeywordFilter = e.target.checked;
+    }
+  }
+
+  CheckedChange2(idx:number, e:any){
+    switch (idx) {
+      case 0:
+        this.AuthPP = !this.AuthPP;
+        break;
+      case 1:
+        this.AuthName = !this.AuthName;
+        break;
+      case 2:
+        this.AuthBadge = !this.AuthBadge;
+        break;
     }
   }
   //============================== FIRST PAGE HANDLER ==============================
@@ -330,14 +348,29 @@ export class ProxyappsetComponent implements OnInit {
               Linktoken["vid"] = TempS;
             }
           }
-          if ((this.AuthFilter) && (this.AuthorList.length != 0)){
+
+          if (this.ChatMode == "Filter"){
             Linktoken["FilterMode"] = true;
+          }
+
+          if ((this.AuthFilter) && (this.AuthorList.length != 0)){
             Linktoken["author"] = this.AuthorList;
           }
     
           if ((this.KeywordFilter) && (this.KeywordList.length != 0)){
-            Linktoken["FilterMode"] = true;
             Linktoken["keywords"] = this.KeywordList;
+          }
+
+          if (!this.AuthPP){
+            Linktoken["AuthPP"] = 1;
+          }
+
+          if (!this.AuthName){
+            Linktoken["AuthName"] = 1;
+          }
+
+          if (!this.AuthBadge){
+            Linktoken["AuthBadge"] = 1;
           }
           break;
       }

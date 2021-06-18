@@ -44,11 +44,13 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
   Status:string | undefined = "";
   EntryList: any[] = [];
   EntryContainer: any[] = [];
+  DisplayElem:HTMLHeadingElement[] = [];
   MaxDisplay = 100;
   OT:number = 1;
   Ani: string = "";
-  ChatProxy:HTMLIFrameElement | undefined;
+  ChatProxyEle:HTMLIFrameElement | undefined;
 
+  ChatProxy:boolean = false;
   scrollend:boolean = true;
   EntryLoader:boolean = false;
   ChatFilterMode:boolean = false;
@@ -56,6 +58,10 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
     author: [""],
     keyword: ""
   }
+  AuthPP:boolean = true;
+  AuthName:boolean = true;
+  AuthBadge:boolean = true;
+  AuthHead:boolean = true;
 
   constructor(
     private Renderer: Renderer2,
@@ -65,12 +71,12 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
  
   ngOnInit(): void {
+    this.ParamParse(this.route.snapshot.paramMap.get('token'));
   }
 
   ngAfterViewInit(): void {
     this.scrollContainer = this.cardcontainer.nativeElement;  
     this.itemElements.changes.subscribe(() => {this.onItemElementsChanged();});
-    this.ParamParse(this.route.snapshot.paramMap.get('token'));
   }
 
   onScrollView(): void{
@@ -126,7 +132,7 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
     }
 
     if (ParamsList["room"]){
-      var test = ParamsList["pass"].toString()
+      var test = ParamsList["pass"];
       if (test != null){
         this.StartListening(this.TGEnc.TGEncoding(JSON.stringify({
           Act: 'Listen',
@@ -140,6 +146,20 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
         })));
       }
     } else if (ParamsList["lc"] && ParamsList["vid"]) {
+      this.ChatProxy = true;
+      if (ParamsList["AuthPP"]){
+        this.AuthPP = false;
+      }
+      if (ParamsList["AuthName"]){
+        this.AuthName = false;
+      }
+      if (ParamsList["AuthBadge"]){
+        this.AuthBadge = false;
+      }
+      if (!this.AuthPP && !this.AuthName && !this.AuthBadge){
+        this.AuthHead = false;
+      }
+
       if(ParamsList["FilterMode"]){
         this.Filter.author = [];
         this.ChatFilterMode = true;
@@ -156,8 +176,10 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
         if (ParamsList["author"]){
           this.Filter.author = ParamsList["author"];
         }
+        this.StartChatProxy(ParamsList["lc"], ParamsList["vid"], true);
+      } else {
+        this.StartChatProxy(ParamsList["lc"], ParamsList["vid"], false);
       }
-      this.StartChatProxy(ParamsList["lc"], ParamsList["vid"]);
    } else {
       for (let i:number = 0; i < 10; i++){
         if (i % 2 != 0){
@@ -258,9 +280,32 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
   }
 
-  MEntryReplace(dt:FullEntry):void {
-    for(let i = 0; i < this.EntryList.length; i++){
-      if (this.EntryList[i].key = dt.key){
+  MEntryReplace(dt:FullEntry): void{
+    for(let i:number = 0; i < this.EntryList.length; i++){
+      if (this.EntryList[i].key == dt.key){
+        const Stext = dt.Stext;
+        const CC = dt.CC;
+        const OC = dt.OC;
+        if (Stext != undefined){
+          this.DisplayElem[i].textContent = Stext;
+        }
+    
+        var CCctx = "#";
+        if (CC != undefined){
+          CCctx += CC;
+        } else {
+          CCctx += "000000"
+        }
+        var OCctx = "#";
+        if (CC != undefined){
+          OCctx += OC;
+        } else {
+          OCctx += "000000"
+        }
+    
+        this.DisplayElem[i].style.webkitTextFillColor = CCctx;
+        this.DisplayElem[i].style.webkitTextStrokeColor = OCctx;
+
         this.EntryList[i] = dt;
         break;
       }
@@ -268,20 +313,64 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
   }
 
   MEntryAdd(dt:FullEntry): void{
-    if (this.EntryList.length == this.MaxDisplay){
+    if (this.DisplayElem.length == this.MaxDisplay){
+      this.DisplayElem.shift()?.remove();
       this.EntryList.shift();
     }
+
+    const cvs:HTMLHeadingElement = this.Renderer.createElement('h1');
+    cvs.style.marginTop = "5px";
+    cvs.style.paddingLeft = "20px";
+    cvs.style.paddingRight = "20px";
+    cvs.id = "BoxShape";
+
+    if (this.Ani != ""){
+      cvs.className = "animate__animated animate__" + this.Ani;
+    }
+    cvs.style.webkitTextStrokeWidth = this.OT.toString() + "px";
+
+    const Stext = dt.Stext;
+    const CC = dt.CC;
+    const OC = dt.OC;
+    if (Stext != undefined){
+      cvs.textContent = Stext;
+    }
+
+    var CCctx = "#";
+    if (CC != undefined){
+      CCctx += CC;
+    } else {
+      CCctx += "000000"
+    }
+    var OCctx = "#";
+    if (CC != undefined){
+      OCctx += OC;
+    } else {
+      OCctx += "000000"
+    }
+
+    cvs.style.webkitTextFillColor = CCctx;
+    cvs.style.webkitTextStrokeColor = OCctx;
+    this.Renderer.appendChild(this.cardcontainer.nativeElement, cvs);
+
     this.EntryList.push(dt);
+    this.DisplayElem.push(cvs);
   }
   //============================================= MCHAD ROOM MODE =============================================
 
 
 
   //--------------------------------------------- CHAT PROXY MODE ---------------------------------------------
-  StartChatProxy(ChatType:string, VidID: string){
+  StartChatProxy(ChatType:string, VidID: string, filter:boolean){
     switch (ChatType) {
       case "YT":
-        const RoomES = new EventSource('http://localhost:31023/AutoTL?vidID=' + VidID);
+        var RoomES = new EventSource("");
+        if (filter){
+          RoomES = new EventSource('http://localhost:31023/TLFilter?vidID=' + VidID);
+        } else {
+          RoomES = new EventSource('http://localhost:31023/AutoTL?vidID=' + VidID);
+        }
+        
 
         this.Status = "1";
     
@@ -354,12 +443,12 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
         break;
 
       case "TW":
-        this.ChatProxy = this.Renderer.createElement("iframe");
-        if (this.ChatProxy){
-          this.ChatProxy.src = "https://www.twitch.tv/embed/" + VidID + "/chat?parent=" + window.location.hostname;
-          this.ChatProxy.style.height = "100%";
-          this.ChatProxy.frameBorder = "0";
-          this.Renderer.appendChild(this.cardcontainer.nativeElement.parentNode, this.ChatProxy);
+        this.ChatProxyEle = this.Renderer.createElement("iframe");
+        if (this.ChatProxyEle){
+          this.ChatProxyEle.src = "https://www.twitch.tv/embed/" + VidID + "/chat?parent=" + window.location.hostname;
+          this.ChatProxyEle.style.height = "100%";
+          this.ChatProxyEle.frameBorder = "0";
+          this.Renderer.appendChild(this.cardcontainer.nativeElement.parentNode, this.ChatProxyEle);
           this.cardcontainer.nativeElement.remove();
         }
         break;      
