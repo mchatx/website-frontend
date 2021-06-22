@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import { SHA256, enc } from 'crypto-js';
 import { filter } from 'rxjs/operators';
-
+import { trigger, state, style, animate, transition, keyframes} from '@angular/animations';
 /*
   Params
   room = room nick
@@ -32,7 +32,20 @@ class FullEntry {
 @Component({
   selector: 'app-proxyapp',
   templateUrl: './proxyapp.component.html',
-  styleUrls: ['./proxyapp.component.scss']
+  styleUrls: ['./proxyapp.component.scss'],
+  animations:[
+    trigger("MsgCard", [
+      state("in", style({ transform: "translateX(0)" })),
+      transition("void => *", [
+        animate(200,
+          keyframes([
+            style({ opacity: 0 }),
+            style({ opacity: 1 })
+          ])
+        )
+      ])
+    ])
+  ]
 })
 
 
@@ -49,6 +62,8 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
   OT:number = 1;
   Ani: string = "";
   ChatProxyEle:HTMLIFrameElement | undefined;
+
+  SkipDelete:boolean = false;
 
   ChatProxy:boolean = false;
   scrollend:boolean = true;
@@ -364,18 +379,23 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
   StartChatProxy(ChatType:string, VidID: string, filter:boolean){
     switch (ChatType) {
       case "YT":
-        var RoomES = new EventSource("");
+        var RoomES;
         if (filter){
-          RoomES = new EventSource('http://localhost:31023/TLFilter?vidID=' + VidID);
+          RoomES = new EventSource('http://localhost:31023/PureProxy?vidID=' + VidID);
         } else {
           RoomES = new EventSource('http://localhost:31023/AutoTL?vidID=' + VidID);
         }
-        
-
+      
         this.Status = "1";
     
         RoomES.onmessage = e => {
-          if (e.data == '{ "flag":"Connect", "content":"CONNECTED TO SECURE SERVER"}'){
+          if (e.data == '{ "flag":"Connect", "content":"CONNECTED TO SERVER"}'){
+          } else if (e.data.indexOf('{ \"flag\":\"DELETE\"') != -1) {
+            var dt = JSON.parse(e.data);
+            if (dt.Nick){
+              this.EntryContainer = this.EntryContainer.filter(e => e.author != dt.Nick);
+              this.EntryList = this.EntryList.filter(e => e.author != dt.Nick);
+            }
           } else if (e.data != '{}'){
             if (this.ChatFilterMode){
               if ((this.Filter.author.length != 0) && (this.Filter.keyword != "")){
@@ -460,16 +480,28 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       this.EntryLoader = false;
       return;
     }
-    let dt = this.EntryContainer.shift();
+
+    if (this.SkipDelete){
+      this.SkipDelete = false;
+      return;
+    }
 
     if (this.EntryList.length == this.MaxDisplay){
-      this.EntryList.shift();
+      this.EntryList.splice(0, 1);
+      this.SkipDelete = true;
     }
+
+    console.log(this.EntryContainer.length + " " + this.EntryList.length);
+    
+    let dt = this.EntryContainer.shift();
+
     this.EntryList.push(dt);
 
+    /*
     setTimeout(() => {
       this.StartYTCprint();
-    }, 500);
+    }, 100);
+    */
   }
   //============================================= CHAT PROXY MODE =============================================
 }
