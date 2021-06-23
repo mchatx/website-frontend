@@ -92,7 +92,7 @@
                         </div>
                     </div>
             
-                    <button (click)="NextButtonClick()">Next</button>
+                    <button style="float: right;" (click)="NextButtonClick()">Next</button>
                 </div>
                 <!--============================= First Page  =============================-->
             
@@ -114,50 +114,74 @@
                         <input type="number" min="0" [(ngModel)]="MaxDisplay"/>
 
                         <!--        Text Alignment     -->
-                        <div class="divider is-horizontal" data-content="Text Align"></div>
-                        <label>Text Alignment </label>
-                        <select [(ngModel)]="TxAlign" (ngModelChange)="RepaintEntries()">
-                           <option [value]="'left'" [selected]="TxAlign=='left'">Left</option>
-                           <option [value]="'center'" [selected]="TxAlign=='center'">Center</option>
-                           <option [value]="'right'" [selected]="TxAlign=='right'">Right</option>
-                        </select>
+                        <div *ngIf="(ProxyMode!=1)">
+                            <div class="divider is-horizontal" data-content="Text Align"></div>
+                            <label>Text Alignment </label>
+                            <select [(ngModel)]="TxAlign" (ngModelChange)="RepaintEntries()">
+                               <option [value]="'left'" [selected]="TxAlign=='left'">Left</option>
+                               <option [value]="'center'" [selected]="TxAlign=='center'">Center</option>
+                               <option [value]="'right'" [selected]="TxAlign=='right'">Right</option>
+                            </select>
+                        </div>
                         
                         <!--        Font     -->
                         <div class="divider is-horizontal" data-content="Font"></div>
                         <label>Font Family </label>
                         <select [(ngModel)]="FFamily" (ngModelChange)="FFSelectChange()">
-                           <option [value]="'sans-serif'" [selected]="FFamily=='sans-serif'">Sans-serif</option>
-                           <option [value]="'cursive'" [selected]="FFamily=='cursive'">Cursive</option>
-                           <option [value]="'monospace'" [selected]="FFamily=='monospace'">Monospace</option>
+                            <optgroup label="日本語フォント">
+                                <option [value]="'Noto Sans JP'" [selected]="FFamily=='Noto Sans JP'">Noto Sans</option>
+                                <option [value]="'Kosugi Maru'" [selected]="FFamily=='Kosugi Maru'">Kosugi Maru</option>
+                                <option [value]="'Hachi Maru Pop'" [selected]="FFamily=='Hachi Maru Pop'">Hachi Maru Pop</option>
+                                <option [value]="'Stick'" [selected]="FFamily=='Stick'">Stick</option>
+                                <option [value]="'Sawarabi Gothic'" [selected]="FFamily=='Sawarabi Gothic'">Sawarabi Gothic</option>
+                            </optgroup>
+                            <optgroup label="英字フォント">
+                                <option [value]="'Asap'" [selected]="FFamily=='Asap'">Asap</option>
+                                <option [value]="'Patrick Hand'" [selected]="FFamily=='Patrick Hand'">Patrick Hand</option>
+                                <option [value]="'Kalam'" [selected]="FFamily=='Kalam'">Kalam</option>
+                                <option [value]="'Signika'" [selected]="FFamily=='Signika'">Signika</option>
+                                <option [value]="'Acme'" [selected]="FFamily=='Acme'">Acme</option>
+                            </optgroup>
+                            <optgroup label="一般フォント">
+                                <option [value]="'sans-serif'" [selected]="FFamily=='sans-serif'">Sans-serif</option>
+                                <option [value]="'cursive'" [selected]="FFamily=='cursive'">Cursive</option>
+                                <option [value]="'monospace'" [selected]="FFamily=='monospace'">Monospace</option>
+                            </optgroup>
                         </select>
                         <br>
-                        <label>Or load Google web font
-                            (<a href="https://fonts.google.com/" target="_blank" >browse font</a>)
-                        </label>
-                        <br>
-                        <label>Font name </label>
-                        <input type="text" [(ngModel)]="WebFontTemp"/>
-                        <br>
-                        <button (click)="LoadWebFont()">Load Web Font</button>
+                        <!--    LOAD ANY GOOGLE FONT 
+                            <label>Or load Google web font
+                                (<a href="https://fonts.google.com/" target="_blank" >browse font</a>)
+                            </label>
+                            <br>
+                            <label>Font name </label>
+                            <input type="text" [(ngModel)]="WebFontTemp"/>
+                            <br>
+                            <button (click)="LoadWebFont()">Load Web Font</button>
+                        -->
                         <link [href]="FetchWebFont()" rel="stylesheet">
                         <br>
                         <label>Font Size </label>
                         <input type="number" min="0" [(ngModel)]="FFsize" (ngModelChange)="RepaintEntries()"/>
 
                         <!--        Outline Thickness     -->
-                        <div class="divider is-horizontal" data-content="Outline Thickness"></div>
-                        <label>Outline Thickness </label>
-                        <input type="number" min="0" [(ngModel)]="OT" (ngModelChange)="RepaintEntries()"/>        
-                        
+                        <div *ngIf="(ProxyMode!=1)">
+                            <div class="divider is-horizontal" data-content="Outline Thickness"></div>
+                            <label>Outline Thickness </label>
+                            <input type="number" min="0" [(ngModel)]="OT" (ngModelChange)="RepaintEntries()"/>        
+                        </div>
+                       
                         <!--        Card Colour     -->
-                        <div class="divider is-horizontal" data-content="Card Colour"></div>
-                        <label>Card BG Colour </label>
-                        <input type="color" [(ngModel)]="BGcolour" (ngModelChange)="ReRenderExample()"/>
-                        <br>     
-                        <label>Transparency </label>
-                        <br>
-                        <p>{{ 100 - CardBGColour.a*100 }}%</p>
-                        <input type="range" min="0" max="1" step="0.01" [(ngModel)]="CardBGColour.a" (ngModelChange)="RepaintEntries()"/>        
+                        <div *ngIf="(ProxyMode!=1)">
+                            <div class="divider is-horizontal" data-content="Card Colour"></div>
+                            <label>Card BG Colour </label>
+                            <input type="color" [(ngModel)]="BGcolour" (ngModelChange)="ReRenderExample()"/>
+                            <br>     
+                            <label>Transparency </label>
+                            <br>
+                            <p>{{ 100 - CardBGColour.a*100 }}%</p>
+                            <input type="range" min="0" max="1" step="0.01" [(ngModel)]="CardBGColour.a" (ngModelChange)="RepaintEntries()"/>        
+                        </div>
 
                         <!--        Card Animation     -->
                         <div class="divider is-horizontal" data-content="Card Animation"></div>
@@ -182,18 +206,21 @@
                 
                         <div class="divider is-horizontal"></div>
                         <button (click)="PrevButtonClick()">Prev</button>
-                        <button (click)="NextButtonClick()">Next</button>
+                        <button style="float: right;" (click)="NextButtonClick()">Next</button>
                     </div>
                     <div class="divider is-vertical is-left"></div>
+
                     <!-- Example -->
                     <div class="column" style="display: flex; flex-direction: column;">
-                        <div style="display: flex; flex-direction: row;">
-                            <span>Preview</span>
-                            <button style="margin-left: auto;" (click)="Backgroundchange()" #BGSwitchButton>Black</button>
+                        <div style="width: 100%; height: 100%;">
+                            <div style="display: flex; flex-direction: row;">
+                                <span>Preview</span>
+                                <button style="margin-left: auto;" (click)="Backgroundchange()" #BGSwitchButton>Black</button>
+                            </div>
+                            <div style="display: flex; flex-direction: column-reverse; height: 500px; background-color: white; padding: 15px; margin-top: 10px; overflow: auto;" #previewcontainer>
+                                <div #cardcontainer></div>
+                            </div>                        
                         </div>
-                        <div style="display: flex; flex-direction: column-reverse; height: 100%; background-color: white; padding: 15px; margin-top: 10px;" #previewcontainer>
-                            <div style="display: flex; flex-direction: column;" #cardcontainer></div>
-                        </div>                        
                     </div>
                 </div>
                 <!--============================= Second Page  =============================-->

@@ -43,7 +43,7 @@ export class ProxyappsetComponent implements OnInit {
               1 Chat Filter
               2 LiveTL's Kanatran?
   */
-  ProxyMode:number = 0;
+  ProxyMode:number = 1;
   RoomNick:string = "";
   RoomPass:string = "";
   RoomList: RoomData[] = [];
@@ -74,7 +74,7 @@ export class ProxyappsetComponent implements OnInit {
     b:0,
     a:0
   }
-  BGcolour: string = "#FFFFFF";
+  BGcolour: string = "#000000";
   FFamily:string = "sans-serif";
   FFsize:number = 50;
   TxAlign:string = "center";
@@ -149,20 +149,6 @@ export class ProxyappsetComponent implements OnInit {
       this.KeywordFilter = e.target.checked;
     }
   }
-
-  CheckedChange2(idx:number, e:any){
-    switch (idx) {
-      case 0:
-        this.AuthPP = !this.AuthPP;
-        break;
-      case 1:
-        this.AuthName = !this.AuthName;
-        break;
-      case 2:
-        this.AuthBadge = !this.AuthBadge;
-        break;
-    }
-  }
   //============================== FIRST PAGE HANDLER ==============================
 
   //------------------------------ SECOND PAGE HANDLER ------------------------------
@@ -191,13 +177,13 @@ export class ProxyappsetComponent implements OnInit {
   }
 
   FFSelectChange(){
-    if ((this.FFamily == "sans-serif") || (this.FFamily == "cursive") || (this.FFamily != "monospace")){
+    if ((this.FFamily == "sans-serif") || (this.FFamily == "cursive") || (this.FFamily == "monospace")){
       this.WebFontTemp = "";
+      this.RepaintEntries();
     } else {
       this.WebFont = this.FFamily;
       this.RepaintEntries();
     }
-    this.RepaintEntries();
   }
 
   Backgroundchange():void{
@@ -213,7 +199,7 @@ export class ProxyappsetComponent implements OnInit {
   AddEntry(stext:string):void {
     this.EntryPrint({
       Stime: 0,
-      Stext: "TEST " + stext,
+      Stext: "TESTtestテスト猫可愛いい" + stext,
       CC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
       OC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
       key: ""
@@ -278,6 +264,20 @@ export class ProxyappsetComponent implements OnInit {
     this.EntryList.push(dt);
     this.DisplayElem.push(cvs);
   }
+
+  CheckedChange2(idx:number, e:any){
+    switch (idx) {
+      case 0:
+        this.AuthPP = !this.AuthPP;
+        break;
+      case 1:
+        this.AuthName = !this.AuthName;
+        break;
+      case 2:
+        this.AuthBadge = !this.AuthBadge;
+        break;
+    }
+  }
   //============================== SECOND PAGE HANDLER ==============================
   
   //------------------------------ MISC HANDLER ------------------------------
@@ -298,6 +298,18 @@ export class ProxyappsetComponent implements OnInit {
       }
       if ((this.FFamily != "sans-serif") && (this.FFamily != "cursive") && (this.FFamily != "monospace")){
         this.WebFontTemp = this.FFamily;
+      }
+
+      if (this.ProxyMode == 1){
+        this.TxAlign = 'left';
+        this.FFsize = 16;
+        if (this.ChatMode == 'Auto-Translation'){
+          this.MaxDisplay = 100;
+        } else {
+          this.MaxDisplay = 3;
+        }
+      } else {
+        this.TxAlign = "center"
       }
     } else if (this.CurrentPage == 2){
       var TempString = "";
@@ -320,6 +332,12 @@ export class ProxyappsetComponent implements OnInit {
 
         case 1:
           var TempS:string = this.ChatURL;
+          if (TempS=="TEST") {
+            Linktoken["lc"] = "YT";
+            Linktoken["vid"] = "TEST";
+            break;
+          }
+
           if (TempS.indexOf("https://www.youtube.com/live_chat") != -1){
             TempS = TempS.replace("https://www.youtube.com/live_chat", "");
             if (TempS.indexOf("v=") != -1){
@@ -375,9 +393,7 @@ export class ProxyappsetComponent implements OnInit {
           break;
       }
 
-      if (this.MaxDisplay != 1){
-        Linktoken["max"] = this.MaxDisplay;
-      }
+      Linktoken["max"] = this.MaxDisplay;
 
       if (this.OT != 1){
         Linktoken["ot"] = this.OT;
@@ -387,6 +403,10 @@ export class ProxyappsetComponent implements OnInit {
         Linktoken["ani"] = this.AniType + this.AniDir;
       }
 
+      Linktoken["FSF"] = this.FFsize;
+      Linktoken["FSS"] = this.FFamily;
+      Linktoken["TAL"] = this.TxAlign;
+
       TempString += encodeURIComponent(this.TGService.TGEncoding(encodeURI(JSON.stringify(Linktoken))))
       this.ProxyLink = TempString;
 
@@ -394,15 +414,8 @@ export class ProxyappsetComponent implements OnInit {
       TempString = "";
       this.ProxyCss = TempString;
 
-      if ((this.FFamily != "sans-serif") && (this.FFamily != "cursive") && (this.FFamily != "monospace")){
-        TempString += '@import url("https://fonts.googleapis.com/css?family=' + this.FFamily.replace(" ", "+") + '");\n';
-      }
-
       TempString += "html {\n\tbackground-color: rgba(0, 0, 0, 0);\n\tmargin: 0px auto;\n\toverflow: hidden;\n}\n";
       TempString += "h1 {\n\tbackground-color: rgba(" + this.CardBGColour.r.toString() + ", " + this.CardBGColour.g.toString() + ", " + this.CardBGColour.b.toString() + ", " + this.CardBGColour.a.toString() + ");\n";
-      TempString += "\tfont-size: " + this.FFsize + "px;\n";
-      TempString += "\tfont-family: " + this.FFamily + ";\n";
-      TempString += "\ttext-align: " + this.TxAlign + ";\n";
       TempString += "}\n\n";
       TempString += "#cardcontainer::-webkit-scrollbar {\n\tdisplay: none;\n}";
       this.ProxyCss = TempString;

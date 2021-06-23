@@ -3,7 +3,9 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import { SHA256, enc } from 'crypto-js';
 import { filter } from 'rxjs/operators';
-import { trigger, state, style, animate, transition, keyframes} from '@angular/animations';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Subscription, timer } from 'rxjs';
+
 /*
   Params
   room = room nick
@@ -33,24 +35,12 @@ class FullEntry {
   selector: 'app-proxyapp',
   templateUrl: './proxyapp.component.html',
   styleUrls: ['./proxyapp.component.scss'],
-  animations:[
-    trigger("MsgCard", [
-      state("in", style({ transform: "translateX(0)" })),
-      transition("void => *", [
-        animate(200,
-          keyframes([
-            style({ opacity: 0 }),
-            style({ opacity: 1 })
-          ])
-        )
-      ])
-    ])
-  ]
 })
 
 
 export class ProxyappComponent implements OnInit, AfterViewInit {
   @ViewChild('cardcontainer', {static: false}) cardcontainer !: ElementRef; 
+  @ViewChild('ChatContainer', {static: false}) ChatContainer !: ElementRef; 
   @ViewChildren('item') itemElements!: QueryList<any>;
   scrollContainer: any;
 
@@ -58,12 +48,13 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
   EntryList: any[] = [];
   EntryContainer: any[] = [];
   DisplayElem:HTMLHeadingElement[] = [];
+  FFsize:number = 40;
+  FStyle:string = "Ubuntu";
+  TxAlign:string = "center";
   MaxDisplay = 100;
   OT:number = 1;
   Ani: string = "";
   ChatProxyEle:HTMLIFrameElement | undefined;
-
-  SkipDelete:boolean = false;
 
   ChatProxy:boolean = false;
   scrollend:boolean = true;
@@ -77,14 +68,15 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
   AuthName:boolean = true;
   AuthBadge:boolean = true;
   AuthHead:boolean = true;
+  AniDuration:number = 300;
 
   constructor(
     private Renderer: Renderer2,
     private TGEnc: TsugeGushiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private Sanitizer:DomSanitizer
   ) { }
 
- 
   ngOnInit(): void {
     this.ParamParse(this.route.snapshot.paramMap.get('token'));
   }
@@ -92,6 +84,22 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.scrollContainer = this.cardcontainer.nativeElement;  
     this.itemElements.changes.subscribe(() => {this.onItemElementsChanged();});
+
+    if (this.ChatProxy){
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.addedNodes.length != 0){
+            setTimeout(() => {
+              this.StartYTCprint();
+            }, this.AniDuration);
+          }
+        });
+      });
+      
+      observer.observe(this.ChatContainer.nativeElement, {
+        childList: true,
+      });
+    }
   }
 
   onScrollView(): void{
@@ -113,6 +121,14 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
     const height = this.scrollContainer.scrollHeight;
     return position > height - threshold;
   }
+
+  sanitize(url: string | undefined) {
+    if (url != undefined) {
+      return this.Sanitizer.bypassSecurityTrustResourceUrl("https://fonts.googleapis.com/css2?family=" + this.FStyle.replace(/ /g, "+") + "&display=swap");
+    } else {
+      return ("Error");
+    }
+  }
   //--------------------------------------------- PARAM PARSER ---------------------------------------------
   ParamParse(Token: string|null){
     if (Token == null){
@@ -132,6 +148,16 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       }
     }
 
+    if (ParamsList["FSF"]){
+      this.FFsize = ParamsList["FSF"];
+    }
+    if (ParamsList["FSS"]){
+      this.FStyle = ParamsList["FSS"];
+    }
+    if (ParamsList["TAL"]){
+      this.TxAlign = ParamsList["TAL"];
+    }
+
     if (ParamsList["ot"]){
       var test = ParamsList["ot"].toString();
       if (Number(test) != NaN){
@@ -147,6 +173,11 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
     }
 
     if (ParamsList["room"]){
+      if (ParamsList["room"] == "TEST"){
+        this.RoomTest();
+        return;
+      }
+
       var test = ParamsList["pass"];
       if (test != null){
         this.StartListening(this.TGEnc.TGEncoding(JSON.stringify({
@@ -173,6 +204,11 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       }
       if (!this.AuthPP && !this.AuthName && !this.AuthBadge){
         this.AuthHead = false;
+      }
+
+      if (ParamsList["vid"] == "TEST"){
+        this.ChatProxyTest();
+        return;
       }
 
       if(ParamsList["FilterMode"]){
@@ -335,8 +371,6 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
     const cvs:HTMLHeadingElement = this.Renderer.createElement('h1');
     cvs.style.marginTop = "5px";
-    cvs.style.paddingLeft = "20px";
-    cvs.style.paddingRight = "20px";
     cvs.id = "BoxShape";
 
     if (this.Ani != ""){
@@ -366,10 +400,19 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
     cvs.style.webkitTextFillColor = CCctx;
     cvs.style.webkitTextStrokeColor = OCctx;
+    cvs.style.fontFamily = this.FStyle;
+    cvs.style.fontSize = this.FFsize + "px";
+    cvs.style.textAlign = this.TxAlign;
     this.Renderer.appendChild(this.cardcontainer.nativeElement, cvs);
 
     this.EntryList.push(dt);
     this.DisplayElem.push(cvs);
+
+    this.cardcontainer.nativeElement.scroll({
+      top: this.cardcontainer.nativeElement.scrollHeight,
+      left: 0
+    });
+
   }
   //============================================= MCHAD ROOM MODE =============================================
 
@@ -397,6 +440,19 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
               this.EntryList = this.EntryList.filter(e => e.author != dt.Nick);
             }
           } else if (e.data != '{}'){
+            
+            if (this.EntryContainer.length > 80){
+              this.AniDuration = 25;
+            } else if (this.EntryContainer.length > 40){
+              this.AniDuration = 50;
+            } else if (this.EntryContainer.length > 20){
+              this.AniDuration = 100;
+            } else if (this.EntryContainer.length > 10){
+              this.AniDuration = 200;
+            } else {
+              this.AniDuration = 300;
+            }
+
             if (this.ChatFilterMode){
               if ((this.Filter.author.length != 0) && (this.Filter.keyword != "")){
                 JSON.parse(e.data).forEach((dt:any) => {
@@ -481,27 +537,200 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if (this.SkipDelete){
-      this.SkipDelete = false;
-      return;
-    }
-
     if (this.EntryList.length == this.MaxDisplay){
       this.EntryList.splice(0, 1);
-      this.SkipDelete = true;
     }
 
-    console.log(this.EntryContainer.length + " " + this.EntryList.length);
-    
     let dt = this.EntryContainer.shift();
 
     this.EntryList.push(dt);
-
-    /*
-    setTimeout(() => {
-      this.StartYTCprint();
-    }, 100);
-    */
   }
   //============================================= CHAT PROXY MODE =============================================
+
+
+
+  //----------------------------------------------  TESTING MODULE  ----------------------------------------------
+  RoomTest(){
+    timer(999,999).subscribe((t) => {
+      var s = "";
+      switch (t % 5) {
+        case 0:
+          s = "the quick brown fox jumps over the lazy dog";
+          break;
+      
+        case 1:
+          s = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
+          break;
+
+        case 2:
+          s = "以呂波耳本部止 千利奴流乎和加 餘多連曽津祢那 良牟有為能於久 耶万計不己衣天 阿佐伎喩女美之 恵比毛勢須";
+          break;
+
+        case 3:
+          s = "いろはにほへと　ちりぬるを　わかよたれそ　つねならむ　うゐのおくやま　けふこえて　あさきゆめみし　ゑひもせす";
+          break;
+
+        case 4:
+          s = "イロハニホヘト　チリヌルヲ　ワカヨタレソ　ツネナラム　ウヰノオクヤマ　ケフコエテ　アサキユメミシ　ヱヒモセス";
+          break;
+      }
+
+      this.MEntryAdd({
+        Stime: 0,
+        Stext: s,
+        CC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
+        OC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
+        key: ""
+      });
+    });
+  }
+
+  ChatProxyTest(){
+    timer(999,999).subscribe((t) => {
+      //https://via.placeholder.com/150?text=Visit+WhoIsHostingThis.com+Buyers+Guide
+
+      var s:any = {};
+      s["authorPhoto"] = "https://via.placeholder.com/48?text=AUTHOR";
+
+      switch (t % 10) {
+        //  SC STICKER
+        case 0:
+          s["author"] = "test SC STICKER";
+          s["type"] = "SCS";
+          s["SC"] = "XXX $";
+          s["content"] = ["https://via.placeholder.com/96?text=PAID+STICKER"]
+          s["BC"] = "#" + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16);
+          break;
+      
+        //  SC MESSAGE
+        case 1:
+          s["author"] = "test SC";
+          switch (Date.now() % 5) {
+            case 0:
+              s["content"] = ["the quick brown fox jumps over the lazy dog"];
+              break;
+          
+            case 1:
+              s["content"] = ["THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"];
+              break;
+    
+            case 2:
+              s["content"] = ["以呂波耳本部止 千利奴流乎和加 餘多連曽津祢那 良牟有為能於久 耶万計不己衣天 阿佐伎喩女美之 恵比毛勢須"];
+              break;
+    
+            case 3:
+              s["content"] = ["いろはにほへと　ちりぬるを　わかよたれそ　つねならむ　うゐのおくやま　けふこえて　あさきゆめみし　ゑひもせす"];
+              break;
+    
+            case 4:
+              s["content"] = ["イロハニホヘト　チリヌルヲ　ワカヨタレソ　ツネナラム　ウヰノオクヤマ　ケフコエテ　アサキユメミシ　ヱヒモセス"];
+              break;
+          }
+          s["type"] = "SC";
+          s["SC"] = "XXX $$";
+          s["BC"] = "#" + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16);
+          break;
+
+        //  MEMBER
+        case 2:
+          s["author"] = "test NEW MEMBER WELCOME";
+          s["content"] = ["WELCOME TO XXXXXXXXXXX"];
+          s["type"] = "MEMBER";
+          break;
+
+        //  MESSAGE OWNER
+        case 3:
+          s["author"] = "test OWNER MESSAGE";
+          switch (Date.now() % 5) {
+            case 0:
+              s["content"] = ["the quick brown fox jumps over the lazy dog"];
+              break;
+          
+            case 1:
+              s["content"] = ["THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"];
+              break;
+    
+            case 2:
+              s["content"] = ["以呂波耳本部止 千利奴流乎和加 餘多連曽津祢那 良牟有為能於久 耶万計不己衣天 阿佐伎喩女美之 恵比毛勢須"];
+              break;
+    
+            case 3:
+              s["content"] = ["いろはにほへと　ちりぬるを　わかよたれそ　つねならむ　うゐのおくやま　けふこえて　あさきゆめみし　ゑひもせす"];
+              break;
+    
+            case 4:
+              s["content"] = ["イロハニホヘト　チリヌルヲ　ワカヨタレソ　ツネナラム　ウヰノオクヤマ　ケフコエテ　アサキユメミシ　ヱヒモセス"];
+              break;
+          }
+          s["Mod"] = 3; //  OWNER
+          break;
+
+        //  MESSAGE MOD
+        case 4:
+          s["author"] = "test MOD MESSAGE";
+          switch (Date.now() % 5) {
+            case 0:
+              s["content"] = ["the quick brown fox jumps over the lazy dog"];
+              break;
+          
+            case 1:
+              s["content"] = ["THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"];
+              break;
+    
+            case 2:
+              s["content"] = ["以呂波耳本部止 千利奴流乎和加 餘多連曽津祢那 良牟有為能於久 耶万計不己衣天 阿佐伎喩女美之 恵比毛勢須"];
+              break;
+    
+            case 3:
+              s["content"] = ["いろはにほへと　ちりぬるを　わかよたれそ　つねならむ　うゐのおくやま　けふこえて　あさきゆめみし　ゑひもせす"];
+              break;
+    
+            case 4:
+              s["content"] = ["イロハニホヘト　チリヌルヲ　ワカヨタレソ　ツネナラム　ウヰノオクヤマ　ケフコエテ　アサキユメミシ　ヱヒモセス"];
+              break;
+          }
+          s["Mod"] = 2; //  MOD
+          break;
+
+        //  MESSAGE NORMAL
+        default:
+          if ((Date.now() % 2) == 0){
+            s["author"] = "test MEMBER";
+            s["Mod"] = 1; //  MEMBER
+            s["badgeContent"] = [{Thumbnail:"https://via.placeholder.com/48?text=BADGE"}];
+          } else {
+            s["author"] = "test NON MEMBER";
+          }
+
+          switch (Date.now() % 5) {
+            case 0:
+              s["content"] = ["the quick brown fox jumps over the lazy dog"];
+              break;
+          
+            case 1:
+              s["content"] = ["THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"];
+              break;
+    
+            case 2:
+              s["content"] = ["以呂波耳本部止 千利奴流乎和加 餘多連曽津祢那 良牟有為能於久 耶万計不己衣天 阿佐伎喩女美之 恵比毛勢須"];
+              break;
+    
+            case 3:
+              s["content"] = ["いろはにほへと　ちりぬるを　わかよたれそ　つねならむ　うゐのおくやま　けふこえて　あさきゆめみし　ゑひもせす"];
+              break;
+    
+            case 4:
+              s["content"] = ["イロハニホヘト　チリヌルヲ　ワカヨタレソ　ツネナラム　ウヰノオクヤマ　ケフコエテ　アサキユメミシ　ヱヒモセス"];
+              break;
+          }
+          break;
+      }
+
+      this.EntryContainer.push(s);
+      this.StartYTCprint();
+    });
+  }
+
+  //==============================================  TESTING MODULE  ==============================================
+
 }
