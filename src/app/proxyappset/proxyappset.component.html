@@ -172,7 +172,7 @@
                         </div>
                        
                         <!--        Card Colour     -->
-                        <div *ngIf="(ProxyMode!=1)">
+                        <div *ngIf="(this.ProxyMode == 0) || (this.ChatMode == 'Filter')">
                             <div class="divider is-horizontal" data-content="Card Colour"></div>
                             <label>Card BG Colour </label>
                             <input type="color" [(ngModel)]="BGcolour" (ngModelChange)="ReRenderExample()"/>

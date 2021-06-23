@@ -205,12 +205,7 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       if (!this.AuthPP && !this.AuthName && !this.AuthBadge){
         this.AuthHead = false;
       }
-
-      if (ParamsList["vid"] == "TEST"){
-        this.ChatProxyTest();
-        return;
-      }
-
+      
       if(ParamsList["FilterMode"]){
         this.Filter.author = [];
         this.ChatFilterMode = true;
@@ -227,9 +222,18 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
         if (ParamsList["author"]){
           this.Filter.author = ParamsList["author"];
         }
-        this.StartChatProxy(ParamsList["lc"], ParamsList["vid"], true);
+
+        if (ParamsList["vid"] == "TEST"){
+          this.ChatProxyTest();
+        } else {
+          this.StartChatProxy(ParamsList["lc"], ParamsList["vid"], true);
+        }        
       } else {
-        this.StartChatProxy(ParamsList["lc"], ParamsList["vid"], false);
+        if (ParamsList["vid"] == "TEST"){
+          this.ChatProxyTest();
+        } else {
+          this.StartChatProxy(ParamsList["lc"], ParamsList["vid"], false);
+        }                
       }
    } else {
       for (let i:number = 0; i < 10; i++){
@@ -545,6 +549,23 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
     this.EntryList.push(dt);
   }
+
+  ClassSeparator(type:number | undefined):string {
+    if (!type){
+      return "";
+    } else {
+      switch (type) {
+        case 1:
+          return "NormalMessage";
+      
+        case 2:
+          return "ModMessage";
+
+        default:
+          return "OwnerMessage";
+      }
+    }
+  }
   //============================================= CHAT PROXY MODE =============================================
 
 
@@ -605,6 +626,10 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
         //  SC MESSAGE
         case 1:
           s["author"] = "test SC";
+          if ((Date.now() % 2) == 0){
+            s["TL"] = "AUTO TRANSLATED TEXT";
+          }
+
           switch (Date.now() % 5) {
             case 0:
               s["content"] = ["the quick brown fox jumps over the lazy dog"];
@@ -641,6 +666,10 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
         //  MESSAGE OWNER
         case 3:
           s["author"] = "test OWNER MESSAGE";
+          if ((Date.now() % 2) == 0){
+            s["TL"] = "AUTO TRANSLATED TEXT";
+          }
+
           switch (Date.now() % 5) {
             case 0:
               s["content"] = ["the quick brown fox jumps over the lazy dog"];
@@ -668,6 +697,10 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
         //  MESSAGE MOD
         case 4:
           s["author"] = "test MOD MESSAGE";
+          if ((Date.now() % 2) == 0){
+            s["TL"] = "AUTO TRANSLATED TEXT";
+          }
+
           switch (Date.now() % 5) {
             case 0:
               s["content"] = ["the quick brown fox jumps over the lazy dog"];
@@ -700,6 +733,10 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
             s["badgeContent"] = [{Thumbnail:"https://via.placeholder.com/48?text=BADGE"}];
           } else {
             s["author"] = "test NON MEMBER";
+          }
+
+          if ((Date.now() % 2) == 0){
+            s["TL"] = "AUTO TRANSLATED TEXT";
           }
 
           switch (Date.now() % 5) {

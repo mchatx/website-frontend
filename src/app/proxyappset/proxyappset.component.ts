@@ -335,10 +335,7 @@ export class ProxyappsetComponent implements OnInit {
           if (TempS=="TEST") {
             Linktoken["lc"] = "YT";
             Linktoken["vid"] = "TEST";
-            break;
-          }
-
-          if (TempS.indexOf("https://www.youtube.com/live_chat") != -1){
+          } else if (TempS.indexOf("https://www.youtube.com/live_chat") != -1){
             TempS = TempS.replace("https://www.youtube.com/live_chat", "");
             if (TempS.indexOf("v=") != -1){
               TempS = TempS.substring(TempS.indexOf("v=") + 2);
@@ -368,7 +365,7 @@ export class ProxyappsetComponent implements OnInit {
           }
 
           if (this.ChatMode == "Filter"){
-            Linktoken["FilterMode"] = true;
+            Linktoken["FilterMode"] = 1;
           }
 
           if ((this.AuthFilter) && (this.AuthorList.length != 0)){
@@ -415,8 +412,10 @@ export class ProxyappsetComponent implements OnInit {
       this.ProxyCss = TempString;
 
       TempString += "html {\n\tbackground-color: rgba(0, 0, 0, 0);\n\tmargin: 0px auto;\n\toverflow: hidden;\n}\n";
-      TempString += "h1 {\n\tbackground-color: rgba(" + this.CardBGColour.r.toString() + ", " + this.CardBGColour.g.toString() + ", " + this.CardBGColour.b.toString() + ", " + this.CardBGColour.a.toString() + ");\n";
-      TempString += "}\n\n";
+      if ((this.ProxyMode == 0) || (this.ChatMode == 'Filter')){
+        TempString += "#BoxShape {\n\tbackground-color: rgba(" + this.CardBGColour.r.toString() + ", " + this.CardBGColour.g.toString() + ", " + this.CardBGColour.b.toString() + ", " + this.CardBGColour.a.toString() + ");\n";
+        TempString += "}\n\n";      
+      }      
       TempString += "#cardcontainer::-webkit-scrollbar {\n\tdisplay: none;\n}";
       this.ProxyCss = TempString;
     }
