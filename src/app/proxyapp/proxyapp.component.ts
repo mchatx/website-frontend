@@ -39,42 +39,42 @@ class FullEntry {
 
 
 export class ProxyappComponent implements OnInit, AfterViewInit {
-  @ViewChild('cardcontainer', {static: false}) cardcontainer !: ElementRef; 
-  @ViewChild('ChatContainer', {static: false}) ChatContainer !: ElementRef; 
+  @ViewChild('cardcontainer', { static: false }) cardcontainer !: ElementRef;
+  @ViewChild('ChatContainer', { static: false }) ChatContainer !: ElementRef;
   @ViewChildren('item') itemElements!: QueryList<any>;
   scrollContainer: any;
 
-  Status:string | undefined = "";
+  Status: string | undefined = "";
   EntryList: any[] = [];
   EntryContainer: any[] = [];
-  DisplayElem:HTMLHeadingElement[] = [];
-  FFsize:number = 40;
-  FStyle:string = "Ubuntu";
-  TxAlign:string = "center";
+  DisplayElem: HTMLHeadingElement[] = [];
+  FFsize: number = 40;
+  FStyle: string = "Ubuntu";
+  TxAlign: string = "center";
   MaxDisplay = 100;
-  OT:number = 1;
+  OT: number = 1;
   Ani: string = "";
-  ChatProxyEle:HTMLIFrameElement | undefined;
+  ChatProxyEle: HTMLIFrameElement | undefined;
 
-  ChatProxy:boolean = false;
-  scrollend:boolean = true;
-  EntryLoader:boolean = false;
-  ChatFilterMode:boolean = false;
+  ChatProxy: boolean = false;
+  scrollend: boolean = true;
+  EntryLoader: boolean = false;
+  ChatFilterMode: boolean = false;
   Filter = {
     author: [""],
     keyword: ""
   }
-  AuthPP:boolean = true;
-  AuthName:boolean = true;
-  AuthBadge:boolean = true;
-  AuthHead:boolean = true;
-  AniDuration:number = 300;
+  AuthPP: boolean = true;
+  AuthName: boolean = true;
+  AuthBadge: boolean = true;
+  AuthHead: boolean = true;
+  AniDuration: number = 300;
 
   constructor(
     private Renderer: Renderer2,
     private TGEnc: TsugeGushiService,
     private route: ActivatedRoute,
-    private Sanitizer:DomSanitizer
+    private Sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -82,27 +82,27 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.scrollContainer = this.cardcontainer.nativeElement;  
-    this.itemElements.changes.subscribe(() => {this.onItemElementsChanged();});
+    this.scrollContainer = this.cardcontainer.nativeElement;
+    this.itemElements.changes.subscribe(() => { this.onItemElementsChanged(); });
 
-    if (this.ChatProxy){
+    if (this.ChatProxy) {
       const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
-          if (mutation.addedNodes.length != 0){
+          if (mutation.addedNodes.length != 0) {
             setTimeout(() => {
               this.StartYTCprint();
             }, this.AniDuration);
           }
         });
       });
-      
+
       observer.observe(this.ChatContainer.nativeElement, {
         childList: true,
       });
     }
   }
 
-  onScrollView(): void{
+  onScrollView(): void {
     this.scrollend = this.isNearBottom();
   }
 
@@ -130,8 +130,8 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
     }
   }
   //--------------------------------------------- PARAM PARSER ---------------------------------------------
-  ParamParse(Token: string|null){
-    if (Token == null){
+  ParamParse(Token: string | null) {
+    if (Token == null) {
       return;
     }
 
@@ -141,45 +141,45 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if (ParamsList["max"]){
+    if (ParamsList["max"]) {
       var test = ParamsList["max"].toString();
-      if (Number(test) != NaN){
+      if (Number(test) != NaN) {
         this.MaxDisplay = Number(test);
       }
     }
 
-    if (ParamsList["FSF"]){
+    if (ParamsList["FSF"]) {
       this.FFsize = ParamsList["FSF"];
     }
-    if (ParamsList["FSS"]){
+    if (ParamsList["FSS"]) {
       this.FStyle = ParamsList["FSS"];
     }
-    if (ParamsList["TAL"]){
+    if (ParamsList["TAL"]) {
       this.TxAlign = ParamsList["TAL"];
     }
 
-    if (ParamsList["ot"]){
+    if (ParamsList["ot"]) {
       var test = ParamsList["ot"].toString();
-      if (Number(test) != NaN){
+      if (Number(test) != NaN) {
         this.OT = Number(test);
       }
     }
 
-    if (ParamsList["ani"]){
+    if (ParamsList["ani"]) {
       var test = ParamsList["ani"].toString();
-      if (test != null){
+      if (test != null) {
         this.Ani = test;
       }
     }
 
-    if (ParamsList["room"]){
-      if (ParamsList["room"] == "TEST"){
+    if (ParamsList["room"]) {
+      if (ParamsList["room"] == "TEST") {
         this.RoomTest();
         return;
       }
 
       var test = ParamsList["pass"];
-      if (test != null){
+      if (test != null) {
         this.StartListening(this.TGEnc.TGEncoding(JSON.stringify({
           Act: 'Listen',
           Room: ParamsList["room"].toString(),
@@ -193,64 +193,64 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       }
     } else if (ParamsList["lc"] && ParamsList["vid"]) {
       this.ChatProxy = true;
-      if (ParamsList["AuthPP"]){
+      if (ParamsList["AuthPP"]) {
         this.AuthPP = false;
       }
-      if (ParamsList["AuthName"]){
+      if (ParamsList["AuthName"]) {
         this.AuthName = false;
       }
-      if (ParamsList["AuthBadge"]){
+      if (ParamsList["AuthBadge"]) {
         this.AuthBadge = false;
       }
-      if (!this.AuthPP && !this.AuthName && !this.AuthBadge){
+      if (!this.AuthPP && !this.AuthName && !this.AuthBadge) {
         this.AuthHead = false;
       }
-      
-      if(ParamsList["FilterMode"]){
+
+      if (ParamsList["FilterMode"]) {
         this.Filter.author = [];
         this.ChatFilterMode = true;
-        if (ParamsList["keywords"]){
+        if (ParamsList["keywords"]) {
           this.Filter.keyword = "";
-          ParamsList["keywords"].forEach((e:string) => {
-            if (this.Filter.keyword == ""){
+          ParamsList["keywords"].forEach((e: string) => {
+            if (this.Filter.keyword == "") {
               this.Filter.keyword = e.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
             } else {
               this.Filter.keyword += "|" + e.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
             }
           });
         }
-        if (ParamsList["author"]){
+        if (ParamsList["author"]) {
           this.Filter.author = ParamsList["author"];
         }
 
-        if (ParamsList["vid"] == "TEST"){
+        if (ParamsList["vid"] == "TEST") {
           this.ChatProxyTest();
         } else {
           this.StartChatProxy(ParamsList["lc"], ParamsList["vid"], true);
-        }        
+        }
       } else {
-        if (ParamsList["vid"] == "TEST"){
+        if (ParamsList["vid"] == "TEST") {
           this.ChatProxyTest();
         } else {
           this.StartChatProxy(ParamsList["lc"], ParamsList["vid"], false);
-        }                
+        }
       }
-   } else {
-      for (let i:number = 0; i < 10; i++){
-        if (i % 2 != 0){
-          this.MEntryAdd({ 
+    } else {
+      for (let i: number = 0; i < 10; i++) {
+        if (i % 2 != 0) {
+          this.MEntryAdd({
             Stext: "TEST" + i.toString() + " asdfkjzx" + " asdfkjzx" + " asdfkjzx" + " asdfkjzx" + " asdfkjzx",
             Stime: 10000,
-            CC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
-            OC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
+            CC: Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16),
+            OC: Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16),
             key: ""
           })
         } else {
-          this.MEntryAdd({ 
+          this.MEntryAdd({
             Stext: "TEST" + i.toString(),
             Stime: 10000,
-            CC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
-            OC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
+            CC: Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16),
+            OC: Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16),
             key: ""
           })
         }
@@ -269,14 +269,14 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
     this.Status = "1";
 
     RoomES.onmessage = e => {
-      if (e.data == '{ "flag":"Connect", "content":"CONNECTED TO SECURE SERVER"}'){
-      } else if (e.data != '{}'){
+      if (e.data == '{ "flag":"Connect", "content":"CONNECTED TO SECURE SERVER"}') {
+      } else if (e.data != '{}') {
         var DecodedString = this.TGEnc.TGDecoding(e.data);
-        if (DecodedString == '{ "flag":"Timeout", "content":"Translator side time out" }'){
+        if (DecodedString == '{ "flag":"Timeout", "content":"Translator side time out" }') {
           RoomES.close();
         } else {
           var dt = JSON.parse(DecodedString);
-          var tempFE:FullEntry = {
+          var tempFE: FullEntry = {
             Stext: dt["content"]["Stext"],
             key: dt["content"]["key"],
             Stime: 0,
@@ -284,20 +284,20 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
             OC: ""
           };
 
-          if (!dt["content"]["CC"]){
+          if (!dt["content"]["CC"]) {
             tempFE.CC = "FFFFFF";
           } else {
             tempFE.CC = dt["content"]["CC"];
           }
-          if (!dt["content"]["OC"]){
+          if (!dt["content"]["OC"]) {
             tempFE.OC = "000000";
           } else {
             tempFE.OC = dt["content"]["OC"];
           }
 
-          if (dt["flag"] == "insert"){
+          if (dt["flag"] == "insert") {
             this.MEntryAdd(tempFE);
-          } else if (dt["flag"] == "update"){
+          } else if (dt["flag"] == "update") {
             this.MEntryReplace(tempFE);
           }
         }
@@ -323,41 +323,41 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
         key: ""
       })
     }
-  
-    RoomES.addEventListener('open', function(e) {
+
+    RoomES.addEventListener('open', function (e) {
     }, false);
 
     RoomES.addEventListener('message', function (e) {
     }, false);
 
-    RoomES.addEventListener('error', function(e) {
+    RoomES.addEventListener('error', function (e) {
     }, false);
 
   }
 
-  MEntryReplace(dt:FullEntry): void{
-    for(let i:number = 0; i < this.EntryList.length; i++){
-      if (this.EntryList[i].key == dt.key){
+  MEntryReplace(dt: FullEntry): void {
+    for (let i: number = 0; i < this.EntryList.length; i++) {
+      if (this.EntryList[i].key == dt.key) {
         const Stext = dt.Stext;
         const CC = dt.CC;
         const OC = dt.OC;
-        if (Stext != undefined){
+        if (Stext != undefined) {
           this.DisplayElem[i].textContent = Stext;
         }
-    
+
         var CCctx = "#";
-        if (CC != undefined){
+        if (CC != undefined) {
           CCctx += CC;
         } else {
           CCctx += "000000"
         }
         var OCctx = "#";
-        if (CC != undefined){
+        if (CC != undefined) {
           OCctx += OC;
         } else {
           OCctx += "000000"
         }
-    
+
         this.DisplayElem[i].style.webkitTextFillColor = CCctx;
         this.DisplayElem[i].style.webkitTextStrokeColor = OCctx;
 
@@ -367,17 +367,17 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
     }
   }
 
-  MEntryAdd(dt:FullEntry): void{
-    if (this.DisplayElem.length == this.MaxDisplay){
+  MEntryAdd(dt: FullEntry): void {
+    if (this.DisplayElem.length == this.MaxDisplay) {
       this.DisplayElem.shift()?.remove();
       this.EntryList.shift();
     }
 
-    const cvs:HTMLHeadingElement = this.Renderer.createElement('h1');
+    const cvs: HTMLHeadingElement = this.Renderer.createElement('h1');
     cvs.style.marginTop = "5px";
     cvs.id = "BoxShape";
 
-    if (this.Ani != ""){
+    if (this.Ani != "") {
       cvs.className = "animate__animated animate__" + this.Ani;
     }
     cvs.style.webkitTextStrokeWidth = this.OT.toString() + "px";
@@ -385,18 +385,18 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
     const Stext = dt.Stext;
     const CC = dt.CC;
     const OC = dt.OC;
-    if (Stext != undefined){
+    if (Stext != undefined) {
       cvs.textContent = Stext;
     }
 
     var CCctx = "#";
-    if (CC != undefined){
+    if (CC != undefined) {
       CCctx += CC;
     } else {
       CCctx += "000000"
     }
     var OCctx = "#";
-    if (CC != undefined){
+    if (CC != undefined) {
       OCctx += OC;
     } else {
       OCctx += "000000"
@@ -423,125 +423,125 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
 
   //--------------------------------------------- CHAT PROXY MODE ---------------------------------------------
-  StartChatProxy(ChatType:string, VidID: string, filter:boolean){
+  StartChatProxy(ChatType: string, VidID: string, filter: boolean) {
     switch (ChatType) {
       case "YT":
         var RoomES;
-        if (filter){
+        if (filter) {
           RoomES = new EventSource('http://localhost:31023/PureProxy?vidID=' + VidID);
         } else {
           RoomES = new EventSource('http://localhost:31023/AutoTL?vidID=' + VidID);
         }
-      
+
         this.Status = "1";
-    
+
         RoomES.onmessage = e => {
-          if (e.data == '{ "flag":"Connect", "content":"CONNECTED TO SERVER"}'){
+          if (e.data == '{ "flag":"Connect", "content":"CONNECTED TO SERVER"}') {
           } else if (e.data.indexOf('{ \"flag\":\"DELETE\"') != -1) {
             var dt = JSON.parse(e.data);
-            if (dt.Nick){
+            if (dt.Nick) {
               this.EntryContainer = this.EntryContainer.filter(e => e.author != dt.Nick);
               this.EntryList = this.EntryList.filter(e => e.author != dt.Nick);
             }
-          } else if (e.data != '{}'){
-            
-            if (this.EntryContainer.length > 80){
+          } else if (e.data != '{}') {
+
+            if (this.EntryContainer.length > 80) {
               this.AniDuration = 25;
-            } else if (this.EntryContainer.length > 40){
+            } else if (this.EntryContainer.length > 40) {
               this.AniDuration = 50;
-            } else if (this.EntryContainer.length > 20){
+            } else if (this.EntryContainer.length > 20) {
               this.AniDuration = 100;
-            } else if (this.EntryContainer.length > 10){
+            } else if (this.EntryContainer.length > 10) {
               this.AniDuration = 200;
             } else {
               this.AniDuration = 300;
             }
 
-            if (this.ChatFilterMode){
-              if ((this.Filter.author.length != 0) && (this.Filter.keyword != "")){
-                JSON.parse(e.data).forEach((dt:any) => {
-                  if (this.Filter.author.indexOf(dt.author) != -1){
-                    for(let i = 0; i < dt.content.length; i++){
-                      if (dt.content[i].indexOf('https://') != -1){
+            if (this.ChatFilterMode) {
+              if ((this.Filter.author.length != 0) && (this.Filter.keyword != "")) {
+                JSON.parse(e.data).forEach((dt: any) => {
+                  if (this.Filter.author.indexOf(dt.author) != -1) {
+                    for (let i = 0; i < dt.content.length; i++) {
+                      if (dt.content[i].indexOf('https://') != -1) {
                         return;
-                      } else if (dt.content[i].match(new RegExp(this.Filter.keyword, 'i')) != null){
+                      } else if (dt.content[i].match(new RegExp(this.Filter.keyword, 'i')) != null) {
                         this.EntryContainer.push(dt);
                         break;
                       }
                     }
                   }
-                });    
-              } else if (this.Filter.author.length != 0){
-                JSON.parse(e.data).forEach((dt:any) => {
-                  if (this.Filter.author.indexOf(dt.author) != -1){
+                });
+              } else if (this.Filter.author.length != 0) {
+                JSON.parse(e.data).forEach((dt: any) => {
+                  if (this.Filter.author.indexOf(dt.author) != -1) {
                     this.EntryContainer.push(dt);
                   }
-                });    
-              } else if (this.Filter.keyword != ""){
-                JSON.parse(e.data).forEach((dt:any) => {
-                  for(let i = 0; i < dt.content.length; i++){
-                    if (dt.content[i].indexOf('https://') != -1){
+                });
+              } else if (this.Filter.keyword != "") {
+                JSON.parse(e.data).forEach((dt: any) => {
+                  for (let i = 0; i < dt.content.length; i++) {
+                    if (dt.content[i].indexOf('https://') != -1) {
                       return;
-                    } else if (dt.content[i].match(new RegExp(this.Filter.keyword, 'i')) != null){
+                    } else if (dt.content[i].match(new RegExp(this.Filter.keyword, 'i')) != null) {
                       this.EntryContainer.push(dt);
                       break;
                     }
                   }
-                });    
+                });
               } else {
-                JSON.parse(e.data).forEach((dt:any) => {
+                JSON.parse(e.data).forEach((dt: any) => {
                   this.EntryContainer.push(dt);
-                });    
+                });
               }
             } else {
-              JSON.parse(e.data).forEach((dt:any) => {
+              JSON.parse(e.data).forEach((dt: any) => {
                 this.EntryContainer.push(dt);
-              });  
+              });
             }
-            if (!this.EntryLoader){
+            if (!this.EntryLoader) {
               this.EntryLoader = true;
               this.StartYTCprint();
             }
           }
         }
-    
+
         RoomES.onerror = e => {
         }
-    
+
         RoomES.onopen = e => {
         }
-      
-        RoomES.addEventListener('open', function(e) {
+
+        RoomES.addEventListener('open', function (e) {
         }, false);
-    
+
         RoomES.addEventListener('message', function (e) {
         }, false);
-    
-        RoomES.addEventListener('error', function(e) {
+
+        RoomES.addEventListener('error', function (e) {
         }, false);
-    
+
         break;
 
       case "TW":
         this.ChatProxyEle = this.Renderer.createElement("iframe");
-        if (this.ChatProxyEle){
+        if (this.ChatProxyEle) {
           this.ChatProxyEle.src = "https://www.twitch.tv/embed/" + VidID + "/chat?parent=" + window.location.hostname;
           this.ChatProxyEle.style.height = "100%";
           this.ChatProxyEle.frameBorder = "0";
           this.Renderer.appendChild(this.cardcontainer.nativeElement.parentNode, this.ChatProxyEle);
           this.cardcontainer.nativeElement.remove();
         }
-        break;      
+        break;
     }
   }
 
-  StartYTCprint(){
-    if (this.EntryContainer.length == 0){
+  StartYTCprint() {
+    if (this.EntryContainer.length == 0) {
       this.EntryLoader = false;
       return;
     }
 
-    if (this.EntryList.length == this.MaxDisplay){
+    if (this.EntryList.length == this.MaxDisplay) {
       this.EntryList.splice(0, 1);
     }
 
@@ -550,14 +550,14 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
     this.EntryList.push(dt);
   }
 
-  ClassSeparator(type:number | undefined):string {
-    if (!type){
+  ClassSeparator(type: number | undefined): string {
+    if (!type) {
       return "";
     } else {
       switch (type) {
         case 1:
           return "NormalMessage";
-      
+
         case 2:
           return "ModMessage";
 
@@ -571,14 +571,14 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
 
   //----------------------------------------------  TESTING MODULE  ----------------------------------------------
-  RoomTest(){
-    timer(999,999).subscribe((t) => {
+  RoomTest() {
+    timer(999, 999).subscribe((t) => {
       var s = "";
       switch (t % 5) {
         case 0:
           s = "the quick brown fox jumps over the lazy dog";
           break;
-      
+
         case 1:
           s = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
           break;
@@ -599,18 +599,18 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       this.MEntryAdd({
         Stime: 0,
         Stext: s,
-        CC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
-        OC: Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16),
+        CC: Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16),
+        OC: Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16),
         key: ""
       });
     });
   }
 
-  ChatProxyTest(){
-    timer(999,999).subscribe((t) => {
+  ChatProxyTest() {
+    timer(999, 999).subscribe((t) => {
       //https://via.placeholder.com/150?text=Visit+WhoIsHostingThis.com+Buyers+Guide
 
-      var s:any = {};
+      var s: any = {};
       s["authorPhoto"] = "https://via.placeholder.com/48?text=AUTHOR";
 
       switch (t % 10) {
@@ -620,13 +620,13 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
           s["type"] = "SCS";
           s["SC"] = "XXX $";
           s["content"] = ["https://via.placeholder.com/96?text=PAID+STICKER"]
-          s["BC"] = "#" + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16);
+          s["BC"] = "#" + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16);
           break;
-      
+
         //  SC MESSAGE
         case 1:
           s["author"] = "test SC";
-          if ((Date.now() % 2) == 0){
+          if ((Date.now() % 2) == 0) {
             s["TL"] = "AUTO TRANSLATED TEXT";
           }
 
@@ -634,26 +634,26 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
             case 0:
               s["content"] = ["the quick brown fox jumps over the lazy dog"];
               break;
-          
+
             case 1:
               s["content"] = ["THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"];
               break;
-    
+
             case 2:
               s["content"] = ["以呂波耳本部止 千利奴流乎和加 餘多連曽津祢那 良牟有為能於久 耶万計不己衣天 阿佐伎喩女美之 恵比毛勢須"];
               break;
-    
+
             case 3:
               s["content"] = ["いろはにほへと　ちりぬるを　わかよたれそ　つねならむ　うゐのおくやま　けふこえて　あさきゆめみし　ゑひもせす"];
               break;
-    
+
             case 4:
               s["content"] = ["イロハニホヘト　チリヌルヲ　ワカヨタレソ　ツネナラム　ウヰノオクヤマ　ケフコエテ　アサキユメミシ　ヱヒモセス"];
               break;
           }
           s["type"] = "SC";
           s["SC"] = "XXX $$";
-          s["BC"] = "#" + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16) + Math.floor(Math.random()*256).toString(16);
+          s["BC"] = "#" + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16);
           break;
 
         //  MEMBER
@@ -666,7 +666,7 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
         //  MESSAGE OWNER
         case 3:
           s["author"] = "test OWNER MESSAGE";
-          if ((Date.now() % 2) == 0){
+          if ((Date.now() % 2) == 0) {
             s["TL"] = "AUTO TRANSLATED TEXT";
           }
 
@@ -674,19 +674,19 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
             case 0:
               s["content"] = ["the quick brown fox jumps over the lazy dog"];
               break;
-          
+
             case 1:
               s["content"] = ["THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"];
               break;
-    
+
             case 2:
               s["content"] = ["以呂波耳本部止 千利奴流乎和加 餘多連曽津祢那 良牟有為能於久 耶万計不己衣天 阿佐伎喩女美之 恵比毛勢須"];
               break;
-    
+
             case 3:
               s["content"] = ["いろはにほへと　ちりぬるを　わかよたれそ　つねならむ　うゐのおくやま　けふこえて　あさきゆめみし　ゑひもせす"];
               break;
-    
+
             case 4:
               s["content"] = ["イロハニホヘト　チリヌルヲ　ワカヨタレソ　ツネナラム　ウヰノオクヤマ　ケフコエテ　アサキユメミシ　ヱヒモセス"];
               break;
@@ -697,7 +697,7 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
         //  MESSAGE MOD
         case 4:
           s["author"] = "test MOD MESSAGE";
-          if ((Date.now() % 2) == 0){
+          if ((Date.now() % 2) == 0) {
             s["TL"] = "AUTO TRANSLATED TEXT";
           }
 
@@ -705,19 +705,19 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
             case 0:
               s["content"] = ["the quick brown fox jumps over the lazy dog"];
               break;
-          
+
             case 1:
               s["content"] = ["THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"];
               break;
-    
+
             case 2:
               s["content"] = ["以呂波耳本部止 千利奴流乎和加 餘多連曽津祢那 良牟有為能於久 耶万計不己衣天 阿佐伎喩女美之 恵比毛勢須"];
               break;
-    
+
             case 3:
               s["content"] = ["いろはにほへと　ちりぬるを　わかよたれそ　つねならむ　うゐのおくやま　けふこえて　あさきゆめみし　ゑひもせす"];
               break;
-    
+
             case 4:
               s["content"] = ["イロハニホヘト　チリヌルヲ　ワカヨタレソ　ツネナラム　ウヰノオクヤマ　ケフコエテ　アサキユメミシ　ヱヒモセス"];
               break;
@@ -727,15 +727,15 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
         //  MESSAGE NORMAL
         default:
-          if ((Date.now() % 2) == 0){
+          if ((Date.now() % 2) == 0) {
             s["author"] = "test MEMBER";
             s["Mod"] = 1; //  MEMBER
-            s["badgeContent"] = [{Thumbnail:"https://via.placeholder.com/48?text=BADGE"}];
+            s["badgeContent"] = [{ Thumbnail: "https://via.placeholder.com/48?text=BADGE" }];
           } else {
             s["author"] = "test NON MEMBER";
           }
 
-          if ((Date.now() % 2) == 0){
+          if ((Date.now() % 2) == 0) {
             s["TL"] = "AUTO TRANSLATED TEXT";
           }
 
@@ -743,19 +743,19 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
             case 0:
               s["content"] = ["the quick brown fox jumps over the lazy dog"];
               break;
-          
+
             case 1:
               s["content"] = ["THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"];
               break;
-    
+
             case 2:
               s["content"] = ["以呂波耳本部止 千利奴流乎和加 餘多連曽津祢那 良牟有為能於久 耶万計不己衣天 阿佐伎喩女美之 恵比毛勢須"];
               break;
-    
+
             case 3:
               s["content"] = ["いろはにほへと　ちりぬるを　わかよたれそ　つねならむ　うゐのおくやま　けふこえて　あさきゆめみし　ゑひもせす"];
               break;
-    
+
             case 4:
               s["content"] = ["イロハニホヘト　チリヌルヲ　ワカヨタレソ　ツネナラム　ウヰノオクヤマ　ケフコエテ　アサキユメミシ　ヱヒモセス"];
               break;

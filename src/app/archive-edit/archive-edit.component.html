@@ -145,21 +145,21 @@
                     <!------- IF UPLOADING NEW ARCHIVE ------->
                     <div *ngIf="FileNew">
                       <div class="section">
-                        <div class="field has-text-left">
+                        <div class="field">
                           <label class="label">Archive Title</label>
                           <div class="control">
                             <input class="input is-rounded" type="text" placeholder="Archive Title"
                               [(ngModel)]="SelectedArchive.Nick">
                           </div>
                         </div>
-                        <div class="field has-text-left">
+                        <div class="field">
                           <label class="label">Tags</label>
                           <div class="control">
                             <input class="input is-rounded" type="text" placeholder="Stream Link"
                               [(ngModel)]="SelectedArchive.Tags">
                           </div>
                         </div>
-                        <div class="field has-text-left">
+                        <div class="field">
                           <label class="label">Stream Link</label>
                           <div class="control has-icons-left">
                             <input class="input is-rounded" type="text" placeholder="Stream Link"
@@ -169,12 +169,16 @@
                         <div class="field">
                           <label class="label">Archive Note</label>
                           <p class="control">
-                            <textarea class="textarea" placeholder="Note" maxlength="1024" [(ngModel)]="SelectedArchive.Note"></textarea>
+                            <textarea class="textarea" placeholder="Note" maxlength="1024"
+                              [(ngModel)]="SelectedArchive.Note"></textarea>
                           </p>
                         </div>
-                        <div class="field has-text-left">
-                          <label class="label"><input type="checkbox" [(ngModel)]="SelectedArchive.Pass">Password
-                            Protection</label>
+                        <div class="field">
+                          <label class="checkbox">
+                            <input type="checkbox" [(ngModel)]="SelectedArchive.Pass">
+                            <strong>Password Protection</strong>
+
+                          </label>
                           <div class="control" *ngIf="SelectedArchive.Pass">
                             <input class="input is-rounded" type="password" placeholder="Password"
                               [(ngModel)]="PassString">
@@ -183,13 +187,13 @@
                         <div class="field">
                           <label class="checkbox">
                             <input type="checkbox" [(ngModel)]="SelectedArchive.Hidden">
-                            Hidden
+                            <strong>Hidden</strong>
                           </label>
                         </div>
                         <div class="field">
                           <label class="checkbox">
                             <input type="checkbox" [(ngModel)]="SelectedArchive.ExtShare">
-                            Third-Party Shared
+                            <strong>Third-Party Shared</strong>
                           </label>
                         </div>
                       </div>
@@ -321,7 +325,8 @@
                     <div class="field">
                       <label class="label">Archive Note</label>
                       <p class="control">
-                        <textarea class="textarea" placeholder="Note" maxlength="1024" [(ngModel)]="SelectedArchive.Note"></textarea>
+                        <textarea class="textarea" placeholder="Note" maxlength="1024"
+                          [(ngModel)]="SelectedArchive.Note"></textarea>
                       </p>
                     </div>
                     <div class="field has-text-left">
