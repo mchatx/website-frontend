@@ -6,187 +6,183 @@
 <!--=================== GOOGLE FONT LOADER ===================-->
 
 <!----------------------------- FLEX TO MAKE SURE THAT CHAT WILL ALWAYS ALIGNED TO THE BOTTOM OF THE WINDOW ----------------------------->
-<div class="container is-fluid" style="height: 98vh; display: flex; flex-direction: column-reverse;">
-  
-  <!-------------- CONTAINER FOR THE ENTRIES TO ALLOW VERTICAL SCROLLER, MCHAD ENTRIES IS PRINTED DIRECTLY TO THIS CONTAINER -------------->
-  <div (scroll)="onScrollView()" #cardcontainer>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+      <!-------------- CONTAINER FOR THE ENTRIES TO ALLOW VERTICAL SCROLLER, MCHAD ENTRIES IS PRINTED DIRECTLY TO THIS CONTAINER -------------->
+      <div (scroll)="onScrollView()" #cardcontainer>
 
-    <!-----------------------------------------------     CHAT PROXY MODE     ----------------------------------------------->
-    <div *ngIf="ChatProxy" #ChatContainer>
+        <!-----------------------------------------------     CHAT PROXY MODE     ----------------------------------------------->
+        <div *ngIf="ChatProxy" #ChatContainer>
 
-      <!----------------------------- CONTAINER TO SET DEFAULT FONT AND ANIMATION TO ALL ENTRIES ----------------------------->
-      <div style="margin-top: 0.5em;" [style.font-family]="FStyle" [style.font-size]="FFsize + 'px'"
-        [style.animation-duration]="AniDuration + 'ms'" [class]="'animate__animated animate__' + Ani"
-        *ngFor="let Entry of EntryList" #Entry>
+          <!----------------------------- CONTAINER TO SET DEFAULT FONT AND ANIMATION TO ALL ENTRIES ----------------------------->
+          <div class="mt-2" [style.font-family]="FStyle" [style.font-size]="FFsize + 'px'"
+            [style.animation-duration]="AniDuration + 'ms'" [class]="'animate__animated animate__' + Ani"
+            *ngFor="let Entry of EntryList" #Entry>
 
+            <!--------------------------------------------- AUTO TRANSLATION MODE --------------------------------------------->
+            <div *ngIf="!ChatFilterMode">
+              <!----------------------- CONTAINER TO SWITCH BETWEEN DIFFERENT TYPE OF ENTRIES ----------------------->
+              <div [ngSwitch]="Entry.type">
+                <!----------------------------------------- SC ENTRY ----------------------------------------->
+                <div *ngSwitchCase="'SC'">
+                  <!------------------- CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY ------------------->
+                  <div id="BoxShape" [style.background]="Entry.BC">
+                    <!------- AUTHOR HEAD -------->
+                    <span *ngIf="AuthHead">
+                      <ng-container [ngTemplateOutlet]="AuthorHeadRenderer"
+                        [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
+                      </ng-container>
+                    </span>
+                    <!-- SC VALUE -->
+                    <span class="has-text-weight-bold is-size-3">
+                      [SC : {{ Entry.SC }} ]<br>
+                    </span>
+                    <!------- MSG Content ------->
+                    <ng-container [ngTemplateOutlet]="MessageRenderer"
+                      [ngTemplateOutletContext]="{Content:Entry.content}">
+                    </ng-container>
+                    <br>
+                    <!--        AUTO TL MSG     -->
+                    <span *ngIf="Entry.TL">
+                      (Auto TL: {{ Entry.TL }} )
+                    </span>
+                  </div>
+                  <!--================= CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY =================-->
+                </div>
+                <!--======================================= SC ENTRY =======================================-->
 
+                <!----------------------------------------- SC STICKER ----------------------------------------->
+                <div *ngSwitchCase="'SCS'">
 
+                  <!------------------- CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY ------------------->
+                  <div id="BoxShape" [style.background]="Entry.BC">
 
-        <!--------------------------------------------- AUTO TRANSLATION MODE --------------------------------------------->
-        <div *ngIf="!ChatFilterMode">
+                    <!------- AUTHOR HEAD -------->
+                    <span *ngIf="AuthHead">
+                      <ng-container [ngTemplateOutlet]="AuthorHeadRenderer"
+                        [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
+                      </ng-container>
+                    </span>
 
-          <!----------------------- CONTAINER TO SWITCH BETWEEN DIFFERENT TYPE OF ENTRIES ----------------------->
-          <div [ngSwitch]="Entry.type">
+                    <!-- SC VALUE -->
+                    <span class="has-text-weight-bold is-size-3">
+                      [SC : {{ Entry.SC }} ]<br>
+                    </span>
 
-            <!----------------------------------------- SC ENTRY ----------------------------------------->
-            <div *ngSwitchCase="'SC'">
+                    <!------- STICKER ------->
+                    <span *ngFor="let e of Entry.content">
+                      <img *ngIf="e.indexOf('https://') != -1" src={{e}} [style.height]="FFsize*5 + 'px'"
+                        [style.width]="FFsize*5 + 'px'" />
+                    </span>
+                    <br>
 
-              <!------------------- CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY ------------------->
-              <div id="BoxShape" [style.background]="Entry.BC">
-                
-                <!------- AUTHOR HEAD -------->
-                <span *ngIf="AuthHead">
-                  <ng-container [ngTemplateOutlet]="AuthorHeadRenderer" 
-                    [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
-                  </ng-container>
-                </span>
+                  </div>
+                  <!--================= CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY =================-->
 
-                <!-- SC VALUE -->
-                <span style="font-size: 2em; font-weight: bold;">
-                  [SC : {{ Entry.SC }} ]<br>
-                </span>
+                </div>
+                <!--======================================= SC STICKER =======================================-->
 
-                <!------- MSG Content ------->
-                <ng-container [ngTemplateOutlet]="MessageRenderer" [ngTemplateOutletContext]="{Content:Entry.content}"></ng-container>
-                <br>
+                <!----------------------------------------- NEW MEMBER ----------------------------------------->
+                <div *ngSwitchCase="'MEMBER'">
+                  <!------------------- CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY ------------------->
+                  <div id="BoxShape" class="WelcomeMember">
+                    <!------- AUTHOR HEAD -------->
+                    <span *ngIf="AuthHead">
+                      <ng-container [ngTemplateOutlet]="AuthorHeadRenderer"
+                        [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
+                      </ng-container>
+                    </span>
 
-                <!--        AUTO TL MSG     -->
-                <span *ngIf="Entry.TL">
-                  (Auto TL: {{ Entry.TL }} )
-                </span>
+                    <!----- NEW MEMBER NOTIFICATION ----->
+                    <span class="has-text-weight-bold is-size-3">
+                      [NEW MEMBER]
+                      <br>
+                    </span>
+
+                    <!------- MSG Content ------->
+                    <ng-container [ngTemplateOutlet]="MessageRenderer"
+                      [ngTemplateOutletContext]="{Content:Entry.content}">
+                    </ng-container>
+                    <br>
+
+                  </div>
+                  <!--================= CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY =================-->
+
+                </div>
+                <!--======================================= NEW MEMBER =======================================-->
+
+                <!----------------------------------------- NORMAL MESSAGE ----------------------------------------->
+                <div *ngSwitchDefault>
+
+                  <!------------------- CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY ------------------->
+                  <div id="BoxShape" [ngClass]="ClassSeparator(Entry.Mod)">
+
+                    <!------- AUTHOR HEAD -------->
+                    <span *ngIf="AuthHead">
+                      <ng-container [ngTemplateOutlet]="AuthorHeadRenderer"
+                        [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
+                      </ng-container>
+                    </span>
+
+                    <!------- MSG Content ------->
+                    <ng-container [ngTemplateOutlet]="MessageRenderer"
+                      [ngTemplateOutletContext]="{Content:Entry.content}">
+                    </ng-container>
+                    <br>
+
+                    <!--        AUTO TL MSG     -->
+                    <span *ngIf="Entry.TL">
+                      (Auto TL: {{ Entry.TL }} )
+                    </span>
+
+                  </div>
+                  <!--================= CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY =================-->
+
+                </div>
+                <!--======================================= NORMAL MESSAGE =======================================-->
 
               </div>
-              <!--================= CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY =================-->
+              <!--===================== CONTAINER TO SWITCH BETWEEN DIFFERENT TYPE OF ENTRIES =====================-->
 
             </div>
-            <!--======================================= SC ENTRY =======================================-->
+            <!--=========================================== AUTO TRANSLATION MODE ===========================================-->
 
-            <!----------------------------------------- SC STICKER ----------------------------------------->
-            <div *ngSwitchCase="'SCS'">
 
-              <!------------------- CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY ------------------->
-              <div id="BoxShape" [style.background]="Entry.BC">
 
-                <!------- AUTHOR HEAD -------->
-                <span *ngIf="AuthHead">
-                  <ng-container [ngTemplateOutlet]="AuthorHeadRenderer" 
-                    [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
-                  </ng-container>
-                </span>
 
-                <!-- SC VALUE -->
-                <span style="font-size: 2em; font-weight: bold;">
-                  [SC : {{ Entry.SC }} ]<br>
-                </span>
+            <!------------------------------------- FILTER MODE ------------------------------------->
+            <div id="BoxShape" *ngIf="ChatFilterMode">
 
-                <!------- STICKER ------->
-                <span *ngFor="let e of Entry.content">
-                  <img *ngIf="e.indexOf('https://') != -1" src={{e}} [style.height]="FFsize*5 + 'px'"
-                    [style.width]="FFsize*5 + 'px'" />
-                </span>
-                <br>
+              <!------- AUTHOR HEAD -------->
+              <span *ngIf="AuthHead">
+                <ng-container [ngTemplateOutlet]="AuthorHeadRenderer"
+                  [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
+                </ng-container>
+              </span>
 
-              </div>
-              <!--================= CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY =================-->
+              <!------- MSG Content ------->
+              <ng-container [ngTemplateOutlet]="MessageRenderer" [ngTemplateOutletContext]="{Content:Entry.content}">
+              </ng-container>
+              <br>
 
             </div>
-            <!--======================================= SC STICKER =======================================-->
+            <!--=================================== FILTER MODE ===================================-->
 
-            <!----------------------------------------- NEW MEMBER ----------------------------------------->
-            <div *ngSwitchCase="'MEMBER'">
 
-              <!------------------- CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY ------------------->
-              <div id="BoxShape" class="WelcomeMember">
 
-                <!------- AUTHOR HEAD -------->
-                <span *ngIf="AuthHead">
-                  <ng-container [ngTemplateOutlet]="AuthorHeadRenderer" 
-                    [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
-                  </ng-container>
-                </span>
-
-                <!----- NEW MEMBER NOTIFICATION ----->
-                <span style="font-size: 2em; font-weight: bold;">
-                  [NEW MEMBER]
-                  <br>
-                </span>
-
-                <!------- MSG Content ------->
-                <ng-container [ngTemplateOutlet]="MessageRenderer" [ngTemplateOutletContext]="{Content:Entry.content}"></ng-container>
-                <br>
-
-              </div>
-              <!--================= CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY =================-->
-
-            </div>
-            <!--======================================= NEW MEMBER =======================================-->
-
-            <!----------------------------------------- NORMAL MESSAGE ----------------------------------------->
-            <div *ngSwitchDefault>
-
-              <!------------------- CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY ------------------->
-              <div id="BoxShape" [ngClass]="ClassSeparator(Entry.Mod)">
-
-                <!------- AUTHOR HEAD -------->
-                <span *ngIf="AuthHead">
-                  <ng-container [ngTemplateOutlet]="AuthorHeadRenderer" 
-                    [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
-                  </ng-container>
-                </span>
-
-                <!------- MSG Content ------->
-                <ng-container [ngTemplateOutlet]="MessageRenderer" [ngTemplateOutletContext]="{Content:Entry.content}"></ng-container>
-                <br>
-
-                <!--        AUTO TL MSG     -->
-                <span *ngIf="Entry.TL">
-                  (Auto TL: {{ Entry.TL }} )
-                </span>
-
-              </div>
-              <!--================= CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY =================-->
-
-            </div>
-            <!--======================================= NORMAL MESSAGE =======================================-->
-          
           </div>
-          <!--===================== CONTAINER TO SWITCH BETWEEN DIFFERENT TYPE OF ENTRIES =====================-->
+          <!--=========================== CONTAINER TO SET DEFAULT FONT AND ANIMATION TO ALL ENTRIES ===========================-->
 
         </div>
-        <!--=========================================== AUTO TRANSLATION MODE ===========================================-->
+        <!--=============================================     CHAT PROXY MODE     =============================================-->
 
-
-
-
-        <!------------------------------------- FILTER MODE ------------------------------------->
-        <div id="BoxShape" *ngIf="ChatFilterMode">
-
-          <!------- AUTHOR HEAD -------->
-          <span *ngIf="AuthHead">
-            <ng-container [ngTemplateOutlet]="AuthorHeadRenderer" 
-              [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
-            </ng-container>
-          </span>
-
-          <!------- MSG Content ------->
-          <ng-container [ngTemplateOutlet]="MessageRenderer" [ngTemplateOutletContext]="{Content:Entry.content}"></ng-container>
-          <br>
-
-        </div>
-        <!--=================================== FILTER MODE ===================================-->
-
-        
-      
       </div>
-      <!--=========================== CONTAINER TO SET DEFAULT FONT AND ANIMATION TO ALL ENTRIES ===========================-->
-
+      <!--========== CONTAINER FOR THE ENTRIES TO ALLOW VERTICAL SCROLLER, MCHAD ENTRIES IS PRINTED DIRECTLY TO THIS CONTAINER ==========-->
     </div>
-    <!--=============================================     CHAT PROXY MODE     =============================================-->
-
   </div>
-  <!--========== CONTAINER FOR THE ENTRIES TO ALLOW VERTICAL SCROLLER, MCHAD ENTRIES IS PRINTED DIRECTLY TO THIS CONTAINER ==========-->
+</section>
 
-</div>
 <!--=========================== FLEX TO MAKE SURE THAT CHAT WILL ALWAYS ALIGNED TO THE BOTTOM OF THE WINDOW ===========================-->
 
 
@@ -194,19 +190,23 @@
 
 
 <!------------ AUTHOR HEAD TEMPLATE ------------>
-<ng-template #AuthorHeadRenderer let-PictureURL='PURL' let-AuthorName='Name' let-AuthorBadge='ABadge' let-AuthorType='AType'>
+<ng-template #AuthorHeadRenderer let-PictureURL='PURL' let-AuthorName='Name' let-AuthorBadge='ABadge'
+  let-AuthorType='AType'>
   <!-- AUTHOR PICTURE -->
-  <img *ngIf="AuthPP" src={{PictureURL}} style="border-radius: 50%;" [style.height]="FFsize + 'px'" [style.width]="FFsize + 'px'" />
+  <img *ngIf="AuthPP" src={{PictureURL}} style="border-radius: 50%;" [style.height]="FFsize + 'px'"
+    [style.width]="FFsize + 'px'" />
 
   <!-- AUTHOR NAME -->
-  <span *ngIf="AuthName" style="font-weight: bold;" [class]="AuthorType == 1 ? 'MemberAuthor' : ''">{{ AuthorName }}</span>
+  <span *ngIf="AuthName" class="has-text-weight-bold"
+    [class]="AuthorType == 1 ? 'MemberAuthor' : ''">{{ AuthorName }}</span>
 
   <!-- AUTHOR BADGE -->
   <span *ngIf="AuthBadge">
-    <img *ngFor="let e of AuthorBadge" src={{e.Thumbnail}} [style.height]="FFsize + 'px'" [style.width]="FFsize + 'px'" />
+    <img *ngFor="let e of AuthorBadge" src={{e.Thumbnail}} [style.height]="FFsize + 'px'"
+      [style.width]="FFsize + 'px'" />
   </span>
 
-  <span style="font-weight: bold;"> : </span>
+  <span class="has-text-weight-bold"> : </span>
 </ng-template>
 <!--========== AUTHOR HEAD TEMPLATE ==========-->
 
@@ -215,7 +215,7 @@
   <span *ngFor="let e of Content">
 
     <!--        EMOJI     -->
-    <img *ngIf="e.indexOf('https://') != -1" src={{e}} [style.height]="FFsize + 'px'"[style.width]="FFsize + 'px'" />
+    <img *ngIf="e.indexOf('https://') != -1" src={{e}} [style.height]="FFsize + 'px'" [style.width]="FFsize + 'px'" />
 
     <!--        LETTER MESSAGE     -->
     <span *ngIf="e.indexOf('https://') == -1">{{ e }}</span>
