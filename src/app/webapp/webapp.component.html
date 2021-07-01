@@ -33,7 +33,7 @@
       </div>
       <button class="button is-link" style="margin-left: 15px; margin-right: auto;" (click)="SwitchColour()">Switch BG
         Colour</button>
-      <button class="button is-link" (click)="SaveSetting()">Save</button>
+      <button class="button is-link" (click)="SaveSetting()">Save Setting</button>
     </div>
     <input *ngIf="ArchiveMode" id="sliderWithValue" class="slider has-output is-fullwidth" min="0"
       [max]="MaxRange-TimeShift" [(ngModel)]="Currtime" step="0.1" type="range" (mouseup)="SlideRelease()"
