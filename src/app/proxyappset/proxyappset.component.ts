@@ -335,6 +335,14 @@ export class ProxyappsetComponent implements OnInit {
           if (TempS == "TEST") {
             Linktoken["lc"] = "YT";
             Linktoken["vid"] = "TEST";
+          } else if (TempS.indexOf("https://www.youtube.com/channel/") != -1){
+            TempS = TempS.replace("https://www.youtube.com/channel/", "");
+            if (TempS.indexOf("/") != -1){
+              TempS = TempS.substring(0, TempS.indexOf("/"));
+            }
+            Linktoken["lc"] = "YT";
+            Linktoken["vid"] = TempS;            
+            Linktoken["tp"] = false;
           } else if (TempS.indexOf("https://www.youtube.com/live_chat") != -1) {
             TempS = TempS.replace("https://www.youtube.com/live_chat", "");
             if (TempS.indexOf("v=") != -1) {
@@ -344,6 +352,7 @@ export class ProxyappsetComponent implements OnInit {
               }
               Linktoken["lc"] = "YT";
               Linktoken["vid"] = TempS;
+              Linktoken["tp"] = true;
             }
           } else if (TempS.indexOf("https://www.youtube.com/watch") != -1) {
             TempS = TempS.replace("https://www.youtube.com/watch", "");
@@ -354,6 +363,7 @@ export class ProxyappsetComponent implements OnInit {
               }
               Linktoken["lc"] = "YT";
               Linktoken["vid"] = TempS;
+              Linktoken["tp"] = true;
             }
           } else if (TempS.indexOf("https://www.twitch.tv/popout/") != -1) {
             TempS = TempS.replace("https://www.twitch.tv/popout/", "");

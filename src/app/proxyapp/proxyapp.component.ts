@@ -226,13 +226,13 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
         if (ParamsList["vid"] == "TEST") {
           this.ChatProxyTest();
         } else {
-          this.StartChatProxy(ParamsList["lc"], ParamsList["vid"], true);
+          this.StartChatProxy(ParamsList["lc"], ParamsList["vid"], true, ParamsList["tp"]);
         }
       } else {
         if (ParamsList["vid"] == "TEST") {
           this.ChatProxyTest();
         } else {
-          this.StartChatProxy(ParamsList["lc"], ParamsList["vid"], false);
+          this.StartChatProxy(ParamsList["lc"], ParamsList["vid"], false, ParamsList["tp"]);
         }
       }
     } else {
@@ -423,14 +423,21 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
 
 
   //--------------------------------------------- CHAT PROXY MODE ---------------------------------------------
-  StartChatProxy(ChatType: string, VidID: string, filter: boolean) {
+  StartChatProxy(ChatType: string, ID: string, filter: boolean, Vid: boolean) {
     switch (ChatType) {
       case "YT":
         var RoomES;
-        if (filter) {
-          RoomES = new EventSource('http://localhost:31023/PureProxy?vidID=' + VidID);
+        var QueryS = ID;
+        if (Vid){
+          QueryS = "VidID=" + QueryS;
         } else {
-          RoomES = new EventSource('http://localhost:31023/AutoTL?vidID=' + VidID);
+          QueryS = "ChannelID=" + QueryS;
+        }
+
+        if (filter) {
+          RoomES = new EventSource('http://localhost:31023/PureProxy?' + QueryS);
+        } else {
+          RoomES = new EventSource('http://localhost:31023/AutoTL?' + QueryS);
         }
 
         this.Status = "1";
@@ -525,7 +532,7 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       case "TW":
         this.ChatProxyEle = this.Renderer.createElement("iframe");
         if (this.ChatProxyEle) {
-          this.ChatProxyEle.src = "https://www.twitch.tv/embed/" + VidID + "/chat?parent=" + window.location.hostname;
+          this.ChatProxyEle.src = "https://www.twitch.tv/embed/" + ID + "/chat?parent=" + window.location.hostname;
           this.ChatProxyEle.style.height = "100%";
           this.ChatProxyEle.frameBorder = "0";
           this.Renderer.appendChild(this.cardcontainer.nativeElement.parentNode, this.ChatProxyEle);
