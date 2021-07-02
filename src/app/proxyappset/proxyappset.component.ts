@@ -30,11 +30,12 @@ export class ProxyappsetComponent implements OnInit {
   @ViewChild("cardcontainer") cardcontainer !: ElementRef;
   @ViewChild("BGSwitchButton") BGSwitchButton !: ElementRef;
   @ViewChild("previewcontainer") previewcontainer !: ElementRef;
+  @ViewChild('ChatContainer', { static: false }) ChatContainer !: ElementRef;
 
   CurrentPage: number = 0;
   Timer: Subscription | undefined;
 
-  EntryList: FullEntry[] = [];
+  EntryList: any[] = [];
   DisplayElem: HTMLHeadElement[] = [];
 
   /*  
@@ -166,7 +167,7 @@ export class ProxyappsetComponent implements OnInit {
     if (this.WebFont == "") {
       return this.Sanitizer.bypassSecurityTrustResourceUrl("");
     } else {
-      return this.Sanitizer.bypassSecurityTrustResourceUrl("https://fonts.googleapis.com/css?family=" + this.WebFont.replace(" ", "+"));
+      return this.Sanitizer.bypassSecurityTrustResourceUrl("https://fonts.googleapis.com/css?family=" + this.WebFont[0].replace(" ", "+"));
     }
   }
 
@@ -290,9 +291,8 @@ export class ProxyappsetComponent implements OnInit {
     this.CurrentPage += 1;
 
     if (this.CurrentPage == 1) {
-      this.Timer = timer(1000, 1000).subscribe((t) => {
-        this.AddEntry(t.toString());
-      });
+      this.initTestLoop();
+
       if (!this.PasswordProtected) {
         this.RoomPass = "";
       }
@@ -307,6 +307,12 @@ export class ProxyappsetComponent implements OnInit {
           this.MaxDisplay = 100;
         } else {
           this.MaxDisplay = 3;
+        }
+        this.CardBGColour = {
+          r: 0,
+          g: 0,
+          b: 0,
+          a: 0
         }
       } else {
         this.TxAlign = "center"
@@ -440,9 +446,8 @@ export class ProxyappsetComponent implements OnInit {
     this.CurrentPage -= 1;
 
     if (this.CurrentPage == 1) {
-      this.Timer = timer(1000, 1000).subscribe((t) => {
-        this.AddEntry(t.toString());
-      });
+      this.initTestLoop();
+
       if ((this.FFamily != "sans-serif") && (this.FFamily != "cursive") && (this.FFamily != "monospace")) {
         this.WebFontTemp = this.FFamily;
       }
@@ -454,6 +459,202 @@ export class ProxyappsetComponent implements OnInit {
       navigator.clipboard.writeText(this.ProxyLink).then().catch(e => console.error(e));
     } else {
       navigator.clipboard.writeText(this.ProxyCss).then().catch(e => console.error(e));
+    }
+  }
+
+  //-------------------------------- TEST MODULE -----------------------------------
+  initTestMChad() {
+    this.Timer = timer(1000, 1000).subscribe((t) => {
+      this.AddEntry(t.toString());
+    });  
+  }
+
+  ClassSeparator(type: number | undefined): string {
+    if (!type) {
+      return "";
+    } else {
+      switch (type) {
+        case 1:
+          return "NormalMessage";
+
+        case 2:
+          return "ModMessage";
+
+        default:
+          return "OwnerMessage";
+      }
+    }
+  }
+
+  initTestChatYT() {
+    this.Timer = timer(999, 999).subscribe((t) => {
+      if (this.EntryList.length == this.MaxDisplay) {
+        this.EntryList.shift();
+      }
+      //https://via.placeholder.com/150?text=Visit+WhoIsHostingThis.com+Buyers+Guide
+
+      var s: any = {};
+      s["authorPhoto"] = "https://via.placeholder.com/48?text=AUTHOR";
+
+      switch (t % 10) {
+        //  SC STICKER
+        case 0:
+          s["author"] = "test SC STICKER";
+          s["type"] = "SCS";
+          s["SC"] = "XXX $";
+          s["content"] = ["https://via.placeholder.com/96?text=PAID+STICKER"]
+          s["BC"] = "#" + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16);
+          break;
+
+        //  SC MESSAGE
+        case 1:
+          s["author"] = "test SC";
+          if ((Date.now() % 2) == 0) {
+            s["TL"] = "AUTO TRANSLATED TEXT";
+          }
+
+          switch (Date.now() % 5) {
+            case 0:
+              s["content"] = ["the quick brown fox jumps over the lazy dog"];
+              break;
+
+            case 1:
+              s["content"] = ["THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"];
+              break;
+
+            case 2:
+              s["content"] = ["以呂波耳本部止 千利奴流乎和加 餘多連曽津祢那 良牟有為能於久 耶万計不己衣天 阿佐伎喩女美之 恵比毛勢須"];
+              break;
+
+            case 3:
+              s["content"] = ["いろはにほへと　ちりぬるを　わかよたれそ　つねならむ　うゐのおくやま　けふこえて　あさきゆめみし　ゑひもせす"];
+              break;
+
+            case 4:
+              s["content"] = ["イロハニホヘト　チリヌルヲ　ワカヨタレソ　ツネナラム　ウヰノオクヤマ　ケフコエテ　アサキユメミシ　ヱヒモセス"];
+              break;
+          }
+          s["type"] = "SC";
+          s["SC"] = "XXX $$";
+          s["BC"] = "#" + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16) + Math.floor(Math.random() * 256).toString(16);
+          break;
+
+        //  MEMBER
+        case 2:
+          s["author"] = "test NEW MEMBER WELCOME";
+          s["content"] = ["WELCOME TO XXXXXXXXXXX"];
+          s["type"] = "MEMBER";
+          break;
+
+        //  MESSAGE OWNER
+        case 3:
+          s["author"] = "test OWNER MESSAGE";
+          if ((Date.now() % 2) == 0) {
+            s["TL"] = "AUTO TRANSLATED TEXT";
+          }
+
+          switch (Date.now() % 5) {
+            case 0:
+              s["content"] = ["the quick brown fox jumps over the lazy dog"];
+              break;
+
+            case 1:
+              s["content"] = ["THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"];
+              break;
+
+            case 2:
+              s["content"] = ["以呂波耳本部止 千利奴流乎和加 餘多連曽津祢那 良牟有為能於久 耶万計不己衣天 阿佐伎喩女美之 恵比毛勢須"];
+              break;
+
+            case 3:
+              s["content"] = ["いろはにほへと　ちりぬるを　わかよたれそ　つねならむ　うゐのおくやま　けふこえて　あさきゆめみし　ゑひもせす"];
+              break;
+
+            case 4:
+              s["content"] = ["イロハニホヘト　チリヌルヲ　ワカヨタレソ　ツネナラム　ウヰノオクヤマ　ケフコエテ　アサキユメミシ　ヱヒモセス"];
+              break;
+          }
+          s["Mod"] = 3; //  OWNER
+          break;
+
+        //  MESSAGE MOD
+        case 4:
+          s["author"] = "test MOD MESSAGE";
+          if ((Date.now() % 2) == 0) {
+            s["TL"] = "AUTO TRANSLATED TEXT";
+          }
+
+          switch (Date.now() % 5) {
+            case 0:
+              s["content"] = ["the quick brown fox jumps over the lazy dog"];
+              break;
+
+            case 1:
+              s["content"] = ["THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"];
+              break;
+
+            case 2:
+              s["content"] = ["以呂波耳本部止 千利奴流乎和加 餘多連曽津祢那 良牟有為能於久 耶万計不己衣天 阿佐伎喩女美之 恵比毛勢須"];
+              break;
+
+            case 3:
+              s["content"] = ["いろはにほへと　ちりぬるを　わかよたれそ　つねならむ　うゐのおくやま　けふこえて　あさきゆめみし　ゑひもせす"];
+              break;
+
+            case 4:
+              s["content"] = ["イロハニホヘト　チリヌルヲ　ワカヨタレソ　ツネナラム　ウヰノオクヤマ　ケフコエテ　アサキユメミシ　ヱヒモセス"];
+              break;
+          }
+          s["Mod"] = 2; //  MOD
+          break;
+
+        //  MESSAGE NORMAL
+        default:
+          if ((Date.now() % 2) == 0) {
+            s["author"] = "test MEMBER";
+            s["Mod"] = 1; //  MEMBER
+            s["badgeContent"] = [{ Thumbnail: "https://via.placeholder.com/48?text=BADGE" }];
+          } else {
+            s["author"] = "test NON MEMBER";
+          }
+
+          if ((Date.now() % 2) == 0) {
+            s["TL"] = "AUTO TRANSLATED TEXT";
+          }
+
+          switch (Date.now() % 5) {
+            case 0:
+              s["content"] = ["the quick brown fox jumps over the lazy dog"];
+              break;
+
+            case 1:
+              s["content"] = ["THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"];
+              break;
+
+            case 2:
+              s["content"] = ["以呂波耳本部止 千利奴流乎和加 餘多連曽津祢那 良牟有為能於久 耶万計不己衣天 阿佐伎喩女美之 恵比毛勢須"];
+              break;
+
+            case 3:
+              s["content"] = ["いろはにほへと　ちりぬるを　わかよたれそ　つねならむ　うゐのおくやま　けふこえて　あさきゆめみし　ゑひもせす"];
+              break;
+
+            case 4:
+              s["content"] = ["イロハニホヘト　チリヌルヲ　ワカヨタレソ　ツネナラム　ウヰノオクヤマ　ケフコエテ　アサキユメミシ　ヱヒモセス"];
+              break;
+          }
+          break;
+      }
+
+      this.EntryList.push(s);
+    });
+  }
+
+  initTestLoop() {
+    if (this.ProxyMode == 0){
+      this.initTestMChad();
+    } else {
+      this.initTestChatYT();
     }
   }
 

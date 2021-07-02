@@ -179,11 +179,9 @@
                         <optgroup label="日本語フォント">
                           <option [value]="'Noto Sans JP'" [selected]="FFamily=='Noto Sans JP'">Noto Sans</option>
                           <option [value]="'Kosugi Maru'" [selected]="FFamily=='Kosugi Maru'">Kosugi Maru</option>
-                          <option [value]="'Hachi Maru Pop'" [selected]="FFamily=='Hachi Maru Pop'">Hachi Maru Pop
-                          </option>
+                          <option [value]="'Hachi Maru Pop'" [selected]="FFamily=='Hachi Maru Pop'">Hachi Maru Pop</option>
                           <option [value]="'Stick'" [selected]="FFamily=='Stick'">Stick</option>
-                          <option [value]="'Sawarabi Gothic'" [selected]="FFamily=='Sawarabi Gothic'">Sawarabi Gothic
-                          </option>
+                          <option [value]="'Sawarabi Gothic'" [selected]="FFamily=='Sawarabi Gothic'">Sawarabi Gothic</option>
                         </optgroup>
                         <optgroup label="英字フォント">
                           <option [value]="'Asap'" [selected]="FFamily=='Asap'">Asap</option>
@@ -284,9 +282,141 @@
                     #BGSwitchButton>Black</button>
                 </div>
                 <div
-                  style="display: flex; flex-direction: column-reverse; height: 500px; background-color: white; padding: 15px; margin-top: 10px; overflow: auto;"
-                  #previewcontainer>
+                  style="display: flex; flex-direction: column-reverse; height: 500px; background-color: white; padding: 15px; margin-top: 10px; overflow: auto;" #previewcontainer>
                   <div #cardcontainer></div>
+                    <div *ngIf="ProxyMode == 1" #ChatContainer>
+                      <div class="mt-2" [style.font-family]="FFamily[0]" [style.font-size]="FFsize + 'px'"
+                        [style.animation-duration]="'250ms'" [class]="'animate__animated animate__' + AniType + AniDir"
+                        *ngFor="let Entry of EntryList" #Entry>
+
+                      <div *ngIf="ChatMode == 'Auto-Translation'">
+                        <div [ngSwitch]="Entry.type">
+                          <!----------------------------------------- SC ENTRY ----------------------------------------->
+                          <div *ngSwitchCase="'SC'">
+                            <div id="BoxShape" [style.background]="Entry.BC">
+                              <!------- AUTHOR HEAD -------->
+                              <span *ngIf="AuthPP || AuthName || AuthBadge">
+                                <ng-container [ngTemplateOutlet]="AuthorHeadRenderer"
+                                  [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
+                                </ng-container>
+                              </span>
+
+                              <!-- SC VALUE -->
+                              <span class="has-text-weight-bold is-size-3">
+                                [SC : {{ Entry.SC }} ]<br>
+                              </span>
+
+                              <!------- MSG Content ------->
+                              <ng-container [ngTemplateOutlet]="MessageRenderer"
+                                [ngTemplateOutletContext]="{Content:Entry.content}">
+                              </ng-container>
+                              <br>
+
+                              <!--        AUTO TL MSG     -->
+                              <span *ngIf="Entry.TL">
+                                (Auto TL: {{ Entry.TL }} )
+                              </span>
+
+                            </div>
+                          </div>
+                          <!--======================================= SC ENTRY =======================================-->
+
+                          <!----------------------------------------- SC STICKER ----------------------------------------->
+                          <div *ngSwitchCase="'SCS'">
+                            <div id="BoxShape" [style.background]="Entry.BC">
+                              <!------- AUTHOR HEAD -------->
+                              <span *ngIf="AuthPP || AuthName || AuthBadge">
+                                <ng-container [ngTemplateOutlet]="AuthorHeadRenderer"
+                                  [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
+                                </ng-container>
+                              </span>
+
+                              <!-- SC VALUE -->
+                              <span class="has-text-weight-bold is-size-3">
+                                [SC : {{ Entry.SC }} ]<br>
+                              </span>
+
+                              <!------- STICKER ------->
+                              <span *ngFor="let e of Entry.content">
+                                <img *ngIf="e.indexOf('https://') != -1" src={{e}} [style.height]="FFsize*5 + 'px'"
+                                  [style.width]="FFsize*5 + 'px'" />
+                              </span>
+                              <br>
+                            </div>
+                          </div>
+                          <!--======================================= SC STICKER =======================================-->
+
+                          <!----------------------------------------- NEW MEMBER ----------------------------------------->
+                          <div *ngSwitchCase="'MEMBER'">
+                            <div id="BoxShape" class="WelcomeMember">
+                              <!------- AUTHOR HEAD -------->
+                              <span *ngIf="AuthPP || AuthName || AuthBadge">
+                                <ng-container [ngTemplateOutlet]="AuthorHeadRenderer"
+                                  [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
+                                </ng-container>
+                              </span>
+
+                              <!----- NEW MEMBER NOTIFICATION ----->
+                              <span class="has-text-weight-bold is-size-3">
+                                [NEW MEMBER]
+                                <br>
+                              </span>
+
+                              <!------- MSG Content ------->
+                              <ng-container [ngTemplateOutlet]="MessageRenderer"
+                                [ngTemplateOutletContext]="{Content:Entry.content}">
+                              </ng-container>
+                              <br>
+                            </div>
+                          </div>
+                          <!--======================================= NEW MEMBER =======================================-->
+
+                          <!----------------------------------------- NORMAL MESSAGE ----------------------------------------->
+                          <div *ngSwitchDefault>
+                            <div id="BoxShape" [ngClass]="ClassSeparator(Entry.Mod)">
+                              <!------- AUTHOR HEAD -------->
+                              <span *ngIf="AuthPP || AuthName || AuthBadge">
+                                <ng-container [ngTemplateOutlet]="AuthorHeadRenderer"
+                                  [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
+                                </ng-container>
+                              </span>
+
+                              <!------- MSG Content ------->
+                              <ng-container [ngTemplateOutlet]="MessageRenderer"
+                                [ngTemplateOutletContext]="{Content:Entry.content}">
+                              </ng-container>
+                              <br>
+
+                              <!--        AUTO TL MSG     -->
+                              <span *ngIf="Entry.TL">
+                                (Auto TL: {{ Entry.TL }} )
+                              </span>
+                            </div>
+                          </div>
+                          <!--======================================= NORMAL MESSAGE =======================================-->
+                        
+                        </div>
+                      </div>
+                      <!--=========================================== AUTO TRANSLATION MODE ===========================================-->
+
+                      <!------------------------------------- FILTER MODE ------------------------------------->
+                      <div id="BoxShape" *ngIf="ChatMode == 'Filter'">
+                        <!------- AUTHOR HEAD -------->
+                        <span *ngIf="AuthPP || AuthName || AuthBadge">
+                          <ng-container [ngTemplateOutlet]="AuthorHeadRenderer"
+                            [ngTemplateOutletContext]="{PURL:Entry.authorPhoto, Name:Entry.author, ABadge:Entry.badgeContent, AType:Entry.Mod}">
+                          </ng-container>
+                        </span>
+
+                        <!------- MSG Content ------->
+                        <ng-container [ngTemplateOutlet]="MessageRenderer" [ngTemplateOutletContext]="{Content:Entry.content}">
+                        </ng-container>
+                        <br>
+                      </div>
+                      <!--=================================== FILTER MODE ===================================-->
+                    </div>
+                   </div>
+                  <!--=============================================     CHAT PROXY MODE     =============================================-->
                 </div>
               </div>
             </div>
@@ -316,3 +446,39 @@
     </div>
   </article>
 </div>
+
+
+<!------------ AUTHOR HEAD TEMPLATE ------------>
+<ng-template #AuthorHeadRenderer let-PictureURL='PURL' let-AuthorName='Name' let-AuthorBadge='ABadge'
+  let-AuthorType='AType'>
+  <!-- AUTHOR PICTURE -->
+  <img *ngIf="AuthPP" src={{PictureURL}} style="border-radius: 50%;" [style.height]="FFsize + 'px'"
+    [style.width]="FFsize + 'px'" />
+
+  <!-- AUTHOR NAME -->
+  <span *ngIf="AuthName" class="has-text-weight-bold"
+    [class]="AuthorType == 1 ? 'MemberAuthor' : ''">{{ AuthorName }}</span>
+
+  <!-- AUTHOR BADGE -->
+  <span *ngIf="AuthBadge">
+    <img *ngFor="let e of AuthorBadge" src={{e.Thumbnail}} [style.height]="FFsize + 'px'"
+      [style.width]="FFsize + 'px'" />
+  </span>
+
+  <span class="has-text-weight-bold"> : </span>
+</ng-template>
+<!--========== AUTHOR HEAD TEMPLATE ==========-->
+
+<!------------ MESSAGE PARSER TEMPLATE ------------>
+<ng-template #MessageRenderer let-Content='Content'>
+  <span *ngFor="let e of Content">
+
+    <!--        EMOJI     -->
+    <img *ngIf="e.indexOf('https://') != -1" src={{e}} [style.height]="FFsize + 'px'" [style.width]="FFsize + 'px'" />
+
+    <!--        LETTER MESSAGE     -->
+    <span *ngIf="e.indexOf('https://') == -1">{{ e }}</span>
+
+  </span>
+</ng-template>
+<!--========== MESSAGE PARSER TEMPLATE ==========-->
