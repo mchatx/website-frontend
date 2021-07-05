@@ -40,13 +40,10 @@
                     </span>
                     <!------- MSG Content ------->
                     <ng-container [ngTemplateOutlet]="MessageRenderer"
-                      [ngTemplateOutletContext]="{Content:Entry.content}">
+                      [ngTemplateOutletContext]="{Content:Entry.content, TLContent:Entry.TL}">
                     </ng-container>
                     <br>
-                    <!--        AUTO TL MSG     -->
-                    <span *ngIf="Entry.TL">
-                      (Auto TL: {{ Entry.TL }} )
-                    </span>
+
                   </div>
                   <!--================= CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY =================-->
                 </div>
@@ -102,7 +99,7 @@
 
                     <!------- MSG Content ------->
                     <ng-container [ngTemplateOutlet]="MessageRenderer"
-                      [ngTemplateOutletContext]="{Content:Entry.content}">
+                      [ngTemplateOutletContext]="{Content:Entry.content, TLContent:Entry.TL}">
                     </ng-container>
                     <br>
 
@@ -127,14 +124,9 @@
 
                     <!------- MSG Content ------->
                     <ng-container [ngTemplateOutlet]="MessageRenderer"
-                      [ngTemplateOutletContext]="{Content:Entry.content}">
+                      [ngTemplateOutletContext]="{Content:Entry.content, TLContent:Entry.TL}">
                     </ng-container>
                     <br>
-
-                    <!--        AUTO TL MSG     -->
-                    <span *ngIf="Entry.TL">
-                      (Auto TL: {{ Entry.TL }} )
-                    </span>
 
                   </div>
                   <!--================= CONTAINER TO SET BACKGROUND COLOUR OF THE ENTRY =================-->
@@ -162,7 +154,8 @@
               </span>
 
               <!------- MSG Content ------->
-              <ng-container [ngTemplateOutlet]="MessageRenderer" [ngTemplateOutletContext]="{Content:Entry.content}">
+              <ng-container [ngTemplateOutlet]="MessageRenderer" 
+                [ngTemplateOutletContext]="{Content:Entry.content, TLContent:Entry.TL}">
               </ng-container>
               <br>
 
@@ -198,7 +191,8 @@
 
   <!-- AUTHOR NAME -->
   <span *ngIf="AuthName" class="has-text-weight-bold"
-    [class]="AuthorType == 1 ? 'MemberAuthor' : ''">{{ AuthorName }}</span>
+    [style.-webkit-text-stroke-width]="OverrideCStyle && OT + 'px'" [style.-webkit-text-stroke-color]="OverrideCStyle && OverrideOCAuthor" 
+    [style.-webkit-text-fill-color]="AuthorType == 1 ? '#0f9d58' : OverrideCStyle && OverrideCCAuthor">{{ AuthorName }}</span>
 
   <!-- AUTHOR BADGE -->
   <span *ngIf="AuthBadge">
@@ -211,15 +205,22 @@
 <!--========== AUTHOR HEAD TEMPLATE ==========-->
 
 <!------------ MESSAGE PARSER TEMPLATE ------------>
-<ng-template #MessageRenderer let-Content='Content'>
+<ng-template #MessageRenderer let-Content='Content' let-TLContent='TLContent'>
   <span *ngFor="let e of Content">
 
     <!--        EMOJI     -->
     <img *ngIf="e.indexOf('https://') != -1" src={{e}} [style.height]="FFsize + 'px'" [style.width]="FFsize + 'px'" />
 
     <!--        LETTER MESSAGE     -->
-    <span *ngIf="e.indexOf('https://') == -1">{{ e }}</span>
+    <span *ngIf="e.indexOf('https://') == -1" [style.-webkit-text-stroke-width]="OverrideCStyle && OT + 'px'" 
+    [style.-webkit-text-stroke-color]="OverrideCStyle && OverrideOC" [style.-webkit-text-fill-color]="OverrideCStyle && OverrideCC">{{ e }}</span>
 
+  </span>
+
+  <!--        AUTO TL MSG     -->
+  <span *ngIf="TLContent" [style.-webkit-text-stroke-width]="OverrideCStyle && OT + 'px'" 
+    [style.-webkit-text-stroke-color]="OverrideCStyle && OverrideOC" [style.-webkit-text-fill-color]="OverrideCStyle && OverrideCC">
+    (Auto TL: {{ TLContent }} )
   </span>
 </ng-template>
 <!--========== MESSAGE PARSER TEMPLATE ==========-->

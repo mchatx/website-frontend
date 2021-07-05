@@ -442,7 +442,7 @@ export class WebappComponent implements OnInit, AfterViewInit {
           }
         }
         var OCctx = "#";
-        if (CC != undefined){
+        if (OC != undefined){
           OCctx += OC;
         } else {
           if (this.BGColour == "#28282B"){
@@ -551,7 +551,7 @@ export class WebappComponent implements OnInit, AfterViewInit {
       }
     }
     var OCctx = "#";
-    if (CC != undefined){
+    if (OC != undefined){
       OCctx += OC;
     } else {
       if (this.BGColour == "#28282B"){
@@ -650,7 +650,7 @@ export class WebappComponent implements OnInit, AfterViewInit {
       }
 
       var OCctx = "#";
-      if (CC != undefined){
+      if (OC != undefined){
         OCctx += OC;
       } else {
         if (this.BGColour == "#28282B"){

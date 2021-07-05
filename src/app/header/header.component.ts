@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
 
   LoggedIn: boolean = false;
   AccountName: string = "";
+  TL: boolean = false;
 
   ngOnInit(): void {
     let test: string | null = localStorage.getItem("MChatToken");
@@ -23,6 +24,11 @@ export class HeaderComponent implements OnInit {
       try {
         let TokenData = JSON.parse(this.TGEnc.TGDecoding(test));
         this.AccountName = TokenData["Room"];
+
+        if (TokenData["Role"] == "TL"){
+          this.TL = true;
+        }
+
         this.LoggedIn = true;
       } catch (error) {
         localStorage.removeItem("MChatToken");

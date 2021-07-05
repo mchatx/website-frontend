@@ -84,6 +84,12 @@ export class ProxyappsetComponent implements OnInit {
   AniDir: string = "Up";
   AniType: string = "None";
 
+  OverrideCStyle: boolean = false;
+  OverrideCC: string = "#000000"
+  OverrideOC: string = "#000000"
+  OverrideCCAuthor: string = "#000000"
+  OverrideOCAuthor: string = "#000000"
+
   /*  
     THIRD PAGE
     Link and CSS generator
@@ -163,6 +169,12 @@ export class ProxyappsetComponent implements OnInit {
     this.RepaintEntries();
   }
 
+  RePaintExample():void {
+    if (this.ProxyMode == 0){
+
+    }
+  }
+
   FetchWebFont() {
     if (this.WebFont == "") {
       return this.Sanitizer.bypassSecurityTrustResourceUrl("");
@@ -239,8 +251,14 @@ export class ProxyappsetComponent implements OnInit {
     }
 
     const Stext = dt.Stext;
-    const CC = dt.CC;
-    const OC = dt.OC;
+    var CC = dt.CC;
+    var OC = dt.OC;
+    
+    if (this.OverrideCStyle){
+      CC = this.OverrideCC.substr(1);
+      OC = this.OverrideOC.substr(1);
+    }
+
     if (Stext != undefined) {
       cvs.textContent = Stext;
     }
@@ -419,6 +437,17 @@ export class ProxyappsetComponent implements OnInit {
       Linktoken["FSF"] = this.FFsize;
       Linktoken["FSS"] = this.FFamily;
       Linktoken["TAL"] = this.TxAlign;
+
+      if (this.OverrideCStyle){
+        Linktoken["OCS"] = 1;
+        Linktoken["CCC"] = this.OverrideCC.substr(1);
+        Linktoken["COC"] = this.OverrideOC.substr(1);
+        if (this.ProxyMode == 1){
+          Linktoken["ot"] = this.OT;
+          Linktoken["ACC"] = this.OverrideCCAuthor.substr(1);
+          Linktoken["AOC"] = this.OverrideOCAuthor.substr(1);
+        }
+      }
 
       TempString += encodeURIComponent(this.TGService.TGEncoding(encodeURI(JSON.stringify(Linktoken))))
       this.ProxyLink = TempString;

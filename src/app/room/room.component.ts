@@ -35,52 +35,57 @@ export class RoomComponent implements OnInit {
     private TGEnc: TsugeGushiService,
     private AService: ArchiveService,
     private Sanitizer: DomSanitizer
-  ) { }
-
-  ngOnInit(): void {
-    this.RoomNick = this.RouteParam.snapshot.paramMap.get('Nick');
-    this.AccService.GetAccountData(
-      this.TGEnc.TGEncoding(JSON.stringify({
-        Nick: this.RoomNick
-      }))
-    ).subscribe({
-      error: error => {
-        this.Router.navigate(['']);
-      },
-      next: data => {
-        let dt = JSON.parse(data["body"]);
-        if (dt["Role"] != undefined){
-          if (dt["Role"] == "TL"){
-            this.RoleTL = true;
-          }
-        }
-        if (dt["Note"] != undefined){
-          this.Note = dt["Note"];
-        }
-        if (dt["Links"] != undefined){
-          this.Links = dt["Links"];
-        }
-
-        this.AService.FetchArchive(this.TGEnc.TGEncoding(JSON.stringify({
-          Act: "ArchiveList",
-          Room: this.RoomNick
-        }))).subscribe(
-          (response) => {
-            this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map((e: Archive) => {
-              if (!e.Star) e.Star = 0;
-              if (e.Tags != undefined) {
-                e.Tags = e.Tags.toString().split(",");
-                for (let i = 0; i < e.Tags.length; i++) {
-                  e.Tags[i] = e.Tags[i].trim();
-                }
+  ) {
+    this.RouteParam.params.subscribe(params => {
+      if(this.RouteParam.snapshot.paramMap.get('Nick') != this.RoomNick){
+        this.RoomNick = this.RouteParam.snapshot.paramMap.get('Nick');
+        this.AccService.GetAccountData(
+          this.TGEnc.TGEncoding(JSON.stringify({
+            Nick: this.RoomNick
+          }))
+        ).subscribe({
+          error: error => {
+            this.Router.navigate(['']);
+          },
+          next: data => {
+            let dt = JSON.parse(data["body"]);
+            if (dt["Role"] != undefined){
+              if (dt["Role"] == "TL"){
+                this.RoleTL = true;
               }
-              return e;
-            });
+            }
+            if (dt["Note"] != undefined){
+              this.Note = dt["Note"];
+            }
+            if (dt["Links"] != undefined){
+              this.Links = dt["Links"];
+            }
+    
+            this.AService.FetchArchive(this.TGEnc.TGEncoding(JSON.stringify({
+              Act: "ArchiveList",
+              Room: this.RoomNick
+            }))).subscribe(
+              (response) => {
+                this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map((e: Archive) => {
+                  if (!e.Star) e.Star = 0;
+                  if (e.Tags != undefined) {
+                    e.Tags = e.Tags.toString().split(",");
+                    for (let i = 0; i < e.Tags.length; i++) {
+                      e.Tags[i] = e.Tags[i].trim();
+                    }
+                  }
+                  return e;
+                });
+              }
+            )
+    
           }
-        )
-
+        });    
       }
     });
+   }
+
+  ngOnInit(): void {
   }
 
   LinkParser(link:string):string {

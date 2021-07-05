@@ -61,6 +61,18 @@
                       [routerLinkActive]="['is-active']"> <span class="icon">
                         <fa-icon [icon]="faSignInAlt"></fa-icon>
                       </span> <span>Account</span> </a>
+                    <div *ngIf="TL">
+                      <hr class="dropdown-divider">
+                      <a class="dropdown-item" [routerLink]="['/room', AccountName]"
+                        [routerLinkActive]="['is-active']"> <span>Room Front Page</span> </a>
+                      <a class="dropdown-item" routerLink="/archiveedit"
+                        [routerLinkActive]="['is-active']"> <span>Archive Manager</span> </a>
+                      <a class="dropdown-item" routerLink="/TLClient"
+                        [routerLinkActive]="['is-active']"> <span>Broadcast Room</span> </a>
+                      <a class="dropdown-item" routerLink="/account"
+                        [routerLinkActive]="['is-active']"> <span>Script Editor</span> </a>
+                    </div>
+                    <hr class="dropdown-divider">
                     <a class="dropdown-item" (click)="LogoutButtonPush()"><span class="icon">
                         <fa-icon [icon]="faSignOutAlt"></fa-icon>
                       </span> <span>Logout</span></a>

@@ -70,6 +70,12 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
   AuthHead: boolean = true;
   AniDuration: number = 300;
 
+  OverrideCStyle: boolean = false;
+  OverrideCC: string = "#000000"
+  OverrideOC: string = "#000000"
+  OverrideCCAuthor: string = "#000000"
+  OverrideOCAuthor: string = "#000000"
+
   constructor(
     private Renderer: Renderer2,
     private TGEnc: TsugeGushiService,
@@ -156,6 +162,26 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
     }
     if (ParamsList["TAL"]) {
       this.TxAlign = ParamsList["TAL"];
+    }
+
+    if (ParamsList["OCS"]) {
+      this.OverrideCStyle = true;
+    }
+
+    if (ParamsList["CCC"]) {
+      this.OverrideCC = "#" + ParamsList["CCC"];
+    }
+
+    if (ParamsList["COC"]) {
+      this.OverrideOC = "#" + ParamsList["COC"];
+    }
+
+    if (ParamsList["ACC"]) {
+      this.OverrideCCAuthor = "#" + ParamsList["ACC"];
+    }
+
+    if (ParamsList["AOC"]) {
+      this.OverrideOCAuthor = "#" + ParamsList["AOC"];
     }
 
     if (ParamsList["ot"]) {
@@ -352,10 +378,15 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
           CCctx += "000000"
         }
         var OCctx = "#";
-        if (CC != undefined) {
+        if (OC != undefined) {
           OCctx += OC;
         } else {
           OCctx += "000000"
+        }
+
+        if (this.OverrideCStyle){
+          CCctx = this.OverrideCC;
+          OCctx = this.OverrideOC;
         }
 
         this.DisplayElem[i].style.webkitTextFillColor = CCctx;
@@ -396,10 +427,15 @@ export class ProxyappComponent implements OnInit, AfterViewInit {
       CCctx += "000000"
     }
     var OCctx = "#";
-    if (CC != undefined) {
+    if (OC != undefined) {
       OCctx += OC;
     } else {
       OCctx += "000000"
+    }
+
+    if (this.OverrideCStyle){
+      CCctx = this.OverrideCC;
+      OCctx = this.OverrideOC;
     }
 
     cvs.style.webkitTextFillColor = CCctx;

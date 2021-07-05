@@ -34,6 +34,7 @@ import { RoomComponent } from './room/room.component';
 import { ProxyappComponent } from './proxyapp/proxyapp.component';
 import { ProxyappsetComponent } from './proxyappset/proxyappset.component';
 import { WebappComponent } from './webapp/webapp.component';
+import { TranslatorClientComponent } from './translator-client/translator-client.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { WebappComponent } from './webapp/webapp.component';
     RoomComponent,
     ProxyappComponent,
     ProxyappsetComponent,
-    WebappComponent
+    WebappComponent,
+    TranslatorClientComponent
   ],
   imports: [
     BrowserModule,
