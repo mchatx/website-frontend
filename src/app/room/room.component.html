@@ -2,6 +2,8 @@
   <article class="box media has-background-dark">
     <div class="media-content">
       <div class="content">
+        <a class="button is-small is-outlined is-rounded is-light has-text-centered" *ngIf="TokenOwner == RoomNick"
+          style="float: right;" routerLink="/account" [routerLinkActive]="['is-active']"><fa-icon [icon]="faEdit"></fa-icon> Edit</a>
         <p class="has-text-weight-bold has-text-white">Room: {{ RoomNick }}</p>
         <div class="columns">
           <!-- Links -->

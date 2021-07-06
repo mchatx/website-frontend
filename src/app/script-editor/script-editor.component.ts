@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import { TranslatorService } from '../services/translator.service';
 import {  AccountService } from '../services/account.service';
-import { faHome, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faPause, faPlay, faStop, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 
 class FullEntry {
   Stext: string = "";
@@ -21,19 +21,34 @@ class Profile {
   OC: string | undefined;
 }
 
+class ArchiveSetting {
+  StreamLink:string = "";
+  Tags:string = "";
+  Notes:string = "";
+  PassCheck:boolean = false;
+  PassString:string = "";
+  ArchiveTitle:string = "";
+  ThirdPartySharing:boolean = true;
+  Hidden:boolean = false;
+}
+
+class ArchiveLink {
+  Nick: string = "";
+  Link: string = "";
+}
+
 @Component({
-  selector: 'app-translator-client',
-  templateUrl: './translator-client.component.html',
-  styleUrls: ['./translator-client.component.scss']
+  selector: 'app-script-editor',
+  templateUrl: './script-editor.component.html',
+  styleUrls: ['./script-editor.component.scss']
 })
-export class TranslatorClientComponent implements OnInit {
+export class ScriptEditorComponent implements OnInit {
   @ViewChild('cardcontainer') cardcontainer !: ElementRef; 
   @ViewChild('loadstate') loadbutton!: ElementRef;
   LoginMode: boolean = false;
   SearchPass: string = "";
   status:string = "";
-  ModalMenu:number = 0;
-
+  
   //  DISPLAY VARIABLES
   EntryList: FullEntry[] = [];
   OT:number = 1;
@@ -42,11 +57,12 @@ export class TranslatorClientComponent implements OnInit {
   FFsize:number = 21;
   FStyle:string = "Ubuntu";
   TxAlign:CanvasTextAlign = "left";
-  MaxDisplay = 3;
+  MaxDisplay = 30;
   BGColour:string = "#28282B";
 
   RoomNick: string = "";
-
+  Token: string = "";
+  
   //  TL VARIABLES
   TLEntry:FullEntry = ({
     Stext: "",
@@ -68,6 +84,13 @@ export class TranslatorClientComponent implements OnInit {
   SelectedProfile: number = 0;
   ProfileList:Profile[] = [];
 
+  //  TIMER VARIABLES
+  TimerTime: number = 0;
+  TimerDelegate: any | undefined = undefined;
+  Synced: boolean = false;
+
+  isRestricted = (/iPhone|iPad|iPod|Android/i).test(navigator.userAgent);
+
   constructor(
     private TGEnc: TsugeGushiService,
     private TLService: TranslatorService,
@@ -88,6 +111,7 @@ export class TranslatorClientComponent implements OnInit {
             },
             next: data => {
               this.LoginMode = true;
+              this.Token = TokenData["Token"];
 
               this.ProfileList.push({
                 Name: 'Default',
@@ -142,21 +166,53 @@ export class TranslatorClientComponent implements OnInit {
 
   //-------------------------- AUX CONTROL --------------------------
   ProfileName:string = "";
-  OpenSessionPass:string = "";
-  StreamLink:string = "";
-  Tags:string = "";
-  Notes:string = "";
-  PassCheck:boolean = false;
-  PassString:string = "";
-  ArchiveTitle:string = "";
-  ThirdPartySharing:boolean = true;
-  Hidden:boolean = false;
   EditCC:string = "";
   EditCCheck:boolean = false;
   EditOC:string = "";
   EditOCheck:boolean = false;
   EditText:string = "";
   EditKey:string = "";
+  
+  DBScriptList:ArchiveLink [] = [];
+  DBScriptSelectedIndex: number = 0;
+
+  TargetFile: File | null = null;
+  filename: string = "No file uploaded";
+
+  ModalMenu:number = 0;
+  /*
+    1 => Add New Profile
+    2 => Script Setting
+    3 => Edit Entry
+    4 => Sync Timer to Video
+    5 => Upload Script To DB
+    6 => New Script
+    7 => Import Script From Local File
+    8 => Export Script To Local File
+    9 => Download Script From DB
+  */
+
+  TempSetting: ArchiveSetting = {
+    StreamLink: "",
+    Tags: "",
+    Notes: "",
+    PassCheck: false,
+    PassString: "",
+    ArchiveTitle: "",
+    ThirdPartySharing: true,
+    Hidden: false
+  };
+
+  SavedSetting: ArchiveSetting = {
+    StreamLink: "",
+    Tags: "",
+    Notes: "",
+    PassCheck: false,
+    PassString: "",
+    ArchiveTitle: "",
+    ThirdPartySharing: true,
+    Hidden: false
+  };
 
   SetModalMenu(idx: number):void {
     this.ModalMenu = idx;
@@ -165,56 +221,16 @@ export class TranslatorClientComponent implements OnInit {
         this.ProfileName = "";        
         break;
       
-      case 2:
-        
-        break;
-
-      case 3:
-        
-        break;
-  
-      case 4:
-        
-        break;
-
-      case 5:
-        
-        break;
-  
-      case 6:
-        
-        break;
-  
-      case 7:
-        
+      case 9:
+        this.DBScriptSelectedIndex = 0;
+        this.FetchDBScriptList();
         break;
     }
   }
 
-  ClearRoom():void {
-    this.EntryList = [];
+  SaveArchiveSetting():void {
     this.ModalMenu = 0;
-  }
-
-  SaveOpenSessionPass():void {
-    this.ModalMenu = 0;
-  }
-
-  SaveExtraInfo():void {
-    this.ModalMenu = 0;
-  }
-
-  SavePassword():void {
-    this.ModalMenu = 0;
-  }
-
-  ThirdPartyChange():void {
-    
-  }
-
-  SaveToArchive():void {
-    this.ModalMenu = 0;
-    this.EntryList = [];
+    this.SavedSetting = this.TempSetting;
   }
 
   OpenEditEntry(idx : number):void {
@@ -238,7 +254,7 @@ export class TranslatorClientComponent implements OnInit {
    
     this.EditText = this.EntryList[idx].Stext;
     this.EditKey = this.EntryList[idx].key;
-    this.SetModalMenu(8);
+    this.SetModalMenu(3);
   }
 
   SendEdit():void {
@@ -256,7 +272,7 @@ export class TranslatorClientComponent implements OnInit {
 
     this.TLEntry.Stime = Date.now();
 
-    this.EntryRepaint({
+    this.UpdateEntry({
       Stext: this.EditText,
       Stime: 0,
       CC: this.TLEntry.CC,
@@ -266,7 +282,100 @@ export class TranslatorClientComponent implements OnInit {
 
     this.ModalMenu = 0;
   }
+
+  LoadVideo(): void {
+    if (this.TempSetting.StreamLink.indexOf("https://www.youtube.com/watch?v=") != -1){
+      var YTID:string = this.TempSetting.StreamLink.replace("https://www.youtube.com/watch?v=", "");
+      if (YTID.indexOf("&") != -1){
+        YTID = YTID.substring(0,YTID.indexOf("&"));
+      }
+      this.LoadYTvideo(YTID);
+    }
+    this.Synced = true;
+    this.ModalMenu = 0;
+  }
+
+  UnSync():void {
+    this.Synced = false;
+  }
+
+  UploadToDB(): void {
+    this.ModalMenu = 0;
+  }
+
+  NewScript(): void {
+    this.ModalMenu = 0;
+    this.EntryList = [];
+    this.SavedSetting = {
+      StreamLink: "",
+      Tags: "",
+      Notes: "",
+      PassCheck: false,
+      PassString: "",
+      ArchiveTitle: "",
+      ThirdPartySharing: true,
+      Hidden: false
+    };
+  }
+
+  ImportFile() {
+    this.NewScript();
+    //PARSED ENTRY TO LOCAL ENTRY
+  }
+
+  FileChange(e: Event) {
+    let ef = (e.target as HTMLInputElement);
+    if (ef.files != null) {
+      this.filename = ef.files[0].name;
+      this.TargetFile = ef.files[0];
+    }
+
+    //this.ParseFile();
+  }
+
+  SaveLocal(){
+
+  }
+
+  DownloadScript(){
+    this.NewScript();
+
+  }
+
+  FetchDBScriptList(){
+    this.DBScriptList = [];
+    this.TLService.GetAllArchive(this.RoomNick, this.Token).subscribe(
+      (response) => {
+        var dt = JSON.parse(response.body);
+        for (let i = 0; i < dt.length; i++) {
+          this.DBScriptList.push({
+            Link: dt[i].Link,
+            Nick: dt[i].Nick,
+          });
+        }
+      });
+
+  }
   //========================== AUX CONTROL ==========================
+
+
+
+  //-------------------------- TIMER CONTROL --------------------------
+  StartTimer():void {
+    if (!this.TimerDelegate){
+      this.TimerDelegate = setInterval(() => {
+        this.TimerTime += 100;
+      }, 100);
+    }
+  }
+
+  StopTimer():void {
+    if (this.TimerDelegate){
+      clearInterval(this.TimerDelegate);
+      this.TimerDelegate = undefined;
+    }
+  }
+  //========================== TIMER CONTROL ==========================
 
 
 
@@ -428,9 +537,9 @@ export class TranslatorClientComponent implements OnInit {
         this.TLEntry.OC = undefined;
       }
   
-      this.TLEntry.Stime = Date.now();
+      this.TLEntry.Stime = this.TimerTime;
   
-      this.EntryPrint({
+      this.AddEntry({
         Stext: this.Prefix + this.TLEntry.Stext + this.Suffix,
         Stime: this.TLEntry.Stime,
         CC: this.TLEntry.CC,
@@ -462,7 +571,7 @@ export class TranslatorClientComponent implements OnInit {
           var dt = JSON.parse(DecodedString);
 
           if (dt["flag"] == "insert"){
-            this.EntryPrint({
+            this.AddEntry({
               Stext: dt["content"]["Stext"],
               key: dt["content"]["key"],
               Stime: 0,
@@ -470,7 +579,7 @@ export class TranslatorClientComponent implements OnInit {
               OC: dt["content"]["OC"]              
             });
           } else if (dt["flag"] == "update"){
-            this.EntryRepaint({
+            this.UpdateEntry({
               Stext: dt["content"]["Stext"],
               key: dt["content"]["key"],
               Stime: 0,
@@ -484,7 +593,7 @@ export class TranslatorClientComponent implements OnInit {
 
     RoomES.onerror = e => {
       RoomES.close();
-      this.EntryPrint({
+      this.AddEntry({
         Stime: 0,
         Stext: "CONNECTION ERROR",
         OC: undefined,
@@ -494,7 +603,7 @@ export class TranslatorClientComponent implements OnInit {
     }
 
     RoomES.onopen = e => {
-      this.EntryPrint({
+      this.AddEntry({
         Stime: 0,
         Stext: "CONNECTED",
         OC: undefined,
@@ -518,7 +627,7 @@ export class TranslatorClientComponent implements OnInit {
 
 
   //-----------------------------------  ENTRY HANDLER  -----------------------------------
-  EntryRepaint(dt:FullEntry): void{
+  UpdateEntry(dt:FullEntry): void{
     for(let i:number = 0; i < this.EntryList.length; i++){
       if (this.EntryList[i].key == dt.key){
         dt.Stime = this.EntryList[i].Stime;
@@ -529,7 +638,7 @@ export class TranslatorClientComponent implements OnInit {
     }
   }
 
-  EntryPrint(dt:FullEntry): void{
+  AddEntry(dt:FullEntry): void{
     if (this.EntryList.length == this.MaxDisplay){
       this.EntryList.shift();
     }
@@ -540,15 +649,114 @@ export class TranslatorClientComponent implements OnInit {
 
 
 
+  //---------------------------  VIDEO LOADER HANDLER  ---------------------------
+  public YT: any;
+  public video: any;
+  public player: any;
+  public reframed: Boolean = false;
+
+  LoadYTvideo(VidID: string): void {
+    this.video = VidID;
+ 
+    if (window['YT']) {
+      this.startVideo();
+      return;
+    }
+
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    if (firstScriptTag.parentNode != null){
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+
+    window['onYouTubeIframeAPIReady'] = () => this.startVideo();
+  }
+
+  startVideo() {
+    this.reframed = false;
+    this.player = new window['YT'].Player('player', {
+      videoId: this.video,
+      playerVars: {
+        autoplay: 1,
+        modestbranding: 1,
+        controls: 1,
+        disablekb: 1,
+        rel: 0,
+        showinfo: 0,
+        fs: 0,
+        playsinline: 1
+
+      },
+      events: {
+        'onStateChange': this.onPlayerStateChange.bind(this),
+        'onError': this.onPlayerError.bind(this),
+        'onReady': this.onPlayerReady.bind(this),
+      }
+    });
+  }
+
+  onPlayerReady(event:any) {
+    if (this.isRestricted) {
+      event.target.mute();
+      event.target.playVideo();
+    } else {
+      event.target.playVideo();
+    }
+  }
+
+  onPlayerStateChange(event:any) {
+    console.log(event)
+    switch (event.data) {
+      case window['YT'].PlayerState.PLAYING:
+        if (this.cleanTime() == 0) {
+          console.log('started ' + this.cleanTime());
+        } else {
+          console.log('playing ' + this.cleanTime())
+        };
+        break;
+      case window['YT'].PlayerState.PAUSED:
+        if (this.player.getDuration() - this.player.getCurrentTime() != 0) {
+          console.log('paused' + ' @ ' + this.cleanTime());
+        };
+        break;
+      case window['YT'].PlayerState.ENDED:
+        console.log('ended ');
+        break;
+    };
+  };
+
+  cleanTime() {
+    return Math.round(this.player.getCurrentTime())
+  };
+
+  onPlayerError(event:any) {
+    switch (event.data) {
+      case 2:
+        console.log('' + this.video)
+        break;
+      case 100:
+        break;
+      case 101 || 150:
+        break;
+    };
+  };
+  //===========================  VIDEO LOADER HANDLER  ===========================
+
+
+
   //-----------------------------------  EXPORT HANDLER  -----------------------------------
   ExportToFile(mode:number):void {
     this.ModalMenu = 0;
   }
-  //===================================  EXPORt HANDLER  ===================================
+  //===================================  EXPORT HANDLER  ===================================
 
 
 
   faUser = faUser;
   faLock = faLock;
   faHome = faHome;
+  faStop = faStop;
+  faPlay = faPlay;
+  faPause = faPause;
 }

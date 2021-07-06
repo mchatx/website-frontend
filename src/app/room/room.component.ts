@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faStar, faLock, faLink, faEnvelope, faCoffee, faSearch, faRedoAlt, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faLock, faLink, faEnvelope, faCoffee, faSearch, faRedoAlt, faChevronDown, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { faDiscord, faPatreon, faYoutube, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { AccountService } from '../services/account.service';
 import { TsugeGushiService } from '../services/tsuge-gushi.service';
@@ -27,6 +27,8 @@ export class RoomComponent implements OnInit {
   SelectedIndex: number = 0;
 
   isSearchActive: boolean = true;
+  
+  TokenOwner: string | undefined;
 
   constructor(
     private RouteParam: ActivatedRoute,
@@ -86,6 +88,15 @@ export class RoomComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    let test: string | null = localStorage.getItem("MChatToken");
+    if (test != undefined) {
+      try {
+        let TokenData = JSON.parse(this.TGEnc.TGDecoding(test));
+        this.TokenOwner = TokenData["Room"];
+      } catch (error) {
+        localStorage.removeItem("MChatToken");
+      }
+    }
   }
 
   LinkParser(link:string):string {
@@ -196,6 +207,7 @@ export class RoomComponent implements OnInit {
     )
   }
 
+  faEdit = faEdit;
   faTwitter = faTwitter;
   faLock = faLock;
   faStar = faStar;

@@ -35,6 +35,7 @@ import { ProxyappComponent } from './proxyapp/proxyapp.component';
 import { ProxyappsetComponent } from './proxyappset/proxyappset.component';
 import { WebappComponent } from './webapp/webapp.component';
 import { TranslatorClientComponent } from './translator-client/translator-client.component';
+import { ScriptEditorComponent } from './script-editor/script-editor.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { TranslatorClientComponent } from './translator-client/translator-client
     ProxyappComponent,
     ProxyappsetComponent,
     WebappComponent,
-    TranslatorClientComponent
+    TranslatorClientComponent,
+    ScriptEditorComponent
   ],
   imports: [
     BrowserModule,

@@ -23,7 +23,7 @@ import { ProxyappComponent } from './proxyapp/proxyapp.component';
 import { ProxyappsetComponent } from './proxyappset/proxyappset.component';
 import { WebappComponent } from './webapp/webapp.component';
 import { TranslatorClientComponent } from './translator-client/translator-client.component';
-
+import { ScriptEditorComponent } from './script-editor/script-editor.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -47,6 +47,7 @@ const routes: Routes = [
   { path: 'requestboard', component: RequestboardComponent },
   { path: 'proxyapp', component: WebappComponent, data:{PlainPage:true}},
   { path: 'TLClient', component: TranslatorClientComponent, data:{PlainPage:true}},
+  { path: 'ScriptEditor', component: ScriptEditorComponent, data:{PlainPage:true}},
   { path: 'test', component: TestingGroundComponent },
 
   { path: 'streamtool/app/:token', component: ProxyappComponent, data:{PlainPage:true}},
