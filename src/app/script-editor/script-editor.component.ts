@@ -44,11 +44,12 @@ class ArchiveLink {
 })
 export class ScriptEditorComponent implements OnInit {
   @ViewChild('cardcontainer') cardcontainer !: ElementRef; 
+  @ViewChild('TimeLine') Timeline !: ElementRef; 
   @ViewChild('loadstate') loadbutton!: ElementRef;
   LoginMode: boolean = false;
   SearchPass: string = "";
   status:string = "";
-  
+
   //  DISPLAY VARIABLES
   EntryList: FullEntry[] = [];
   OT:number = 1;
@@ -89,7 +90,9 @@ export class ScriptEditorComponent implements OnInit {
   TimerDelegate: any | undefined = undefined;
   Synced: boolean = false;
 
-  isRestricted = (/iPhone|iPad|iPod|Android/i).test(navigator.userAgent);
+  // TIMELINE VARIABLES
+  TimelineDur: number = 3600;
+  SecToPx: number = 2;
 
   constructor(
     private TGEnc: TsugeGushiService,
@@ -129,6 +132,7 @@ export class ScriptEditorComponent implements OnInit {
         localStorage.removeItem("MChatToken");
       }
     }
+    this.RerenderTimeline();
   }
 
   LoginRoom() {
@@ -289,7 +293,17 @@ export class ScriptEditorComponent implements OnInit {
       if (YTID.indexOf("&") != -1){
         YTID = YTID.substring(0,YTID.indexOf("&"));
       }
-      this.LoadYTvideo(YTID);
+      this.video = YTID;
+      this.DelegatePlay = setInterval(() => {
+        if (this.playstart){
+          this.playstart = false;
+          this.StartTimer(false);
+        }
+      }, 100);
+  
+      setTimeout(() => {
+        this.LoadvideoYT();
+      });
     }
     this.Synced = true;
     this.ModalMenu = 0;
@@ -297,6 +311,7 @@ export class ScriptEditorComponent implements OnInit {
 
   UnSync():void {
     this.Synced = false;
+    clearInterval(this.DelegatePlay);
   }
 
   UploadToDB(): void {
@@ -361,18 +376,36 @@ export class ScriptEditorComponent implements OnInit {
 
 
   //-------------------------- TIMER CONTROL --------------------------
-  StartTimer():void {
+  StartTimer(propagate:boolean):void {
     if (!this.TimerDelegate){
+      if (this.Synced){
+        this.TimerTime = Math.round(this.player.getCurrentTime() * 1000);
+      }
       this.TimerDelegate = setInterval(() => {
         this.TimerTime += 100;
       }, 100);
+      if (propagate && this.Synced){
+        this.player.playVideo();
+      }
     }
   }
 
-  StopTimer():void {
+  StopTimer(propagate: boolean):void {
     if (this.TimerDelegate){
+      if (this.Synced){
+        this.TimerTime = Math.round(this.player.getCurrentTime() * 1000);
+      }
       clearInterval(this.TimerDelegate);
       this.TimerDelegate = undefined;
+      if (propagate && this.Synced){
+        this.player.pauseVideo()
+      }
+    }
+  }
+
+  SendSeek(){
+    if (this.Synced){
+      this.player.seekTo(this.TimerTime, true);
     }
   }
   //========================== TIMER CONTROL ==========================
@@ -557,75 +590,6 @@ export class ScriptEditorComponent implements OnInit {
 
 
 
-  //-----------------------------------  LIVE LISTENER  -----------------------------------
-  StartListening(Btoken: string): void {
-    const RoomES = new EventSource('http://localhost:33333/TLAPI/?BToken=' + Btoken);
-
-    RoomES.onmessage = e => {
-      if (e.data == '{ "flag":"Connect", "content":"CONNECTED TO SECURE SERVER"}'){
-      } else if (e.data != '{}'){
-        var DecodedString = this.TGEnc.TGDecoding(e.data);
-        if (DecodedString == '{ "flag":"Timeout", "content":"Translator side time out" }'){
-          RoomES.close();
-        } else {
-          var dt = JSON.parse(DecodedString);
-
-          if (dt["flag"] == "insert"){
-            this.AddEntry({
-              Stext: dt["content"]["Stext"],
-              key: dt["content"]["key"],
-              Stime: 0,
-              CC: dt["content"]["CC"],
-              OC: dt["content"]["OC"]              
-            });
-          } else if (dt["flag"] == "update"){
-            this.UpdateEntry({
-              Stext: dt["content"]["Stext"],
-              key: dt["content"]["key"],
-              Stime: 0,
-              CC: dt["content"]["CC"],
-              OC: dt["content"]["OC"]              
-            });
-          }
-        }
-      }
-    }
-
-    RoomES.onerror = e => {
-      RoomES.close();
-      this.AddEntry({
-        Stime: 0,
-        Stext: "CONNECTION ERROR",
-        OC: undefined,
-        CC: undefined,
-        key: ""
-      })
-    }
-
-    RoomES.onopen = e => {
-      this.AddEntry({
-        Stime: 0,
-        Stext: "CONNECTED",
-        OC: undefined,
-        CC: undefined,
-        key: ""
-      })
-    }
-    
-  
-    RoomES.addEventListener('open', function(e) {
-    }, false);
-
-    RoomES.addEventListener('message', function (e) {
-    }, false);
-
-    RoomES.addEventListener('error', function(e) {
-    }, false);
-  }
-  //===================================  LIVE LISTENER  ===================================
-
-
-
   //-----------------------------------  ENTRY HANDLER  -----------------------------------
   UpdateEntry(dt:FullEntry): void{
     for(let i:number = 0; i < this.EntryList.length; i++){
@@ -650,97 +614,61 @@ export class ScriptEditorComponent implements OnInit {
 
 
   //---------------------------  VIDEO LOADER HANDLER  ---------------------------
+  public reframed: Boolean = false;
+  isRestricted = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
   public YT: any;
   public video: any;
   public player: any;
-  public reframed: Boolean = false;
 
-  LoadYTvideo(VidID: string): void {
-    this.video = VidID;
- 
+  DelegatePlay:any;
+  playstart:boolean = false;
+
+  LoadvideoYT() {
     if (window['YT']) {
-      this.startVideo();
+      this.startVideoYT();
       return;
     }
 
     var tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     var firstScriptTag = document.getElementsByTagName('script')[0];
-    if (firstScriptTag.parentNode != null){
+    if (firstScriptTag.parentNode){
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    }
+    }    
 
-    window['onYouTubeIframeAPIReady'] = () => this.startVideo();
+    window['onYouTubeIframeAPIReady'] = () => this.startVideoYT();
   }
 
-  startVideo() {
+  startVideoYT() {
     this.reframed = false;
     this.player = new window['YT'].Player('player', {
       videoId: this.video,
       playerVars: {
-        autoplay: 1,
-        modestbranding: 1,
-        controls: 1,
-        disablekb: 1,
-        rel: 0,
-        showinfo: 0,
-        fs: 0,
         playsinline: 1
-
       },
       events: {
-        'onStateChange': this.onPlayerStateChange.bind(this),
-        'onError': this.onPlayerError.bind(this),
-        'onReady': this.onPlayerReady.bind(this),
+        'onStateChange': this.onPlayerStateChangeYT.bind(this),
       }
     });
   }
 
-  onPlayerReady(event:any) {
-    if (this.isRestricted) {
-      event.target.mute();
-      event.target.playVideo();
-    } else {
-      event.target.playVideo();
+  onPlayerStateChangeYT(event:any) {
+    this.TogglePlayPause();
+  };
+
+  TogglePlayPause(){
+    this.TimerTime = Math.round(this.player.getCurrentTime() * 1000);
+    switch (this.player.getPlayerState()) {
+      case 1:
+        this.playstart = true;
+        break;
+    
+      case 2:
+        this.StopTimer(false);
+        break;
     }
   }
-
-  onPlayerStateChange(event:any) {
-    console.log(event)
-    switch (event.data) {
-      case window['YT'].PlayerState.PLAYING:
-        if (this.cleanTime() == 0) {
-          console.log('started ' + this.cleanTime());
-        } else {
-          console.log('playing ' + this.cleanTime())
-        };
-        break;
-      case window['YT'].PlayerState.PAUSED:
-        if (this.player.getDuration() - this.player.getCurrentTime() != 0) {
-          console.log('paused' + ' @ ' + this.cleanTime());
-        };
-        break;
-      case window['YT'].PlayerState.ENDED:
-        console.log('ended ');
-        break;
-    };
-  };
-
-  cleanTime() {
-    return Math.round(this.player.getCurrentTime())
-  };
-
-  onPlayerError(event:any) {
-    switch (event.data) {
-      case 2:
-        console.log('' + this.video)
-        break;
-      case 100:
-        break;
-      case 101 || 150:
-        break;
-    };
-  };
   //===========================  VIDEO LOADER HANDLER  ===========================
 
 
@@ -750,6 +678,14 @@ export class ScriptEditorComponent implements OnInit {
     this.ModalMenu = 0;
   }
   //===================================  EXPORT HANDLER  ===================================
+
+
+
+  //-------------------------- TIMELINE HANDLER --------------------------
+  RerenderTimeline(){
+
+  }
+  //========================== TIMELINE HANDLER ==========================
 
 
 

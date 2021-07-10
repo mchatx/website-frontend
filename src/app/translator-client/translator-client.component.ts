@@ -158,6 +158,16 @@ export class TranslatorClientComponent implements OnInit {
   EditText:string = "";
   EditKey:string = "";
 
+  /*
+  1 => Add New Profile
+  2 => Host Open Session
+  3 => Stream Link, Tags, Note
+  4 => Password
+  5 => Export Script
+  6 => Save to Archive
+  7 => Clear room
+  8 => Edit Entry
+  */
   SetModalMenu(idx: number):void {
     this.ModalMenu = idx;
     switch (this.ModalMenu) {

@@ -700,10 +700,16 @@ export class ArchiveEditComponent implements OnInit {
                       }
 
                       let TimeSplit: string[] = Linesplit[LocationIndex[0]].trim().split(":");
+                      let msshift: string = TimeSplit[2].split(".")[1];
+                      if (msshift.length == 2) {
+                        msshift += "0";
+                      } else if (msshift.length == 1){
+                        msshift += "00";
+                      }
 
                       this.Entriesdt.push({
                         Stext: Textsend,
-                        Stime: Number.parseInt(TimeSplit[0]) * 3600000 + Number.parseInt(TimeSplit[1]) * 60000 + Number.parseInt(TimeSplit[2].split(".")[0]) * 1000 + Number.parseInt(TimeSplit[2].split(".")[1]) * 10,
+                        Stime: Number.parseInt(TimeSplit[0]) * 60*60*1000 + Number.parseInt(TimeSplit[1]) * 60*1000 + Number.parseInt(TimeSplit[2].split(".")[0]) * 1000 + Number.parseInt(msshift),
                         CC: Profile[index2][1],
                         OC: Profile[index2][2]
                       });

@@ -89,9 +89,9 @@
 
     <!---------------------- TIMER CONTROL ------------------------>
     <div>
-      <a class="button" (click)="StopTimer()"><fa-icon [icon]="faStop"></fa-icon></a>
+      <a class="button" (click)="StopTimer(true)"><fa-icon [icon]="faStop"></fa-icon></a>
       <span>{{ TimerTime | date:'HH:mm:ss.SS':'UTC+0' }}</span>
-      <a class="button" (click)="StartTimer()"><fa-icon [icon]="faPlay"></fa-icon></a>
+      <a class="button" (click)="StartTimer(true)"><fa-icon [icon]="faPlay"></fa-icon></a>
     </div>
     <!--==================== TIMER CONTROL ======================-->
 
@@ -152,6 +152,10 @@
       <a class="button" (click)="DeleteProfile()">Delete Profile</a>
     </div>
     <!--==================== TL TOOL ======================-->
+
+    <div style="overflow-x: auto;">
+      <progress class="progress is-primary" [value]="TimerTime" [max]="TimelineDur*1000" [style.width]="TimelineDur*SecToPx + 'px'" #TimeLine></progress>
+    </div>
   </div>
   
   
