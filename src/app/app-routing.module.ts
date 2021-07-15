@@ -46,8 +46,8 @@ const routes: Routes = [
   { path: 'archiveedit', component: ArchiveEditComponent },
   { path: 'requestboard', component: RequestboardComponent },
   { path: 'proxyapp', component: WebappComponent, data:{PlainPage:true}},
-  { path: 'TLClient', component: TranslatorClientComponent, data:{PlainPage:true}},
-  { path: 'ScriptEditor', component: ScriptEditorComponent, data:{PlainPage:true}},
+  //{ path: 'TLClient', component: TranslatorClientComponent, data:{PlainPage:true}},
+  //{ path: 'ScriptEditor', component: ScriptEditorComponent, data:{PlainPage:true}},
   { path: 'test', component: TestingGroundComponent },
 
   { path: 'streamtool/app/:token', component: ProxyappComponent, data:{PlainPage:true}},

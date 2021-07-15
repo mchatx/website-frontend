@@ -740,6 +740,16 @@ export class ArchiveEditComponent implements OnInit {
     } else {
       this.status = "ASS file, " + Profile.length.toString() + " colour profiles, " + this.Entriesdt.length.toString() + " Entries.";
 
+      let startmatch = this.Entriesdt.filter(e => (e.Stext?.match(/--.*Stream.*Start.*--/i) != null));
+      if (startmatch.length == 0){
+        this.Entriesdt.unshift({
+          Stext: "---Stream Start---",
+          Stime: 0,
+          CC: undefined,
+          OC: undefined
+        });
+      }
+
       this.FileParsed = true;
       this.SelectedArchive = {
         Room: this.Room,
@@ -809,6 +819,16 @@ export class ArchiveEditComponent implements OnInit {
 
       if (index == res.length - 1) {
         this.status = "SRT file, " + this.Entriesdt.length.toString() + " Entries.";
+
+        let startmatch = this.Entriesdt.filter(e => (e.Stext?.match(/--.*Stream.*Start.*--/i) != null));
+        if (startmatch.length == 0){
+          this.Entriesdt.unshift({
+            Stext: "---Stream Start---",
+            Stime: 0,
+            CC: undefined,
+            OC: undefined
+          });
+        }
 
         this.FileParsed = true;
         this.SelectedArchive = {
@@ -1035,6 +1055,16 @@ export class ArchiveEditComponent implements OnInit {
       this.status = "UNABLE TO PARSE THE FILE (FILE CORRUPTED?)";
     } else {
       this.status = "TTML file, " + Profile.length.toString() + " colour profiles, " + this.Entriesdt.length.toString() + " Entries.";
+
+      let startmatch = this.Entriesdt.filter(e => (e.Stext?.match(/--.*Stream.*Start.*--/i) != null));
+      if (startmatch.length == 0){
+        this.Entriesdt.unshift({
+          Stext: "---Stream Start---",
+          Stime: 0,
+          CC: undefined,
+          OC: undefined
+        });
+      }
 
       this.FileParsed = true;
       this.SelectedArchive = {

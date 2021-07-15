@@ -17,6 +17,9 @@
     <button class="button is-dark" (click)="AddRequest()" #loadstate>Request</button>
   </div>
 
+  <br>
+  <p class="has-text-black has-text-centered pt-2">Request is automatically erased when an archive with the corresponding stream link is uploaded.</p>
+
   <div class="notification m-4">
     <progress class="progress is-hidden" max='100' #showhidden>30%</progress>
     <p *ngIf="status !== ''" class="has-text-danger has-text-centered">{{ status }}</p>

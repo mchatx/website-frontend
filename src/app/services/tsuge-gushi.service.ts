@@ -17,7 +17,8 @@ TGEncoding(input: string): string{
     while (head == 0){
         head = Date.now() % 100;
     }
-        
+    
+    input = input.replace(/[^\x00-\x7F]+/g, this.SelectiveURIReplacer);
     output = btoa(input);
 
     key = head.toString();
@@ -150,8 +151,13 @@ TGDecoding(input: string): string {
     }
 	
 	output = atob(output);
-
+    output = decodeURI(output);
+    
     return (output);
+}
+
+SelectiveURIReplacer(match: string): string{
+    return(encodeURI(match));
 }
 //======================== TSUGE GUSHI ENCODING ========================
 }
