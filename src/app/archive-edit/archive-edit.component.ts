@@ -54,7 +54,7 @@ export class ArchiveEditComponent implements OnInit {
   SelectedIndex: number = -1;
   TargetFile: File | null = null;
   FileParsed: Boolean = false;
-  FileNew: Boolean = false;
+  Overwrite: Boolean = false;
 
   SelectedArchive: ArchiveData = {
     Room: "",
@@ -183,7 +183,7 @@ export class ArchiveEditComponent implements OnInit {
         this.showhidden4.nativeElement.classList.add("is-hidden");
         this.isactive1.nativeElement.classList.remove("is-outlined");
         this.FileParsed = false;
-        this.FileNew = true;
+        this.Overwrite = false;
         break;
       case 'Export':
         this.showhidden1.nativeElement.classList.add("is-hidden");

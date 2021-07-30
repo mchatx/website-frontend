@@ -4,6 +4,8 @@ import { TsugeGushiService } from '../services/tsuge-gushi.service';
 import { WPproxyService } from '../services/wpproxy.service';
 import { SHA256, enc } from 'crypto-js';
 import { faHome, faPause, faPlay, faStop, faLock } from '@fortawesome/free-solid-svg-icons';
+import { environment } from '../../environments/environment';
+
 /*
   Params
   room = room nick
@@ -353,7 +355,7 @@ export class WebappComponent implements OnInit, AfterViewInit {
   StartListening(Btoken: string): void {
     this.Status = Btoken;
 
-    const RoomES = new EventSource('https://repo.mchatx.org/FetchRaw/?BToken=' + Btoken);
+    const RoomES = new EventSource(environment.DBConn + '/FetchRaw/?BToken=' + Btoken);
 
     this.Status = "1";
 

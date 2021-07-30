@@ -140,11 +140,11 @@
                   <!------- ONLY SHOW MENU BELOW IF THE FILE IS PARSED WITHOUT ANY TROUBLE ------->
                   <div *ngIf="FileParsed">
                     <label class="checkbox label has-text-centered">
-                      <input type="checkbox" [(ngModel)]="FileNew" (change)="ResetSelectedIndex()">
-                      New File
+                      <input type="checkbox" [(ngModel)]="Overwrite" (change)="ResetSelectedIndex()">
+                        Overwrite
                     </label>
                     <!------- IF UPLOADING NEW ARCHIVE ------->
-                    <div *ngIf="FileNew">
+                    <div *ngIf="!Overwrite">
                       <div class="section">
                         <div class="field">
                           <label class="label">Archive Title</label>
@@ -202,7 +202,7 @@
                     <!--===== IF UPLOADING NEW ARCHIVE =====-->
 
                     <!------- IF OVERWRITING ARCHIVE ------->
-                    <div *ngIf="!FileNew">
+                    <div *ngIf="Overwrite">
                       <div class="section">
                         <p class="block has-text-centered subtitle is-5">Choose which to overwrite</p>
                         <ul id="wrap">
@@ -220,10 +220,10 @@
                     <div class="buttons">
                       <button class="button is-dark" (click)="Setmode('')">Cancel</button>
                       <div *ngIf="FileParsed">
-                        <div *ngIf="FileNew">
+                        <div *ngIf="!Overwrite">
                           <button class="button is-dark" (click)="PushUpload(true)" #loadstate>Upload</button>
                         </div>
-                        <div *ngIf="!FileNew">
+                        <div *ngIf="Overwrite">
                           <button class="button is-dark" (click)="PushUpload(false)" *ngIf="SelectedIndex === -1"
                             disabled>Upload</button>
                           <button class="button is-dark" (click)="PushUpload(false)" *ngIf="SelectedIndex !== -1"
