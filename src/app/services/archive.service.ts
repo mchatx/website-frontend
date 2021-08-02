@@ -37,7 +37,8 @@ export class ArchiveService {
     passstr: string,
     streamlink: string | undefined,
     entries: any,
-    note : string | undefined
+    note : string | undefined,
+    downloadable: boolean
   ): Observable<any> {
 
     const headers = { 'Content-Type': 'application/json' };
@@ -55,7 +56,8 @@ export class ArchiveService {
       Tags: tags,
       StreamLink: streamlink,
       Entries: entries,
-      Note: note
+      Note: note,
+      Downloadable: downloadable
     }, { headers, observe: 'response', responseType: 'text' }));
   }
 
@@ -87,7 +89,8 @@ export class ArchiveService {
     pass: boolean,
     passstr: string,
     streamlink: string | undefined,
-    note: string | undefined
+    note: string | undefined,
+    downloadable: boolean
   ): Observable<any> {
     const headers = { 'Content-Type': 'application/json' };
     if (!link){
@@ -118,7 +121,8 @@ export class ArchiveService {
       PassStr: passstr,
       Tags: tags,
       StreamLink: streamlink,
-      Note : note
+      Note : note,
+      Downloadable: downloadable
     }, { headers, observe: 'response', responseType: 'text' }));
   }
 

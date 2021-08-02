@@ -66,7 +66,8 @@ export class ArchiveEditComponent implements OnInit {
     StreamLink: "",
     ExtShare: false,
     Star: 0,
-    Note: ""
+    Note: "",
+    Downloadable: false
   }
   PassString: string = "";
 
@@ -168,7 +169,8 @@ export class ArchiveEditComponent implements OnInit {
       StreamLink: "",
       ExtShare: false,
       Star: 0,
-      Note: ""
+      Note: "",
+      Downloadable: false
     }
     this.PassString = "";
     this.Entriesdt = [];
@@ -233,7 +235,8 @@ export class ArchiveEditComponent implements OnInit {
         StreamLink: this.Archivedt[this.SelectedIndex].StreamLink,
         ExtShare: this.Archivedt[this.SelectedIndex].ExtShare,
         Star: this.Archivedt[this.SelectedIndex].Star,
-        Note: this.Archivedt[this.SelectedIndex].Note
+        Note: this.Archivedt[this.SelectedIndex].Note,
+        Downloadable: this.Archivedt[this.SelectedIndex].Downloadable
       };
     }
   }
@@ -244,6 +247,9 @@ export class ArchiveEditComponent implements OnInit {
       (response) => {
         var dt = JSON.parse(response.body);
         for (let i = 0; i < dt.length; i++) {
+          if (!dt[i].Downloadable){
+            dt[i].Downloadable = false;
+          }
           this.Archivedt.push({
             Room: dt[i].Room,
             Link: dt[i].Link,
@@ -254,7 +260,8 @@ export class ArchiveEditComponent implements OnInit {
             StreamLink: dt[i].StreamLink,
             ExtShare: dt[i].ExtShare,
             Star: dt[i].Star,
-            Note: dt[i].Note
+            Note: dt[i].Note,
+            Downloadable: dt[i].Downloadable
           });
         }
       });
@@ -270,7 +277,7 @@ export class ArchiveEditComponent implements OnInit {
         this.showhidden.nativeElement.classList.add('is-hidden');
         if (!this.Processing) {
           if (this.SelectedArchive.Room != undefined) {
-            this.AService.EditArchive(this.Room, this.Token, this.SelectedArchive.Link, this.SelectedArchive.Nick, this.SelectedArchive.Hidden, this.SelectedArchive.ExtShare, this.SelectedArchive.Tags, this.SelectedArchive.Pass, this.PassString, this.SelectedArchive.StreamLink, this.SelectedArchive.Note).subscribe({
+            this.AService.EditArchive(this.Room, this.Token, this.SelectedArchive.Link, this.SelectedArchive.Nick, this.SelectedArchive.Hidden, this.SelectedArchive.ExtShare, this.SelectedArchive.Tags, this.SelectedArchive.Pass, this.PassString, this.SelectedArchive.StreamLink, this.SelectedArchive.Note, this.SelectedArchive.Downloadable).subscribe({
               error: error => {
                 this.status = error["error"];
                 this.LoginMode = false;
@@ -294,7 +301,8 @@ export class ArchiveEditComponent implements OnInit {
                   StreamLink: this.SelectedArchive.StreamLink,
                   ExtShare: this.SelectedArchive.ExtShare,
                   Star: this.SelectedArchive.Star,
-                  Note: this.SelectedArchive.Note
+                  Note: this.SelectedArchive.Note,
+                  Downloadable: this.SelectedArchive.Downloadable
                 };
 
                 setTimeout(() => {
@@ -480,7 +488,7 @@ export class ArchiveEditComponent implements OnInit {
               this.SelectedArchive.Nick = this.SelectedArchive.Link;
             }
 
-            this.AService.AddArchive(this.Room, this.Token, this.SelectedArchive.Nick, this.SelectedArchive.Link, this.SelectedArchive.Hidden, this.SelectedArchive.ExtShare, this.SelectedArchive.Tags, this.SelectedArchive.Pass, this.PassString, this.SelectedArchive.StreamLink, JSON.stringify(this.Entriesdt), this.SelectedArchive.Note).subscribe({
+            this.AService.AddArchive(this.Room, this.Token, this.SelectedArchive.Nick, this.SelectedArchive.Link, this.SelectedArchive.Hidden, this.SelectedArchive.ExtShare, this.SelectedArchive.Tags, this.SelectedArchive.Pass, this.PassString, this.SelectedArchive.StreamLink, JSON.stringify(this.Entriesdt), this.SelectedArchive.Note, this.SelectedArchive.Downloadable).subscribe({
               error: error => {
                 this.status = error["error"];
                 this.LoginMode = false;
@@ -761,7 +769,8 @@ export class ArchiveEditComponent implements OnInit {
         StreamLink: "",
         ExtShare: false,
         Star: 0,
-        Note: ""
+        Note: "",
+        Downloadable: false
       }
       /*
       this.status = "";
@@ -841,7 +850,8 @@ export class ArchiveEditComponent implements OnInit {
           StreamLink: "",
           ExtShare: false,
           Star: 0,
-          Note: ""
+          Note: "",
+          Downloadable: false
         }
       }
     }
@@ -1077,7 +1087,8 @@ export class ArchiveEditComponent implements OnInit {
         StreamLink: "",
         ExtShare: false,
         Star: 0,
-        Note: ""
+        Note: "",
+        Downloadable: false
       }
       /*
       this.status = this.Entriesdt.length.toString() + " = ";

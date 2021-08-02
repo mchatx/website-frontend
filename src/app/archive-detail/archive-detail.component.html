@@ -20,7 +20,7 @@
           Author: <span style="margin-left: 10px;" class="tag taglinks is-clickable"
             (click)="RoomNameClick(CurrentArchive.Room)">
             {{ CurrentArchive.Room }} </span><br>
-          Link: {{ CurrentArchive.StreamLink }} <br>
+          Link: <a style="color: white;" href="{{ CurrentArchive.StreamLink }}" target="_blank">{{ CurrentArchive.StreamLink }}</a><br>
           Tags: {{ CurrentArchive.Tags }}</p>
         <span class="icon-text has-text-white" *ngIf="CurrentArchive.Pass">
           <span class="icon">
@@ -36,24 +36,34 @@
         </span>
         <span> | </span>
         <span class="rating is-clickable has-text-white" (click)="RatingBtnClick()">
-          Rating {{ CurrentArchive.Star }} {{ RatingBtn }}
+          Rate {{ CurrentArchive.Star }} {{ RatingBtn }}
         </span>
         <br>
-        <div class="dropdown is-hoverable">
-          <div class="dropdown-trigger">
-            <a class="button is-small is-outlined is-rounded is-light" aria-haspopup="true" aria-controls="dropdown-menu">
-              Open in client
-            </a>
-          </div>
-          <div class="dropdown-menu" id="dropdown-menu" role="menu">
-            <div class="dropdown-content">
-              <a [href]="sanitize(CurrentArchive.Link)" class="dropdown-item">
-                Desktop Client
-              </a>
-              <a class="dropdown-item" [routerLink]="['/proxyapp']" [queryParams]="{archive: CurrentArchive.Link}">
-                Web Client
+
+        <div class="divider is-white"></div>
+        <div class="columns is-mobile is-centered">
+          <div class="dropdown is-hoverable">
+            <div class="dropdown-trigger">
+              <a class="button is-small is-outlined is-rounded is-light" aria-haspopup="true" aria-controls="dropdown-menu">
+                Open in client
               </a>
             </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+              <div class="dropdown-content">
+                <a [href]="sanitize(CurrentArchive.Link)" class="dropdown-item">
+                  Desktop Client
+                </a>
+                <a class="dropdown-item" [routerLink]="['/proxyapp']" [queryParams]="{archive: CurrentArchive.Link}">
+                  Web Client
+                </a>
+              </div>
+            </div>
+          </div>
+  
+          <div *ngIf="this.Downloadable" class="dropdown is-hoverable">
+            <a class="button is-small is-outlined is-rounded is-light" (click)="DownloadBtnClick()">
+              Download
+            </a>
           </div>
         </div>
 
@@ -250,3 +260,67 @@
   </div>
 </div>
 <!--========================================= DELETE MODAL =========================================-->
+
+
+
+<!------------------------------------------- DOWNLOADMODAL MODAL ------------------------------------------->
+<div class="modal" [ngClass]="{ 'is-active' : isDownloadModalActive }">
+  <div class="modal-background" (click)="isDownloadModalActive = !isDownloadModalActive"></div>
+  <div class="modal-content">
+    <div class="box">
+      <a style="float: right;" class="delete is-dark" (click)="isDownloadModalActive = !isDownloadModalActive"></a>
+
+      <div *ngIf="PassModal">
+        <p class="title">Password Protected</p>
+        <div class="divider is-left is-black"></div>
+  
+        <div class="field">
+          <progress class="progress is-hidden" max="100" #show_hidden>30%</progress>
+        </div>
+
+        <div class="field has-text-left">
+          <div class="control has-icons-left">
+            <input class="input is-rounded" type="password" placeholder="Password" [(ngModel)]="Pass">
+            <span class="icon is-left is-small">
+              <fa-icon [icon]="faLock"></fa-icon>
+            </span>
+          </div>
+        </div>
+  
+        <div class="field is-grouped p-4">
+          <div class="control">
+            <button class="button is-dark" (click)="TryDownload()" #loadstate4>Enter</button>
+          </div>
+          <div class="control">
+            <p *ngIf="modalstatus !== ''" class="has-text-danger">{{ modalstatus }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!PassModal">
+        <div class="field">
+          <p class="title has-text-black has-text-centered pt-2">Download</p>
+          <div class="divider is-left is-black"></div>
+          <div class="control">
+            <p class="has-text-centered has-text-danger">{{ status }}</p>
+          </div>
+          <div class="field">
+            <progress class="progress is-hidden" max="100" #show_hidden>30%</progress>
+          </div>
+
+          <div class="buttons has-addons is-centered">
+            <button class="button is-dark" (click)="LoadEntries('srt')" 
+              #loadstatesrt>Download srt</button>
+            <button class="button is-dark" (click)="LoadEntries('ass')"  style="margin-right: 10px; margin-left: 10px;"
+              #loadstateass>Download ass</button>
+            <button class="button is-dark" (click)="LoadEntries('TTML')"
+              #loadstatettml>Download TTML</button>
+          </div>
+          <button class="button is-dark" (click)="isDownloadModalActive = !isDownloadModalActive">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!--========================================= LOGIN MODAL =========================================-->

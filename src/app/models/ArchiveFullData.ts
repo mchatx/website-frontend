@@ -9,5 +9,6 @@ export default class ArchiveData{
     ExtShare: boolean  = false;
     Star: number = 0;
     Note: string | undefined;
+    Downloadable: boolean = false
   }
   

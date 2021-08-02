@@ -197,6 +197,12 @@
                             <strong>Third-Party Shared</strong>
                           </label>
                         </div>
+                        <div class="field">
+                          <label class="checkbox">
+                            <input type="checkbox" [(ngModel)]="SelectedArchive.Downloadable">
+                            <strong>Downloadable</strong>
+                          </label>
+                        </div>
                       </div>
                     </div>
                     <!--===== IF UPLOADING NEW ARCHIVE =====-->
@@ -347,6 +353,12 @@
                       <label class="checkbox">
                         <input type="checkbox" [(ngModel)]="SelectedArchive.ExtShare">
                         Third-Party Shared
+                      </label>
+                    </div>
+                    <div class="field">
+                      <label class="checkbox">
+                        <input type="checkbox" [(ngModel)]="SelectedArchive.Downloadable">
+                        Downloadable
                       </label>
                     </div>
                   </div>
