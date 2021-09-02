@@ -182,6 +182,29 @@
         </div>
         <!--==================== CARD ================-->
 
+        <!--                PAGE PICKER           -->
+        <div *ngIf="this.TotalPage > 0" class="columns is-centered is-multiline">
+          <div class="column is-narrow">
+            <span class="icon is-clickable" (click)="this.CurrentPage = 1; ChangePage();" style="color: white;">
+              <fa-icon [icon]="faAngleDoubleLeft"></fa-icon>
+            </span>
+            <span class="icon is-clickable" (click)="this.CurrentPage = this.CurrentPage - 1; ChangePage();" style="color: white;">
+              <fa-icon [icon]="faAngleLeft"></fa-icon>
+            </span>
+            <span *ngFor="let i of PageArray">
+              <span *ngIf="i != this.CurrentPage" style="margin-left: 5px;" class="tag is-medium is-rounded is-link is-clickable" (click)="this.CurrentPage = i; ChangePage();">{{ i }}</span>
+              <span *ngIf="i == this.CurrentPage" style="margin-left: 5px; background-color: green;" class="tag is-medium is-rounded is-link is-clickable" (click)="this.CurrentPage = i; ChangePage();">{{ i }}</span>
+            </span>
+            <span class="icon is-clickable" (click)="this.CurrentPage = this.CurrentPage + 1; ChangePage();" style="color: white;">
+              <fa-icon [icon]="faAngleRight"></fa-icon>
+            </span>
+            <span class="icon is-clickable" (click)="this.CurrentPage = this.TotalPage; ChangePage();" style="color: white;">
+              <fa-icon [icon]="faAngleDoubleRight"></fa-icon>
+            </span>
+          </div>
+        </div>
+        <!--============= PAGE PICKER ============-->
+
       </div>
     </div>
   </section>
