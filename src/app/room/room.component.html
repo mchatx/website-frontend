@@ -86,13 +86,13 @@
                 <input class="input" type="text" [(ngModel)]="SearchLink" placeholder="Search By Link">
               </div>
               <div class="control">
-                <a class="button is-dark" (click)="SearchByLink()"><span class="is-hidden-mobile">Search</span><span
+                <a class="button is-dark" [routerLink]="['/room', this.RoomNick]" [queryParams]="SearchQueryParamCreator(2, 1)"><span class="is-hidden-mobile">Search</span><span
                     class="icon is-small">
                     <fa-icon [icon]="faSearch"></fa-icon>
                   </span></a>
               </div>
               <div class="control">
-                <a class="button is-dark" (click)="ClearSearch()"><span class="is-hidden-mobile">Clear</span><span
+                <a class="button is-dark" [routerLink]="['/room', this.RoomNick]"><span class="is-hidden-mobile">Clear</span><span
                     class="icon is-small">
                     <fa-icon [icon]="faRedoAlt"></fa-icon>
                   </span></a>
@@ -122,13 +122,13 @@
                 <input class="input" type="text" [(ngModel)]="SearchTags" placeholder="Search By Tags">
               </div>
               <div class="control">
-                <a class="button is-dark" (click)="SearchByTags()"><span class="is-hidden-mobile">Search</span><span
+                <a class="button is-dark" [routerLink]="['/room', this.RoomNick]" [queryParams]="SearchQueryParamCreator(2, 2)"><span class="is-hidden-mobile">Search</span><span
                     class="icon is-small">
                     <fa-icon [icon]="faSearch"></fa-icon>
                   </span></a>
               </div>
               <div class="control">
-                <a class="button is-dark" (click)="ClearSearch()"><span class="is-hidden-mobile">Clear</span><span
+                <a class="button is-dark" [routerLink]="['/room', this.RoomNick]"><span class="is-hidden-mobile">Clear</span><span
                     class="icon is-small">
                     <fa-icon [icon]="faRedoAlt"></fa-icon>
                   </span></a>
@@ -161,8 +161,8 @@
                   <br>
                   Tags:
                   <span *ngFor="let Tag of Archive.Tags">
-                    <span style="margin-left: 5px;" class="tag taglinks is-rounded is-link is-clickable"
-                      *ngIf="Tag !== ''" (click)="TagClick(Tag)">{{ Tag }}</span>
+                    <a style="margin-left: 5px;" class="tag taglinks is-rounded is-link is-clickable"
+                      *ngIf="Tag !== ''" [routerLink]="['/room', this.RoomNick]" [queryParams]="TagClick(Tag)">{{ Tag }}</a>
                   </span>
                 </div>
               </div>
@@ -185,26 +185,25 @@
         <!--                PAGE PICKER           -->
         <div *ngIf="this.TotalPage > 0" class="columns is-centered is-multiline">
           <div class="column is-narrow">
-            <span class="icon is-clickable" (click)="this.CurrentPage = 1; ChangePage();" style="color: white;">
+            <a class="icon is-clickable" style="color: white;" [routerLink]="['/room', this.RoomNick]" [queryParams]="SearchQueryParamCreator(0, 0)">
               <fa-icon [icon]="faAngleDoubleLeft"></fa-icon>
-            </span>
-            <span class="icon is-clickable" (click)="this.CurrentPage = this.CurrentPage - 1; ChangePage();" style="color: white;">
+            </a>
+            <a class="icon is-clickable" style="color: white;" [routerLink]="['/room', this.RoomNick]" [queryParams]="SearchQueryParamCreator(0, 1)">
               <fa-icon [icon]="faAngleLeft"></fa-icon>
-            </span>
+            </a>
             <span *ngFor="let i of PageArray">
-              <span *ngIf="i != this.CurrentPage" style="margin-left: 5px;" class="tag is-medium is-rounded is-link is-clickable" (click)="this.CurrentPage = i; ChangePage();">{{ i }}</span>
-              <span *ngIf="i == this.CurrentPage" style="margin-left: 5px; background-color: green;" class="tag is-medium is-rounded is-link is-clickable" (click)="this.CurrentPage = i; ChangePage();">{{ i }}</span>
+              <a *ngIf="i != this.CurrentPage" style="margin-left: 5px;" class="tag is-medium is-rounded is-link is-clickable" [routerLink]="['/room', this.RoomNick]" [queryParams]="SearchQueryParamCreator(1, i)">{{ i }}</a>
+              <span *ngIf="i == this.CurrentPage" style="margin-left: 5px; background-color: green;" class="tag is-medium is-rounded is-link is-clickable">{{ i }}</span>
             </span>
-            <span class="icon is-clickable" (click)="this.CurrentPage = this.CurrentPage + 1; ChangePage();" style="color: white;">
+            <a class="icon is-clickable" style="color: white;" [routerLink]="['/room', this.RoomNick]" [queryParams]="SearchQueryParamCreator(0, 2)">
               <fa-icon [icon]="faAngleRight"></fa-icon>
-            </span>
-            <span class="icon is-clickable" (click)="this.CurrentPage = this.TotalPage; ChangePage();" style="color: white;">
+            </a>
+            <a class="icon is-clickable" style="color: white;" [routerLink]="['/room', this.RoomNick]" [queryParams]="SearchQueryParamCreator(0, 3)">
               <fa-icon [icon]="faAngleDoubleRight"></fa-icon>
-            </span>
+            </a>
           </div>
         </div>
         <!--============= PAGE PICKER ============-->
-
       </div>
     </div>
   </section>

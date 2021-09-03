@@ -67,17 +67,11 @@ export class RoomComponent implements OnInit {
             if (dt["Links"] != undefined){
               this.Links = dt["Links"];
             }
-    
-            this.SearchQuery = { 
-              Room: this.RoomNick 
-            };
-            this.FirstFetch();
-            
           }
         });    
       }
     });
-   }
+  }
 
   ngOnInit(): void {
     let test: string | null = localStorage.getItem("MChatToken");
@@ -89,6 +83,44 @@ export class RoomComponent implements OnInit {
         localStorage.removeItem("MChatToken");
       }
     }
+
+    this.RouteParam.queryParamMap.subscribe((params) => {
+      var QueryContainer: any = { ...params.keys, ...params };
+      if (QueryContainer.params){
+        this.SearchQuery = QueryContainer.params;
+      } else {
+        this.SearchQuery = {};
+      }
+
+     if (this.SearchQuery["Link"]){
+        this.SelectedIndex = 0;
+        this.SearchLink = this.SearchQuery["Link"];
+        this.SearchTags = "";
+      } else if (this.SearchQuery["Tags"]){
+        this.SelectedIndex = 1;
+        this.SearchLink = "";
+        this.SearchTags = this.SearchQuery["Tags"];
+      } else {
+        this.SelectedIndex = 0;
+        this.SearchLink = "";
+        this.SearchTags = "";
+      }
+
+      if (this.SearchQuery["page"]){
+        this.CurrentPage = this.SearchQuery["page"];
+      } else {
+        this.CurrentPage = 1;
+      }
+
+      if (this.SearchQuery["Tags"]){
+        this.SelectedIndex = 2;
+        this.SearchTags = this.SearchQuery["Tags"];
+      }
+
+      this.SearchQuery["Room" ] = this.RoomNick;
+
+      this.FirstFetch();
+    });
   }
 
   LinkParser(link:string):string {
@@ -126,18 +158,13 @@ export class RoomComponent implements OnInit {
 
   TagClick(Tag: string | undefined) {
     if (Tag != undefined) {
-      this.SelectedIndex = 1;
-      this.SearchTags = Tag;
-      this.SearchByTags();
+      return({
+        Room: this.RoomNick,
+        Tags: Tag
+      });
+    } else {
+      return ({});
     }
-  }
-
-  SearchByTags(): void {
-    this.SearchQuery = { 
-      Tags: this.SearchTags.replace(", ", "_").replace(" ", "_"),
-      Room: this.RoomNick
-    };
-    this.FirstFetch();
   }
 
   ShowSearch(indexitem: number) {
@@ -145,26 +172,12 @@ export class RoomComponent implements OnInit {
     this.isSearchActive = !this.isSearchActive;
   }
 
-  SearchByLink(): void {
-    this.SearchQuery = { 
-      Link: this.SearchLink,
-      Room: this.RoomNick
-    };
-    this.FirstFetch();
-  }
-
-  ClearSearch() {
-    this.SearchQuery = { 
-      Room: this.RoomNick 
-    };
-    this.FirstFetch();
-  }
-
   FirstFetch() {
-    this.SearchQuery["Act"] = "ArchiveList";
-    this.AService.FetchArchive(this.TGEnc.TGEncoding(JSON.stringify(this.SearchQuery))).subscribe(
+    var Query = JSON.parse(JSON.stringify(this.SearchQuery));
+    Query["Act"] = "ArchiveList";
+    Query["Page"] = this.CurrentPage;
+    this.AService.FetchArchive(this.TGEnc.TGEncoding(JSON.stringify(Query))).subscribe(
       (response) => {
-        this.CurrentPage = 1;
         this.ArchiveList = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).map((e: Archive) => {
           if (!e.Star) e.Star = 0;
           if (e.Tags != undefined) {
@@ -178,8 +191,8 @@ export class RoomComponent implements OnInit {
       }
     )
 
-    this.SearchQuery["Act"] = "ArchiveCount";
-    this.AService.FetchArchive(this.TGEnc.TGEncoding(JSON.stringify(this.SearchQuery))).subscribe(
+    Query["Act"] = "ArchiveCount";
+    this.AService.FetchArchive(this.TGEnc.TGEncoding(JSON.stringify(Query))).subscribe(
       (response) => {
         this.TotalPage = JSON.parse(this.TGEnc.TGDecoding(JSON.parse(response.body)["BToken"])).Total;
         this.RefreshPageArray();
@@ -188,7 +201,6 @@ export class RoomComponent implements OnInit {
   };
   
   RefreshPageArray(){
-    window.scroll(0,0);
     this.PageArray.splice(0, this.PageArray.length);
     for(let i = this.CurrentPage - 2; i <= this.CurrentPage + 2; i++){
       if (i < 1){
@@ -226,6 +238,80 @@ export class RoomComponent implements OnInit {
         });
       }
     );
+  }
+
+  SearchQueryParamCreator(NType: number, NMode: number): any{
+    /*
+      NType 
+        0: page aux
+        1: page
+        2: search button
+
+      NMode
+        Page aux
+          0: Double back
+          1: Back
+          2: Next
+          3: Double next
+
+        page
+          [page number]
+        
+        search button
+          1: link
+          2: tags
+    */
+    
+    switch (NType) {
+      case 0:
+        var Query = JSON.parse(JSON.stringify(this.SearchQuery));
+        switch (NMode) {
+          case 0:
+            Query["page"] = 1;
+            return(Query);
+          
+          case 1:
+            if (this.CurrentPage > 1){
+              Query["page"] = this.CurrentPage - 1;
+            } else {
+              Query["page"] = 1;
+            }
+            return(Query);
+
+          case 2:
+            if (this.CurrentPage < this.TotalPage){
+              Query["page"] = parseInt(this.CurrentPage.toString()) + 1;
+            } else {
+              Query["page"] = this.TotalPage;
+            }
+            return(Query);
+
+          case 3:
+            Query["page"] = this.TotalPage;
+            return(Query)
+        }  
+        break;
+      
+      case 1:
+        var Query = JSON.parse(JSON.stringify(this.SearchQuery));
+        Query["page"] = NMode;
+        return(Query)       
+
+      case 2:
+        switch (NMode) {
+          case 1:
+            return({
+              Room: this.RoomNick,
+              Link: this.SearchLink
+            });
+
+          case 2:
+            return({
+              Room: this.RoomNick,
+              Tags: this.SearchTags.replace(", ", "_").replace(" ", "_")
+            });
+        }
+    }
   }
 
   faEdit = faEdit;
