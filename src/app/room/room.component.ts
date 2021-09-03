@@ -42,36 +42,7 @@ export class RoomComponent implements OnInit {
     private TGEnc: TsugeGushiService,
     private AService: ArchiveService,
     private Sanitizer: DomSanitizer
-  ) {
-    this.RouteParam.params.subscribe(params => {
-      if(this.RouteParam.snapshot.paramMap.get('Nick') != this.RoomNick){
-        this.RoomNick = this.RouteParam.snapshot.paramMap.get('Nick');
-        this.AccService.GetAccountData(
-          this.TGEnc.TGEncoding(JSON.stringify({
-            Nick: this.RoomNick
-          }))
-        ).subscribe({
-          error: error => {
-            this.Router.navigate(['']);
-          },
-          next: data => {
-            let dt = JSON.parse(data["body"]);
-            if (dt["Role"] != undefined){
-              if (dt["Role"] == "TL"){
-                this.RoleTL = true;
-              }
-            }
-            if (dt["Note"] != undefined){
-              this.Note = dt["Note"];
-            }
-            if (dt["Links"] != undefined){
-              this.Links = dt["Links"];
-            }
-          }
-        });    
-      }
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     let test: string | null = localStorage.getItem("MChatToken");
@@ -84,10 +55,41 @@ export class RoomComponent implements OnInit {
       }
     }
 
+    if(this.RouteParam.snapshot.paramMap.get('Nick') != this.RoomNick){
+      this.RoomNick = this.RouteParam.snapshot.paramMap.get('Nick');
+      this.AccService.GetAccountData(
+        this.TGEnc.TGEncoding(JSON.stringify({
+          Nick: this.RoomNick
+        }))
+      ).subscribe({
+        error: error => {
+          this.Router.navigate(['']);
+        },
+        next: data => {
+          let dt = JSON.parse(data["body"]);
+          if (dt["Role"] != undefined){
+            if (dt["Role"] == "TL"){
+              this.RoleTL = true;
+            }
+          }
+          if (dt["Note"] != undefined){
+            this.Note = dt["Note"];
+          }
+          if (dt["Links"] != undefined){
+            this.Links = dt["Links"];
+          }
+
+          this.StartLatch();
+        }
+      });    
+    }
+  }
+
+  StartLatch(){
     this.RouteParam.queryParamMap.subscribe((params) => {
       var QueryContainer: any = { ...params.keys, ...params };
       if (QueryContainer.params){
-        this.SearchQuery = QueryContainer.params;
+        this.SearchQuery = JSON.parse(JSON.stringify(QueryContainer.params));
       } else {
         this.SearchQuery = {};
       }
@@ -112,15 +114,9 @@ export class RoomComponent implements OnInit {
         this.CurrentPage = 1;
       }
 
-      if (this.SearchQuery["Tags"]){
-        this.SelectedIndex = 2;
-        this.SearchTags = this.SearchQuery["Tags"];
-      }
-
-      this.SearchQuery["Room" ] = this.RoomNick;
-
+      this.SearchQuery["Room"] = this.RoomNick;
       this.FirstFetch();
-    });
+    });    
   }
 
   LinkParser(link:string):string {
@@ -159,7 +155,6 @@ export class RoomComponent implements OnInit {
   TagClick(Tag: string | undefined) {
     if (Tag != undefined) {
       return({
-        Room: this.RoomNick,
         Tags: Tag
       });
     } else {
@@ -265,6 +260,7 @@ export class RoomComponent implements OnInit {
     switch (NType) {
       case 0:
         var Query = JSON.parse(JSON.stringify(this.SearchQuery));
+        delete Query["Room"];
         switch (NMode) {
           case 0:
             Query["page"] = 1;
@@ -294,6 +290,7 @@ export class RoomComponent implements OnInit {
       
       case 1:
         var Query = JSON.parse(JSON.stringify(this.SearchQuery));
+        delete Query["Room"];
         Query["page"] = NMode;
         return(Query)       
 
@@ -301,13 +298,11 @@ export class RoomComponent implements OnInit {
         switch (NMode) {
           case 1:
             return({
-              Room: this.RoomNick,
               Link: this.SearchLink
             });
 
           case 2:
             return({
-              Room: this.RoomNick,
               Tags: this.SearchTags.replace(", ", "_").replace(" ", "_")
             });
         }

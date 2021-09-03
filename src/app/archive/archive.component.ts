@@ -77,11 +77,6 @@ export class ArchiveComponent implements OnInit {
           this.CurrentPage = 1;
         }
 
-        if (this.SearchQuery["Tags"]){
-          this.SelectedIndex = 2;
-          this.SearchTags = this.SearchQuery["Tags"];
-        }
-
         this.FirstFetch();
       }
     );
