@@ -85,6 +85,8 @@
             <li class="p-1"><a pageScroll href="#line9_4">Stream Live Translation</a></li>
             <li class="p-1"><a pageScroll href="#line9_5">Types of Incoming data</a></li>
             <li class="p-1"><a pageScroll href="#line9_6">Get Schedule</a></li>
+            <li class="p-1"><a pageScroll href="#line9_7">PubSub Archive</a></li>
+            <li class="p-1"><a pageScroll href="#line9_8">PubSub Listener</a></li>
           </ul>
         </li>
       </ul>
@@ -1125,10 +1127,11 @@
           <p id="line9_1" class="subtitle is-4 has-text-weight-bold is-uppercase">Get Room List</p>
         </div>
         <p><strong>HTTP Request GET to</strong></p>
-        <pre><code style="color: rgb(50, 132, 255);">http://[mimimimiooon]/Room/?room=[room]&link=[link]</code></pre>
+        <pre><code style="color: rgb(50, 132, 255);">http://repo.mchatx.org/Room/?room=[room]&link=[link]&tags=[tags]</code></pre>
         <ul>
           <li><strong>[room] =></strong> to search particular room name</li>
           <li><strong>[link] =></strong> to search particular stream link [VideoID]</li>
+          <li><strong>[tags] =></strong> to search based on tags</li>
         </ul>
         <article class="message is-black">
           <div class="message-body has-background-warning">
@@ -1138,7 +1141,7 @@
           </div>
         </article>
         <p><strong>Test command :</strong></p>
-        <pre><code style="color: rgb(50, 132, 255);">curl -X GET http://[mimimimiooon]/Room/</code></pre>
+        <pre><code style="color: rgb(50, 132, 255);">curl -X GET http://repo.mchatx.org/Room/</code></pre>
 
         <p><strong>Only returns the top 20 query result JSON with format as follows :</strong></p>
         <ul>
@@ -1157,10 +1160,11 @@
           <p id="line9_2" class="subtitle is-4 has-text-weight-bold is-uppercase">Get Archive List</p>
         </div>
         <p><strong>HTTP Request GET to</strong></p>
-        <pre><code style="color: rgb(50, 132, 255);">http://[mimimimiooon]/Archive/?room=[room]&link=[link]</code></pre>
+        <pre><code style="color: rgb(50, 132, 255);">http://repo.mchatx.org/Archive/?room=[room]&link=[link]&tags[tags]</code></pre>
         <ul>
           <li><strong>[room] =></strong> to search particular room name</li>
           <li><strong>[link] =></strong> to search particular stream link [VideoID]</li>
+          <li><strong>[tags] =></strong> to search based on tags</li>
         </ul>
         <article class="message is-black">
           <div class="message-body has-background-warning">
@@ -1170,7 +1174,7 @@
           </div>
         </article>
         <p><strong>Test command :</strong></p>
-        <pre><code style="color: rgb(50, 132, 255);">curl -X GET http://[mimimimiooon]/Archive/?room=MonMon%20TL</code></pre>
+        <pre><code style="color: rgb(50, 132, 255);">curl -X GET http://repo.mchatx.org/Archive/?room=MonMon%20TL</code></pre>
 
         <p><strong>Only returns the top 20 query result JSON with format as follows :</strong></p>
         <ul>
@@ -1190,7 +1194,7 @@
           </p>
         </div>
         <p><strong>HTTP Request GET to</strong></p>
-        <pre><code style="color: rgb(50, 132, 255);">http://[mimimimiooon]/Archive/</code></pre>
+        <pre><code style="color: rgb(50, 132, 255);">http://repo.mchatx.org/Archive/</code></pre>
         <ul>
           <li><strong>content-type :</strong> application/JSON or text/plain</li>
           <li><strong>payload/body :</strong></li>
@@ -1201,7 +1205,7 @@
           </ul>
         </ul>
         <p><strong>Test Command :</strong></p>
-        <pre><code style="color: rgb(50, 132, 255);">curl -X POST -H "Content-Type: application/json" --data <code class="is-inline" [highlight]="code3"></code>  http://[mimimimiooon]/Archive/</code></pre>
+        <pre><code style="color: rgb(50, 132, 255);">curl -X POST -H "Content-Type: application/json" --data <code class="is-inline" [highlight]="code3"></code>  http://repo.mchatx.org/Archive/</code></pre>
 
         <p><strong>Only returns the top 20 query result JSON with format as follows :</strong></p>
         <ul>
@@ -1223,14 +1227,14 @@
           <p id="line9_4" class="subtitle is-4 has-text-weight-bold is-uppercase">Stream Live Translation</p>
         </div>
         <p><strong>HTTP Request GET to</strong></p>
-        <pre><code style="color: rgb(50, 132, 255);">http://[mimimimiooon]/Listener/?room=[room]&pass=[password]</code></pre>
+        <pre><code style="color: rgb(50, 132, 255);">http://repo.mchatx.org/Listener/?room=[room]&pass=[password]</code></pre>
         <ul>
           <li><strong>[room] =></strong> name of the room can be obtained from the room list.</li>
           <li><strong>[pass] =></strong> needed in case if the room is password protected, it is in SHA256 hash.
           </li>
         </ul>
         <p><strong>Test Command :</strong></p>
-        <pre><code style="color: rgb(50, 132, 255);">curl  -X GET http://[mimimimiooon]/Listener/?room=Testing</code></pre>
+        <pre><code style="color: rgb(50, 132, 255);">curl  -X GET http://repo.mchatx.org/Listener/?room=Testing</code></pre>
 
         <p>Use event Source listener in JS :</p>
         <pre><code [highlight]="code5"></code></pre>
@@ -1267,14 +1271,14 @@
           </p>
         </div>
         <p><strong>HTTP Request GET to</strong></p>
-        <pre><code style="color: rgb(50, 132, 255);">http://[mimimimiooon]/Schedule/?room=[room]&link=[link]&tags=[tags]</code></pre>
+        <pre><code style="color: rgb(50, 132, 255);">http://repo.mchatx.org/Schedule/?room=[room]&link=[link]&tags=[tags]</code></pre>
         <ul>
           <li><strong>[room] =></strong> to search particular room name</li>
           <li><strong>[link] =></strong> to search particular stream link</li>
           <li><strong>[tags] =></strong> to search particular tags</li>
         </ul>
         <p><strong>Test Command :</strong></p>
-        <pre><code style="color: rgb(50, 132, 255);">curl -X GET http://[mimimimiooon]/Schedule/</code></pre>
+        <pre><code style="color: rgb(50, 132, 255);">curl -X GET http://repo.mchatx.org/Schedule/</code></pre>
 
         <p><strong>Only returns at as follows :</strong></p>
         <ul>
@@ -1288,6 +1292,77 @@
         <pre><code [highlight]="code6"></code></pre>
       </div>
       <!-- end get schedule -->
+
+      <!-- start PubSub Archive -->
+      <div class="block">
+        <div class="divider is-left is-black">
+          <p id="line9_7" class="subtitle is-4 has-text-weight-bold is-uppercase">PubSub Archive
+          </p>
+        </div>
+        <p><strong>HTTP Request GET to</strong></p>
+        <pre><code style="color: rgb(50, 132, 255);">http://repo.mchatx.org/PubSub/Archive/</code></pre>
+        <p><strong>Test Command :</strong></p>
+        <pre><code style="color: rgb(50, 132, 255);">curl -X GET http://repo.mchatx.org/PubSub/Archive</code></pre>
+        <p>Sending notifications when a new archive is uploaded or when detail of an archive is changed or deleted.This is SSE, so connection is kept alive</p>
+
+        <p><strong>Types of incoming data</strong></p>
+        <ul style="list-style-type: none;">
+          <li>-> &#123;&#125; empty json for ping.</li>
+          <li>-> flag = connect, content: just the usual notice that you're successfully connected.</li>
+          <li>-> flag = new, content: all the available metadata that I decide to send to you.</li>
+          <li>-> flag = change, content: all the metadata similar to "new".</li>
+          <li>-> flag = delete, content: just the _id of the deleted entry.</li>
+        </ul>
+
+        <ul>"new" and "change" contain
+          <li>_id: id of the entry.</li>
+          <li>Nick: name of the archive.</li>
+          <li>Room: who made the script.</li>
+          <li>Pass: if password protected or not.</li>
+          <li>StreamLink: link to the stream.</li>
+          <li>Tags: list of the tags.</li>
+          <li>Note: notes, if any.</li>
+          <li>ExtShare: if can be accessed by 3rd party platform.</li>
+          <li>Downloadable: if can be downloaded in the website.</li>
+          <li>Link: in-platform link used .</li>
+        </ul>
+        <p>Example Json</p>
+        <pre>{{ code7 }}</pre>
+      </div>
+      <!-- end PubSub Archive -->
+
+      <!-- start PubSub Translator -->
+      <div class="block">
+        <div class="divider is-left is-black">
+          <p id="line9_8" class="subtitle is-4 has-text-weight-bold is-uppercase">PubSub Translator
+          </p>
+        </div>
+        <p><strong>HTTP Request GET to</strong></p>
+        <pre><code style="color: rgb(50, 132, 255);">http://repo.mchatx.org/PubSub/Room/</code></pre>
+        <p><strong>Test Command :</strong></p>
+        <pre><code style="color: rgb(50, 132, 255);">curl -X GET http://repo.mchatx.org/PubSub/Room</code></pre>
+        <p>Sending notifications when a translator started translating. This is an SSE, so connection is kept alive.</p>
+
+        <p><strong>Types of incoming data</strong></p>
+        <ul style="list-style-type: none;">
+          <li>-> &#123;&#125; empty json for ping.</li>
+          <li>-> flag = connect, content: just the usual notice that you're successfully connected.</li>
+          <li>-> flag = new, content: all the available metadata that I decide to send to you.</li>
+          <li>-> flag = change, content: all the metadata similar to "new".</li>
+          <li>-> flag = delete, content: just the _id of the deleted entry.</li>
+        </ul>
+
+        <ul>"new" and "change" contain
+          <li>Nick: nick for the room.</li>
+          <li>EntryPass: if the room is password protected.</li>
+          <li>StreamLink: link to stream.</li>
+          <li>Tags: list of the tags.</li>
+          <li>ExtShare: if can be accessed by 3rd party platform.</li>
+        </ul>
+        <p>Example Json</p>
+        <pre>{{ code8 }}</pre>
+      </div>
+      <!-- end PubSub Translator -->
 
     </section>
     <!-- end section 9 -->

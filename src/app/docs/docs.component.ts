@@ -110,4 +110,35 @@ export class DocsComponent implements OnInit {
     "Tags" : "Seiso"
   }
   `;
+
+  code7 = `
+    data: {
+      "flag": "new",
+      "content": "{
+        "_id": "6135542d4b8b1f1d98ee6e63",
+        "Room": "Kamishiro Taishi",
+        "Link": "Kamishiro Taishi_2021-09-05_23-35-08",
+        "Nick": "[2021.09.06] Ookami Mio - AsaMio",
+        "Hidden": false,
+        "Pass": false,
+        "StreamLink": "https://youtu.be/6Hsrgci3wQQ",
+        "Tags": "en",
+        "ExtShare": true,
+        "Downloadable": true
+      }"
+    }
+  `;
+
+  code8 = `
+    data: {
+      "flag": "new",
+      "content": "{
+        "Nick": "MonMon TL",
+        "EntryPass": false,
+        "StreamLink": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "Tags": "en",
+        "ExtShare": false
+      }"
+    }
+  `;
 }
