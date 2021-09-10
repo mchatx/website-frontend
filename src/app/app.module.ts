@@ -31,11 +31,7 @@ import { TestingGroundComponent } from './testing-ground/testing-ground.componen
 import { RequestboardComponent } from './requestboard/requestboard.component';
 import { ArchiveDetailComponent } from './archive-detail/archive-detail.component';
 import { RoomComponent } from './room/room.component';
-import { ProxyappComponent } from './proxyapp/proxyapp.component';
-import { ProxyappsetComponent } from './proxyappset/proxyappset.component';
 import { WebappComponent } from './webapp/webapp.component';
-import { TranslatorClientComponent } from './translator-client/translator-client.component';
-import { ScriptEditorComponent } from './script-editor/script-editor.component';
 
 @NgModule({
   declarations: [
@@ -60,11 +56,7 @@ import { ScriptEditorComponent } from './script-editor/script-editor.component';
     RequestboardComponent,
     ArchiveDetailComponent,
     RoomComponent,
-    ProxyappComponent,
-    ProxyappsetComponent,
-    WebappComponent,
-    TranslatorClientComponent,
-    ScriptEditorComponent
+    WebappComponent
   ],
   imports: [
     BrowserModule,
