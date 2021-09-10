@@ -50,8 +50,8 @@ const routes: Routes = [
   //{ path: 'ScriptEditor', component: ScriptEditorComponent, data:{PlainPage:true}},
   { path: 'test', component: TestingGroundComponent },
 
-  { path: 'streamtool/app/:token', component: ProxyappComponent, data:{PlainPage:true}},
-  { path: 'streamtool/setup', component: ProxyappsetComponent, data:{PlainPage:true}}
+  //{ path: 'streamtool/app/:token', component: ProxyappComponent, data:{PlainPage:true}},
+  //{ path: 'streamtool/setup', component: ProxyappsetComponent, data:{PlainPage:true}}
 ];
 
 @NgModule({
