@@ -783,15 +783,18 @@ export class ArchiveEditComponent implements OnInit {
 
   ParseSRT(Feed: string): void {
     let res: string[] = Feed.split("\n");
+    var write: boolean = false;
 
     for (let index: number = 0; index < res.length; index++) {
       if (this.SRTTimeCheck(res[index])) {
         let Timestamp: number = this.ParseTimeString(res[index].split("-->")[0].trim());
         let SText: string = "";
+        write = true;
 
         for (index++; index < res.length; index++) {
           if (this.SRTTimeCheck(res[index])) {
             index--;
+            write = false;
             this.Entriesdt.push({
               Stext: SText,
               Stime: Timestamp,
@@ -800,6 +803,7 @@ export class ArchiveEditComponent implements OnInit {
             });
             break;
           } else if (res[index] == "") {
+            write = false;
             this.Entriesdt.push({
               Stext: SText,
               Stime: Timestamp,
@@ -811,6 +815,7 @@ export class ArchiveEditComponent implements OnInit {
             if (res[index].trim() != "") {
               SText += res[index];
             }
+            write = false;
             this.Entriesdt.push({
               Stext: SText,
               Stime: Timestamp,
@@ -820,7 +825,14 @@ export class ArchiveEditComponent implements OnInit {
             break;
           } else {
             if (res[index].trim() != "") {
-              SText += res[index];
+              if (write == true) {
+                if (SText != "") {
+                  SText += " ";
+                }
+                SText += res[index];
+              }
+            } else {
+              write = false;
             }
           }
         }
