@@ -21,7 +21,6 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { ArchiveComponent } from './archive/archive.component';
 import { ScheduleEditComponent } from './schedule-edit/schedule-edit.component'
 import { SelectDropDownModule } from 'ngx-select-dropdown';
-import { ArchiveEditComponent } from './archive-edit/archive-edit.component';
 import { LoginComponent } from './login/login.component';
 import { VerivyComponent } from './verivy/verivy.component';
 import { SignupComponent } from './signup/signup.component';
@@ -46,7 +45,6 @@ import { WebappComponent } from './webapp/webapp.component';
     ScheduleComponent,
     ScheduleEditComponent,
     ArchiveComponent,
-    ArchiveEditComponent,
     LoginComponent,
     VerivyComponent,
     SignupComponent,

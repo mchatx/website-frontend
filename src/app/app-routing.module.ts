@@ -9,7 +9,6 @@ import { NewRoomComponent } from './new-room/new-room.component'
 import { ScheduleComponent } from './schedule/schedule.component';
 import { ScheduleEditComponent } from './schedule-edit/schedule-edit.component'
 import { ArchiveComponent } from './archive/archive.component';
-import { ArchiveEditComponent } from './archive-edit/archive-edit.component';
 import { LoginComponent } from './login/login.component';
 import { VerivyComponent } from './verivy/verivy.component';
 import { SignupComponent } from './signup/signup.component';
@@ -39,7 +38,6 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'restart-pass', component: RestartpassComponent },
   { path: 'account', component: AccountpageComponent },
-  { path: 'archiveedit', component: ArchiveEditComponent },
   { path: 'requestboard', component: RequestboardComponent },
   { path: 'proxyapp', component: WebappComponent, data:{PlainPage:true}},
   //{ path: 'test', component: TestingGroundComponent },
