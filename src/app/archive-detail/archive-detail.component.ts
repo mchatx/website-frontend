@@ -10,6 +10,7 @@ import Comment from '../models/Comment';
 import Entries from '../models/Entries';
 import { faLock, faUnlock, faUser, faEdit, faTrash, faReply } from '@fortawesome/free-solid-svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-archive-detail',
